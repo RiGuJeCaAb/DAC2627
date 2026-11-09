@@ -1,0 +1,376 @@
+Service Title,Provider,Service Model,Status,Service Description
+Adobe Creative Cloud,Adobe,SaaS,Ativo,Aplicações de design fotografia e vídeo
+Akamai Cloud Compute,Akamai,IaaS,Ativo,Servidores virtuais (antiga Linode)
+Alibaba Cloud Model Studio,Alibaba,PaaS,Ativo,Modelos Qwen e criação de aplicações de IA
+AlloyDB for PostgreSQL,Google,PaaS,Ativo,PostgreSQL de alto desempenho
+Amazon API Gateway,Amazon,PaaS,Ativo,Criação e gestão de APIs REST e WebSocket
+Amazon Athena,Amazon,PaaS,Ativo,Consultas SQL diretamente sobre dados no S3
+Amazon Aurora,Amazon,PaaS,Ativo,Base de dados compatível com MySQL e PostgreSQL de alto desempenho
+Amazon Bedrock,Amazon,PaaS,Ativo,Acesso a modelos fundacionais de IA generativa
+Amazon Chime,Amazon,SaaS,Descontinuado,Reuniões e chat empresarial
+Amazon CloudFront,Amazon,IaaS,Ativo,Rede de distribuição de conteúdos (CDN)
+Amazon CloudSearch,Amazon,PaaS,Descontinuado,Pesquisa gerida para sites e aplicações
+Amazon CloudWatch,Amazon,PaaS,Ativo,Monitorização de métricas registos e alarmes
+Amazon CodeCatalyst,Amazon,SaaS,Descontinuado,Espaço unificado de desenvolvimento
+Amazon Cognito,Amazon,PaaS,Ativo,Autenticação de utilizadores em aplicações
+Amazon Comprehend,Amazon,PaaS,Ativo,Processamento de linguagem natural
+Amazon Connect,Amazon,SaaS,Ativo,Centro de contacto na cloud
+Amazon Data Firehose,Amazon,PaaS,Ativo,Entrega de fluxos de dados para armazenamento e análise
+Amazon DocumentDB,Amazon,PaaS,Ativo,Base de dados de documentos compatível com MongoDB
+Amazon DynamoDB,Amazon,PaaS,Ativo,Base de dados NoSQL chave-valor sem servidor
+Amazon EBS,Amazon,IaaS,Ativo,Volumes de blocos persistentes para instâncias EC2
+Amazon EC2,Amazon,IaaS,Ativo,Máquinas virtuais redimensionáveis na AWS
+Amazon ECR,Amazon,PaaS,Ativo,Registo de imagens de contentores
+Amazon ECS,Amazon,PaaS,Ativo,Orquestração de contentores gerida pela AWS
+Amazon EFS,Amazon,IaaS,Ativo,Sistema de ficheiros NFS elástico e gerido
+Amazon EKS,Amazon,PaaS,Ativo,Kubernetes gerido na AWS
+Amazon Elastic Transcoder,Amazon,PaaS,Descontinuado,Conversão de ficheiros de vídeo
+Amazon ElastiCache,Amazon,PaaS,Ativo,Cache em memória Redis Valkey e Memcached
+Amazon EMR,Amazon,PaaS,Ativo,Processamento de big data com Spark e Hadoop
+Amazon EventBridge,Amazon,PaaS,Ativo,Barramento de eventos sem servidor
+Amazon Forecast,Amazon,PaaS,Descontinuado,Previsões de séries temporais com ML
+Amazon Fraud Detector,Amazon,PaaS,Descontinuado,Deteção de fraude online com ML
+Amazon FSx,Amazon,IaaS,Ativo,Sistemas de ficheiros geridos Windows Lustre NetApp e OpenZFS
+Amazon GuardDuty,Amazon,PaaS,Ativo,Deteção inteligente de ameaças
+Amazon Inspector,Amazon,PaaS,Ativo,Análise automática de vulnerabilidades
+Amazon Kendra,Amazon,PaaS,Descontinuado,Pesquisa empresarial com ML
+Amazon Keyspaces,Amazon,PaaS,Ativo,Base de dados compatível com Apache Cassandra
+Amazon Kinesis Data Streams,Amazon,PaaS,Ativo,Recolha e processamento de dados em tempo real
+Amazon Lex,Amazon,PaaS,Ativo,Criação de chatbots de voz e texto
+Amazon Lightsail,Amazon,IaaS,Ativo,Servidores virtuais simples a preço fixo
+Amazon Macie,Amazon,PaaS,Ativo,Descoberta de dados sensíveis no S3
+Amazon Managed Service for Apache Flink,Amazon,PaaS,Ativo,Processamento de fluxos com Apache Flink
+Amazon MQ,Amazon,PaaS,Ativo,Message broker gerido ActiveMQ e RabbitMQ
+Amazon MSK,Amazon,PaaS,Ativo,Apache Kafka gerido
+Amazon Neptune,Amazon,PaaS,Ativo,Base de dados de grafos gerida
+Amazon OpenSearch Service,Amazon,PaaS,Ativo,Pesquisa e análise de registos com OpenSearch
+Amazon Pinpoint,Amazon,PaaS,Descontinuado,Campanhas de marketing por email e SMS
+Amazon Polly,Amazon,PaaS,Ativo,Conversão de texto em fala
+Amazon Q Business,Amazon,SaaS,Descontinuado,Assistente de IA para dados da empresa
+Amazon QLDB,Amazon,PaaS,Descontinuado,Base de dados de registo imutável
+Amazon Quick,Amazon,SaaS,Ativo,Análise de dados e painéis com IA (antigo QuickSight)
+Amazon RDS,Amazon,PaaS,Ativo,Bases de dados relacionais geridas
+Amazon Redshift,Amazon,PaaS,Ativo,Armazém de dados na cloud
+Amazon Rekognition,Amazon,PaaS,Ativo,Análise de imagens e vídeo com IA
+Amazon Route 53,Amazon,IaaS,Ativo,DNS gerido e registo de domínios
+Amazon S3,Amazon,IaaS,Ativo,Armazenamento de objetos escalável e durável
+Amazon SageMaker AI,Amazon,PaaS,Ativo,Criação treino e implementação de modelos de ML
+Amazon SES,Amazon,PaaS,Ativo,Envio de email em grande escala
+Amazon SNS,Amazon,PaaS,Ativo,Notificações e mensagens publicação-subscrição
+Amazon SQS,Amazon,PaaS,Ativo,Filas de mensagens geridas
+Amazon Textract,Amazon,PaaS,Ativo,Extração de texto e dados de documentos
+Amazon Transcribe,Amazon,PaaS,Ativo,Conversão de fala em texto
+Amazon Translate,Amazon,PaaS,Ativo,Tradução automática
+Amazon VPC,Amazon,IaaS,Ativo,Redes virtuais isoladas na AWS
+Amazon WorkDocs,Amazon,SaaS,Descontinuado,Armazenamento e partilha de documentos
+Amazon WorkSpaces,Amazon,SaaS,Ativo,Ambientes de trabalho virtuais geridos
+Apigee,Google,PaaS,Ativo,Gestão de APIs empresariais
+App Engine,Google,PaaS,Ativo,Alojamento gerido de aplicações web
+ApsaraDB RDS,Alibaba,PaaS,Ativo,Bases de dados relacionais geridas
+Artifact Registry,Google,PaaS,Ativo,Registo de imagens e pacotes
+Asana,Asana,SaaS,Ativo,Gestão de trabalho e projetos
+Auth0,Okta,PaaS,Ativo,Autenticação para aplicações
+AWS Amplify,Amazon,PaaS,Ativo,Criação e alojamento de aplicações web e móveis
+AWS App Mesh,Amazon,PaaS,Descontinuado,Malha de serviços para microsserviços
+AWS App Runner,Amazon,PaaS,Descontinuado,Execução de aplicações web em contentores
+AWS Application Migration Service,Amazon,PaaS,Ativo,Migração de servidores para a AWS
+AWS AppSync,Amazon,PaaS,Ativo,APIs GraphQL geridas
+AWS Backup,Amazon,PaaS,Ativo,Cópias de segurança centralizadas
+AWS Batch,Amazon,PaaS,Ativo,Execução gerida de trabalhos em lote
+AWS Certificate Manager,Amazon,PaaS,Ativo,Emissão e gestão de certificados SSL/TLS
+AWS Cloud9,Amazon,PaaS,Descontinuado,Ambiente de desenvolvimento no browser
+AWS CloudFormation,Amazon,PaaS,Ativo,Infraestrutura como código com modelos
+AWS CloudTrail,Amazon,PaaS,Ativo,Registo de atividade e chamadas à API
+AWS CodeBuild,Amazon,PaaS,Ativo,Compilação e testes de código gerida
+AWS CodeCommit,Amazon,PaaS,Ativo,Repositórios Git privados geridos
+AWS CodeDeploy,Amazon,PaaS,Ativo,Implementação automática de aplicações
+AWS CodePipeline,Amazon,PaaS,Ativo,Integração e entrega contínuas
+AWS Config,Amazon,PaaS,Ativo,Registo e avaliação da configuração de recursos
+AWS Control Tower,Amazon,PaaS,Ativo,Configuração e governação de ambientes multiconta
+AWS Database Migration Service,Amazon,PaaS,Ativo,Migração de bases de dados para a AWS
+AWS DataSync,Amazon,PaaS,Ativo,Transferência automática de dados para a AWS
+AWS Direct Connect,Amazon,IaaS,Ativo,Ligação de rede dedicada à AWS
+AWS Elastic Beanstalk,Amazon,PaaS,Ativo,Implementação simplificada de aplicações web
+AWS Fargate,Amazon,PaaS,Ativo,Execução de contentores sem gerir servidores
+AWS Global Accelerator,Amazon,IaaS,Ativo,Melhoria de disponibilidade e latência pela rede global AWS
+AWS Glue,Amazon,PaaS,Ativo,Integração e catálogo de dados sem servidor
+AWS IAM,Amazon,PaaS,Ativo,Gestão de utilizadores e permissões na AWS
+AWS IAM Identity Center,Amazon,PaaS,Ativo,Acesso único a contas AWS e aplicações
+AWS IoT Analytics,Amazon,PaaS,Descontinuado,Análise de dados de dispositivos IoT
+AWS IoT Core,Amazon,PaaS,Ativo,Ligação e gestão de dispositivos IoT
+AWS IoT Events,Amazon,PaaS,Descontinuado,Deteção de eventos em dispositivos IoT
+AWS IoT Greengrass,Amazon,PaaS,Ativo,Execução local de computação para dispositivos IoT
+AWS KMS,Amazon,PaaS,Ativo,Gestão de chaves de cifra
+AWS Lake Formation,Amazon,PaaS,Ativo,Criação e governação de data lakes
+AWS Lambda,Amazon,PaaS,Ativo,Execução de código por eventos sem servidores
+AWS OpsWorks,Amazon,PaaS,Descontinuado,Gestão de configuração com Chef e Puppet
+AWS Organizations,Amazon,PaaS,Ativo,Gestão centralizada de várias contas AWS
+AWS Outposts,Amazon,IaaS,Ativo,Infraestrutura AWS instalada no datacenter do cliente
+AWS Proton,Amazon,PaaS,Descontinuado,Modelos para implementação de infraestrutura
+AWS Secrets Manager,Amazon,PaaS,Ativo,Gestão e rotação de segredos
+AWS Security Hub,Amazon,PaaS,Ativo,Visão central de alertas e conformidade
+AWS Shield,Amazon,PaaS,Ativo,Proteção contra ataques DDoS
+AWS Snowball Edge,Amazon,IaaS,Descontinuado,Dispositivo físico para transferência de dados
+AWS Step Functions,Amazon,PaaS,Ativo,Orquestração visual de fluxos de trabalho
+AWS Storage Gateway,Amazon,IaaS,Ativo,Ligação entre armazenamento local e a AWS
+AWS Systems Manager,Amazon,PaaS,Ativo,Operação e gestão de servidores em escala
+AWS Transit Gateway,Amazon,IaaS,Ativo,Interligação central de VPCs e redes locais
+AWS Trusted Advisor,Amazon,PaaS,Ativo,Recomendações de boas práticas e custos
+AWS WAF,Amazon,PaaS,Ativo,Firewall de aplicações web
+Azure Advisor,Microsoft,PaaS,Ativo,Recomendações de custo segurança e desempenho
+Azure AI Search,Microsoft,PaaS,Ativo,Pesquisa inteligente e vetorial sobre conteúdos
+Azure Anomaly Detector,Microsoft,PaaS,Descontinuado,Deteção de anomalias em séries temporais
+Azure API Management,Microsoft,PaaS,Ativo,Publicação e gestão de APIs
+Azure App Service,Microsoft,PaaS,Ativo,Alojamento de aplicações web e APIs
+Azure Application Gateway,Microsoft,IaaS,Ativo,Balanceador de carga web com firewall de aplicações
+Azure Arc,Microsoft,PaaS,Ativo,Gestão de servidores e Kubernetes fora da Azure
+Azure Backup,Microsoft,PaaS,Ativo,Cópias de segurança geridas de VMs bases de dados e ficheiros
+Azure Bastion,Microsoft,IaaS,Ativo,Acesso RDP e SSH seguro a máquinas virtuais pelo browser
+Azure Batch,Microsoft,IaaS,Ativo,Processamento em lote e computação de alto desempenho
+Azure Blob Storage,Microsoft,IaaS,Ativo,Armazenamento de objetos e ficheiros na cloud
+Azure Bot Service,Microsoft,PaaS,Ativo,Criação e alojamento de bots conversacionais
+Azure Cache for Redis,Microsoft,PaaS,Descontinuado,Cache Redis clássica substituída pelo Azure Managed Redis
+Azure Cloud Services (classic),Microsoft,PaaS,Descontinuado,Modelo clássico de aplicações web e worker roles
+Azure Communication Services,Microsoft,PaaS,Ativo,Chamadas SMS e email para aplicações
+Azure Container Apps,Microsoft,PaaS,Ativo,Execução de contentores sem gerir o Kubernetes
+Azure Container Instances,Microsoft,PaaS,Ativo,Execução rápida de contentores isolados
+Azure Container Registry,Microsoft,PaaS,Ativo,Registo privado de imagens de contentores
+Azure Cosmos DB,Microsoft,PaaS,Ativo,Base de dados distribuída para aplicações modernas
+Azure Data Box,Microsoft,IaaS,Ativo,Dispositivo físico para transferir grandes volumes de dados para a Azure
+Azure Data Explorer,Microsoft,PaaS,Ativo,Análise rápida de registos e séries temporais
+Azure Data Factory,Microsoft,PaaS,Ativo,Integração e transformação de dados em pipelines
+Azure Database for MariaDB,Microsoft,PaaS,Descontinuado,MariaDB gerido na Azure
+Azure Database for MySQL,Microsoft,PaaS,Ativo,MySQL gerido na Azure
+Azure Database for PostgreSQL,Microsoft,PaaS,Ativo,PostgreSQL gerido na Azure
+Azure Databricks,Microsoft,PaaS,Ativo,Plataforma Apache Spark para dados e IA
+Azure DDoS Protection,Microsoft,IaaS,Ativo,Proteção contra ataques de negação de serviço
+Azure DevOps,Microsoft,SaaS,Ativo,Repositórios pipelines e gestão de trabalho de equipas
+Azure Digital Twins,Microsoft,PaaS,Ativo,Modelos digitais de espaços e equipamentos
+Azure Disk Storage,Microsoft,IaaS,Ativo,Discos persistentes de blocos para máquinas virtuais
+Azure DNS,Microsoft,IaaS,Ativo,Alojamento de zonas DNS com a infraestrutura da Azure
+Azure Event Grid,Microsoft,PaaS,Ativo,Encaminhamento de eventos entre serviços
+Azure Event Hubs,Microsoft,PaaS,Ativo,Ingestão de grandes volumes de eventos em tempo real
+Azure ExpressRoute,Microsoft,IaaS,Ativo,Ligação privada dedicada entre o datacenter e a Azure
+Azure Files,Microsoft,IaaS,Ativo,Partilhas de ficheiros SMB e NFS geridas na cloud
+Azure Firewall,Microsoft,IaaS,Ativo,Firewall de rede gerida com inspeção de tráfego
+Azure Front Door,Microsoft,IaaS,Ativo,Entrada global de tráfego web com CDN e aceleração
+Azure Functions,Microsoft,PaaS,Ativo,Execução de código sem gerir servidores
+Azure IoT Central,Microsoft,SaaS,Ativo,Aplicação SaaS para gerir soluções IoT
+Azure IoT Hub,Microsoft,PaaS,Ativo,Comunicação bidirecional com dispositivos IoT
+Azure Key Vault,Microsoft,PaaS,Ativo,Gestão de segredos chaves e certificados
+Azure Kubernetes Service,Microsoft,PaaS,Ativo,Gestão de aplicações em contentores Kubernetes
+Azure Load Balancer,Microsoft,IaaS,Ativo,Distribuição de tráfego de rede entre máquinas virtuais
+Azure Local,Microsoft,IaaS,Ativo,Infraestrutura Azure no datacenter do cliente (antigo Azure Stack HCI)
+Azure Logic Apps,Microsoft,PaaS,Ativo,Fluxos de integração entre aplicações com conectores
+Azure Machine Learning,Microsoft,PaaS,Ativo,Treino implementação e gestão de modelos de ML
+Azure Managed Redis,Microsoft,PaaS,Ativo,Cache em memória Redis gerida
+Azure Maps,Microsoft,PaaS,Ativo,Mapas geolocalização e rotas para aplicações
+Azure Media Services,Microsoft,PaaS,Descontinuado,Codificação e streaming de vídeo
+Azure Metrics Advisor,Microsoft,PaaS,Descontinuado,Monitorização de métricas com IA
+Azure Migrate,Microsoft,PaaS,Ativo,Avaliação e migração de servidores e bases de dados para a Azure
+Azure Monitor,Microsoft,PaaS,Ativo,Monitorização de aplicações e infraestrutura cloud
+Azure NetApp Files,Microsoft,IaaS,Ativo,Armazenamento de ficheiros de alto desempenho para cargas exigentes
+Azure OpenAI,Microsoft,PaaS,Ativo,Modelos de linguagem da OpenAI servidos na Azure
+Azure Personalizer,Microsoft,PaaS,Descontinuado,Recomendações personalizadas com aprendizagem por reforço
+Azure Policy,Microsoft,PaaS,Ativo,Regras de conformidade aplicadas aos recursos
+Azure Private Link,Microsoft,IaaS,Ativo,Acesso privado a serviços Azure a partir da rede virtual
+Azure Service Bus,Microsoft,PaaS,Ativo,Mensagens empresariais com filas e tópicos
+Azure Site Recovery,Microsoft,PaaS,Ativo,Replicação e recuperação de desastre de servidores
+Azure Spring Apps,Microsoft,PaaS,Descontinuado,Alojamento gerido de aplicações Spring Boot
+Azure SQL Database,Microsoft,PaaS,Ativo,Base de dados relacional gerida na cloud
+Azure SQL Managed Instance,Microsoft,PaaS,Ativo,Instância SQL Server gerida e compatível
+Azure Static Web Apps,Microsoft,PaaS,Ativo,Alojamento de sites estáticos com APIs serverless
+Azure Stream Analytics,Microsoft,PaaS,Ativo,Análise de fluxos de dados em tempo real
+Azure Synapse Analytics,Microsoft,PaaS,Ativo,Armazém de dados e análise de grandes volumes
+Azure Time Series Insights,Microsoft,PaaS,Descontinuado,Análise de séries temporais de IoT
+Azure Virtual Desktop,Microsoft,IaaS,Ativo,Ambientes de trabalho e aplicações Windows virtualizados
+Azure Virtual Machines,Microsoft,IaaS,Ativo,Criação e gestão de máquinas virtuais na cloud
+Azure Virtual Network,Microsoft,IaaS,Ativo,Redes virtuais para comunicação segura entre recursos cloud
+Azure VMware Solution,Microsoft,IaaS,Ativo,Ambientes VMware a correr em infraestrutura Azure dedicada
+Azure VPN Gateway,Microsoft,IaaS,Ativo,Ligações VPN seguras entre redes locais e a Azure
+Backup and DR Service,Google,PaaS,Ativo,Cópias de segurança e recuperação de desastre
+Bare Metal Solution,Google,IaaS,Ativo,Servidores físicos dedicados para cargas especializadas
+Batch,Google,PaaS,Ativo,Trabalhos em lote geridos
+BigQuery,Google,PaaS,Ativo,Armazém de dados sem servidor
+Bigtable,Google,PaaS,Ativo,Base de dados NoSQL de colunas largas
+Bitbucket Cloud,Atlassian,SaaS,Ativo,Repositórios Git e pipelines
+Box,Box,SaaS,Ativo,Gestão de conteúdos empresariais
+Canva,Canva,SaaS,Ativo,Design gráfico online
+ChatGPT Enterprise,OpenAI,SaaS,Ativo,Assistente de IA generativa para empresas
+Claude,Anthropic,SaaS,Ativo,Assistente de IA generativa
+Cloud Armor,Google,PaaS,Ativo,Proteção DDoS e firewall de aplicações
+Cloud Build,Google,PaaS,Ativo,Integração contínua sem servidor
+Cloud CDN,Google,IaaS,Ativo,Distribuição de conteúdos pela rede Google
+Cloud Composer,Google,PaaS,Ativo,Orquestração de pipelines com Apache Airflow
+Cloud Deploy,Google,PaaS,Ativo,Entrega contínua para GKE e Cloud Run
+Cloud DNS,Google,IaaS,Ativo,DNS gerido de baixa latência
+Cloud Interconnect,Google,IaaS,Ativo,Ligação dedicada à rede Google
+Cloud IoT Core,Google,PaaS,Descontinuado,Gestão de dispositivos IoT
+Cloud Key Management Service,Google,PaaS,Ativo,Gestão de chaves de cifra
+Cloud Load Balancing,Google,IaaS,Ativo,Balanceamento de carga global
+Cloud Logging,Google,PaaS,Ativo,Recolha e análise de registos
+Cloud Monitoring,Google,PaaS,Ativo,Monitorização de métricas e alertas
+Cloud NAT,Google,IaaS,Ativo,Tradução de endereços de rede gerida
+Cloud Run,Google,PaaS,Ativo,Execução de contentores sem servidor
+Cloud Run functions,Google,PaaS,Ativo,Funções por eventos (antigo Cloud Functions)
+Cloud Scheduler,Google,PaaS,Ativo,Agendamento de tarefas cron
+Cloud Source Repositories,Google,PaaS,Descontinuado,Repositórios Git privados
+Cloud SQL,Google,PaaS,Ativo,MySQL PostgreSQL e SQL Server geridos
+Cloud Storage,Google,IaaS,Ativo,Armazenamento de objetos unificado
+Cloud Tasks,Google,PaaS,Ativo,Filas de tarefas assíncronas
+Cloud Translation,Google,PaaS,Ativo,Tradução automática
+Cloud Vision,Google,PaaS,Ativo,Análise de imagens com IA
+Cloud VPN,Google,IaaS,Ativo,Túneis VPN IPsec para a Google Cloud
+Cloudflare R2,Cloudflare,IaaS,Ativo,Armazenamento de objetos sem custos de saída
+Cloudflare Workers,Cloudflare,PaaS,Ativo,Código executado na rede global da Cloudflare
+Cloudflare Zero Trust,Cloudflare,SaaS,Ativo,Acesso seguro a aplicações e internet
+Compute Engine,Google,IaaS,Ativo,Máquinas virtuais na infraestrutura Google
+Confluence,Atlassian,SaaS,Ativo,Wiki e documentação de equipa
+Confluent Cloud,Confluent,PaaS,Ativo,Apache Kafka gerido
+Container Registry,Google,PaaS,Descontinuado,Registo de imagens de contentores
+Container Service for Kubernetes,Alibaba,PaaS,Ativo,Kubernetes gerido
+Copilot Studio,Microsoft,SaaS,Ativo,Criação de agentes e copilotos com pouco código
+Data Catalog,Google,PaaS,Descontinuado,Catálogo de metadados
+Databricks Data Intelligence Platform,Databricks,PaaS,Ativo,Plataforma lakehouse para dados e IA
+Datadog,Datadog,SaaS,Ativo,Monitorização e observabilidade
+Dataflow,Google,PaaS,Ativo,Processamento de dados em lote e streaming
+Dataproc,Google,PaaS,Ativo,Spark e Hadoop geridos
+DigitalOcean App Platform,DigitalOcean,PaaS,Ativo,Alojamento gerido de aplicações
+DigitalOcean Droplets,DigitalOcean,IaaS,Ativo,Servidores virtuais simples
+DigitalOcean Spaces,DigitalOcean,IaaS,Ativo,Armazenamento de objetos compatível com S3
+Docker Hub,Docker,SaaS,Ativo,Registo público de imagens de contentores
+Document AI,Google,PaaS,Ativo,Extração de dados de documentos
+DocuSign eSignature,DocuSign,SaaS,Ativo,Assinatura eletrónica de documentos
+Dropbox,Dropbox,SaaS,Ativo,Armazenamento e partilha de ficheiros
+Dynamics 365 Business Central,Microsoft,SaaS,Ativo,ERP para pequenas e médias empresas
+Dynamics 365 Customer Service,Microsoft,SaaS,Ativo,Gestão de pedidos e apoio ao cliente
+Dynamics 365 Finance,Microsoft,SaaS,Ativo,Gestão financeira para grandes organizações
+Dynamics 365 Sales,Microsoft,SaaS,Ativo,Gestão de clientes oportunidades e vendas
+Elastic Cloud,Elastic,PaaS,Ativo,Pesquisa observabilidade e segurança com Elasticsearch
+Elastic Compute Service,Alibaba,IaaS,Ativo,Servidores virtuais na Alibaba Cloud
+Elastic Load Balancing,Amazon,IaaS,Ativo,Distribuição automática de tráfego entre destinos
+Eventarc,Google,PaaS,Ativo,Encaminhamento de eventos entre serviços
+Exchange Online,Microsoft,SaaS,Ativo,Serviço de correio eletrónico empresarial
+Figma,Figma,SaaS,Ativo,Design de interfaces colaborativo
+Filestore,Google,IaaS,Ativo,Armazenamento de ficheiros NFS gerido
+Firebase,Google,PaaS,Ativo,Plataforma para aplicações web e móveis
+Firestore,Google,PaaS,Ativo,Base de dados de documentos sem servidor
+Foundry Tools,Microsoft,PaaS,Ativo,APIs de visão fala linguagem e tradução (antigos Azure AI Services)
+Function Compute,Alibaba,PaaS,Ativo,Funções sem servidor
+Gemini Enterprise,Google,SaaS,Ativo,Assistente e agentes de IA para empresas
+Gemini Enterprise Agent Platform,Google,PaaS,Ativo,Plataforma de ML IA generativa e agentes (antigo Vertex AI)
+GitHub,Microsoft,SaaS,Ativo,Alojamento de código e colaboração com Git
+GitHub Copilot,Microsoft,SaaS,Ativo,Assistente de programação com IA
+GitLab,GitLab,SaaS,Ativo,Plataforma DevSecOps
+Gmail,Google,SaaS,Ativo,Correio eletrónico
+Google Cloud VMware Engine,Google,IaaS,Ativo,Ambientes VMware na Google Cloud
+Google Drive,Google,SaaS,Ativo,Armazenamento e partilha de ficheiros
+Google Kubernetes Engine,Google,PaaS,Ativo,Kubernetes gerido pela Google
+Google Meet,Google,SaaS,Ativo,Videoconferência
+Google Security Operations,Google,SaaS,Ativo,SIEM e SOAR para operações de segurança
+Google Workspace,Google,SaaS,Ativo,Email documentos e colaboração
+Grafana Cloud,Grafana Labs,SaaS,Ativo,Painéis e observabilidade
+HCP Terraform,HashiCorp,SaaS,Ativo,Infraestrutura como código gerida (antigo Terraform Cloud)
+Heroku,Salesforce,PaaS,Ativo,Plataforma de alojamento de aplicações
+Hetzner Cloud,Hetzner,IaaS,Ativo,Servidores virtuais na Europa
+HubSpot,HubSpot,SaaS,Ativo,CRM e marketing
+IBM Cloud Code Engine,IBM,PaaS,Ativo,Execução de contentores e funções sem servidor
+IBM Cloud Object Storage,IBM,IaaS,Ativo,Armazenamento de objetos
+IBM Cloud Virtual Servers for VPC,IBM,IaaS,Ativo,Servidores virtuais na IBM Cloud
+IBM Db2 on Cloud,IBM,PaaS,Ativo,Base de dados Db2 gerida
+IBM Maximo Application Suite,IBM,SaaS,Ativo,Gestão de ativos e manutenção
+IBM watsonx.ai,IBM,PaaS,Ativo,Estúdio de IA generativa e ML
+Identity and Access Management,Google,PaaS,Ativo,Controlo de acessos a recursos Google Cloud
+Jira,Atlassian,SaaS,Ativo,Gestão de projetos e tarefas
+Knowledge Catalog,Google,PaaS,Ativo,Catálogo e governação de dados (antigo Dataplex)
+Looker,Google,SaaS,Ativo,Plataforma de business intelligence
+Looker Studio,Google,SaaS,Ativo,Painéis e relatórios de dados
+Mailchimp,Intuit,SaaS,Ativo,Email marketing
+MaxCompute,Alibaba,PaaS,Ativo,Armazém de dados para big data
+Memorystore,Google,PaaS,Ativo,Redis Valkey e Memcached geridos
+Microsoft 365,Microsoft,SaaS,Ativo,Conjunto de aplicações de produtividade e colaboração
+Microsoft 365 Copilot,Microsoft,SaaS,Ativo,Assistente de IA integrado nas aplicações Microsoft 365
+Microsoft Cost Management,Microsoft,PaaS,Ativo,Análise e controlo de custos da cloud
+Microsoft Dataverse,Microsoft,SaaS,Ativo,Armazenamento e gestão de dados empresariais para aplicações
+Microsoft Defender for Cloud,Microsoft,PaaS,Ativo,Gestão da postura de segurança e proteção de cargas cloud
+Microsoft Defender for Endpoint,Microsoft,SaaS,Ativo,Proteção e resposta em computadores e servidores
+Microsoft Entra ID,Microsoft,SaaS,Ativo,Gestão de identidades e acessos (antigo Azure AD)
+Microsoft Fabric,Microsoft,SaaS,Ativo,Plataforma unificada de dados e análise em SaaS
+Microsoft Forms,Microsoft,SaaS,Ativo,Criação de inquéritos e questionários
+Microsoft Foundry,Microsoft,PaaS,Ativo,Plataforma para criar aplicações e agentes de IA (antigo Azure AI Foundry)
+Microsoft Intune,Microsoft,SaaS,Ativo,Gestão de dispositivos e aplicações móveis
+Microsoft Planner,Microsoft,SaaS,Ativo,Planeamento e acompanhamento de tarefas de equipa
+Microsoft Purview,Microsoft,SaaS,Ativo,Governação proteção e conformidade de dados
+Microsoft Sentinel,Microsoft,SaaS,Ativo,SIEM cloud para deteção e resposta a ameaças
+Microsoft Teams,Microsoft,SaaS,Ativo,Comunicação reuniões e colaboração em equipa
+Migrate to Virtual Machines,Google,PaaS,Ativo,Migração de servidores para Compute Engine
+Miro,Miro,SaaS,Ativo,Quadro branco colaborativo
+Moloni,Moloni,SaaS,Ativo,Faturação online certificada em Portugal
+monday.com,monday.com,SaaS,Ativo,Gestão de trabalho em quadros
+MongoDB Atlas,MongoDB,PaaS,Ativo,MongoDB gerido multi-cloud
+MuleSoft Anypoint Platform,Salesforce,PaaS,Ativo,Integração de aplicações e gestão de APIs
+MySQL HeatWave,Oracle,PaaS,Ativo,MySQL gerido com análise em memória
+Netlify,Netlify,PaaS,Ativo,Alojamento e implementação de sites
+New Relic,New Relic,SaaS,Ativo,Observabilidade de aplicações
+Notion,Notion,SaaS,Ativo,Notas documentos e bases de dados
+Object Storage Service,Alibaba,IaaS,Ativo,Armazenamento de objetos
+OCI Block Volume,Oracle,IaaS,Ativo,Volumes de blocos para instâncias
+OCI Compute,Oracle,IaaS,Ativo,Máquinas virtuais e bare metal na Oracle Cloud
+OCI Functions,Oracle,PaaS,Ativo,Funções sem servidor
+OCI Generative AI,Oracle,PaaS,Ativo,Modelos de IA generativa geridos
+OCI Object Storage,Oracle,IaaS,Ativo,Armazenamento de objetos
+Okta Workforce Identity,Okta,SaaS,Ativo,Gestão de identidades e acesso único
+OneDrive for Business,Microsoft,SaaS,Ativo,Armazenamento e partilha de ficheiros empresariais
+Oracle Autonomous Database,Oracle,PaaS,Ativo,Base de dados Oracle autogerida
+Oracle Database@Azure,Oracle,PaaS,Ativo,Bases de dados Oracle em datacenters Azure
+Oracle Exadata Database Service,Oracle,PaaS,Ativo,Bases de dados Oracle em Exadata na cloud
+Oracle Fusion Cloud ERP,Oracle,SaaS,Ativo,ERP financeiro e operacional
+Oracle Fusion Cloud HCM,Oracle,SaaS,Ativo,Gestão de recursos humanos
+Oracle Kubernetes Engine,Oracle,PaaS,Ativo,Kubernetes gerido na OCI
+Oracle NetSuite,Oracle,SaaS,Ativo,ERP para empresas em crescimento
+OVHcloud Public Cloud,OVHcloud,IaaS,Ativo,Computação e armazenamento em cloud europeia
+PagerDuty,PagerDuty,SaaS,Ativo,Gestão de incidentes e alertas
+Persistent Disk,Google,IaaS,Ativo,Discos de blocos para máquinas virtuais
+PHC GO,PHC Software,SaaS,Ativo,ERP e faturação portuguesa na cloud
+PolarDB,Alibaba,PaaS,Ativo,Base de dados nativa da cloud
+Power Apps,Microsoft,SaaS,Ativo,Criação de aplicações empresariais com pouco código
+Power Automate,Microsoft,SaaS,Ativo,Automatização de fluxos de trabalho
+Power BI,Microsoft,SaaS,Ativo,Análise de dados e criação de relatórios interativos
+Pub/Sub,Google,PaaS,Ativo,Mensagens assíncronas em tempo real
+QuickBooks Online,Intuit,SaaS,Ativo,Contabilidade para pequenas empresas
+Red Hat OpenShift on IBM Cloud,IBM,PaaS,Ativo,OpenShift gerido na IBM Cloud
+Redis Cloud,Redis,PaaS,Ativo,Redis gerido
+Render,Render,PaaS,Ativo,Alojamento de aplicações e bases de dados
+Salesforce Sales Cloud,Salesforce,SaaS,Ativo,CRM de vendas
+Salesforce Service Cloud,Salesforce,SaaS,Ativo,Apoio e serviço ao cliente
+SAP Ariba,SAP,SaaS,Ativo,Compras e gestão de fornecedores
+SAP Business Technology Platform,SAP,PaaS,Ativo,Plataforma de integração e desenvolvimento SAP
+SAP Concur,SAP,SaaS,Ativo,Gestão de despesas e viagens
+SAP S/4HANA Cloud,SAP,SaaS,Ativo,ERP inteligente na cloud
+SAP SuccessFactors,SAP,SaaS,Ativo,Gestão de talento e recursos humanos
+Secret Manager,Google,PaaS,Ativo,Armazenamento de segredos
+Security Command Center,Google,PaaS,Ativo,Gestão de riscos e segurança da Google Cloud
+ServiceNow ITSM,ServiceNow,SaaS,Ativo,Gestão de serviços de TI
+SharePoint Online,Microsoft,SaaS,Ativo,Gestão documental e colaboração em sites
+Shopify,Shopify,SaaS,Ativo,Loja online
+Slack,Salesforce,SaaS,Ativo,Mensagens e colaboração em equipa
+Snowflake,Snowflake,PaaS,Ativo,Plataforma de dados na cloud
+Spanner,Google,PaaS,Ativo,Base de dados relacional distribuída globalmente
+Speech-to-Text,Google,PaaS,Ativo,Reconhecimento de fala
+Splunk Cloud Platform,Cisco,SaaS,Ativo,Análise de registos e SIEM
+Stripe,Stripe,PaaS,Ativo,Pagamentos online por API
+Supabase,Supabase,PaaS,Ativo,Backend PostgreSQL com autenticação e APIs
+Tableau Cloud,Salesforce,SaaS,Ativo,Análise visual de dados
+Text-to-Speech,Google,PaaS,Ativo,Síntese de voz natural
+Trello,Atlassian,SaaS,Ativo,Quadros kanban
+Twilio,Twilio,PaaS,Ativo,APIs de SMS voz e mensagens
+Twilio SendGrid,Twilio,PaaS,Ativo,Envio de email transacional
+Vercel,Vercel,PaaS,Ativo,Alojamento de aplicações front-end
+Virtual Private Cloud,Google,IaaS,Ativo,Redes virtuais globais na Google Cloud
+Webex,Cisco,SaaS,Ativo,Videoconferência e chamadas
+Workday HCM,Workday,SaaS,Ativo,Gestão de recursos humanos
+Workflows,Google,PaaS,Ativo,Orquestração de serviços e APIs
+Xero,Xero,SaaS,Ativo,Contabilidade online
+Zendesk,Zendesk,SaaS,Ativo,Apoio ao cliente e helpdesk
+Zoho CRM,Zoho,SaaS,Ativo,CRM para empresas
+Zoom Workplace,Zoom,SaaS,Ativo,Videoconferência e colaboração

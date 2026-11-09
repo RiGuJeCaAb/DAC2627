@@ -1,0 +1,391 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrL3Detalhe:
+    Properties:
+      Fill: =nfFundo
+    Children:
+      - conEcraL3b:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabL3b:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - icoInicioL3b:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar ao início"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Home
+                        OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        Width: =44
+                  - icoL3Voltar:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.ChevronLeft
+                        OnSelect: =Back()
+                        Width: =44
+                  - lblCabL3b:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="Ficha 03 · Detalhe"
+            - conConteudoL3b:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =16
+                  PaddingBottom: =If(scrL3Detalhe.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =If(scrL3Detalhe.Size = ScreenSize.Small, 16, 24)
+                  PaddingRight: =If(scrL3Detalhe.Size = ScreenSize.Small, 16, 24)
+                  PaddingTop: =If(scrL3Detalhe.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - lblL3SemSel:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        Color: =nfTextoSuave
+                        Height: =60
+                        Text: ="Escolha um utilizador na lista."
+                        Visible: =IsBlank(locL3Sel)
+                        Width: =400
+                  - conL3bCartao:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =Color.White
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =20
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
+                        PaddingLeft: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
+                        PaddingRight: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
+                        PaddingTop: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
+                        RadiusBottomLeft: =16
+                        RadiusBottomRight: =16
+                        RadiusTopLeft: =16
+                        RadiusTopRight: =16
+                        Visible: =!IsBlank(locL3Sel)
+                        Width: =Min(900, Parent.Width - If(scrL3Detalhe.Size = ScreenSize.Small, 32, 48))
+                      Children:
+                        - conL3bTopo:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =20
+                              LayoutMinHeight: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
+                            Children:
+                              - btnL3bIniciais:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderThickness: =0
+                                    Color: =nfAzul
+                                    DisabledColor: =Self.Color
+                                    DisabledFill: =Self.Fill
+                                    Fill: =nfAzulClaro
+                                    Font: =Font.'Open Sans'
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =64
+                                    HoverColor: =Self.Color
+                                    HoverFill: =Self.Fill
+                                    PressedFill: =Self.Fill
+                                    RadiusBottomLeft: =32
+                                    RadiusBottomRight: =32
+                                    RadiusTopLeft: =32
+                                    RadiusTopRight: =32
+                                    Size: =24
+                                    TabIndex: =-1
+                                    Text: =Upper(Left(locL3Sel.name, 1))
+                                    Width: =64
+                              - conL3bNomes:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                                  Children:
+                                    - lblL3Nome:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfTexto
+                                          FontWeight: =FontWeight.Bold
+                                          Size: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 28)
+                                          Text: =locL3Sel.name
+                                    - lblL3Utilizador:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTextoSuave
+                                          Height: =26
+                                          Text: ="@" & locL3Sel.username
+                        - conL3Blocos:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =Switch(scrL3Detalhe.Size, ScreenSize.Small, 528, ScreenSize.Medium, 344, 160)
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =24
+                              LayoutMinHeight: =Switch(scrL3Detalhe.Size, ScreenSize.Small, 528, ScreenSize.Medium, 344, 160)
+                              LayoutWrap: =true
+                            Children:
+                              - conL3Contacto:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderColor: =nfLinha
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =ColorValue("#F7F8F9")
+                                    Height: =160
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinWidth: =240
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                  Children:
+                                    - lblL3TitContacto:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTextoSuave
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =24
+                                          Size: =12
+                                          Text: ="CONTACTO"
+                                    - lblL3Email:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTexto
+                                          Height: =26
+                                          Text: =locL3Sel.email
+                                    - lblL3Telefone:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTexto
+                                          Height: =26
+                                          Text: =Coalesce(locL3Sel.phone, "Sem telefone")
+                                    - lblL3Site:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTexto
+                                          Height: =26
+                                          Text: =Coalesce(locL3Sel.website, "Sem site")
+                              - conL3Morada:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderColor: =nfLinha
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =ColorValue("#F7F8F9")
+                                    Height: =160
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinWidth: =240
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                  Children:
+                                    - lblL3TitMorada:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTextoSuave
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =24
+                                          Size: =12
+                                          Text: ="MORADA"
+                                    - lblL3Rua:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTexto
+                                          Height: =26
+                                          Text: =locL3Sel.address.street & ", " & locL3Sel.address.suite
+                                    - lblL3Cidade:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTexto
+                                          Height: =26
+                                          Text: =locL3Sel.address.zipcode & " " & locL3Sel.address.city
+                              - conL3Empresa:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Start
+                                    BorderColor: =nfLinha
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =ColorValue("#F7F8F9")
+                                    Height: =160
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =6
+                                    LayoutMinWidth: =240
+                                    PaddingBottom: =16
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                  Children:
+                                    - lblL3TitEmpresa:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTextoSuave
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =24
+                                          Size: =12
+                                          Text: ="EMPRESA"
+                                    - lblL3Empresa:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTexto
+                                          Height: =26
+                                          Text: =locL3Sel.company.name
+                                    - lblL3Lema:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfTextoSuave
+                                          Height: =48
+                                          Italic: =true
+                                          Text: =locL3Sel.company.catchPhrase
+                                          VerticalAlign: =VerticalAlign.Top
+                        - conL3PubsUtil:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =If(scrL3Detalhe.Size = ScreenSize.Small, 0, 1)
+                              Height: =320
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =8
+                              LayoutMinHeight: =240
+                            Children:
+                              - lblL3TituloPubs:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =nfTextoSuave
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =24
+                                    Size: =12
+                                    Text: ="PUBLICAÇÕES (" & CountRows(galL3PubsUtil.AllItems) & ")"
+                              - galL3PubsUtil:
+                                  Control: Gallery@2.15.0
+                                  Variant: Vertical
+                                  Properties:
+                                    Items: =Sort(Filter(colL3Publicacoes, userId = locL3Sel.id), id)
+                                    OnSelect: |-
+                                      =Navigate(scrL3Publicacao, ScreenTransition.Cover,
+                                          {locL3Pub: galL3PubsUtil.Selected})
+                                    TemplatePadding: =0
+                                    TemplateSize: =52
+                                  Children:
+                                    - lblL3PubsUtilNum:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =nfAzul
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =28
+                                          OnSelect: =Select(Parent)
+                                          Size: =12
+                                          Text: =ThisItem.id
+                                          Width: =40
+                                          X: =16
+                                          Y: =12
+                                    - lblL3PubsUtilItem:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =nfTexto
+                                          Height: =28
+                                          OnSelect: =Select(Parent)
+                                          Text: =ThisItem.title
+                                          Width: =Parent.TemplateWidth - 110
+                                          Wrap: =false
+                                          X: =60
+                                          Y: =12
+                                    - icoL3PubsUtilAbrir:
+                                        Control: Classic/Icon@2.5.0
+                                        Properties:
+                                          Color: =ColorValue("#7D8993")
+                                          Height: =24
+                                          Icon: =Icon.ChevronRight
+                                          OnSelect: =Select(Parent)
+                                          Width: =24
+                                          X: =Parent.TemplateWidth - 44
+                                          Y: =14
+                                    - recL3PubsUtilSep:
+                                        Control: Rectangle@2.3.0
+                                        Properties:
+                                          Fill: =nfLinha
+                                          Height: =1
+                                          Width: =Parent.TemplateWidth
+                                          Y: =Parent.TemplateHeight - 1

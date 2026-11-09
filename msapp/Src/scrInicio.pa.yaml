@@ -1,0 +1,179 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrInicio:
+    Properties:
+      Fill: =nfFundo
+    Children:
+      - conEcraIn:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabIn:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - lblCabIn:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="APP DAC2627"
+            - conConteudoIn:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =16
+                  PaddingBottom: =If(scrInicio.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =If(scrInicio.Size = ScreenSize.Small, 16, 24)
+                  PaddingRight: =If(scrInicio.Size = ScreenSize.Small, 16, 24)
+                  PaddingTop: =If(scrInicio.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - lblInTitulo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        FontWeight: =FontWeight.Bold
+                        Size: =If(scrInicio.Size = ScreenSize.Small, 22, 28)
+                        Text: ="Laboratórios de DAC 2026/27"
+                  - lblInSubtitulo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        Size: =15
+                        Text: ="Escolha a ficha que quer abrir."
+                  - galInFichas:
+                      Control: Gallery@2.15.0
+                      Variant: Vertical
+                      Properties:
+                        Items: |-
+                          =Table(
+                              {Num: 1, Ficha: "Ficha 01", Titulo: "Hello Cloud",
+                               Descricao: "Primeira Canvas app: três ecrãs, navegação e variável global.", Disponivel: true},
+                              {Num: 2, Ficha: "Ficha 02", Titulo: "Serviços Cloud",
+                               Descricao: "Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.", Disponivel: true},
+                              {Num: 3, Ficha: "Ficha 03", Titulo: "Consulta de API",
+                               Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true},
+                              {Num: 4, Ficha: "Ficha 04", Titulo: "Próximo laboratório",
+                               Descricao: "Reservado para a próxima ficha do docente.", Disponivel: false}
+                          )
+                        OnSelect: |-
+                          =If(
+                              galInFichas.Selected.Disponivel,
+                              Switch(
+                                  galInFichas.Selected.Num,
+                                  1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),
+                                  2, Navigate(scrL2Servicos, ScreenTransition.Cover),
+                                  3, Navigate(scrL3Lista, ScreenTransition.Cover)
+                              )
+                          )
+                        TemplatePadding: =12
+                        TemplateSize: =228
+                        WrapCount: =Switch(scrInicio.Size, ScreenSize.Small, 1, ScreenSize.Medium, 2, 3)
+                      Children:
+                        - conInCartao:
+                            Control: GroupContainer@1.5.0
+                            Variant: ManualLayout
+                            Properties:
+                              BorderColor: =If(ThisItem.Disponivel, nfLinha, ColorValue("#C5CBD1"))
+                              BorderStyle: =If(ThisItem.Disponivel, BorderStyle.Solid, BorderStyle.Dashed)
+                              BorderThickness: =If(ThisItem.Disponivel, 1, 2)
+                              DropShadow: =If(ThisItem.Disponivel, DropShadow.Light, DropShadow.None)
+                              Fill: =If(ThisItem.Disponivel, Color.White, nfFundo)
+                              Height: =Parent.TemplateHeight
+                              RadiusBottomLeft: =16
+                              RadiusBottomRight: =16
+                              RadiusTopLeft: =16
+                              RadiusTopRight: =16
+                              Width: =Parent.TemplateWidth
+                        - lblInFicha:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfAzul
+                              FontWeight: =FontWeight.Bold
+                              Height: =24
+                              OnSelect: =Select(Parent)
+                              Size: =12
+                              Text: =ThisItem.Ficha
+                              X: =24
+                              Y: =20
+                        - lblInFichaTitulo:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =If(ThisItem.Disponivel, nfTexto, nfTextoSuave)
+                              FontWeight: =FontWeight.Bold
+                              Height: =34
+                              OnSelect: =Select(Parent)
+                              Size: =20
+                              Text: =ThisItem.Titulo
+                              Width: =Parent.TemplateWidth - 48
+                              Wrap: =false
+                              X: =24
+                              Y: =46
+                        - lblInFichaDescricao:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTextoSuave
+                              Height: =72
+                              OnSelect: =Select(Parent)
+                              Text: =ThisItem.Descricao
+                              VerticalAlign: =VerticalAlign.Top
+                              Width: =Parent.TemplateWidth - 48
+                              X: =24
+                              Y: =84
+                        - btnInAbrir:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Color: =Color.White
+                              DisplayMode: =If(ThisItem.Disponivel, DisplayMode.Edit, DisplayMode.Disabled)
+                              Fill: =nfAzul
+                              Height: =44
+                              OnSelect: =Select(Parent)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Text: =If(ThisItem.Disponivel, "Abrir", "Em breve")
+                              Width: =140
+                              X: =24
+                              Y: =Parent.TemplateHeight - 64
+                  - lblInRodape:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        Size: =12
+                        Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud"

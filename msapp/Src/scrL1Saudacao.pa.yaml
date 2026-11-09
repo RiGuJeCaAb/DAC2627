@@ -1,0 +1,154 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrL1Saudacao:
+    Properties:
+      Fill: =nfFundo
+    Children:
+      - conEcraL1c:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabL1c:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - icoInicioL1c:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar ao início"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Home
+                        OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        Width: =44
+                  - lblCabL1c:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="Ficha 01 · Passo 2 de 2"
+            - conConteudoL1c:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =16
+                  LayoutJustifyContent: =LayoutJustifyContent.Center
+                  PaddingBottom: =If(scrL1Saudacao.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =If(scrL1Saudacao.Size = ScreenSize.Small, 16, 24)
+                  PaddingRight: =If(scrL1Saudacao.Size = ScreenSize.Small, 16, 24)
+                  PaddingTop: =If(scrL1Saudacao.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - conL1cCartao:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =If(scrL1Saudacao.Size = ScreenSize.Small, 480, 420)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =20
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        PaddingBottom: =If(scrL1Saudacao.Size = ScreenSize.Small, 24, 40)
+                        PaddingLeft: =If(scrL1Saudacao.Size = ScreenSize.Small, 24, 40)
+                        PaddingRight: =If(scrL1Saudacao.Size = ScreenSize.Small, 24, 40)
+                        PaddingTop: =If(scrL1Saudacao.Size = ScreenSize.Small, 24, 40)
+                        RadiusBottomLeft: =16
+                        RadiusBottomRight: =16
+                        RadiusTopLeft: =16
+                        RadiusTopRight: =16
+                        Width: =Min(640, Parent.Width - If(scrL1Saudacao.Size = ScreenSize.Small, 32, 48))
+                      Children:
+                        - icoL1Sucesso:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =nfVerde
+                              Icon: =Icon.Check
+                        - lblL1BoasVindas:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Center
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =nfVerde
+                              FontWeight: =FontWeight.Bold
+                              Height: =32
+                              Size: =16
+                              Text: ="Bem-vindo à Cloud"
+                        - lblL1Saudacao:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Center
+                              AlignInContainer: =AlignInContainer.Stretch
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FontWeight: =FontWeight.Bold
+                              Size: =If(scrL1Saudacao.Size = ScreenSize.Small, 30, 40)
+                              Text: =If(IsBlank(gblL1Nome), "Introduza o seu nome.", "Olá, " & gblL1Nome & "!")
+                        - conL1Botoes:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =If(scrL1Saudacao.Size = ScreenSize.Small, 112, 52)
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =16
+                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                              LayoutWrap: =true
+                            Children:
+                              - btnL1Alterar:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =nfAzul
+                                    Color: =nfAzul
+                                    Fill: =Color.White
+                                    Height: =48
+                                    OnSelect: =Back()
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Text: ="Alterar nome"
+                                    Width: =200
+                              - btnL1Terminar:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    Color: =Color.White
+                                    Fill: =nfAzul
+                                    Height: =48
+                                    OnSelect: =Set(gblL1Nome, Blank()); Navigate(scrL1BoasVindas, ScreenTransition.UnCoverRight)
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Text: ="Terminar"
+                                    Width: =200

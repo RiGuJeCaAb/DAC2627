@@ -1,0 +1,464 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrL3Lista:
+    Properties:
+      Fill: =nfFundo
+      OnVisible: =If(IsEmpty(colL3Utilizadores) || IsEmpty(colL3Publicacoes), Select(btnL3Carregar))
+    Children:
+      - conEcraL3a:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabL3a:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - icoInicioL3a:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar ao início"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Home
+                        OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        Width: =44
+                  - lblCabL3a:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="Ficha 03 · Consulta de API"
+            - conConteudoL3a:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =16
+                  PaddingBottom: =If(scrL3Lista.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =If(scrL3Lista.Size = ScreenSize.Small, 16, 24)
+                  PaddingRight: =If(scrL3Lista.Size = ScreenSize.Small, 16, 24)
+                  PaddingTop: =If(scrL3Lista.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - conL3Separadores:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =48
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =8
+                      Children:
+                        - btnL3SepUtil:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =If(locL3Vista <> "publicacoes", Color.White, nfAzul)
+                              Fill: =If(locL3Vista <> "publicacoes", nfAzul, Color.White)
+                              FillPortions: =If(scrL3Lista.Size = ScreenSize.Small, 1, 0)
+                              Height: =48
+                              LayoutMinWidth: =0
+                              OnSelect: |-
+                                =UpdateContext({locL3Vista: "utilizadores"}); Reset(txtL3Pesquisa); Reset(drpL3Utilizador)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =If(scrL3Lista.Size = ScreenSize.Small, 13, 15)
+                              Text: ="Utilizadores (" & CountRows(colL3Utilizadores) & ")"
+                              Width: =200
+                        - btnL3SepPub:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =If(locL3Vista = "publicacoes", Color.White, nfAzul)
+                              Fill: =If(locL3Vista = "publicacoes", nfAzul, Color.White)
+                              FillPortions: =If(scrL3Lista.Size = ScreenSize.Small, 1, 0)
+                              Height: =48
+                              LayoutMinWidth: =0
+                              OnSelect: |-
+                                =UpdateContext({locL3Vista: "publicacoes"}); Reset(txtL3Pesquisa); Reset(drpL3Utilizador)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =If(scrL3Lista.Size = ScreenSize.Small, 13, 15)
+                              Text: ="Publicações (" & CountRows(colL3Publicacoes) & ")"
+                              Width: =200
+                  - conL3Barra:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: |-
+                          =If(scrL3Lista.Size = ScreenSize.Small,
+                              If(locL3Vista = "publicacoes", 168, 108),
+                              scrL3Lista.Size = ScreenSize.Medium && locL3Vista = "publicacoes", 108,
+                              52)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        LayoutWrap: =true
+                      Children:
+                        - txtL3Pesquisa:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              Default: =""
+                              FillPortions: =1
+                              Height: =48
+                              HintText: |-
+                                =If(locL3Vista = "publicacoes",
+                                                                "Pesquisar por título ou texto",
+                                                                "Pesquisar por nome ou email")
+                              LayoutMinWidth: =220
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                        - drpL3Utilizador:
+                            Control: Classic/DropDown@2.3.1
+                            Properties:
+                              AccessibleLabel: ="Filtrar publicações por utilizador"
+                              Default: ="Todos os utilizadores"
+                              Height: =48
+                              Items: |-
+                                =Ungroup(
+                                    Table(
+                                        {grp: Table({id: 0, name: "Todos os utilizadores"})},
+                                        {grp: Sort(ShowColumns(colL3Utilizadores, id, name), name)}
+                                    ),
+                                    grp
+                                )
+                              Items.Value: =name
+                              Visible: =locL3Vista = "publicacoes"
+                              Width: =If(scrL3Lista.Size = ScreenSize.Small, Parent.Width, 260)
+                        - lblL3Contagem:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTextoSuave
+                              Height: =48
+                              Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
+                              Text: |-
+                                =If(locL3Vista = "publicacoes",
+                                    CountRows(galL3Publicacoes.AllItems) & " de " &
+                                        CountRows(colL3Publicacoes) & " publicações",
+                                    CountRows(galL3Utilizadores.AllItems) & " de " &
+                                        CountRows(colL3Utilizadores) & " utilizadores")
+                              Width: =If(scrL3Lista.Size = ScreenSize.Small, 150, 210)
+                        - btnL3Atualizar:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =nfAzul
+                              DisplayMode: =If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)
+                              Fill: =Color.White
+                              Height: =48
+                              OnSelect: =Select(btnL3Carregar)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Text: ="Atualizar"
+                              Width: =150
+                        - btnL3Carregar:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Height: =10
+                              OnSelect: |-
+                                =UpdateContext({locL3ACarregar: true, locL3Erro: ""});
+                                Clear(colL3Utilizadores);
+                                Clear(colL3Publicacoes);
+                                IfError(
+                                    ClearCollect(colL3Utilizadores, JSONPlaceholderDAC.ListarUtilizadores()),
+                                    UpdateContext({locL3Erro: "Não foi possível obter os utilizadores. " & FirstError.Message})
+                                );
+                                IfError(
+                                    ClearCollect(colL3Publicacoes, JSONPlaceholderDAC.ListarPublicacoes()),
+                                    UpdateContext({locL3Erro: Trim(locL3Erro & " Não foi possível obter as publicações. " & FirstError.Message)})
+                                );
+                                UpdateContext({locL3ACarregar: false})
+                              Text: ="Carregar"
+                              Visible: =false
+                              Width: =10
+                  - conL3Erro:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfVermelhoFundo
+                        FillPortions: =0
+                        Height: =88
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =16
+                        PaddingBottom: =16
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =16
+                        RadiusBottomLeft: =12
+                        RadiusBottomRight: =12
+                        RadiusTopLeft: =12
+                        RadiusTopRight: =12
+                        Visible: =!IsBlank(locL3Erro)
+                      Children:
+                        - icoL3Aviso:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =nfVermelho
+                              Height: =28
+                              Icon: =Icon.Warning
+                              Width: =28
+                        - lblL3Erro:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =ColorValue("#8E1F25")
+                              FillPortions: =1
+                              Height: =56
+                              Text: =locL3Erro
+                        - btnL3Repetir:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              Color: =Color.White
+                              Fill: =nfAzul
+                              Height: =48
+                              OnSelect: =Select(btnL3Carregar)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Text: ="Tentar novamente"
+                              Width: =190
+                  - lblL3ACarregar:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Color: =nfTextoSuave
+                        Height: =60
+                        Text: ="A carregar dados da API…"
+                        Visible: =locL3ACarregar
+                  - lblL3Vazio:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Color: =nfTextoSuave
+                        Height: =60
+                        Text: |-
+                          =If(locL3Vista = "publicacoes",
+                                                  "A API não devolveu nenhuma publicação.",
+                                                  "A API não devolveu nenhum utilizador.")
+                        Visible: |-
+                          =!locL3ACarregar && IsBlank(locL3Erro) &&
+                              If(locL3Vista = "publicacoes", IsEmpty(colL3Publicacoes), IsEmpty(colL3Utilizadores))
+                  - lblL3SemResultados:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        AlignInContainer: =AlignInContainer.Stretch
+                        Color: =nfTextoSuave
+                        Height: =60
+                        Text: ="Nada corresponde à pesquisa."
+                        Visible: |-
+                          =If(locL3Vista = "publicacoes",
+                              !IsEmpty(colL3Publicacoes) && IsEmpty(galL3Publicacoes.AllItems),
+                              !IsEmpty(colL3Utilizadores) && IsEmpty(galL3Utilizadores.AllItems))
+                  - galL3Utilizadores:
+                      Control: Gallery@2.15.0
+                      Variant: Vertical
+                      Properties:
+                        Items: |-
+                          =Sort(
+                              Filter(colL3Utilizadores,
+                                  txtL3Pesquisa.Text in name || txtL3Pesquisa.Text in email),
+                              name
+                          )
+                        OnSelect: |-
+                          =Navigate(scrL3Detalhe, ScreenTransition.Cover,
+                              {locL3Sel: galL3Utilizadores.Selected})
+                        TemplateFill: =Color.White
+                        TemplatePadding: =0
+                        TemplateSize: =80
+                        Visible: =IsBlank(locL3Erro) && locL3Vista <> "publicacoes"
+                      Children:
+                        - btnL3Iniciais:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderThickness: =0
+                              Color: =nfAzul
+                              DisabledColor: =Self.Color
+                              DisabledFill: =Self.Fill
+                              Fill: =nfAzulClaro
+                              Font: =Font.'Open Sans'
+                              FontWeight: =FontWeight.Bold
+                              Height: =48
+                              HoverColor: =Self.Color
+                              HoverFill: =Self.Fill
+                              OnSelect: =Select(Parent)
+                              PressedFill: =Self.Fill
+                              RadiusBottomLeft: =24
+                              RadiusBottomRight: =24
+                              RadiusTopLeft: =24
+                              RadiusTopRight: =24
+                              Size: =16
+                              TabIndex: =-1
+                              Text: =Upper(Left(ThisItem.name, 1))
+                              Width: =48
+                              X: =24
+                              Y: =16
+                        - lblL3ItemNome:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTexto
+                              FontWeight: =FontWeight.Semibold
+                              Height: =28
+                              OnSelect: =Select(Parent)
+                              Text: =ThisItem.name
+                              Width: =Parent.TemplateWidth - If(scrL3Lista.Size = ScreenSize.Small, 140, 380)
+                              Wrap: =false
+                              X: =88
+                              Y: =14
+                        - lblL3ItemEmail:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTextoSuave
+                              Height: =24
+                              OnSelect: =Select(Parent)
+                              Size: =12
+                              Text: =ThisItem.email
+                              Width: =Parent.TemplateWidth - If(scrL3Lista.Size = ScreenSize.Small, 140, 380)
+                              Wrap: =false
+                              X: =88
+                              Y: =40
+                        - lblL3ItemEmpresa:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Right
+                              Color: =nfTexto
+                              Height: =28
+                              OnSelect: =Select(Parent)
+                              Text: =ThisItem.company.name
+                              Visible: =scrL3Lista.Size > ScreenSize.Small
+                              Width: =220
+                              X: =Parent.TemplateWidth - 280
+                              Y: =26
+                        - icoL3Abrir:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =ColorValue("#7D8993")
+                              Height: =24
+                              Icon: =Icon.ChevronRight
+                              OnSelect: =Select(Parent)
+                              Width: =24
+                              X: =Parent.TemplateWidth - 48
+                              Y: =28
+                        - recL3Separador:
+                            Control: Rectangle@2.3.0
+                            Properties:
+                              Fill: =nfLinha
+                              Height: =1
+                              Width: =Parent.TemplateWidth
+                              Y: =Parent.TemplateHeight - 1
+                  - galL3Publicacoes:
+                      Control: Gallery@2.15.0
+                      Variant: Vertical
+                      Properties:
+                        Items: |-
+                          =Sort(
+                              Filter(colL3Publicacoes,
+                                  (drpL3Utilizador.Selected.id = 0 || userId = drpL3Utilizador.Selected.id) &&
+                                  (txtL3Pesquisa.Text in title || txtL3Pesquisa.Text in body)),
+                              id
+                          )
+                        OnSelect: |-
+                          =Navigate(scrL3Publicacao, ScreenTransition.Cover,
+                              {locL3Pub: galL3Publicacoes.Selected})
+                        TemplateFill: =Color.White
+                        TemplatePadding: =0
+                        TemplateSize: =96
+                        Visible: =IsBlank(locL3Erro) && locL3Vista = "publicacoes"
+                      Children:
+                        - lblL3PubItemTitulo:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTexto
+                              FontWeight: =FontWeight.Semibold
+                              Height: =28
+                              OnSelect: =Select(Parent)
+                              Text: =ThisItem.title
+                              Width: =Parent.TemplateWidth - 96
+                              Wrap: =false
+                              X: =24
+                              Y: =10
+                        - lblL3PubItemAutor:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTextoSuave
+                              Height: =22
+                              OnSelect: =Select(Parent)
+                              Size: =12
+                              Text: |-
+                                ="Publicação " & ThisItem.id & " · " &
+                                    Coalesce(LookUp(colL3Utilizadores, id = ThisItem.userId).name,
+                                             "Utilizador " & ThisItem.userId)
+                              Width: =Parent.TemplateWidth - 96
+                              Wrap: =false
+                              X: =24
+                              Y: =38
+                        - lblL3PubItemResumo:
+                            Control: Label@2.5.1
+                            Properties:
+                              Color: =nfTexto
+                              Height: =24
+                              OnSelect: =Select(Parent)
+                              Size: =12
+                              Text: =Left(ThisItem.body, 100) & "…"
+                              Width: =Parent.TemplateWidth - 96
+                              Wrap: =false
+                              X: =24
+                              Y: =62
+                        - icoL3PubAbrir:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =ColorValue("#7D8993")
+                              Height: =24
+                              Icon: =Icon.ChevronRight
+                              OnSelect: =Select(Parent)
+                              Width: =24
+                              X: =Parent.TemplateWidth - 48
+                              Y: =36
+                        - recL3PubSeparador:
+                            Control: Rectangle@2.3.0
+                            Properties:
+                              Fill: =nfLinha
+                              Height: =1
+                              Width: =Parent.TemplateWidth
+                              Y: =Parent.TemplateHeight - 1

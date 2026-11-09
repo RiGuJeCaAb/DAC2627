@@ -1,0 +1,214 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrL3Publicacao:
+    Properties:
+      Fill: =nfFundo
+    Children:
+      - conEcraL3c:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabL3c:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - icoInicioL3c:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar ao início"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Home
+                        OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        Width: =44
+                  - icoL3cVoltar:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.ChevronLeft
+                        OnSelect: =Back()
+                        Width: =44
+                  - lblCabL3c:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="Ficha 03 · Publicação"
+            - conConteudoL3c:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =16
+                  PaddingBottom: =If(scrL3Publicacao.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =If(scrL3Publicacao.Size = ScreenSize.Small, 16, 24)
+                  PaddingRight: =If(scrL3Publicacao.Size = ScreenSize.Small, 16, 24)
+                  PaddingTop: =If(scrL3Publicacao.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - lblL3SemPub:
+                      Control: Label@2.5.1
+                      Properties:
+                        Align: =Align.Center
+                        Color: =nfTextoSuave
+                        Height: =60
+                        Text: ="Escolha uma publicação na lista."
+                        Visible: =IsBlank(locL3Pub)
+                        Width: =400
+                  - conL3cCartao:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =Color.White
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =20
+                        PaddingBottom: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 32)
+                        PaddingLeft: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 32)
+                        PaddingRight: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 32)
+                        PaddingTop: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 32)
+                        RadiusBottomLeft: =16
+                        RadiusBottomRight: =16
+                        RadiusTopLeft: =16
+                        RadiusTopRight: =16
+                        Visible: =!IsBlank(locL3Pub)
+                        Width: =Min(900, Parent.Width - If(scrL3Publicacao.Size = ScreenSize.Small, 32, 48))
+                      Children:
+                        - lblL3PubNumero:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =nfTextoSuave
+                              FontWeight: =FontWeight.Bold
+                              Height: =24
+                              Size: =12
+                              Text: ="PUBLICAÇÃO N.º " & locL3Pub.id
+                        - lblL3PubTitulo:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FontWeight: =FontWeight.Bold
+                              Size: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 26)
+                              Text: =locL3Pub.title
+                        - conL3PubAutor:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =ColorValue("#F7F8F9")
+                              FillPortions: =0
+                              Height: =If(scrL3Publicacao.Size = ScreenSize.Small, 136, 76)
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =14
+                              LayoutWrap: =true
+                              PaddingBottom: =14
+                              PaddingLeft: =14
+                              PaddingRight: =14
+                              PaddingTop: =14
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                            Children:
+                              - btnL3PubIniciais:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderThickness: =0
+                                    Color: =nfAzul
+                                    DisabledColor: =Self.Color
+                                    DisabledFill: =Self.Fill
+                                    Fill: =nfAzulClaro
+                                    Font: =Font.'Open Sans'
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =48
+                                    HoverColor: =Self.Color
+                                    HoverFill: =Self.Fill
+                                    PressedFill: =Self.Fill
+                                    RadiusBottomLeft: =24
+                                    RadiusBottomRight: =24
+                                    RadiusTopLeft: =24
+                                    RadiusTopRight: =24
+                                    Size: =16
+                                    TabIndex: =-1
+                                    Text: =Upper(Left(LookUp(colL3Utilizadores, id = locL3Pub.userId).name, 1))
+                                    Width: =48
+                              - lblL3PubAutor:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTexto
+                                    FillPortions: =1
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =44
+                                    Text: |-
+                                      =With({autor: LookUp(colL3Utilizadores, id = locL3Pub.userId)},
+                                          If(IsBlank(autor), "Utilizador " & locL3Pub.userId,
+                                             autor.name & " · @" & autor.username))
+                              - btnL3VerAutor:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =nfAzul
+                                    Color: =nfAzul
+                                    DisplayMode: |-
+                                      =If(IsBlank(LookUp(colL3Utilizadores, id = locL3Pub.userId)),
+                                          DisplayMode.Disabled, DisplayMode.Edit)
+                                    Fill: =Color.White
+                                    Height: =44
+                                    OnSelect: |-
+                                      =Navigate(scrL3Detalhe, ScreenTransition.Cover,
+                                          {locL3Sel: LookUp(colL3Utilizadores, id = locL3Pub.userId)})
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Text: ="Ver autor"
+                                    Width: =140
+                        - lblL3PubTexto:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =ColorValue("#2F3B45")
+                              FillPortions: =1
+                              Size: =16
+                              Text: =locL3Pub.body
+                              VerticalAlign: =VerticalAlign.Top
+                        - lblL3PubNota:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =nfTextoSuave
+                              Height: =24
+                              Size: =11
+                              Text: ="Dados fictícios devolvidos pela API de demonstração JSONPlaceholder."
