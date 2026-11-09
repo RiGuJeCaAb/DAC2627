@@ -15,10 +15,10 @@ jobs:
 
   importar:
     needs: verificar
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: teste          # permite exigir aprovação manual nas definições do repositório
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: microsoft/powerplatform-actions/actions-install@v1
 
       - name: Exportar como gerida a partir do ambiente de desenvolvimento

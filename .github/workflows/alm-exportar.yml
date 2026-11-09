@@ -23,9 +23,9 @@ permissions:
 
 jobs:
   exportar:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: microsoft/powerplatform-actions/actions-install@v1
 
@@ -50,7 +50,7 @@ jobs:
           tenant-id: ${{ secrets.PP_TENANT_ID }}
           path: _export/DAC2627_${{ github.event.inputs.versao }}.zip
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: pip install -e ".[dev]"
@@ -63,7 +63,7 @@ jobs:
           python -m tools.dac paleta
 
       - name: Abrir pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: exportacao/${{ github.event.inputs.versao }}
           title: "Exportação DAC2627 ${{ github.event.inputs.versao }}"
