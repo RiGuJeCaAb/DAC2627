@@ -46,6 +46,6 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 1. Filtros duplicados entre galerias e contagens (`galL2Servicos.Items`/`lblL2Contagem`, `galL3Publicacoes.Items`/`lblL3Contagem`): candidatos a funções definidas pelo utilizador em `App.Formulas`, confirmando primeiro no Studio que a delegação se mantém.
 2. Tamanhos de letra e espaçamentos como tokens (`nfTam*`), como já se faz com as cores.
 3. Delegação e desempenho com tabelas acima de 500 registos.
-4. Resolvido na v1.1.0: os 154 avisos do Verificador e as cores literais.
+4. Resolvido na v1.1.0: 150 dos 154 avisos do Verificador (ficam os 4 das pílulas, de propósito) e todas as cores literais.
 
 Ao propor alterações, mostre o excerto YAML antes e depois e indique o ecrã e o controlo. Responda em português de Portugal.

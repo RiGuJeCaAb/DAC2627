@@ -13,7 +13,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões d
 
 ### App (migração `tools/migracoes/m001_v1_1_qualidade.py`)
 - **Cores**: 97 cores literais trocadas por tokens `nf*`, incluindo as cores por omissão do formulário (`RGBA(0, 18, 107, 1)`, `Color.Red`...). A paleta passa de 12 para 22 tokens, um por linha e agrupados. Todos os 16 pares texto/fundo usados passam AA (WCAG 2.2).
-- **Acessibilidade**: resolvidos os 152 avisos de acessibilidade do Verificador (79 TabIndex, 51 FocusedBorder, 22 AccessibleLabel). Os 4 botões "pílula" ficam com `TabIndex = -1` de propósito, registados como exceção com motivo.
+- **Acessibilidade**: resolvidos 148 dos 152 avisos de acessibilidade do Verificador (79 TabIndex, 51 FocusedBorder, 22 AccessibleLabel). Os 4 restantes são os botões "pílula", que ficam com `TabIndex = -1` de propósito e estão registados como exceção com motivo em `dac.yaml`. O Studio vai continuar a mostrá-los.
 - **Contagens**: `lblL3Contagem` e `lblL3TituloPubs` contam sobre as coleções em vez de `Galeria.AllItems` (os 2 avisos `app-CountRowsGalleryAllItems`).
 - **Sombras**: os contentores interiores da Ficha 02 (`conCabL2`, `conConteudoL2`, `conL2Corpo`, `conL2ErroGeral`) herdavam `DropShadow.Light`; passam a `None`, como o resto da app. Os cartões ficam com `Light` explícito.
 - **Nomes**: `DataCardValue5` passa a `cmbL2Estado`.
