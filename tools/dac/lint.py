@@ -258,10 +258,12 @@ class Analise:
             for k, v in (c.corpo.get("Properties") or {}).items():
                 fx = _fx(v)
                 try:
+                    # sem comentários, mas com o texto: o "#hex" de ColorValue está dentro de aspas
+                    sem_coment = "".join(p.texto for p in pafx.partir(fx) if p.tipo != pafx.COMENTARIO)
                     cod = pafx.so_codigo(fx)
                 except pafx.ErroLexico:
                     continue
-                for m in COR_LITERAL_RE.finditer(cod):
+                for m in COR_LITERAL_RE.finditer(sem_coment):
                     if m.group(0) not in CORES_PERMITIDAS:
                         self._add("DAC201", f"{c.ecra}.{c.nome}.{k}", m.group(0))
                 usados |= set(re.findall(r"\bnf[A-Z][A-Za-z0-9]*", cod))

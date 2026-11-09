@@ -138,7 +138,7 @@ Screens:
                               BorderColor: =nfLinha
                               BorderThickness: =1
                               DropShadow: =DropShadow.None
-                              Fill: =ColorValue("#F7F8F9")
+                              Fill: =nfSuperficie
                               FillPortions: =0
                               Height: =If(scrL3Publicacao.Size = ScreenSize.Small, 136, 76)
                               LayoutAlignItems: =LayoutAlignItems.Center
@@ -212,7 +212,7 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
-                              Color: =ColorValue("#2F3B45")
+                              Color: =nfTexto
                               FillPortions: =1
                               FocusedBorderThickness: =2
                               Size: =16

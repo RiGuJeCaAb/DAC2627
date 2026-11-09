@@ -114,7 +114,7 @@ Screens:
                             Control: GroupContainer@1.5.0
                             Variant: ManualLayout
                             Properties:
-                              BorderColor: =If(ThisItem.Disponivel, nfLinha, ColorValue("#C5CBD1"))
+                              BorderColor: =If(ThisItem.Disponivel, nfLinha, nfLinhaForte)
                               BorderStyle: =If(ThisItem.Disponivel, BorderStyle.Solid, BorderStyle.Dashed)
                               BorderThickness: =If(ThisItem.Disponivel, 1, 2)
                               DropShadow: =If(ThisItem.Disponivel, DropShadow.Light, DropShadow.None)

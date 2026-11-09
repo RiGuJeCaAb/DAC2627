@@ -214,12 +214,12 @@ Screens:
                                           BorderThickness: =0
                                           Color: |-
                                             =Switch(Text(ThisItem.'Service Model'),
-                                                "IaaS", nfAzul, "PaaS", ColorValue("#1F5E43"), ColorValue("#8A3B0F"))
+                                                "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
                                           DisabledColor: =Self.Color
                                           DisabledFill: =Self.Fill
                                           Fill: |-
                                             =Switch(Text(ThisItem.'Service Model'),
-                                                "IaaS", ColorValue("#DCE7F2"), "PaaS", nfVerdeFundo, ColorValue("#FBEBD9"))
+                                                "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)
                                           Font: =Font.'Open Sans'
                                           FontWeight: =FontWeight.Bold
                                           Height: =28
@@ -332,7 +332,7 @@ Screens:
                                     - lblL2ErroGeral:
                                         Control: Label@2.5.1
                                         Properties:
-                                          Color: =ColorValue("#8E1F25")
+                                          Color: =nfVermelhoTexto
                                           FillPortions: =1
                                           FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Semibold
@@ -1046,7 +1046,7 @@ Screens:
             - lblL2Mensagem:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =If(locMsgTipo = "erro", ColorValue("#8E1F25"), ColorValue("#1F5E43"))
+                  Color: =If(locMsgTipo = "erro", nfVermelhoTexto, nfVerdeTexto)
                   FillPortions: =1
                   FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Semibold

@@ -193,7 +193,7 @@ Screens:
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
-                                    Fill: =ColorValue("#F7F8F9")
+                                    Fill: =nfSuperficie
                                     Height: =160
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =6
@@ -253,7 +253,7 @@ Screens:
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
-                                    Fill: =ColorValue("#F7F8F9")
+                                    Fill: =nfSuperficie
                                     Height: =160
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =6
@@ -304,7 +304,7 @@ Screens:
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
-                                    Fill: =ColorValue("#F7F8F9")
+                                    Fill: =nfSuperficie
                                     Height: =160
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =6
@@ -411,7 +411,7 @@ Screens:
                                         Control: Classic/Icon@2.5.0
                                         Properties:
                                           AccessibleLabel: =""
-                                          Color: =ColorValue("#7D8993")
+                                          Color: =nfBorda
                                           Height: =24
                                           Icon: =Icon.ChevronRight
                                           OnSelect: =Select(Parent)

@@ -295,7 +295,7 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               AlignInContainer: =If(scrL3Lista.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
-                              Color: =ColorValue("#8E1F25")
+                              Color: =nfVermelhoTexto
                               FillPortions: =If(scrL3Lista.Size = ScreenSize.Small, 0, 1)
                               FocusedBorderThickness: =2
                               Height: =If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)
@@ -499,7 +499,7 @@ Screens:
                             Control: Classic/Icon@2.5.0
                             Properties:
                               AccessibleLabel: =""
-                              Color: =ColorValue("#7D8993")
+                              Color: =nfBorda
                               Height: =24
                               Icon: =Icon.ChevronRight
                               OnSelect: =Select(Parent)
@@ -581,7 +581,7 @@ Screens:
                             Control: Classic/Icon@2.5.0
                             Properties:
                               AccessibleLabel: =""
-                              Color: =ColorValue("#7D8993")
+                              Color: =nfBorda
                               Height: =24
                               Icon: =Icon.ChevronRight
                               OnSelect: =Select(Parent)

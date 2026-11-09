@@ -136,6 +136,10 @@ def _troca_cores(c: Controlo, prop: str, valor: str) -> str:
     if (c.nome, prop) in CORES_POR_CONTROLO:
         return "=" + CORES_POR_CONTROLO[(c.nome, prop)]
     fx = valor.lstrip("=")
+    # ColorValue("#...") atravessa código e texto: troca-se no texto inteiro antes de partir
+    for lit, tok in CORES.items():
+        if lit.startswith("ColorValue("):
+            fx = fx.replace(lit, tok)
     partes = pafx.partir(fx)
     for p in partes:
         if p.tipo != pafx.CODIGO:

@@ -351,12 +351,23 @@ def cmd_deriva(a) -> int:
 # ---------------------------------------------------------------- sincronizar
 
 def _extrair_seguro(z: zipfile.ZipFile, destino: Path) -> None:
+    """Extrai um zip recusando caminhos fora do destino.
+
+    Os .msapp são criados no Windows e usam '\\' como separador ("Src\\App.pa.yaml"):
+    normaliza-se para '/' para funcionar também em Linux e macOS (CI incluído).
+    """
     destino = destino.resolve()
+    destino.mkdir(parents=True, exist_ok=True)
     for m in z.infolist():
-        alvo = (destino / m.filename).resolve()
-        if not alvo.is_relative_to(destino):
+        nome = m.filename.replace("\\", "/")
+        alvo = (destino / nome).resolve()
+        if not alvo.is_relative_to(destino) or nome.startswith("/"):
             raise SystemExit(f"Entrada perigosa no zip: {m.filename}")
-    z.extractall(destino)
+        if nome.endswith("/"):
+            alvo.mkdir(parents=True, exist_ok=True)
+            continue
+        alvo.parent.mkdir(parents=True, exist_ok=True)
+        alvo.write_bytes(z.read(m))
 
 
 def cmd_sincronizar(a) -> int:

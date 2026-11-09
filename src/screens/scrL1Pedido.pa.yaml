@@ -120,7 +120,7 @@ Screens:
                             Properties:
                               AccessibleLabel: ="O seu nome"
                               AlignInContainer: =AlignInContainer.Stretch
-                              BorderColor: =ColorValue("#7D8993")
+                              BorderColor: =nfBorda
                               Default: =gblL1Nome
                               Height: =52
                               HintText: ="Indique o seu nome"
@@ -133,7 +133,7 @@ Screens:
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
-                              Fill: =ColorValue("#FDF1E7")
+                              Fill: =nfAmbarFundo
                               FillPortions: =0
                               Height: =44
                               LayoutAlignItems: =LayoutAlignItems.Center
