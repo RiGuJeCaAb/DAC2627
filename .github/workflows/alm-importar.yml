@@ -1,0 +1,44 @@
+# MODELO · Exporta a solução como GERIDA do ambiente de desenvolvimento e importa-a no ambiente de teste.
+# Só depois de a verificação passar. Segredos e variáveis: ver alm-exportar.yml e docs/alm.md.
+# Variável adicional: PP_ENV_TESTE.
+name: ALM · Importar em teste
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    uses: ./.github/workflows/verificar.yml
+
+  importar:
+    needs: verificar
+    runs-on: ubuntu-latest
+    environment: teste          # permite exigir aprovação manual nas definições do repositório
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/powerplatform-actions/actions-install@v1
+
+      - name: Exportar como gerida a partir do ambiente de desenvolvimento
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{ vars.PP_ENV_DEV }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+          solution-name: DAC2627
+          solution-output-file: build/DAC2627_gerida.zip
+          managed: true
+
+      - name: Importar no ambiente de teste
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ vars.PP_ENV_TESTE }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+          solution-file: build/DAC2627_gerida.zip
+          force-overwrite: true
+          publish-changes: true

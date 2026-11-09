@@ -1,0 +1,71 @@
+# MODELO · Exporta a solução DAC2627 do ambiente de desenvolvimento e abre um pull request
+# com o código atualizado (solution/, msapp/, src/).
+#
+# Antes de usar (ver docs/alm.md):
+#   1. Registo de aplicação no Microsoft Entra ID com um segredo de cliente.
+#   2. Esse registo como "Utilizador de aplicação" no ambiente, com a função Administrador de Sistema.
+#   3. Segredos do repositório: PP_APP_ID, PP_CLIENT_SECRET, PP_TENANT_ID.
+#      Variável do repositório: PP_ENV_DEV (ex.: https://org12345.crm4.dynamics.com).
+# Confirme os nomes dos inputs na documentação das Power Platform Actions antes de correr.
+name: ALM · Exportar solução
+
+on:
+  workflow_dispatch:
+    inputs:
+      versao:
+        description: "Versão da solução a exportar (ex.: 1.1.0.0)"
+        required: true
+        default: "1.1.0.0"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: microsoft/powerplatform-actions/actions-install@v1
+
+      - name: Exportar (não gerida)
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{ vars.PP_ENV_DEV }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+          solution-name: DAC2627
+          solution-output-file: _export/DAC2627_${{ github.event.inputs.versao }}.zip
+          managed: false
+
+      - name: Verificador de soluções (Power Apps checker)
+        uses: microsoft/powerplatform-actions/check-solution@v1
+        continue-on-error: true
+        with:
+          environment-url: ${{ vars.PP_ENV_DEV }}
+          app-id: ${{ secrets.PP_APP_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.PP_TENANT_ID }}
+          path: _export/DAC2627_${{ github.event.inputs.versao }}.zip
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]"
+
+      - name: Sincronizar código a partir da exportação
+        run: |
+          python -m tools.dac sincronizar _export/DAC2627_${{ github.event.inputs.versao }}.zip
+          python -m tools.dac validar
+          python -m tools.dac inventario
+          python -m tools.dac paleta
+
+      - name: Abrir pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: exportacao/${{ github.event.inputs.versao }}
+          title: "Exportação DAC2627 ${{ github.event.inputs.versao }}"
+          body: "Exportação automática do ambiente de desenvolvimento. Rever o diff de `src/` e os avisos do lint."
+          commit-message: "Exportação DAC2627 ${{ github.event.inputs.versao }}"

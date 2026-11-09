@@ -1,0 +1,64 @@
+# Verificação automática: corre em cada push e pull request. Não precisa de credenciais.
+name: Verificar
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  security-events: write   # para publicar o SARIF do lint no separador Security
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install -e ".[dev]"
+
+      - name: Validar YAML, schema oficial e sintaxe das fórmulas
+        run: python -m tools.dac validar
+
+      - name: Formato igual ao do Studio
+        run: python -m tools.dac formatar --verificar
+
+      - name: Lint (anotações no código)
+        run: python -m tools.dac lint --formato github --estrito
+
+      - name: Contraste da paleta e documentos gerados atualizados
+        run: |
+          python -m tools.dac paleta --verificar
+          python -m tools.dac inventario --verificar
+
+      - name: Testes das ferramentas
+        run: python -m pytest
+
+      - name: Diferenças por levar ao Studio (informativo)
+        run: python -m tools.dac deriva
+
+      - name: Blocos de colagem
+        run: python -m tools.dac colar
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: colar-no-studio
+          path: build/colar/
+
+      - name: Lint em SARIF
+        if: always()
+        run: python -m tools.dac lint --formato sarif > build/dac-lint.sarif || true
+
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always() && github.event_name != 'pull_request'
+        continue-on-error: true
+        with:
+          sarif_file: build/dac-lint.sarif
+          category: dac-lint

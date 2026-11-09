@@ -63,3 +63,10 @@ def test_sincronizar_exportacao_original(tmp_path):
 def test_modulo_executavel():
     r = subprocess.run([sys.executable, "-m", "tools.dac", "--help"], cwd=projeto.RAIZ, capture_output=True, text=True)
     assert r.returncode == 0 and "validar" in r.stdout
+
+
+def test_todas_as_regras_estao_documentadas():
+    from tools.dac import lint
+    doc = (projeto.DOCS / "regras-lint.md").read_text(encoding="utf-8")
+    em_falta = [r for r in lint.REGRAS if f"| {r} |" not in doc]
+    assert not em_falta, f"Regras sem documentação em docs/regras-lint.md: {em_falta}"
