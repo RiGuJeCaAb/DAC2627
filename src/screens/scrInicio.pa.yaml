@@ -40,9 +40,11 @@ Screens:
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
+                        TabIndex: =-1
                         Text: ="APP DAC2627"
             - conConteudoIn:
                 Control: GroupContainer@1.5.0
@@ -62,8 +64,10 @@ Screens:
                         AlignInContainer: =AlignInContainer.Stretch
                         AutoHeight: =true
                         Color: =nfTexto
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Bold
                         Size: =If(scrInicio.Size = ScreenSize.Small, 22, 28)
+                        TabIndex: =-1
                         Text: ="Laboratórios de DAC 2026/27"
                   - lblInSubtitulo:
                       Control: Label@2.5.1
@@ -71,12 +75,15 @@ Screens:
                         AlignInContainer: =AlignInContainer.Stretch
                         AutoHeight: =true
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Size: =15
+                        TabIndex: =-1
                         Text: ="Escolha a ficha que quer abrir."
                   - galInFichas:
                       Control: Gallery@2.15.0
                       Variant: Vertical
                       Properties:
+                        AccessibleLabel: ="Fichas de laboratório"
                         Items: |-
                           =Table(
                               {Num: 1, Ficha: "Ficha 01", Titulo: "Hello Cloud",
@@ -98,6 +105,7 @@ Screens:
                                   3, Navigate(scrL3Lista, ScreenTransition.Cover)
                               )
                           )
+                        TabIndex: =0
                         TemplatePadding: =12
                         TemplateSize: =228
                         WrapCount: =Switch(scrInicio.Size, ScreenSize.Small, 1, ScreenSize.Medium, 2, 3)
@@ -175,5 +183,7 @@ Screens:
                         AlignInContainer: =AlignInContainer.Stretch
                         AutoHeight: =true
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Size: =12
-                        Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud"
+                        TabIndex: =-1
+                        Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud · v" & nfVersao

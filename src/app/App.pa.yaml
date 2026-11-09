@@ -8,6 +8,35 @@
 # ************************************************************************************************
 App:
   Properties:
-    Formulas: =nfAzul = ColorValue("#1F4E79"); nfAzulClaro = ColorValue("#E8EFF6"); nfVerde = ColorValue("#2E7D5B"); nfVerdeFundo = ColorValue("#DDEFE6"); nfVermelho = ColorValue("#A4262C"); nfVermelhoFundo = ColorValue("#FBE9EA"); nfFundo = ColorValue("#F6F4EF"); nfTexto = ColorValue("#1E2A33"); nfTextoSuave = ColorValue("#46525C"); nfLinha = ColorValue("#E4E7EA"); nfAmbar = ColorValue("#9A5B00"); nfAmbarFundo = ColorValue("#FFF4DB");
-    StartScreen: '=scrInicio   '
+    Formulas: |-
+      =nfAzul = ColorValue("#1F4E79"); // Paleta da APP DAC2627: todas as cores da app passam por aqui.
+      // Azul (água): marca, cabeçalhos, ações principais.
+      nfAzulClaro = ColorValue("#E8EFF6");
+      nfAzulFundo = ColorValue("#DCE7F2");
+      // Verde (madeira): sucesso e PaaS.
+      nfVerde = ColorValue("#2E7D5B");
+      nfVerdeTexto = ColorValue("#1F5E43");
+      nfVerdeFundo = ColorValue("#DDEFE6");
+      // Vermelho (fogo): erros e ações destrutivas.
+      nfVermelho = ColorValue("#A4262C");
+      nfVermelhoTexto = ColorValue("#8E1F25");
+      nfVermelhoFundo = ColorValue("#FBE9EA");
+      // Âmbar e laranja (terra quente): avisos e SaaS.
+      nfAmbar = ColorValue("#9A5B00");
+      nfAmbarFundo = ColorValue("#FFF4DB");
+      nfLaranja = ColorValue("#8A3B0F");
+      nfLaranjaFundo = ColorValue("#FBEBD9");
+      // Neutros (terra e metal): fundos, texto, linhas e contornos.
+      nfFundo = ColorValue("#F6F4EF");
+      nfSuperficie = ColorValue("#F7F8F9");
+      nfTexto = ColorValue("#1E2A33");
+      nfTextoSuave = ColorValue("#46525C");
+      nfLinha = ColorValue("#E4E7EA");
+      nfLinhaForte = ColorValue("#C5CBD1");
+      nfBorda = ColorValue("#7D8993");
+      nfDesativado = ColorValue("#A6A6A6");
+      nfVeu = RGBA(30, 42, 51, 0.55);
+      // Versão mostrada no rodapé do ecrã inicial.
+      nfVersao = "1.1.0";
+    StartScreen: =scrInicio
     Theme: =PowerAppsTheme

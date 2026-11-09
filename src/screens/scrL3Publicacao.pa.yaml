@@ -43,6 +43,7 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - icoL3cVoltar:
                       Control: Classic/Icon@2.5.0
@@ -52,15 +53,18 @@ Screens:
                         Height: =44
                         Icon: =Icon.ChevronLeft
                         OnSelect: =Back()
+                        TabIndex: =0
                         Width: =44
                   - lblCabL3c:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
+                        TabIndex: =-1
                         Text: ="Ficha 03 · Publicação"
             - conConteudoL3c:
                 Control: GroupContainer@1.5.0
@@ -80,7 +84,9 @@ Screens:
                       Properties:
                         Align: =Align.Center
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Height: =60
+                        TabIndex: =-1
                         Text: ="Escolha uma publicação na lista."
                         Visible: =IsBlank(locL3Pub)
                         Width: =400
@@ -88,6 +94,7 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
+                        DropShadow: =DropShadow.Light
                         Fill: =Color.White
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =20
@@ -107,9 +114,11 @@ Screens:
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Height: =24
                               Size: =12
+                              TabIndex: =-1
                               Text: ="PUBLICAÇÃO N.º " & locL3Pub.id
                         - lblL3PubTitulo:
                             Control: Label@2.5.1
@@ -117,8 +126,10 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTexto
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 26)
+                              TabIndex: =-1
                               Text: =locL3Pub.title
                         - conL3PubAutor:
                             Control: GroupContainer@1.5.0
@@ -170,8 +181,10 @@ Screens:
                                   Properties:
                                     Color: =nfTexto
                                     FillPortions: =1
+                                    FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Height: =44
+                                    TabIndex: =-1
                                     Text: |-
                                       =With({autor: LookUp(colL3Utilizadores, id = locL3Pub.userId)},
                                           If(IsBlank(autor), "Utilizador " & locL3Pub.userId,
@@ -201,7 +214,9 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =ColorValue("#2F3B45")
                               FillPortions: =1
+                              FocusedBorderThickness: =2
                               Size: =16
+                              TabIndex: =-1
                               Text: =locL3Pub.body
                               VerticalAlign: =VerticalAlign.Top
                         - lblL3PubNota:
@@ -209,6 +224,8 @@ Screens:
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Height: =24
                               Size: =11
+                              TabIndex: =-1
                               Text: ="Dados fictícios devolvidos pela API de demonstração JSONPlaceholder."

@@ -1,0 +1,37 @@
+# Configuração do projeto APP DAC2627 (lida por python -m tools.dac ...)
+
+app: DAC2627_RGJCA
+solucao: DAC2627
+versao: 1.1.0
+
+# Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
+ecras:
+  - scrInicio
+  - scrL1BoasVindas
+  - scrL1Pedido
+  - scrL1Saudacao
+  - scrL2Servicos
+  - scrL3Lista
+  - scrL3Detalhe
+  - scrL3Publicacao
+
+lint:
+  # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis
+  fontes_dataverse:
+    - Cloud Service
+  # Escala tipográfica (DAC501)
+  tamanhos_letra: [11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 36, 40]
+  # Cada exceção tem de dizer porquê. Uma exceção sem motivo é um erro (DAC900).
+  excecoes:
+    - regra: DAC302
+      controlo: btnL2ItemModelo
+      motivo: Pílula decorativa (botão sem ação a fazer de etiqueta arredondada); o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL3Iniciais
+      motivo: Pílula decorativa com as iniciais; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL3bIniciais
+      motivo: Pílula decorativa com as iniciais no detalhe; não tem ação.
+    - regra: DAC302
+      controlo: btnL3PubIniciais
+      motivo: Pílula decorativa com as iniciais do autor; a ação está no botão Ver autor ao lado.

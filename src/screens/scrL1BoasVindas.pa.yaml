@@ -43,15 +43,18 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - lblCabL1a:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
+                        TabIndex: =-1
                         Text: ="Ficha 01 · Hello Cloud"
             - conConteudoL1a:
                 Control: GroupContainer@1.5.0
@@ -71,6 +74,7 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
+                        DropShadow: =DropShadow.Light
                         Fill: =Color.White
                         FillPortions: =0
                         Height: =If(scrL1BoasVindas.Size = ScreenSize.Small, 400, 400)
@@ -95,8 +99,10 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTexto
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL1BoasVindas.Size = ScreenSize.Small, 28, 36)
+                              TabIndex: =-1
                               Text: ="Bem-vindo à Cloud"
                         - lblL1Subtitulo:
                             Control: Label@2.5.1
@@ -105,7 +111,9 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Size: =15
+                              TabIndex: =-1
                               Text: ="A sua primeira aplicação Power Apps, criada, executada e partilhada a partir da cloud."
                         - btnL1Comecar:
                             Control: Classic/Button@2.2.0
