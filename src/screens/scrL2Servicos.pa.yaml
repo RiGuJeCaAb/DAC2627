@@ -367,7 +367,7 @@ Screens:
                                           MaxLength: =DataSourceInfo([@'Cloud Service'], DataSourceInfo.MaxLength, mcsft_servicetitle)
                                           Required: =false
                                           Update: =Trim(txtL2Titulo.Text)
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =0
                                           Y: =0
                                         Children:
@@ -455,7 +455,7 @@ Screens:
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_status)
                                           Required: =false
                                           Update: =cmbL2Estado.Selected.Value
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =1
                                           Y: =0
                                         Children:
@@ -545,7 +545,7 @@ Screens:
                                           MaxLength: =DataSourceInfo([@'Cloud Service'], DataSourceInfo.MaxLength, mcsft_provider)
                                           Required: =false
                                           Update: =Trim(txtL2Fornecedor.Text)
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =0
                                           Y: =1
                                         Children:
@@ -632,7 +632,7 @@ Screens:
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_servicemodel)
                                           Required: =false
                                           Update: =cmbL2Modelo.Selected.Value
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =1
                                           Y: =1
                                         Children:
@@ -725,7 +725,7 @@ Screens:
                                           MaxLength: =DataSourceInfo([@'Cloud Service'], DataSourceInfo.MaxLength, mcsft_servicedescription)
                                           Required: =false
                                           Update: =txtL2Descricao.Text
-                                          Width: =364
+                                          Width: =Parent.Width - 1
                                           WidthFit: =true
                                           X: =0
                                           Y: =2

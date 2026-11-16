@@ -17,7 +17,7 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 ## Onde está o quê
 
 - `src/screens/*.pa.yaml` e `src/app/App.pa.yaml`: a fonte a analisar (Power Fx em YAML, esquema oficial em https://go.microsoft.com/fwlink/?linkid=2304907).
-- `dataverse/schema.md`: colunas e escolhas da tabela usada na Ficha 02.
+- `dataverse/schema.md`: colunas e escolhas das tabelas usadas nas Fichas 02 e 04 (Cloud Service, Cliente, Pedido).
 - `connector/openapi.json`: o conector personalizado da Ficha 03 (`JSONPlaceholderDAC.ListarUtilizadores`, `ListarPublicacoes`).
 - `msapp/` e `solution/`: exportação em bruto. Não editar; atualizar só com `python -m tools.dac sincronizar <zip>`.
 - `tools/legacy/gen.py`: obsoleto, já não gera o estado de `src/`. Não correr.
@@ -26,7 +26,7 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 ## Convenções da app
 
 - Nos ficheiros `.pa.yaml` as fórmulas estão no formato invariante: argumentos separados por `,` e encadeamento com `;`. O Studio em português mostra-as com `;` e `;;`, e converte ao colar.
-- Nomes: prefixo do tipo (`scr`, `con`, `gal`, `lbl`, `btn`, `txt`, `drp`, `ico`, `frm`, `tmr`, `rec`) + ficha (`In`, `L1`, `L2`, `L3`) + função. Ex.: `galL2Servicos`.
+- Nomes: prefixo do tipo (`scr`, `con`, `gal`, `lbl`, `btn`, `txt`, `drp`, `cmb`, `dte`, `chk`, `ico`, `frm`, `tmr`, `rec`) + ficha (`In`, `L1`, `L2`, `L3`, `L4`; o complemento da Ficha 04 usa `L4b`) + função. Ex.: `galL2Servicos`, `txtL4CliNome`.
 - Variáveis: `gbl*` globais (`Set`), `loc*` de contexto (`UpdateContext`), `col*` coleções.
 - Cores só pelas fórmulas nomeadas `nf*` em `App.Formulas` (22 tokens; o lint DAC201 falha com qualquer `ColorValue`/`RGBA` fora dali). Erro: `nfVermelho`/`nfVermelhoTexto`/`nfVermelhoFundo`; aviso: `nfAmbar`/`nfAmbarFundo`; sucesso: `nfVerde`/`nfVerdeTexto`/`nfVerdeFundo`; contornos de entradas: `nfBorda`. Lista completa e contrastes em `docs/paleta.md`. Um par texto/fundo novo entra em `tools/dac/cores.py:PARES`.
 - Acessibilidade: `TabIndex` explícito (0 interativo, -1 decorativo), `AccessibleLabel` em entradas, galerias e ícones (`""` só em decorativos), `FocusedBorderThickness = 2` nas etiquetas.
@@ -39,6 +39,10 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 - Ficha 03: duas caixas de teste visíveis de propósito, para o professor. `chkL3SimularFalha` faz o `btnL3Carregar` lançar `Error({Kind: ErrorKind.Network, ...})`, apanhado pelo `IfError` (faixa `conL3Erro`); `chkL3SimularVazio` deixa as coleções vazias e mostra a faixa de aviso `conL3Aviso` (âmbar, `nfAmbar`/`nfAmbarFundo`, com `lblL3Vazio` e o botão Atualizar), equivalente ao `lblSemDados` da app da aula. Erro a vermelho, aviso a âmbar. As caixas só preparam o teste: o efeito aparece ao premir Atualizar ou Tentar novamente (sem `OnCheck`).
 - Ficha 03 Detalhe: os cartões dentro de `conL3Blocos` (contentor com `LayoutWrap`) usam `AlignInContainer.Start`; com `Stretch` ficavam com a altura da linha e cortavam o texto. Blocos de altura fixa têm `LayoutMinHeight` igual à altura, e o cartão branco desloca (`LayoutOverflow.Scroll`) em vez de encolher o conteúdo.
 - Textos da API com quebras de linha (`body`) mostrados numa só linha passam por `Substitute(..., Char(10), " ")`.
+- Ficha 04: o separador Todos de `galL4Pedidos` mostra só pedidos ativos (`Estado = 'Estado (Pedidos)'.Ativo`), como a contagem do `btnL4SepTodos`. Pendentes e Concluídos usam as vistas do Dataverse no `Filter`.
+- Formulários clássicos: a largura dos cartões é por fórmula, para ficarem um por linha no telemóvel. Ficha 04 por `scrL4Pedidos.Size` (cliente 1/2/3 por linha, pedido 1/2); Ficha 02 pela largura do formulário, `If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)`, porque no tablet o painel ocupa só metade do ecrã. Descrição sempre `Parent.Width - 1`.
+- Complemento da Ficha 04 (ponto 8 do Lab 4): ecrã próprio `scrL4Complemento`, aberto pelo quinto cartão do ecrã inicial. Não é um botão dentro da Ficha 04. Textos com «: » no YAML vão entre aspas simples.
+- Cinco pílulas decorativas com `TabIndex = -1` e exceção DAC302 em `dac.yaml`: `btnL2ItemModelo`, `btnL3Iniciais`, `btnL3bIniciais`, `btnL3PubIniciais`, `btnL4PedEstado`. O Verificador mostra-as como avisos, de propósito.
 - Contentores interiores com `DropShadow.None`; filhos de altura fixa com `FillPortions = 0`; etiquetas e ícones dentro de galerias com `OnSelect = Select(Parent)`.
 
 ## Sugestões de análise (em aberto)
@@ -46,6 +50,6 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 1. Filtros duplicados entre galerias e contagens (`galL2Servicos.Items`/`lblL2Contagem`, `galL3Publicacoes.Items`/`lblL3Contagem`): candidatos a funções definidas pelo utilizador em `App.Formulas`, confirmando primeiro no Studio que a delegação se mantém.
 2. Tamanhos de letra e espaçamentos como tokens (`nfTam*`), como já se faz com as cores.
 3. Delegação e desempenho com tabelas acima de 500 registos.
-4. Resolvido na v1.1.0: 150 dos 154 avisos do Verificador (ficam os 4 das pílulas, de propósito) e todas as cores literais.
+4. Resolvido na v1.1.0: 150 dos 154 avisos do Verificador e todas as cores literais. Na v1.2.0 ficam os 5 avisos das pílulas, de propósito.
 
 Ao propor alterações, mostre o excerto YAML antes e depois e indique o ecrã e o controlo. Responda em português de Portugal.

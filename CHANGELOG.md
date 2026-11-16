@@ -2,7 +2,32 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
-## [1.1.0] · 2026-11-09 · em `src/`, por colar no Studio
+## [1.2.0] · 2026-11-16 · Ficha 04 e complemento
+
+### App (migração `tools/migracoes/m002_v1_2_ficha04.py`)
+- **Ficha 04** (`scrL4Pedidos`): clientes e pedidos em duas tabelas Dataverse (`dac_cliente`, `dac_pedido`), relação 1:N com Restringir, vistas «Pedidos Pendentes» e «Pedidos Concluídos» no `Filter`, confirmação e faixa de mensagem como na Ficha 02.
+- **Complemento da Ficha 04** (`scrL4Complemento`, novo): ponto 8 do Lab 4, comparação entre SharePoint, Dataverse e SQL em sete critérios. Abre pelo quinto cartão do ecrã inicial, «Ficha 04 · Complemento».
+- **Ecrã inicial**: quinto cartão e ramos 4 e 5 do `Switch` em `galInFichas.OnSelect`.
+- **Nomes** (DAC104): os nove campos `DataCardValueN` da Ficha 04 passam a `txtL4CliNome`, `txtL4CliNIF`, `txtL4CliEmail`, `txtL4CliTelefone`, `cmbL4PedCliente`, `dteL4PedData`, `cmbL4PedEstado`, `txtL4PedValor` e `txtL4PedDescricao`.
+- **Acessibilidade** (DAC301): `AccessibleLabel = Parent.DisplayName` nos campos da Ficha 04 e rótulo no ícone da faixa.
+- **Cores** (DAC201): o selo do estado do pedido passa a `nfAmbar`/`nfAmbarFundo`.
+- **Letra** (DAC501): tamanhos 10 e 17 passam a 11 e 18.
+- **Separador Todos**: mostra só os pedidos ativos, como a contagem do separador.
+- **Formulários no telemóvel**: os cartões da Ficha 04 e do `frmL2Servico` têm a largura por fórmula. No telemóvel ficam um por linha. A Ficha 02 decide pela largura do formulário (560 px), porque no tablet o painel ocupa só metade do ecrã.
+- `nfVersao` passa a "1.2.0". A `m001` deixa de repor uma versão mais antiga.
+
+### Repositório
+- `dac.yaml`: 10 ecrãs, fontes Dataverse `Clientes` e `Pedidos`, exceção DAC302 para `btnL4PedEstado` (5 pílulas no total).
+- Teste `test_migracao_m002_idempotente` (33 testes).
+- `dataverse/schema.md` com as tabelas Cliente e Pedido.
+
+### Dataverse
+- Pesquisa rápida da tabela Cliente («Localizar por») com Nome, NIF e Email, configurada no designer da vista, porque a Web API recusa a alteração.
+
+### Nota
+- A v1.1.0 nunca chegou a ser colada no Studio. A exportação 1.0.0.1, de 16/11/2026, ainda tinha o estado anterior em quatro ecrãs. A v1.2.0 é colada inteira, com os 10 ecrãs e a `App.Formulas`, e leva consigo as alterações da v1.1.0.
+
+## [1.1.0] · 2026-11-09 · colada no Studio com a 1.2.0
 
 ### Repositório
 - Ferramenta `tools/dac`: `validar`, `lint`, `pt`, `colar`, `inventario`, `paleta`, `deriva`, `sincronizar`, `formatar`.

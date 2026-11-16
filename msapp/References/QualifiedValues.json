@@ -6,6 +6,41 @@
       "Values": {
         "Informações": "8b4985b5-8e8e-4b3d-b438-f81df4b213a2"
       }
+    },
+    {
+      "Namespace": "Clientes (Formulários)",
+      "Kind": "default.cds_dac_cliente_forms",
+      "Values": {
+        "Informações": "4c43e5d1-26ef-426e-b808-c59a6b3917c4"
+      }
+    },
+    {
+      "Namespace": "Pedidos (Formulários)",
+      "Kind": "default.cds_dac_pedido_forms",
+      "Values": {
+        "Informações": "86542df1-fd99-4666-9bdc-ce8708ae3f0d"
+      }
+    },
+    {
+      "Namespace": "Clientes (Formulários)1",
+      "Kind": "default.cds_cr1aa_clientes_forms",
+      "Values": {
+        "Informações": "bca9c0bc-c5a7-4373-bff3-8446bb68e84c"
+      }
+    },
+    {
+      "Namespace": "Clientes (Formulários)11",
+      "Kind": "default.cds_dac_cliente_forms",
+      "Values": {
+        "Informações": "4c43e5d1-26ef-426e-b808-c59a6b3917c4"
+      }
+    },
+    {
+      "Namespace": "Clientes (Formulários)2",
+      "Kind": "default.cds_dac_cliente_forms",
+      "Values": {
+        "Informações": "4c43e5d1-26ef-426e-b808-c59a6b3917c4"
+      }
     }
   ]
 }

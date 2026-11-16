@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-8 ecrãs e 204 controlos.
+10 ecrãs e 330 controlos.
 
 ## Navegação
 
@@ -11,6 +11,8 @@ flowchart LR
   scrInicio --> scrL1BoasVindas
   scrInicio --> scrL2Servicos
   scrInicio --> scrL3Lista
+  scrInicio --> scrL4Complemento
+  scrInicio --> scrL4Pedidos
   scrL1BoasVindas --> scrInicio
   scrL1BoasVindas --> scrL1Pedido
   scrL1Pedido --> scrInicio
@@ -25,6 +27,8 @@ flowchart LR
   scrL3Lista --> scrL3Publicacao
   scrL3Publicacao --> scrInicio
   scrL3Publicacao --> scrL3Detalhe
+  scrL4Complemento --> scrInicio
+  scrL4Pedidos --> scrInicio
 ```
 
 ## Resumo por ecrã
@@ -39,6 +43,8 @@ flowchart LR
 | `scrL3Lista` | 39 | Label 12, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
+| `scrL4Pedidos` | 103 | Label 44, Button 15, GroupContainer 13, TypedDataCard 9 | `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista` | — |
+| `scrL4Complemento` | 23 | Label 12, GroupContainer 6, Icon 2, Rectangle 2 | — | — |
 
 ## scrInicio
 
@@ -282,4 +288,140 @@ conEcraL3c  [GroupContainer/AutoLayout]
         btnL3VerAutor  [Button]
       lblL3PubTexto  [Label]
       lblL3PubNota  [Label]
+```
+
+## scrL4Pedidos
+
+```
+conEcraL4  [GroupContainer/AutoLayout]
+  conCabL4  [GroupContainer/AutoLayout]
+    icoInicioL4  [Icon]
+    lblCabL4  [Label]
+  conConteudoL4  [GroupContainer/AutoLayout]
+    conL4Barra  [GroupContainer/AutoLayout]
+      txtL4Pesquisa  [TextInput]
+      lblL4Contagem  [Label]
+      btnL4TodosPedidos  [Button]
+    conL4Corpo  [GroupContainer/AutoLayout]
+      conL4Lista  [GroupContainer/AutoLayout]
+        lblL4ListaTitulo  [Label]
+        lblL4ListaVazia  [Label]
+        galL4Clientes  [Gallery/Vertical]
+          lblL4CliNome  [Label]
+          lblL4CliInfo  [Label]
+          icoL4CliSeta  [Icon]
+          recL4CliSeparador  [Rectangle]
+      conL4Painel  [GroupContainer/AutoLayout]
+        conL4PainelTopo  [GroupContainer/AutoLayout]
+          btnL4VoltarLista  [Button]
+          lblL4PainelTitulo  [Label]
+        lblL4ClienteDados  [Label]
+        conL4Separadores  [GroupContainer/AutoLayout]
+          btnL4SepTodos  [Button]
+          btnL4SepPendentes  [Button]
+          btnL4SepConcluidos  [Button]
+        lblL4Resumo  [Label]
+        lblL4SemPedidos  [Label]
+        galL4Pedidos  [Gallery/Vertical]
+          lblL4PedNumero  [Label]
+          lblL4PedDescricao  [Label]
+          lblL4PedValor  [Label]
+          btnL4PedEstado  [Button]
+          recL4PedSeparador  [Rectangle]
+        frmL4Cliente  [Form/Classic]
+          Nome_DataCard1  [TypedDataCard/ClassicTextualEdit]
+            DataCardKey6  [Label]
+            txtL4CliNome  [TextInput]
+            ErrorMessage6  [Label]
+            StarVisible6  [Label]
+          NIF_DataCard1  [TypedDataCard/ClassicTextualEdit]
+            DataCardKey9  [Label]
+            txtL4CliNIF  [TextInput]
+            ErrorMessage9  [Label]
+            StarVisible9  [Label]
+          Email_DataCard1  [TypedDataCard/ClassicTextualEdit]
+            DataCardKey7  [Label]
+            txtL4CliEmail  [TextInput]
+            ErrorMessage7  [Label]
+            StarVisible7  [Label]
+          Telefone_DataCard1  [TypedDataCard/ClassicTextualEdit]
+            DataCardKey8  [Label]
+            txtL4CliTelefone  [TextInput]
+            ErrorMessage8  [Label]
+            StarVisible8  [Label]
+        frmL4Pedido  [Form/Classic]
+          Cliente_DataCard1  [TypedDataCard/ClassicComboBoxEdit]
+            DataCardKey22  [Label]
+            cmbL4PedCliente  [ComboBox]
+            ErrorMessage21  [Label]
+            StarVisible21  [Label]
+            lblL4PedCliente  [Label]
+          DataPedido_DataCard1  [TypedDataCard/ClassicDateEdit]
+            DataCardKey15  [Label]
+            dteL4PedData  [DatePicker]
+            ErrorMessage15  [Label]
+            StarVisible15  [Label]
+          Estado (dac_estado)_DataCard1  [TypedDataCard/ClassicComboBoxOptionSetSingleEdit]
+            DataCardKey17  [Label]
+            cmbL4PedEstado  [ComboBox]
+            ErrorMessage17  [Label]
+            StarVisible17  [Label]
+          Valor_DataCard1  [TypedDataCard/ClassicCurrencyEdit]
+            DataCardKey19  [Label]
+            txtL4PedValor  [TextInput]
+            ErrorMessage18  [Label]
+            StarVisible18  [Label]
+          Descricao_DataCard1  [TypedDataCard/ClassicTextualMultilineEdit]
+            DataCardKey16  [Label]
+            txtL4PedDescricao  [TextInput]
+            ErrorMessage16  [Label]
+            StarVisible16  [Label]
+        conL4Rodape  [GroupContainer/AutoLayout]
+          btnL4RemoverCliente  [Button]
+          btnL4EditarCliente  [Button]
+          btnL4NovoCliente  [Button]
+          btnL4NovoPedido  [Button]
+          btnL4RemoverPedido  [Button]
+          btnL4Cancelar  [Button]
+          btnL4Guardar  [Button]
+recL4Veu  [Rectangle]
+conL4Dialogo  [GroupContainer/AutoLayout]
+  lblL4ConfTitulo  [Label]
+  lblL4ConfTexto  [Label]
+  conL4ConfBotoes  [GroupContainer/AutoLayout]
+    btnL4ConfCancelar  [Button]
+    btnL4ConfOk  [Button]
+conL4Mensagem  [GroupContainer/AutoLayout]
+  icoL4MsgIcone  [Icon]
+  lblL4Mensagem  [Label]
+  icoL4FecharMsg  [Icon]
+tmrL4Mensagem  [Timer]
+```
+
+## scrL4Complemento
+
+```
+conEcraL4b  [GroupContainer/AutoLayout]
+  conCabL4b  [GroupContainer/AutoLayout]
+    icoInicioL4b  [Icon]
+    lblCabL4b  [Label]
+  conConteudoL4b  [GroupContainer/AutoLayout]
+    lblL4bTitulo  [Label]
+    lblL4bIntro  [Label]
+    conL4bTabela  [GroupContainer/AutoLayout]
+      conL4bCabecalho  [GroupContainer/AutoLayout]
+        lblL4bCabCriterio  [Label]
+        lblL4bCabSharePoint  [Label]
+        lblL4bCabDataverse  [Label]
+        lblL4bCabSQL  [Label]
+      galL4bCriterios  [Gallery/Vertical]
+        recL4bColDataverse  [Rectangle]
+        lblL4bCriterio  [Label]
+        lblL4bSharePoint  [Label]
+        lblL4bDataverse  [Label]
+        lblL4bSQL  [Label]
+        recL4bLinha  [Rectangle]
+    conL4bConclusao  [GroupContainer/AutoLayout]
+      icoL4bConclusao  [Icon]
+      lblL4bConclusao  [Label]
 ```
