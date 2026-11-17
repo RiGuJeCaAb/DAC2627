@@ -235,7 +235,10 @@ def _renomear(doc: dict, antigo: str, novo: str) -> int:
 def migrar_documento(doc: dict) -> None:
     if "App" in doc:
         p = doc["App"]["Properties"]
-        p["Formulas"] = "=" + FORMULAS
+        # Uma migração posterior (m002, ...) pode já ter subido nfVersao: mantém-se a versão mais recente.
+        atual = re.search(r'nfVersao = "([0-9.]+)"', str(p.get("Formulas") or ""))
+        versao = atual.group(1) if atual and tuple(map(int, atual.group(1).split("."))) > tuple(map(int, VERSAO.split("."))) else VERSAO
+        p["Formulas"] = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
         p["StartScreen"] = "=" + str(p["StartScreen"]).lstrip("=").strip()
         return
     _renomear(doc, "DataCardValue5", "cmbL2Estado")

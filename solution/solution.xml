@@ -1,11 +1,11 @@
-<ImportExportXml version="9.2.26102.136" SolutionPackageVersion="9.2" languagecode="2070" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26102.136" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26102.00136">
+<ImportExportXml version="9.2.26103.165" SolutionPackageVersion="9.2" languagecode="2070" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26103.165" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26103.00165">
   <SolutionManifest>
     <UniqueName>DAC2627</UniqueName>
     <LocalizedNames>
       <LocalizedName description="DAC2627" languagecode="2070" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.0</Version>
+    <Version>1.0.0.1</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>daccc</UniqueName>
@@ -77,6 +77,8 @@
       </Addresses>
     </Publisher>
     <RootComponents>
+      <RootComponent type="1" schemaName="dac_cliente" behavior="0" />
+      <RootComponent type="1" schemaName="dac_pedido" behavior="0" />
       <RootComponent type="1" schemaName="mcsft_cloudservice" behavior="0" />
       <RootComponent type="300" schemaName="dac_dac2627rgjca_273fc" behavior="0" />
       <RootComponent type="372" id="{2e951542-facf-43ab-bcb8-38c5df588bb7}" schemaName="dac_5Fjsonplaceholderdac" behavior="0" />

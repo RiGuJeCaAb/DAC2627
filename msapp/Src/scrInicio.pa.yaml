@@ -78,26 +78,8 @@ Screens:
                       Variant: Vertical
                       Properties:
                         Items: |-
-                          =Table(
-                              {Num: 1, Ficha: "Ficha 01", Titulo: "Hello Cloud",
-                               Descricao: "Primeira Canvas app: três ecrãs, navegação e variável global.", Disponivel: true},
-                              {Num: 2, Ficha: "Ficha 02", Titulo: "Serviços Cloud",
-                               Descricao: "Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.", Disponivel: true},
-                              {Num: 3, Ficha: "Ficha 03", Titulo: "Consulta de API",
-                               Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true},
-                              {Num: 4, Ficha: "Ficha 04", Titulo: "Próximo laboratório",
-                               Descricao: "Reservado para a próxima ficha do docente.", Disponivel: false}
-                          )
-                        OnSelect: |-
-                          =If(
-                              galInFichas.Selected.Disponivel,
-                              Switch(
-                                  galInFichas.Selected.Num,
-                                  1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),
-                                  2, Navigate(scrL2Servicos, ScreenTransition.Cover),
-                                  3, Navigate(scrL3Lista, ScreenTransition.Cover)
-                              )
-                          )
+                          =Table({Num: 1, Ficha: "Ficha 01", Titulo: "Hello Cloud", Descricao: "Primeira Canvas app: três ecrãs, navegação e variável global.", Disponivel: true}, {Num: 2, Ficha: "Ficha 02", Titulo: "Serviços Cloud", Descricao: "Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.", Disponivel: true}, {Num: 3, Ficha: "Ficha 03", Titulo: "Consulta de API", Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true}, {Num: 4, Ficha: "Ficha 04", Titulo: "Clientes e Pedidos", Descricao: "Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.", Disponivel: true})
+                        OnSelect: =If(galInFichas.Selected.Disponivel, Switch(galInFichas.Selected.Num, 1, Navigate(scrL1BoasVindas, ScreenTransition.Cover), 2, Navigate(scrL2Servicos, ScreenTransition.Cover), 3, Navigate(scrL3Lista, ScreenTransition.Cover), 4, Navigate(scrL4Pedidos, ScreenTransition.Cover)))
                         TemplatePadding: =12
                         TemplateSize: =228
                         WrapCount: =Switch(scrInicio.Size, ScreenSize.Small, 1, ScreenSize.Medium, 2, 3)

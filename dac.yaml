@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.1.0
+versao: 1.2.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -14,11 +14,15 @@ ecras:
   - scrL3Lista
   - scrL3Detalhe
   - scrL3Publicacao
+  - scrL4Pedidos
+  - scrL4Complemento
 
 lint:
   # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis
   fontes_dataverse:
     - Cloud Service
+    - Clientes
+    - Pedidos
   # Escala tipográfica (DAC501)
   tamanhos_letra: [11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 36, 40]
   # Cada exceção tem de dizer porquê. Uma exceção sem motivo é um erro (DAC900).
@@ -35,3 +39,6 @@ lint:
     - regra: DAC302
       controlo: btnL3PubIniciais
       motivo: Pílula decorativa com as iniciais do autor; a ação está no botão Ver autor ao lado.
+    - regra: DAC302
+      controlo: btnL4PedEstado
+      motivo: Pílula decorativa com o estado do pedido; o foco vai para a linha da galeria.

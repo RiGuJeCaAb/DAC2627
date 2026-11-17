@@ -34,6 +34,15 @@ def test_migracao_idempotente(tmp_path):
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
 
 
+def test_migracao_m002_idempotente(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m002_v1_2_ficha04 as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+
+
 def test_colar_gera_yaml_valido(tmp_path):
     assert cli.main(["colar", "--destino", str(tmp_path)]) == 0
     d = yamlio.ler(tmp_path / "TODOS_OS_ECRAS.yaml")

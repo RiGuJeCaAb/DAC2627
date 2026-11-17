@@ -74,7 +74,7 @@
       {
         "Property": "Formulas",
         "Category": "Formulas",
-        "InvariantScript": "nfAzul = ColorValue(\"#1F4E79\"); nfAzulClaro = ColorValue(\"#E8EFF6\"); nfVerde = ColorValue(\"#2E7D5B\"); nfVerdeFundo = ColorValue(\"#DDEFE6\"); nfVermelho = ColorValue(\"#A4262C\"); nfVermelhoFundo = ColorValue(\"#FBE9EA\"); nfFundo = ColorValue(\"#F6F4EF\"); nfTexto = ColorValue(\"#1E2A33\"); nfTextoSuave = ColorValue(\"#46525C\"); nfLinha = ColorValue(\"#E4E7EA\");",
+        "InvariantScript": "nfAzul = ColorValue(\"#1F4E79\"); nfAzulClaro = ColorValue(\"#E8EFF6\"); nfVerde = ColorValue(\"#2E7D5B\"); nfVerdeFundo = ColorValue(\"#DDEFE6\"); nfVermelho = ColorValue(\"#A4262C\"); nfVermelhoFundo = ColorValue(\"#FBE9EA\"); nfFundo = ColorValue(\"#F6F4EF\"); nfTexto = ColorValue(\"#1E2A33\"); nfTextoSuave = ColorValue(\"#46525C\"); nfLinha = ColorValue(\"#E4E7EA\"); nfAmbar = ColorValue(\"#9A5B00\"); nfAmbarFundo = ColorValue(\"#FFF4DB\");",
         "RuleProviderType": "Unknown"
       }
     ],

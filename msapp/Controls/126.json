@@ -3082,8 +3082,8 @@
                   {
                     "Property": "LayoutOverflowY",
                     "Category": "Design",
-                    "InvariantScript": "If(scrL3Detalhe.Size = ScreenSize.Small, LayoutOverflow.Scroll, LayoutOverflow.Hide)",
-                    "RuleProviderType": "Unknown"
+                    "InvariantScript": "LayoutOverflow.Scroll",
+                    "RuleProviderType": "User"
                   },
                   {
                     "Property": "LayoutWrap",
@@ -3195,7 +3195,14 @@
                   "LayoutJustifyContent",
                   "LayoutGap",
                   "LayoutOverflowX",
-                  "LayoutOverflowY",
+                  {
+                    "InvariantPropertyName": "LayoutOverflowY",
+                    "AutoRuleBindingEnabled": false,
+                    "AutoRuleBindingString": "If(scrL3Detalhe.Size = ScreenSize.Small, LayoutOverflow.Scroll, LayoutOverflow.Hide)",
+                    "NameMapSourceSchema": "?",
+                    "IsLockable": false,
+                    "AFDDataSourceName": ""
+                  },
                   "LayoutWrap",
                   "LayoutGridRows",
                   "LayoutGridColumns",
@@ -3254,10 +3261,17 @@
                         "Rule": {
                           "Property": "LayoutMinHeight",
                           "Category": "Design",
-                          "InvariantScript": "100",
-                          "RuleProviderType": "Unknown"
+                          "InvariantScript": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)",
+                          "RuleProviderType": "User"
                         },
-                        "ControlPropertyState": "LayoutMinHeight"
+                        "ControlPropertyState": {
+                          "InvariantPropertyName": "LayoutMinHeight",
+                          "AutoRuleBindingEnabled": false,
+                          "AutoRuleBindingString": "100",
+                          "NameMapSourceSchema": "?",
+                          "IsLockable": false,
+                          "AFDDataSourceName": ""
+                        }
                       },
                       {
                         "PropertyName": "LayoutMaxWidth",
@@ -3388,8 +3402,8 @@
                       {
                         "Property": "Height",
                         "Category": "Design",
-                        "InvariantScript": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 76)",
-                        "RuleProviderType": "Unknown"
+                        "InvariantScript": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)",
+                        "RuleProviderType": "User"
                       },
                       {
                         "Property": "Visible",
@@ -3556,7 +3570,14 @@
                       "X",
                       "Y",
                       "Width",
-                      "Height",
+                      {
+                        "InvariantPropertyName": "Height",
+                        "AutoRuleBindingEnabled": false,
+                        "AutoRuleBindingString": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 76)",
+                        "NameMapSourceSchema": "?",
+                        "IsLockable": false,
+                        "AFDDataSourceName": ""
+                      },
                       "Visible",
                       "DisplayMode",
                       "ChildTabPriority",
@@ -4203,8 +4224,8 @@
                           {
                             "Property": "Height",
                             "Category": "Design",
-                            "InvariantScript": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 76)",
-                            "RuleProviderType": "Unknown"
+                            "InvariantScript": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)",
+                            "RuleProviderType": "User"
                           },
                           {
                             "Property": "Visible",
@@ -4371,7 +4392,14 @@
                           "X",
                           "Y",
                           "Width",
-                          "Height",
+                          {
+                            "InvariantPropertyName": "Height",
+                            "AutoRuleBindingEnabled": false,
+                            "AutoRuleBindingString": "If(scrL3Detalhe.Size = ScreenSize.Small, 100, 76)",
+                            "NameMapSourceSchema": "?",
+                            "IsLockable": false,
+                            "AFDDataSourceName": ""
+                          },
                           "Visible",
                           "DisplayMode",
                           "ChildTabPriority",
@@ -5359,10 +5387,17 @@
                         "Rule": {
                           "Property": "LayoutMinHeight",
                           "Category": "Design",
-                          "InvariantScript": "100",
-                          "RuleProviderType": "Unknown"
+                          "InvariantScript": "Switch(scrL3Detalhe.Size, ScreenSize.Small, 528, ScreenSize.Medium, 344, 160)",
+                          "RuleProviderType": "User"
                         },
-                        "ControlPropertyState": "LayoutMinHeight"
+                        "ControlPropertyState": {
+                          "InvariantPropertyName": "LayoutMinHeight",
+                          "AutoRuleBindingEnabled": false,
+                          "AutoRuleBindingString": "100",
+                          "NameMapSourceSchema": "?",
+                          "IsLockable": false,
+                          "AFDDataSourceName": ""
+                        }
                       },
                       {
                         "PropertyName": "LayoutMaxWidth",
@@ -5711,10 +5746,17 @@
                             "Rule": {
                               "Property": "AlignInContainer",
                               "Category": "Design",
-                              "InvariantScript": "AlignInContainer.Stretch",
-                              "RuleProviderType": "Unknown"
+                              "InvariantScript": "AlignInContainer.Start",
+                              "RuleProviderType": "User"
                             },
-                            "ControlPropertyState": "AlignInContainer"
+                            "ControlPropertyState": {
+                              "InvariantPropertyName": "AlignInContainer",
+                              "AutoRuleBindingEnabled": false,
+                              "AutoRuleBindingString": "AlignInContainer.Stretch",
+                              "NameMapSourceSchema": "?",
+                              "IsLockable": false,
+                              "AFDDataSourceName": ""
+                            }
                           },
                           {
                             "PropertyName": "LayoutMinWidth",
@@ -7913,10 +7955,17 @@
                             "Rule": {
                               "Property": "AlignInContainer",
                               "Category": "Design",
-                              "InvariantScript": "AlignInContainer.Stretch",
-                              "RuleProviderType": "Unknown"
+                              "InvariantScript": "AlignInContainer.Start",
+                              "RuleProviderType": "User"
                             },
-                            "ControlPropertyState": "AlignInContainer"
+                            "ControlPropertyState": {
+                              "InvariantPropertyName": "AlignInContainer",
+                              "AutoRuleBindingEnabled": false,
+                              "AutoRuleBindingString": "AlignInContainer.Stretch",
+                              "NameMapSourceSchema": "?",
+                              "IsLockable": false,
+                              "AFDDataSourceName": ""
+                            }
                           },
                           {
                             "PropertyName": "LayoutMinWidth",
@@ -9658,10 +9707,17 @@
                             "Rule": {
                               "Property": "AlignInContainer",
                               "Category": "Design",
-                              "InvariantScript": "AlignInContainer.Stretch",
-                              "RuleProviderType": "Unknown"
+                              "InvariantScript": "AlignInContainer.Start",
+                              "RuleProviderType": "User"
                             },
-                            "ControlPropertyState": "AlignInContainer"
+                            "ControlPropertyState": {
+                              "InvariantPropertyName": "AlignInContainer",
+                              "AutoRuleBindingEnabled": false,
+                              "AutoRuleBindingString": "AlignInContainer.Stretch",
+                              "NameMapSourceSchema": "?",
+                              "IsLockable": false,
+                              "AFDDataSourceName": ""
+                            }
                           },
                           {
                             "PropertyName": "LayoutMinWidth",
@@ -11425,10 +11481,17 @@
                         "Rule": {
                           "Property": "LayoutMinHeight",
                           "Category": "Design",
-                          "InvariantScript": "100",
+                          "InvariantScript": "240",
                           "RuleProviderType": "Unknown"
                         },
-                        "ControlPropertyState": "LayoutMinHeight"
+                        "ControlPropertyState": {
+                          "InvariantPropertyName": "LayoutMinHeight",
+                          "AutoRuleBindingEnabled": false,
+                          "AutoRuleBindingString": "100",
+                          "NameMapSourceSchema": "?",
+                          "IsLockable": false,
+                          "AFDDataSourceName": ""
+                        }
                       },
                       {
                         "PropertyName": "LayoutMaxWidth",

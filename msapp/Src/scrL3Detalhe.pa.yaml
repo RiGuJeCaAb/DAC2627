@@ -91,7 +91,7 @@ Screens:
                         Fill: =Color.White
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =20
-                        LayoutOverflowY: =If(scrL3Detalhe.Size = ScreenSize.Small, LayoutOverflow.Scroll, LayoutOverflow.Hide)
+                        LayoutOverflowY: =LayoutOverflow.Scroll
                         PaddingBottom: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
                         PaddingLeft: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
                         PaddingRight: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 32)
@@ -109,10 +109,11 @@ Screens:
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 76)
+                              Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
                               LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =20
+                              LayoutMinHeight: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
                             Children:
                               - btnL3bIniciais:
                                   Control: Classic/Button@2.2.0
@@ -141,7 +142,7 @@ Screens:
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
-                                    Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 76)
+                                    Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutJustifyContent: =LayoutJustifyContent.Center
                                   Children:
@@ -170,12 +171,14 @@ Screens:
                               Height: =Switch(scrL3Detalhe.Size, ScreenSize.Small, 528, ScreenSize.Medium, 344, 160)
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =24
+                              LayoutMinHeight: =Switch(scrL3Detalhe.Size, ScreenSize.Small, 528, ScreenSize.Medium, 344, 160)
                               LayoutWrap: =true
                             Children:
                               - conL3Contacto:
                                   Control: GroupContainer@1.5.0
                                   Variant: AutoLayout
                                   Properties:
+                                    AlignInContainer: =AlignInContainer.Start
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
@@ -227,6 +230,7 @@ Screens:
                                   Control: GroupContainer@1.5.0
                                   Variant: AutoLayout
                                   Properties:
+                                    AlignInContainer: =AlignInContainer.Start
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
@@ -271,6 +275,7 @@ Screens:
                                   Control: GroupContainer@1.5.0
                                   Variant: AutoLayout
                                   Properties:
+                                    AlignInContainer: =AlignInContainer.Start
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
@@ -322,6 +327,7 @@ Screens:
                               Height: =320
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =8
+                              LayoutMinHeight: =240
                             Children:
                               - lblL3TituloPubs:
                                   Control: Label@2.5.1
