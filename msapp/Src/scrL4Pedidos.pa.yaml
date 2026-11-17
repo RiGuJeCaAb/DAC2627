@@ -45,12 +45,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - lblCabL4:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -97,6 +99,7 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Height: =48
                               Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 12, 13)
                               Text: |-
@@ -132,6 +135,7 @@ Screens:
                             Control: GroupContainer@1.5.0
                             Variant: AutoLayout
                             Properties:
+                              DropShadow: =DropShadow.None
                               Fill: =Color.White
                               FillPortions: =If(scrL4Pedidos.Size = ScreenSize.Medium, 1, 2)
                               LayoutDirection: =LayoutDirection.Vertical
@@ -146,6 +150,7 @@ Screens:
                                   Properties:
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Height: =44
                                     PaddingLeft: =20
@@ -157,6 +162,7 @@ Screens:
                                     Align: =Align.Center
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
                                     Height: =80
                                     Text: ="Nenhum cliente começa por este texto."
                                     Visible: =IsEmpty(galL4Clientes.AllItems)
@@ -169,6 +175,7 @@ Screens:
                                     Items: =Sort(Filter(Clientes, StartsWith(Nome, txtL4Pesquisa.Text)), Nome)
                                     OnSelect: |-
                                       =UpdateContext({locL4Cliente: galL4Clientes.Selected, locL4Painel: true})
+                                    TabIndex: =0
                                     TemplateFill: =If(!IsBlank(locL4Cliente) && ThisItem.Cliente = locL4Cliente.Cliente, nfAzulClaro, Color.White)
                                     TemplatePadding: =0
                                     TemplateSize: =72
@@ -219,6 +226,7 @@ Screens:
                             Control: GroupContainer@1.5.0
                             Variant: AutoLayout
                             Properties:
+                              DropShadow: =DropShadow.None
                               Fill: =Color.White
                               FillPortions: =If(scrL4Pedidos.Size = ScreenSize.Medium, 1, 3)
                               LayoutDirection: =LayoutDirection.Vertical
@@ -265,9 +273,10 @@ Screens:
                                         Properties:
                                           Color: =nfTexto
                                           FillPortions: =1
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Height: =44
-                                          Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 17, 22)
+                                          Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 18, 22)
                                           Text: =Switch(locL4Modo, "cliente", If(locL4Acao = "criar", "Novo cliente", "Editar cliente"), "pedido", If(locL4Acao = "criar", "Novo pedido · " & locL4Cliente.Nome, "Pedido " & locL4Pedido.NumeroPedido), If(IsBlank(locL4Cliente), "Todos os clientes", locL4Cliente.Nome))
                                           Wrap: =false
                               - lblL4ClienteDados:
@@ -276,6 +285,7 @@ Screens:
                                     AlignInContainer: =AlignInContainer.Stretch
                                     AutoHeight: =true
                                     Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
                                     Text: |-
                                       =If(IsBlank(locL4Cliente),
                                           "Pedidos de todos os clientes. Escolha um cliente na lista para ver só os dele.",
@@ -307,7 +317,7 @@ Screens:
                                           RadiusBottomRight: =12
                                           RadiusTopLeft: =12
                                           RadiusTopRight: =12
-                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 10, ScreenSize.Medium, 11, 13)
+                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
                                           Text: ="Todos (" & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo)), CountRows(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo && Clientes.Cliente = locL4Cliente.Cliente))) & ")"
                                           Width: =150
                                     - btnL4SepPendentes:
@@ -325,7 +335,7 @@ Screens:
                                           RadiusBottomRight: =12
                                           RadiusTopLeft: =12
                                           RadiusTopRight: =12
-                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 10, ScreenSize.Medium, 11, 13)
+                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
                                           Text: =If(scrL4Pedidos.Size >= ScreenSize.ExtraLarge, "Pedidos Pendentes (", "Pendentes (") & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, EstadoPedido = 'EstadoPedido (Pedidos)'.Pendente)), CountRows(Filter(Pedidos, EstadoPedido = 'EstadoPedido (Pedidos)'.Pendente && Clientes.Cliente = locL4Cliente.Cliente))) & ")"
                                           Width: =220
                                     - btnL4SepConcluidos:
@@ -343,7 +353,7 @@ Screens:
                                           RadiusBottomRight: =12
                                           RadiusTopLeft: =12
                                           RadiusTopRight: =12
-                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 10, ScreenSize.Medium, 11, 13)
+                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
                                           Text: =If(scrL4Pedidos.Size >= ScreenSize.ExtraLarge, "Pedidos Concluídos (", "Concluídos (") & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído)), CountRows(Filter(Pedidos, EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído && Clientes.Cliente = locL4Cliente.Cliente))) & ")"
                                           Width: =230
                               - lblL4Resumo:
@@ -352,6 +362,7 @@ Screens:
                                     AlignInContainer: =AlignInContainer.Stretch
                                     AutoHeight: =true
                                     Color: =nfTexto
+                                    FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Height: =32
                                     Text: =Switch(locL4Vista, "pendentes", "Vista do Dataverse «Pedidos Pendentes» · mais recentes primeiro", "concluidos", "Vista do Dataverse «Pedidos Concluídos» · mais recentes primeiro", "Todos os pedidos ativos · mais recentes primeiro")
@@ -362,6 +373,7 @@ Screens:
                                     Align: =Align.Center
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
                                     Height: =80
                                     Text: =If(IsBlank(locL4Cliente), "Não há pedidos nesta vista.", "Este cliente não tem pedidos nesta vista.")
                                     Visible: =IsBlank(locL4Modo) && IsEmpty(galL4Pedidos.AllItems)
@@ -370,10 +382,11 @@ Screens:
                                   Variant: Vertical
                                   Properties:
                                     AccessibleLabel: ="Pedidos"
-                                    Items: =Switch(locL4Vista, "pendentes", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), "concluidos", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), If(IsBlank(locL4Cliente), Sort(Pedidos, DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)))
+                                    Items: =Switch(locL4Vista, "pendentes", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), "concluidos", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo && Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)))
                                     LayoutMinHeight: =0
                                     OnSelect: |-
                                       =UpdateContext({locL4Pedido: ThisItem, locL4Modo: "pedido", locL4Acao: "editar", locL4Msg: "", locL4Timer: false}); EditForm(frmL4Pedido)
+                                    TabIndex: =0
                                     TemplatePadding: =0
                                     TemplateSize: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 80)
                                     Visible: =IsBlank(locL4Modo)
@@ -421,11 +434,11 @@ Screens:
                                         Control: Classic/Button@2.2.0
                                         Properties:
                                           BorderThickness: =0
-                                          Color: =If(ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Pendente, ColorValue("#9A5B00"), ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.'Em Processamento', nfAzul, ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído, ColorValue("#1F5E43"), ColorValue("#8E1F25"))
+                                          Color: =If(ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Pendente, nfAmbar, ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.'Em Processamento', nfAzul, ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído, nfVerdeTexto, nfVermelhoTexto)
                                           DisabledColor: =Self.Color
                                           DisabledFill: =Self.Fill
                                           DisplayMode: =DisplayMode.View
-                                          Fill: =If(ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Pendente, ColorValue("#FFF4D8"), ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.'Em Processamento', ColorValue("#DCE7F2"), ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído, nfVerdeFundo, nfVermelhoFundo)
+                                          Fill: =If(ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Pendente, nfAmbarFundo, ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.'Em Processamento', nfAzulFundo, ThisItem.EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído, nfVerdeFundo, nfVermelhoFundo)
                                           FontWeight: =FontWeight.Bold
                                           Height: =26
                                           HoverColor: =Self.Color
@@ -454,7 +467,7 @@ Screens:
                                   Variant: Classic
                                   Layout: Vertical
                                   Properties:
-                                    BorderColor: =RGBA(0, 18, 107, 1)
+                                    BorderColor: =nfBorda
                                     DataSource: =Clientes
                                     Item: =locL4Cliente
                                     LayoutMinHeight: =16
@@ -470,14 +483,14 @@ Screens:
                                         Variant: ClassicTextualEdit
                                         IsLocked: true
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_nome"
                                           Default: =ThisItem.Nome
                                           DisplayName: =DataSourceInfo([@Clientes],DataSourceInfo.DisplayName,dac_nome)
                                           MaxLength: =DataSourceInfo([@Clientes], DataSourceInfo.MaxLength, dac_nome)
                                           Required: =false
-                                          Update: =DataCardValue1.Text
-                                          Width: =242
+                                          Update: =txtL4CliNome.Text
+                                          Width: =Switch(scrL4Pedidos.Size, ScreenSize.Small, Parent.Width - 1, ScreenSize.Medium, RoundDown(Parent.Width / 2, 0) - 1, RoundDown(Parent.Width / 3, 0) - 1)
                                           X: =0
                                           Y: =0
                                         Children:
@@ -486,8 +499,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -495,17 +508,18 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue1:
+                                          - txtL4CliNome:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -521,8 +535,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -536,14 +550,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue1.Y + DataCardValue1.Height
+                                                Y: =txtL4CliNome.Y + txtL4CliNome.Height
                                           - StarVisible6:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey6.Height
                                                 Text: ="*"
@@ -556,14 +570,14 @@ Screens:
                                         Variant: ClassicTextualEdit
                                         IsLocked: true
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_nif"
                                           Default: =ThisItem.NIF
                                           DisplayName: =DataSourceInfo([@Clientes],DataSourceInfo.DisplayName,dac_nif)
                                           MaxLength: =DataSourceInfo([@Clientes], DataSourceInfo.MaxLength, dac_nif)
                                           Required: =true
-                                          Update: =DataCardValue4.Text
-                                          Width: =242
+                                          Update: =txtL4CliNIF.Text
+                                          Width: =Switch(scrL4Pedidos.Size, ScreenSize.Small, Parent.Width - 1, ScreenSize.Medium, RoundDown(Parent.Width / 2, 0) - 1, RoundDown(Parent.Width / 3, 0) - 1)
                                           X: =1
                                           Y: =0
                                         Children:
@@ -572,8 +586,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -581,17 +595,18 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue4:
+                                          - txtL4CliNIF:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -607,8 +622,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -622,14 +637,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue4.Y + DataCardValue4.Height
+                                                Y: =txtL4CliNIF.Y + txtL4CliNIF.Height
                                           - StarVisible9:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey9.Height
                                                 Text: ="*"
@@ -642,14 +657,14 @@ Screens:
                                         Variant: ClassicTextualEdit
                                         IsLocked: true
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_email"
                                           Default: =ThisItem.Email
                                           DisplayName: =DataSourceInfo([@Clientes],DataSourceInfo.DisplayName,dac_email)
                                           MaxLength: =DataSourceInfo([@Clientes], DataSourceInfo.MaxLength, dac_email)
                                           Required: =false
-                                          Update: =DataCardValue2.Text
-                                          Width: =242
+                                          Update: =txtL4CliEmail.Text
+                                          Width: =Switch(scrL4Pedidos.Size, ScreenSize.Small, Parent.Width - 1, ScreenSize.Medium, RoundDown(Parent.Width / 2, 0) - 1, RoundDown(Parent.Width / 3, 0) - 1)
                                           X: =2
                                           Y: =0
                                         Children:
@@ -658,8 +673,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -667,17 +682,18 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue2:
+                                          - txtL4CliEmail:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -693,8 +709,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -708,14 +724,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue2.Y + DataCardValue2.Height
+                                                Y: =txtL4CliEmail.Y + txtL4CliEmail.Height
                                           - StarVisible7:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey7.Height
                                                 Text: ="*"
@@ -728,14 +744,14 @@ Screens:
                                         Variant: ClassicTextualEdit
                                         IsLocked: true
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_telefone"
                                           Default: =ThisItem.Telefone
                                           DisplayName: =DataSourceInfo([@Clientes],DataSourceInfo.DisplayName,dac_telefone)
                                           MaxLength: =DataSourceInfo([@Clientes], DataSourceInfo.MaxLength, dac_telefone)
                                           Required: =false
-                                          Update: =DataCardValue3.Text
-                                          Width: =242
+                                          Update: =txtL4CliTelefone.Text
+                                          Width: =Switch(scrL4Pedidos.Size, ScreenSize.Small, Parent.Width - 1, ScreenSize.Medium, RoundDown(Parent.Width / 2, 0) - 1, RoundDown(Parent.Width / 3, 0) - 1)
                                           X: =0
                                           Y: =1
                                         Children:
@@ -744,8 +760,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -753,17 +769,18 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue3:
+                                          - txtL4CliTelefone:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -779,8 +796,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -794,14 +811,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue3.Y + DataCardValue3.Height
+                                                Y: =txtL4CliTelefone.Y + txtL4CliTelefone.Height
                                           - StarVisible8:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey8.Height
                                                 Text: ="*"
@@ -814,7 +831,7 @@ Screens:
                                   Variant: Classic
                                   Layout: Vertical
                                   Properties:
-                                    BorderColor: =RGBA(0, 18, 107, 1)
+                                    BorderColor: =nfBorda
                                     DataSource: =Pedidos
                                     Item: =locL4Pedido
                                     LayoutMinHeight: =16
@@ -830,14 +847,14 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicComboBoxEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_Cliente"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, locL4Cliente, ThisItem.Clientes)
                                           DisplayMode: =DisplayMode.View
                                           DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,dac_Cliente)
                                           Required: =true
                                           Update: =If(frmL4Pedido.Mode = FormMode.New, locL4Cliente, ThisItem.Clientes)
-                                          Width: =338
+                                          Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =0
                                           Y: =0
                                         Children:
@@ -846,8 +863,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -855,28 +872,29 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue16:
+                                          - cmbL4PedCliente:
                                               Control: Classic/ComboBox@2.4.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
-                                                ChevronBackground: =RGBA(56, 96, 178, 1)
-                                                ChevronFill: =RGBA(255, 255, 255, 1)
-                                                ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-                                                ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
+                                                ChevronBackground: =nfAzul
+                                                ChevronFill: =Color.White
+                                                ChevronHoverBackground: =ColorFade(nfAzul, -20%)
+                                                ChevronHoverFill: =Color.White
                                                 DefaultSelectedItems: =If(frmL4Pedido.Mode = FormMode.New, locL4Cliente, LookUp(Clientes, Cliente = ThisItem.Clientes.Cliente))
                                                 DisplayFields: =["dac_nome"]
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverFill: =nfAzulFundo
                                                 Items: =Choices([@Pedidos].dac_Cliente)
                                                 PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
-                                                PressedColor: =RGBA(255, 255, 255, 1)
-                                                PressedFill: =RGBA(0, 18, 107, 1)
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfAzul
                                                 SearchFields: =["dac_nome"]
                                                 SelectMultiple: =false
-                                                SelectionColor: =RGBA(255, 255, 255, 1)
-                                                SelectionFill: =RGBA(56, 96, 178, 1)
+                                                SelectionColor: =Color.White
+                                                SelectionFill: =nfAzul
                                                 Tooltip: =Parent.DisplayName
                                                 Visible: =false
                                                 Width: =Parent.Width - 60
@@ -887,8 +905,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -902,14 +920,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue16.Y + DataCardValue16.Height
+                                                Y: =cmbL4PedCliente.Y + cmbL4PedCliente.Height
                                           - StarVisible21:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey22.Height
                                                 Text: ="*"
@@ -920,27 +938,27 @@ Screens:
                                           - lblL4PedCliente:
                                               Control: Label@2.5.1
                                               Properties:
-                                                BorderColor: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
                                                 Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
-                                                Height: =DataCardValue16.Height
-                                                Size: =DataCardValue16.Size
+                                                Height: =cmbL4PedCliente.Height
+                                                Size: =cmbL4PedCliente.Size
                                                 Text: =If(frmL4Pedido.Mode = FormMode.New, locL4Cliente.Nome, LookUp(Clientes, Cliente = ThisItem.Clientes.Cliente).Nome)
-                                                Width: =DataCardValue16.Width
-                                                X: =DataCardValue16.X
-                                                Y: =DataCardValue16.Y
+                                                Width: =cmbL4PedCliente.Width
+                                                X: =cmbL4PedCliente.X
+                                                Y: =cmbL4PedCliente.Y
                                     - DataPedido_DataCard1:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicDateEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_datapedido"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, Today(), ThisItem.DataPedido)
                                           DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,DataPedido)
                                           Required: =true
-                                          Update: =DataCardValue10.SelectedDate
-                                          Width: =338
+                                          Update: =dteL4PedData.SelectedDate
+                                          Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =1
                                           Y: =0
                                         Children:
@@ -949,8 +967,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -958,17 +976,18 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue10:
+                                          - dteL4PedData:
                                               Control: Classic/DatePicker@2.6.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 DefaultDate: =Parent.Default
                                                 DisplayMode: =Parent.DisplayMode
                                                 EndYear: =Year(Today())+100
                                                 Font: =Font.'Open Sans'
-                                                IconBackground: =RGBA(56, 96, 178, 1)
-                                                IconFill: =RGBA(255, 255, 255, 1)
+                                                IconBackground: =nfAzul
+                                                IconFill: =Color.White
                                                 IsEditable: =true
                                                 PaddingBottom: =0
                                                 PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
@@ -982,8 +1001,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -997,14 +1016,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue10.Y + DataCardValue10.Height
+                                                Y: =dteL4PedData.Y + dteL4PedData.Height
                                           - StarVisible15:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey15.Height
                                                 Text: ="*"
@@ -1016,13 +1035,13 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicComboBoxOptionSetSingleEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_estado"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, 'EstadoPedido (Pedidos)'.Pendente, ThisItem.EstadoPedido)
                                           DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,EstadoPedido)
                                           Required: =true
-                                          Update: =DataCardValue12.Selected.Value
-                                          Width: =338
+                                          Update: =cmbL4PedEstado.Selected.Value
+                                          Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =0
                                           Y: =1
                                         Children:
@@ -1031,8 +1050,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1040,27 +1059,28 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue12:
+                                          - cmbL4PedEstado:
                                               Control: Classic/ComboBox@2.4.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
-                                                ChevronBackground: =RGBA(56, 96, 178, 1)
-                                                ChevronFill: =RGBA(255, 255, 255, 1)
-                                                ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-                                                ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
+                                                ChevronBackground: =nfAzul
+                                                ChevronFill: =Color.White
+                                                ChevronHoverBackground: =ColorFade(nfAzul, -20%)
+                                                ChevronHoverFill: =Color.White
                                                 DefaultSelectedItems: =[Parent.Default]
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverFill: =nfAzulFundo
                                                 IsSearchable: =false
                                                 Items: =Choices('EstadoPedido (Pedidos)')
                                                 PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
-                                                PressedColor: =RGBA(255, 255, 255, 1)
-                                                PressedFill: =RGBA(0, 18, 107, 1)
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfAzul
                                                 SelectMultiple: =false
-                                                SelectionColor: =RGBA(255, 255, 255, 1)
-                                                SelectionFill: =RGBA(56, 96, 178, 1)
+                                                SelectionColor: =Color.White
+                                                SelectionFill: =nfAzul
                                                 Tooltip: =Parent.DisplayName
                                                 Width: =Parent.Width - 60
                                                 X: =30
@@ -1070,8 +1090,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1085,14 +1105,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue12.Y + DataCardValue12.Height
+                                                Y: =cmbL4PedEstado.Y + cmbL4PedEstado.Height
                                           - StarVisible17:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey17.Height
                                                 Text: ="*"
@@ -1104,13 +1124,13 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicCurrencyEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_valor"
                                           Default: =ThisItem.Valor
                                           DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,Valor)
                                           Required: =false
-                                          Update: =Value(DataCardValue14.Text, "pt-PT")
-                                          Width: =338
+                                          Update: =Value(txtL4PedValor.Text, "pt-PT")
+                                          Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =1
                                           Y: =1
                                         Children:
@@ -1119,8 +1139,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1128,18 +1148,19 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue14:
+                                          - txtL4PedValor:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =If(IsBlank(Parent.Default), "", Text(Parent.Default, "[$-pt-PT]0,00"))
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
                                                 Format: =TextFormat.Number
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
                                                 RadiusBottomRight: =0
@@ -1154,8 +1175,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1169,14 +1190,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue14.Y + DataCardValue14.Height
+                                                Y: =txtL4PedValor.Y + txtL4PedValor.Height
                                           - StarVisible18:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey19.Height
                                                 Text: ="*"
@@ -1189,13 +1210,13 @@ Screens:
                                         Variant: ClassicTextualMultilineEdit
                                         IsLocked: true
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="dac_descricao"
                                           Default: =ThisItem.Descrição
                                           DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,Descrição)
                                           Required: =false
-                                          Update: =DataCardValue11.Text
-                                          Width: =338
+                                          Update: =txtL4PedDescricao.Text
+                                          Width: =Parent.Width - 1
                                           X: =0
                                           Y: =2
                                         Children:
@@ -1204,8 +1225,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1213,18 +1234,19 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue11:
+                                          - txtL4PedDescricao:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
                                                 Height: =80
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 Mode: =TextMode.MultiLine
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -1240,8 +1262,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1255,14 +1277,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue11.Y + DataCardValue11.Height
+                                                Y: =txtL4PedDescricao.Y + txtL4PedDescricao.Height
                                           - StarVisible16:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey16.Height
                                                 Text: ="*"
@@ -1430,7 +1452,7 @@ Screens:
       - recL4Veu:
           Control: Rectangle@2.3.0
           Properties:
-            Fill: =RGBA(30, 42, 51, 0.55)
+            Fill: =nfVeu
             Height: =Parent.Height
             Visible: =!IsBlank(locL4Confirmar)
             Width: =Parent.Width
@@ -1462,6 +1484,7 @@ Screens:
                   AlignInContainer: =AlignInContainer.Stretch
                   AutoHeight: =true
                   Color: =nfTexto
+                  FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Bold
                   Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 18, 22)
                   Text: |-
@@ -1477,6 +1500,7 @@ Screens:
                   AlignInContainer: =AlignInContainer.Stretch
                   Color: =nfTextoSuave
                   FillPortions: =1
+                  FocusedBorderThickness: =2
                   Text: |-
                     =Switch(locL4Confirmar,
                         "guardar", If(locL4Modo = "cliente",
@@ -1584,6 +1608,7 @@ Screens:
             - icoL4MsgIcone:
                 Control: Classic/Icon@2.5.0
                 Properties:
+                  AccessibleLabel: =If(locL4MsgTipo = "erro", "Erro", "Sucesso")
                   Color: =If(locL4MsgTipo = "erro", nfVermelho, nfVerde)
                   Height: =24
                   Icon: =If(locL4MsgTipo = "erro", Icon.Warning, Icon.Check)
@@ -1591,8 +1616,9 @@ Screens:
             - lblL4Mensagem:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =If(locL4MsgTipo = "erro", ColorValue("#8E1F25"), ColorValue("#1F5E43"))
+                  Color: =If(locL4MsgTipo = "erro", nfVermelhoTexto, nfVerdeTexto)
                   FillPortions: =1
+                  FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Semibold
                   Text: =locL4Msg
             - icoL4FecharMsg:
@@ -1604,6 +1630,7 @@ Screens:
                   Icon: =Icon.Cancel
                   OnSelect: |-
                     =UpdateContext({locL4Msg: "", locL4Timer: false})
+                  TabIndex: =0
                   Width: =44
       - tmrL4Mensagem:
           Control: Timer@2.1.0

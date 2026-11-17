@@ -237,7 +237,10 @@ def cmd_colar(a) -> int:
     _p("  " + " → ".join(guia.ordem))
     for av in guia.avisos:
         _p("  AVISO: " + av)
-    return 0
+    problemas = ordem_mod.verificar_fontes(guia, fontes, raiz)
+    for pr in problemas:
+        _p("  ATENÇÃO: " + pr)
+    return 1 if problemas and a.estrito else 0
 
 
 # ---------------------------------------------------------------- inventário
@@ -451,6 +454,7 @@ def main(argv=None) -> int:
     s = sub.add_parser("colar", help="gera os blocos para colar no Studio")
     s.add_argument("ecras", nargs="*")
     s.add_argument("--destino")
+    s.add_argument("--estrito", action="store_true", help="falha se faltar uma fonte de dados na app exportada")
     s.set_defaults(f=cmd_colar)
 
     s = sub.add_parser("inventario", help="gera docs/inventario.md")

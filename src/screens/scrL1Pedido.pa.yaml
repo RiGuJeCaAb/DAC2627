@@ -66,7 +66,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="Ficha 01 · Passo 1 de 2"
             - conConteudoL1b:
                 Control: GroupContainer@1.5.0
@@ -86,7 +85,6 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Light
                         Fill: =Color.White
                         FillPortions: =0
                         Height: =If(scrL1Pedido.Size = ScreenSize.Small, 400, 400)
@@ -113,7 +111,6 @@ Screens:
                               FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL1Pedido.Size = ScreenSize.Small, 24, 28)
-                              TabIndex: =-1
                               Text: ="Como se chama?"
                         - txtL1Nome:
                             Control: Classic/TextInput@2.3.2
@@ -153,7 +150,6 @@ Screens:
                                     FillPortions: =1
                                     FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
-                                    TabIndex: =-1
                                     Text: ="Introduza o seu nome."
                         - btnL1Saudar:
                             Control: Classic/Button@2.2.0

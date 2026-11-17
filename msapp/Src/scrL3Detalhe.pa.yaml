@@ -43,6 +43,7 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - icoL3Voltar:
                       Control: Classic/Icon@2.5.0
@@ -52,12 +53,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.ChevronLeft
                         OnSelect: =Back()
+                        TabIndex: =0
                         Width: =44
                   - lblCabL3b:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -80,6 +83,7 @@ Screens:
                       Properties:
                         Align: =Align.Center
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Height: =60
                         Text: ="Escolha um utilizador na lista."
                         Visible: =IsBlank(locL3Sel)
@@ -152,6 +156,7 @@ Screens:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           AutoHeight: =true
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Size: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 28)
                                           Text: =locL3Sel.name
@@ -160,6 +165,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: ="@" & locL3Sel.username
                         - conL3Blocos:
@@ -182,7 +188,7 @@ Screens:
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
-                                    Fill: =ColorValue("#F7F8F9")
+                                    Fill: =nfSuperficie
                                     Height: =160
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =6
@@ -201,6 +207,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Height: =24
                                           Size: =12
@@ -210,6 +217,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: =locL3Sel.email
                                     - lblL3Telefone:
@@ -217,6 +225,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: =Coalesce(locL3Sel.phone, "Sem telefone")
                                     - lblL3Site:
@@ -224,6 +233,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: =Coalesce(locL3Sel.website, "Sem site")
                               - conL3Morada:
@@ -234,7 +244,7 @@ Screens:
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
-                                    Fill: =ColorValue("#F7F8F9")
+                                    Fill: =nfSuperficie
                                     Height: =160
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =6
@@ -253,6 +263,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Height: =24
                                           Size: =12
@@ -262,6 +273,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: =locL3Sel.address.street & ", " & locL3Sel.address.suite
                                     - lblL3Cidade:
@@ -269,6 +281,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: =locL3Sel.address.zipcode & " " & locL3Sel.address.city
                               - conL3Empresa:
@@ -279,7 +292,7 @@ Screens:
                                     BorderColor: =nfLinha
                                     BorderThickness: =1
                                     DropShadow: =DropShadow.None
-                                    Fill: =ColorValue("#F7F8F9")
+                                    Fill: =nfSuperficie
                                     Height: =160
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =6
@@ -298,6 +311,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Height: =24
                                           Size: =12
@@ -307,6 +321,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTexto
+                                          FocusedBorderThickness: =2
                                           Height: =26
                                           Text: =locL3Sel.company.name
                                     - lblL3Lema:
@@ -314,6 +329,7 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
                                           Height: =48
                                           Italic: =true
                                           Text: =locL3Sel.company.catchPhrase
@@ -334,18 +350,21 @@ Screens:
                                   Properties:
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Bold
                                     Height: =24
                                     Size: =12
-                                    Text: ="PUBLICAÇÕES (" & CountRows(galL3PubsUtil.AllItems) & ")"
+                                    Text: ="PUBLICAÇÕES (" & CountRows(Filter(colL3Publicacoes, userId = locL3Sel.id)) & ")"
                               - galL3PubsUtil:
                                   Control: Gallery@2.15.0
                                   Variant: Vertical
                                   Properties:
+                                    AccessibleLabel: ="Publicações deste utilizador"
                                     Items: =Sort(Filter(colL3Publicacoes, userId = locL3Sel.id), id)
                                     OnSelect: |-
                                       =Navigate(scrL3Publicacao, ScreenTransition.Cover,
                                           {locL3Pub: galL3PubsUtil.Selected})
+                                    TabIndex: =0
                                     TemplatePadding: =0
                                     TemplateSize: =52
                                   Children:
@@ -375,7 +394,7 @@ Screens:
                                     - icoL3PubsUtilAbrir:
                                         Control: Classic/Icon@2.5.0
                                         Properties:
-                                          Color: =ColorValue("#7D8993")
+                                          Color: =nfBorda
                                           Height: =24
                                           Icon: =Icon.ChevronRight
                                           OnSelect: =Select(Parent)

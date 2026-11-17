@@ -44,12 +44,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - lblCabL3a:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -131,6 +133,7 @@ Screens:
                         - txtL3Pesquisa:
                             Control: Classic/TextInput@2.3.2
                             Properties:
+                              AccessibleLabel: =Self.HintText
                               Default: =""
                               FillPortions: =1
                               Height: =48
@@ -164,13 +167,17 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Height: =48
                               Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
                               Text: |-
                                 =If(locL3Vista = "publicacoes",
-                                    CountRows(galL3Publicacoes.AllItems) & " de " &
+                                    CountRows(Filter(colL3Publicacoes,
+                                        (drpL3Utilizador.Selected.id = 0 || userId = drpL3Utilizador.Selected.id) &&
+                                        (txtL3Pesquisa.Text in title || txtL3Pesquisa.Text in body))) & " de " &
                                         CountRows(colL3Publicacoes) & " publicações",
-                                    CountRows(galL3Utilizadores.AllItems) & " de " &
+                                    CountRows(Filter(colL3Utilizadores,
+                                        txtL3Pesquisa.Text in name || txtL3Pesquisa.Text in email)) & " de " &
                                         CountRows(colL3Utilizadores) & " utilizadores")
                               Width: =If(scrL3Lista.Size = ScreenSize.Small, 150, 210)
                         - btnL3Atualizar:
@@ -193,45 +200,24 @@ Screens:
                             Properties:
                               Height: =10
                               OnSelect: |-
-                                =UpdateContext(
-                                    {
-                                        locL3ACarregar: true,
-                                        locL3Erro: ""
-                                    }
-                                );
+                                =UpdateContext({locL3ACarregar: true, locL3Erro: ""});
                                 Clear(colL3Utilizadores);
                                 Clear(colL3Publicacoes);
                                 IfError(
                                     If(
                                         chkL3SimularFalha.Value,
-                                        Error(
-                                            {
-                                                Kind: ErrorKind.Network,
-                                                Message: "Falha de rede simulada para teste."
-                                            }
-                                        ),
+                                        Error({Kind: ErrorKind.Network, Message: "Falha de rede simulada para teste."}),
                                         !chkL3SimularVazio.Value,
-                                        ClearCollect(
-                                            colL3Utilizadores,
-                                            JSONPlaceholderDAC.ListarUtilizadores()
-                                        )
+                                        ClearCollect(colL3Utilizadores, JSONPlaceholderDAC.ListarUtilizadores())
                                     ),
                                     UpdateContext({locL3Erro: "Não foi possível obter os utilizadores. " & FirstError.Message})
                                 );
                                 IfError(
                                     If(
                                         chkL3SimularFalha.Value,
-                                        Error(
-                                            {
-                                                Kind: ErrorKind.Network,
-                                                Message: "Falha de rede simulada para teste."
-                                            }
-                                        ),
+                                        Error({Kind: ErrorKind.Network, Message: "Falha de rede simulada para teste."}),
                                         !chkL3SimularVazio.Value,
-                                        ClearCollect(
-                                            colL3Publicacoes,
-                                            JSONPlaceholderDAC.ListarPublicacoes()
-                                        )
+                                        ClearCollect(colL3Publicacoes, JSONPlaceholderDAC.ListarPublicacoes())
                                     ),
                                     UpdateContext({locL3Erro: Trim(locL3Erro & " Não foi possível obter as publicações. " & FirstError.Message)})
                                 );
@@ -242,32 +228,32 @@ Screens:
                   - chkL3SimularFalha:
                       Control: Classic/CheckBox@2.1.0
                       Properties:
-                        BorderColor: =RGBA(0, 18, 107, 1)
+                        BorderColor: =nfBorda
                         CheckboxBorderColor: =nfVermelho
                         CheckboxSize: =24
-                        CheckmarkFill: =RGBA(0, 0, 0, 1)
+                        CheckmarkFill: =nfTexto
                         Color: =nfTextoSuave
                         DisplayMode: =If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)
                         Font: =Font.'Open Sans'
                         Height: =32
-                        HoverColor: =RGBA(0, 18, 107, 1)
+                        HoverColor: =nfAzul
                         LayoutMinHeight: =16
                         LayoutMinWidth: =16
                         Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
-                        Text: '="Simular falha da API (teste de erro)"  '
+                        Text: ="Simular falha da API (teste de erro)"
                         Width: =Min(380, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight)
                   - chkL3SimularVazio:
                       Control: Classic/CheckBox@2.1.0
                       Properties:
-                        BorderColor: =RGBA(0, 18, 107, 1)
+                        BorderColor: =nfBorda
                         CheckboxBorderColor: =nfVermelho
                         CheckboxSize: =24
-                        CheckmarkFill: =RGBA(0, 0, 0, 1)
+                        CheckmarkFill: =nfTexto
                         Color: =nfTextoSuave
                         DisplayMode: =If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)
                         Font: =Font.'Open Sans'
                         Height: =32
-                        HoverColor: =RGBA(0, 18, 107, 1)
+                        HoverColor: =nfAzul
                         LayoutMinHeight: =16
                         LayoutMinWidth: =16
                         Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
@@ -297,6 +283,7 @@ Screens:
                         - icoL3Aviso:
                             Control: Classic/Icon@2.5.0
                             Properties:
+                              AccessibleLabel: ="Erro"
                               Color: =nfVermelho
                               Height: =28
                               Icon: =Icon.Warning
@@ -305,8 +292,9 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               AlignInContainer: =If(scrL3Lista.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
-                              Color: =ColorValue("#8E1F25")
+                              Color: =nfVermelhoTexto
                               FillPortions: =If(scrL3Lista.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
                               Height: =If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)
                               Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
                               Text: =locL3Erro
@@ -349,7 +337,8 @@ Screens:
                         - icoL3AvisoVazio:
                             Control: Classic/Icon@2.5.0
                             Properties:
-                              BorderColor: =RGBA(0, 18, 107, 1)
+                              AccessibleLabel: ="Aviso"
+                              BorderColor: =nfBorda
                               Color: =nfAmbar
                               Height: =28
                               Icon: =Icon.Warning
@@ -360,9 +349,10 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               AlignInContainer: =If(scrL3Lista.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.SetByContainer)
-                              BorderColor: =RGBA(0, 18, 107, 1)
+                              BorderColor: =nfBorda
                               Color: =nfAmbar
                               FillPortions: =If(scrL3Lista.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
                               Font: =Font.'Open Sans'
                               Height: =If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)
                               LayoutMinHeight: =16
@@ -373,13 +363,13 @@ Screens:
                             Control: Classic/Button@2.2.0
                             Properties:
                               BorderColor: =ColorFade(Self.Fill, -15%)
-                              Color: =RGBA(255, 255, 255, 1)
-                              DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                              Color: =Color.White
+                              DisabledBorderColor: =nfDesativado
                               Fill: =nfAzul
                               Font: =Font.'Open Sans'
                               Height: =48
                               HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
-                              HoverColor: =RGBA(255, 255, 255, 1)
+                              HoverColor: =Color.White
                               HoverFill: =ColorFade(nfAzul, -20%)
                               LayoutMinHeight: =16
                               LayoutMinWidth: =16
@@ -399,6 +389,7 @@ Screens:
                         Align: =Align.Center
                         AlignInContainer: =AlignInContainer.Stretch
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Height: =60
                         Text: ="A carregar dados da API…"
                         Visible: =locL3ACarregar
@@ -408,6 +399,7 @@ Screens:
                         Align: =Align.Center
                         AlignInContainer: =AlignInContainer.Stretch
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Height: =60
                         Text: ="Nada corresponde à pesquisa."
                         Visible: |-
@@ -418,6 +410,7 @@ Screens:
                       Control: Gallery@2.15.0
                       Variant: Vertical
                       Properties:
+                        AccessibleLabel: ="Lista de utilizadores"
                         Items: |-
                           =Sort(
                               Filter(colL3Utilizadores,
@@ -427,6 +420,7 @@ Screens:
                         OnSelect: |-
                           =Navigate(scrL3Detalhe, ScreenTransition.Cover,
                               {locL3Sel: galL3Utilizadores.Selected})
+                        TabIndex: =0
                         TemplateFill: =Color.White
                         TemplatePadding: =0
                         TemplateSize: =80
@@ -496,7 +490,7 @@ Screens:
                         - icoL3Abrir:
                             Control: Classic/Icon@2.5.0
                             Properties:
-                              Color: =ColorValue("#7D8993")
+                              Color: =nfBorda
                               Height: =24
                               Icon: =Icon.ChevronRight
                               OnSelect: =Select(Parent)
@@ -514,6 +508,7 @@ Screens:
                       Control: Gallery@2.15.0
                       Variant: Vertical
                       Properties:
+                        AccessibleLabel: ="Lista de publicações"
                         Items: |-
                           =Sort(
                               Filter(colL3Publicacoes,
@@ -524,6 +519,7 @@ Screens:
                         OnSelect: |-
                           =Navigate(scrL3Publicacao, ScreenTransition.Cover,
                               {locL3Pub: galL3Publicacoes.Selected})
+                        TabIndex: =0
                         TemplateFill: =Color.White
                         TemplatePadding: =0
                         TemplateSize: =96
@@ -563,7 +559,9 @@ Screens:
                               Height: =24
                               OnSelect: =Select(Parent)
                               Size: =12
-                              Text: =Left(Substitute(ThisItem.body, Char(10), " "), 100) & "..."
+                              Text: |-
+                                =With({t: Substitute(ThisItem.body, Char(10), " ")},
+                                    If(Len(t) > 100, Left(t, 100) & "…", t))
                               Width: =Parent.TemplateWidth - 96
                               Wrap: =false
                               X: =24
@@ -571,7 +569,7 @@ Screens:
                         - icoL3PubAbrir:
                             Control: Classic/Icon@2.5.0
                             Properties:
-                              Color: =ColorValue("#7D8993")
+                              Color: =nfBorda
                               Height: =24
                               Icon: =Icon.ChevronRight
                               OnSelect: =Select(Parent)

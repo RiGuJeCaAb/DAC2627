@@ -40,6 +40,7 @@ Screens:
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -62,6 +63,7 @@ Screens:
                         AlignInContainer: =AlignInContainer.Stretch
                         AutoHeight: =true
                         Color: =nfTexto
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Bold
                         Size: =If(scrInicio.Size = ScreenSize.Small, 22, 28)
                         Text: ="Laboratórios de DAC 2026/27"
@@ -71,15 +73,40 @@ Screens:
                         AlignInContainer: =AlignInContainer.Stretch
                         AutoHeight: =true
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Size: =15
                         Text: ="Escolha a ficha que quer abrir."
                   - galInFichas:
                       Control: Gallery@2.15.0
                       Variant: Vertical
                       Properties:
+                        AccessibleLabel: ="Fichas de laboratório"
                         Items: |-
-                          =Table({Num: 1, Ficha: "Ficha 01", Titulo: "Hello Cloud", Descricao: "Primeira Canvas app: três ecrãs, navegação e variável global.", Disponivel: true}, {Num: 2, Ficha: "Ficha 02", Titulo: "Serviços Cloud", Descricao: "Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.", Disponivel: true}, {Num: 3, Ficha: "Ficha 03", Titulo: "Consulta de API", Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true}, {Num: 4, Ficha: "Ficha 04", Titulo: "Clientes e Pedidos", Descricao: "Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.", Disponivel: true})
-                        OnSelect: =If(galInFichas.Selected.Disponivel, Switch(galInFichas.Selected.Num, 1, Navigate(scrL1BoasVindas, ScreenTransition.Cover), 2, Navigate(scrL2Servicos, ScreenTransition.Cover), 3, Navigate(scrL3Lista, ScreenTransition.Cover), 4, Navigate(scrL4Pedidos, ScreenTransition.Cover)))
+                          =Table(
+                              {Num: 1, Ficha: "Ficha 01", Titulo: "Hello Cloud",
+                               Descricao: "Primeira Canvas app: três ecrãs, navegação e variável global.", Disponivel: true},
+                              {Num: 2, Ficha: "Ficha 02", Titulo: "Serviços Cloud",
+                               Descricao: "Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.", Disponivel: true},
+                              {Num: 3, Ficha: "Ficha 03", Titulo: "Consulta de API",
+                               Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true},
+                              {Num: 4, Ficha: "Ficha 04", Titulo: "Clientes e Pedidos",
+                               Descricao: "Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.", Disponivel: true},
+                              {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "SharePoint, Dataverse e SQL",
+                               Descricao: "Ponto 8 do Lab 4: as três origens de dados comparadas para os clientes e pedidos.", Disponivel: true}
+                          )
+                        OnSelect: |-
+                          =If(
+                              galInFichas.Selected.Disponivel,
+                              Switch(
+                                  galInFichas.Selected.Num,
+                                  1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),
+                                  2, Navigate(scrL2Servicos, ScreenTransition.Cover),
+                                  3, Navigate(scrL3Lista, ScreenTransition.Cover),
+                                  4, Navigate(scrL4Pedidos, ScreenTransition.Cover),
+                                  5, Navigate(scrL4Complemento, ScreenTransition.Cover)
+                              )
+                          )
+                        TabIndex: =0
                         TemplatePadding: =12
                         TemplateSize: =228
                         WrapCount: =Switch(scrInicio.Size, ScreenSize.Small, 1, ScreenSize.Medium, 2, 3)
@@ -88,7 +115,7 @@ Screens:
                             Control: GroupContainer@1.5.0
                             Variant: ManualLayout
                             Properties:
-                              BorderColor: =If(ThisItem.Disponivel, nfLinha, ColorValue("#C5CBD1"))
+                              BorderColor: =If(ThisItem.Disponivel, nfLinha, nfLinhaForte)
                               BorderStyle: =If(ThisItem.Disponivel, BorderStyle.Solid, BorderStyle.Dashed)
                               BorderThickness: =If(ThisItem.Disponivel, 1, 2)
                               DropShadow: =If(ThisItem.Disponivel, DropShadow.Light, DropShadow.None)
@@ -157,5 +184,6 @@ Screens:
                         AlignInContainer: =AlignInContainer.Stretch
                         AutoHeight: =true
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Size: =12
-                        Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud"
+                        Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud · v" & nfVersao

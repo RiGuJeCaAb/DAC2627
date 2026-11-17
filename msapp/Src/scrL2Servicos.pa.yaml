@@ -28,6 +28,7 @@ Screens:
                 Control: GroupContainer@1.5.0
                 Variant: AutoLayout
                 Properties:
+                  DropShadow: =DropShadow.None
                   Fill: =nfAzul
                   FillPortions: =0
                   Height: =64
@@ -45,12 +46,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - lblCabL2:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -59,6 +62,7 @@ Screens:
                 Control: GroupContainer@1.5.0
                 Variant: AutoLayout
                 Properties:
+                  DropShadow: =DropShadow.None
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =16
                   PaddingBottom: =24
@@ -82,6 +86,7 @@ Screens:
                         - txtL2Pesquisa:
                             Control: Classic/TextInput@2.3.2
                             Properties:
+                              AccessibleLabel: ="Pesquisar serviços pelo início do nome"
                               Default: =""
                               DisplayMode: =If(frmL2Servico.Mode = FormMode.View, DisplayMode.Edit, DisplayMode.Disabled)
                               FillPortions: =1
@@ -95,6 +100,7 @@ Screens:
                         - drpL2Modelo:
                             Control: Classic/DropDown@2.3.1
                             Properties:
+                              AccessibleLabel: ="Filtrar por modelo de serviço"
                               Default: ="Todos"
                               DisplayMode: =If(frmL2Servico.Mode = FormMode.View, DisplayMode.Edit, DisplayMode.Disabled)
                               Height: =48
@@ -105,6 +111,7 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Height: =48
                               Text: |-
                                 =With({n: If(drpL2Modelo.Selected.Value = "Todos", CountRows(Filter('Cloud Service', StartsWith('Service Title', txtL2Pesquisa.Text))), CountRows(Filter('Cloud Service', StartsWith('Service Title', txtL2Pesquisa.Text) && 'Service Model' = LookUp(Choices('Cloud Service'.'Service Model'), Text(Value) = drpL2Modelo.Selected.Value).Value)))}, If(n = 1, "1 serviço", n & " serviços"))
@@ -129,6 +136,7 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
+                        DropShadow: =DropShadow.None
                         LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =24
@@ -154,6 +162,7 @@ Screens:
                                     Align: =Align.Center
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
                                     Height: =80
                                     Text: ="Nenhum serviço encontrado com estes critérios."
                                     Visible: =IsEmpty(galL2Servicos.AllItems)
@@ -161,10 +170,12 @@ Screens:
                                   Control: Gallery@2.15.0
                                   Variant: Vertical
                                   Properties:
+                                    AccessibleLabel: ="Lista de serviços cloud"
                                     DisplayMode: =If(frmL2Servico.Mode = FormMode.View, DisplayMode.Edit, DisplayMode.Disabled)
                                     Items: =If(drpL2Modelo.Selected.Value = "Todos", Sort(Filter('Cloud Service', StartsWith('Service Title', txtL2Pesquisa.Text)), 'Service Title'), Sort(Filter('Cloud Service', StartsWith('Service Title', txtL2Pesquisa.Text) && 'Service Model' = LookUp(Choices('Cloud Service'.'Service Model'), Text(Value) = drpL2Modelo.Selected.Value).Value), 'Service Title'))
                                     OnSelect: |-
                                       =UpdateContext({locSel: galL2Servicos.Selected, locTentou: false})
+                                    TabIndex: =0
                                     TemplateFill: =If(ThisItem.'Cloud Service' = locSel.'Cloud Service', nfAzulClaro, Color.White)
                                     TemplatePadding: =0
                                     TemplateSize: =72
@@ -199,12 +210,12 @@ Screens:
                                           BorderThickness: =0
                                           Color: |-
                                             =Switch(Text(ThisItem.'Service Model'),
-                                                "IaaS", nfAzul, "PaaS", ColorValue("#1F5E43"), ColorValue("#8A3B0F"))
+                                                "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
                                           DisabledColor: =Self.Color
                                           DisabledFill: =Self.Fill
                                           Fill: |-
                                             =Switch(Text(ThisItem.'Service Model'),
-                                                "IaaS", ColorValue("#DCE7F2"), "PaaS", nfVerdeFundo, ColorValue("#FBEBD9"))
+                                                "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)
                                           Font: =Font.'Open Sans'
                                           FontWeight: =FontWeight.Bold
                                           Height: =28
@@ -281,6 +292,7 @@ Screens:
                                         Properties:
                                           Color: =nfTexto
                                           FillPortions: =1
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Height: =44
                                           Size: =If(scrL2Servicos.Size = ScreenSize.Small, 18, 22)
@@ -293,6 +305,7 @@ Screens:
                                   Control: GroupContainer@1.5.0
                                   Variant: AutoLayout
                                   Properties:
+                                    DropShadow: =DropShadow.None
                                     Fill: =nfVermelhoFundo
                                     FillPortions: =0
                                     Height: =44
@@ -311,8 +324,9 @@ Screens:
                                     - lblL2ErroGeral:
                                         Control: Label@2.5.1
                                         Properties:
-                                          Color: =ColorValue("#8E1F25")
+                                          Color: =nfVermelhoTexto
                                           FillPortions: =1
+                                          FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Semibold
                                           Text: ="Preencha os campos obrigatórios assinalados."
                               - frmL2Servico:
@@ -320,7 +334,7 @@ Screens:
                                   Variant: Classic
                                   Layout: Vertical
                                   Properties:
-                                    BorderColor: =RGBA(0, 18, 107, 1)
+                                    BorderColor: =nfBorda
                                     DataSource: ='Cloud Service'
                                     DefaultMode: =FormMode.View
                                     Item: =locSel
@@ -337,14 +351,14 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicTextualEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="mcsft_servicetitle"
                                           Default: =ThisItem.'Service Title'
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_servicetitle)
                                           MaxLength: =DataSourceInfo([@'Cloud Service'], DataSourceInfo.MaxLength, mcsft_servicetitle)
                                           Required: =false
                                           Update: =Trim(txtL2Titulo.Text)
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =0
                                           Y: =0
                                         Children:
@@ -353,8 +367,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -366,15 +380,16 @@ Screens:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
                                                 HintText: |-
                                                   ="Ex.: Azure VM"
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -390,8 +405,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -411,8 +426,8 @@ Screens:
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey2.Height
                                                 Text: ="*"
@@ -425,13 +440,13 @@ Screens:
                                         Variant: ClassicComboBoxOptionSetSingleEdit
                                         IsLocked: true
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="mcsft_status"
                                           Default: =ThisItem.Status
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_status)
                                           Required: =false
-                                          Update: =DataCardValue5.Selected.Value
-                                          Width: =364
+                                          Update: =cmbL2Estado.Selected.Value
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =1
                                           Y: =0
                                         Children:
@@ -440,8 +455,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -449,27 +464,28 @@ Screens:
                                                 Wrap: =false
                                                 X: =30
                                                 Y: =10
-                                          - DataCardValue5:
+                                          - cmbL2Estado:
                                               Control: Classic/ComboBox@2.4.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
-                                                ChevronBackground: =RGBA(56, 96, 178, 1)
-                                                ChevronFill: =RGBA(255, 255, 255, 1)
-                                                ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-                                                ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
+                                                ChevronBackground: =nfAzul
+                                                ChevronFill: =Color.White
+                                                ChevronHoverBackground: =ColorFade(nfAzul, -20%)
+                                                ChevronHoverFill: =Color.White
                                                 DefaultSelectedItems: =[Parent.Default]
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverFill: =nfAzulFundo
                                                 IsSearchable: =false
                                                 Items: =Choices('Status (Cloud Service)')
                                                 PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
-                                                PressedColor: =RGBA(255, 255, 255, 1)
-                                                PressedFill: =RGBA(0, 18, 107, 1)
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfAzul
                                                 SelectMultiple: =false
-                                                SelectionColor: =RGBA(255, 255, 255, 1)
-                                                SelectionFill: =RGBA(56, 96, 178, 1)
+                                                SelectionColor: =Color.White
+                                                SelectionFill: =nfAzul
                                                 Tooltip: =Parent.DisplayName
                                                 Width: =Parent.Width - 60
                                                 X: =30
@@ -479,8 +495,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -494,14 +510,14 @@ Screens:
                                                 Visible: =Parent.DisplayMode=DisplayMode.Edit
                                                 Width: =Parent.Width - 60
                                                 X: =30
-                                                Y: =DataCardValue5.Y + DataCardValue5.Height
+                                                Y: =cmbL2Estado.Y + cmbL2Estado.Height
                                           - StarVisible5:
                                               Control: Label@2.5.1
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey5.Height
                                                 Text: ="*"
@@ -513,14 +529,14 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicTextualEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="mcsft_provider"
                                           Default: =ThisItem.Provider
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_provider)
                                           MaxLength: =DataSourceInfo([@'Cloud Service'], DataSourceInfo.MaxLength, mcsft_provider)
                                           Required: =false
                                           Update: =Trim(txtL2Fornecedor.Text)
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =0
                                           Y: =1
                                         Children:
@@ -529,8 +545,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -542,15 +558,16 @@ Screens:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
                                                 HintText: |-
                                                   ="Ex.: Microsoft"
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 PaddingLeft: =5
                                                 RadiusBottomLeft: =0
@@ -566,8 +583,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -587,8 +604,8 @@ Screens:
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey1.Height
                                                 Text: ="*"
@@ -600,13 +617,13 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicComboBoxOptionSetSingleEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="mcsft_servicemodel"
                                           Default: =ThisItem.'Service Model'
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_servicemodel)
                                           Required: =false
                                           Update: =cmbL2Modelo.Selected.Value
-                                          Width: =364
+                                          Width: =If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
                                           X: =1
                                           Y: =1
                                         Children:
@@ -615,8 +632,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -628,26 +645,27 @@ Screens:
                                               Control: Classic/ComboBox@2.4.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
-                                                ChevronBackground: =RGBA(56, 96, 178, 1)
-                                                ChevronFill: =RGBA(255, 255, 255, 1)
-                                                ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-                                                ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
+                                                ChevronBackground: =nfAzul
+                                                ChevronFill: =Color.White
+                                                ChevronHoverBackground: =ColorFade(nfAzul, -20%)
+                                                ChevronHoverFill: =Color.White
                                                 DefaultSelectedItems: =[Parent.Default]
                                                 DisplayFields: =["Value"]
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverFill: =nfAzulFundo
                                                 InputTextPlaceholder: ="Selecione IaaS, PaaS ou SaaS"
                                                 IsSearchable: =false
                                                 Items: =Choices('Service Model (Cloud Service)')
                                                 PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
-                                                PressedColor: =RGBA(255, 255, 255, 1)
-                                                PressedFill: =RGBA(0, 18, 107, 1)
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfAzul
                                                 SearchFields: =["Value"]
                                                 SelectMultiple: =false
-                                                SelectionColor: =RGBA(255, 255, 255, 1)
-                                                SelectionFill: =RGBA(56, 96, 178, 1)
+                                                SelectionColor: =Color.White
+                                                SelectionFill: =nfAzul
                                                 Tooltip: =Parent.DisplayName
                                                 Width: =Parent.Width - 60
                                                 X: =30
@@ -657,8 +675,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -678,8 +696,8 @@ Screens:
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey4.Height
                                                 Text: ="*"
@@ -691,14 +709,14 @@ Screens:
                                         Control: TypedDataCard@1.0.7
                                         Variant: ClassicTextualEdit
                                         Properties:
-                                          BorderColor: =RGBA(0, 18, 107, 1)
+                                          BorderColor: =nfBorda
                                           DataField: ="mcsft_servicedescription"
                                           Default: =ThisItem.'Service Description'
                                           DisplayName: =DataSourceInfo([@'Cloud Service'],DataSourceInfo.DisplayName,mcsft_servicedescription)
                                           MaxLength: =DataSourceInfo([@'Cloud Service'], DataSourceInfo.MaxLength, mcsft_servicedescription)
                                           Required: =false
                                           Update: =txtL2Descricao.Text
-                                          Width: =364
+                                          Width: =Parent.Width - 1
                                           WidthFit: =true
                                           X: =0
                                           Y: =2
@@ -708,8 +726,8 @@ Screens:
                                               MetadataKey: FieldName
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -721,14 +739,15 @@ Screens:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                                                AccessibleLabel: =Parent.DisplayName
+                                                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
                                                 Height: =96
-                                                HoverBorderColor: =RGBA(0, 18, 107, 1)
-                                                HoverFill: =RGBA(186, 202, 226, 1)
+                                                HoverBorderColor: =nfAzul
+                                                HoverFill: =nfAzulFundo
                                                 MaxLength: =Parent.MaxLength
                                                 Mode: =TextMode.MultiLine
                                                 PaddingLeft: =5
@@ -745,8 +764,8 @@ Screens:
                                               MetadataKey: ErrorMessage
                                               Properties:
                                                 AutoHeight: =true
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(168, 0, 0, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfVermelhoTexto
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -766,8 +785,8 @@ Screens:
                                               MetadataKey: FieldRequired
                                               Properties:
                                                 Align: =Align.Center
-                                                BorderColor: =RGBA(0, 0, 0, 1)
-                                                Color: =RGBA(0, 18, 107, 1)
+                                                BorderColor: =nfBorda
+                                                Color: =nfTexto
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey3.Height
                                                 Text: ="*"
@@ -782,6 +801,7 @@ Screens:
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTextoSuave
                                     FillPortions: =1
+                                    FocusedBorderThickness: =2
                                     Text: ="Selecione um serviço na lista ou crie um novo."
                                     Visible: =frmL2Servico.Mode = FormMode.View && IsBlank(locSel)
                               - conL2Acoes:
@@ -815,6 +835,7 @@ Screens:
                                         Control: Label@2.5.1
                                         Properties:
                                           FillPortions: =1
+                                          FocusedBorderThickness: =2
                                           LayoutMinWidth: =0
                                           Text: =""
                                     - btnL2Cancelar:
@@ -873,7 +894,7 @@ Screens:
       - recL2Veu:
           Control: Rectangle@2.3.0
           Properties:
-            Fill: =RGBA(30, 42, 51, 0.55)
+            Fill: =nfVeu
             Height: =Parent.Height
             Visible: =locAcao <> ""
             Width: =Parent.Width
@@ -904,6 +925,7 @@ Screens:
                 Properties:
                   AlignInContainer: =AlignInContainer.Stretch
                   Color: =nfTexto
+                  FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Bold
                   Size: =22
                   Text: |-
@@ -917,6 +939,7 @@ Screens:
                   AlignInContainer: =AlignInContainer.Stretch
                   Color: =nfTextoSuave
                   FillPortions: =1
+                  FocusedBorderThickness: =2
                   Text: |-
                     =Switch(locAcao,
                         "criar", "O serviço " & Trim(txtL2Titulo.Text) & " vai ser acrescentado à tabela Cloud Service.",
@@ -999,6 +1022,7 @@ Screens:
             - icoL2MsgIcone:
                 Control: Classic/Icon@2.5.0
                 Properties:
+                  AccessibleLabel: =If(locMsgTipo = "erro", "Erro", "Sucesso")
                   Color: =If(locMsgTipo = "erro", nfVermelho, nfVerde)
                   Height: =24
                   Icon: =If(locMsgTipo = "erro", Icon.Warning, Icon.Check)
@@ -1006,8 +1030,9 @@ Screens:
             - lblL2Mensagem:
                 Control: Label@2.5.1
                 Properties:
-                  Color: =If(locMsgTipo = "erro", ColorValue("#8E1F25"), ColorValue("#1F5E43"))
+                  Color: =If(locMsgTipo = "erro", nfVermelhoTexto, nfVerdeTexto)
                   FillPortions: =1
+                  FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Semibold
                   Text: =locMsg
             - icoL2FecharMsg:
@@ -1019,6 +1044,7 @@ Screens:
                   Icon: =Icon.Cancel
                   OnSelect: |-
                     =UpdateContext({locMsg: "", locTimer: false})
+                  TabIndex: =0
                   Width: =44
       - tmrL2Mensagem:
           Control: Timer@2.1.0

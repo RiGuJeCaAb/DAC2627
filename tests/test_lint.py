@@ -26,9 +26,9 @@ def _regras(*docs, cfg=None):
 
 def test_prefixo_e_ficha():
     r = _regras(_app(), _ecra("scrL1A", [
-        _c("Label1", "Label@2.5.1", {"TabIndex": "=-1", "FocusedBorderThickness": "=2"}),
-        _c("lblTitulo", "Label@2.5.1", {"TabIndex": "=-1", "FocusedBorderThickness": "=2"}),
-        _c("lblL1Ok", "Label@2.5.1", {"TabIndex": "=-1", "FocusedBorderThickness": "=2"}),
+        _c("Label1", "Label@2.5.1", {"FocusedBorderThickness": "=2"}),
+        _c("lblTitulo", "Label@2.5.1", {"FocusedBorderThickness": "=2"}),
+        _c("lblL1Ok", "Label@2.5.1", {"FocusedBorderThickness": "=2"}),
     ]))
     assert ("DAC101", "Label1") in r
     assert ("DAC101", "lblTitulo") in r
@@ -37,9 +37,9 @@ def test_prefixo_e_ficha():
 
 def test_cor_literal_e_token_em_falta():
     r = _regras(_app(), _ecra("scrL1A", [
-        _c("recL1A", "Rectangle@2.3.0", {"Fill": '=ColorValue("#FF0000")', "AccessibleLabel": '=""', "TabIndex": "=-1"}),
-        _c("recL1B", "Rectangle@2.3.0", {"Fill": "=nfInexistente", "AccessibleLabel": '=""', "TabIndex": "=-1"}),
-        _c("recL1C", "Rectangle@2.3.0", {"Fill": "=Color.White", "AccessibleLabel": '=""', "TabIndex": "=-1"}),
+        _c("recL1A", "Rectangle@2.3.0", {"Fill": '=ColorValue("#FF0000")'}),
+        _c("recL1B", "Rectangle@2.3.0", {"Fill": "=nfInexistente"}),
+        _c("recL1C", "Rectangle@2.3.0", {"Fill": "=Color.White"}),
     ]))
     assert ("DAC201", "recL1A") in r
     assert any(x[0] == "DAC202" for x in r)
@@ -64,7 +64,7 @@ def test_referencia_inexistente_e_variaveis():
     r = _regras(_app(), _ecra("scrL1A", [
         _c("btnL1A", "Classic/Button@2.2.0", {
             "OnSelect": '=Select(btnL1Fantasma); UpdateContext({aviso: true}); Set(nome, 1); Navigate(scrL1A)'}),
-        _c("lblL1B", "Label@2.5.1", {"Text": "=locNunca", "TabIndex": "=-1", "FocusedBorderThickness": "=2"}),
+        _c("lblL1B", "Label@2.5.1", {"Text": "=locNunca", "FocusedBorderThickness": "=2"}),
     ]))
     assert ("DAC403", "btnL1A") in r
     assert sum(1 for x in r if x[0] == "DAC103") == 2
@@ -76,7 +76,7 @@ def test_navigate_define_loc_no_ecra_destino():
                 _ecra("scrL3A", [_c("btnL3A", "Classic/Button@2.2.0", {
                     "OnSelect": "=Navigate(scrL3B, ScreenTransition.Cover, {locL3Sel: 1})"})]),
                 _ecra("scrL3B", [_c("lblL3B", "Label@2.5.1", {
-                    "Text": "=locL3Sel", "TabIndex": "=-1", "FocusedBorderThickness": "=2"})]))
+                    "Text": "=locL3Sel", "FocusedBorderThickness": "=2"})]))
     assert not any(x[0] == "DAC404" for x in r)
 
 
@@ -85,17 +85,51 @@ def test_acessibilidade():
         _c("icoL1A", "Classic/Icon@2.5.0", {"OnSelect": "=Back()", "Width": "=24", "Height": "=24"}),
         _c("txtL1B", "Classic/TextInput@2.3.2", {}),
         _c("lblL1C", "Label@2.5.1", {}),
+        _c("recL1D", "Rectangle@2.3.0", {}),
+        _c("btnL1E", "Classic/Button@2.2.0", {"OnSelect": "=Back()", "TabIndex": "=-1"}),
     ]))
     assert ("DAC301", "icoL1A") in r and ("DAC301", "txtL1B") in r
-    assert ("DAC302", "icoL1A") in r and ("DAC302", "lblL1C") in r
+    # ícone com ação: TabIndex ausente vale -1, fica fora da ordem de tabulação
+    assert ("DAC302", "icoL1A") in r and ("DAC302", "btnL1E") in r
     assert ("DAC303", "lblL1C") in r
     assert ("DAC304", "icoL1A") in r
+    # etiqueta e retângulo decorativos: TabIndex e AccessibleLabel ausentes são -1 e "", como o Studio guarda
+    assert ("DAC302", "lblL1C") not in r and ("DAC302", "recL1D") not in r and ("DAC301", "recL1D") not in r
+
+
+def test_valor_por_omissao_escrito():
+    r = _regras(_app(), _ecra("scrL1A", [
+        _c("lblL1A", "Label@2.5.1", {"TabIndex": "=-1", "FocusedBorderThickness": "=2", "Size": "=13"}),
+        _c("conL1B", "GroupContainer@1.5.0", {"DropShadow": "=DropShadow.Light"}),
+        _c("btnL1C", "Classic/Button@2.2.0", {"OnSelect": "=Back()", "TabIndex": "=0", "Width": "=120", "Height": "=44"}),
+    ]))
+    assert ("DAC504", "lblL1A") in r and ("DAC504", "conL1B") in r
+    assert sum(1 for x in r if x[0] == "DAC504") == 3
+    assert ("DAC504", "btnL1C") not in r
+
+
+def test_sombra_dentro_de_sombra():
+    pai = _c("conL1A", "GroupContainer@1.5.0", {})
+    pai["conL1A"]["Children"] = [_c("conL1B", "GroupContainer@1.5.0", {}),
+                                 _c("conL1C", "GroupContainer@1.5.0", {"DropShadow": "=DropShadow.None"})]
+    r = _regras(_app(), _ecra("scrL1A", [pai]))
+    assert ("DAC503", "conL1B") in r and ("DAC503", "conL1C") not in r and ("DAC503", "conL1A") not in r
+
+
+def test_definir_valor_por_omissao_apaga_a_linha():
+    from tools.dac import yamlio
+    doc = _ecra("scrL1A", [_c("lblL1A", "Label@2.5.1", {"TabIndex": "=-1", "Text": '="a"'})])
+    c = next(yamlio.controlos(doc))
+    c.definir("TabIndex", "=-1")
+    assert c.prop("TabIndex") is None and c.prop("Text") == '="a"'
+    c.definir("TabIndex", "=0")
+    assert c.prop("TabIndex") == "=0"
 
 
 def test_excecao_precisa_de_motivo():
-    doc = _ecra("scrL1A", [_c("lblL1C", "Label@2.5.1", {"FocusedBorderThickness": "=2"})])
-    com = lint.Config(excecoes=[{"regra": "DAC302", "controlo": "lblL1C", "motivo": "teste"}])
-    sem = lint.Config(excecoes=[{"regra": "DAC302", "controlo": "lblL1C"}])
-    assert ("DAC302", "lblL1C") not in _regras(_app(), doc, cfg=com)
+    doc = _ecra("scrL1A", [_c("btnL1C", "Classic/Button@2.2.0", {"TabIndex": "=-1", "Width": "=120", "Height": "=44"})])
+    com = lint.Config(excecoes=[{"regra": "DAC302", "controlo": "btnL1C", "motivo": "teste"}])
+    sem = lint.Config(excecoes=[{"regra": "DAC302", "controlo": "btnL1C"}])
+    assert ("DAC302", "btnL1C") not in _regras(_app(), doc, cfg=com)
     r = _regras(_app(), doc, cfg=sem)
-    assert ("DAC302", "lblL1C") in r and any(x[0] == "DAC900" for x in r)
+    assert ("DAC302", "btnL1C") in r and any(x[0] == "DAC900" for x in r)

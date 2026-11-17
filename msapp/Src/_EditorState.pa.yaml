@@ -8,12 +8,13 @@
 # ************************************************************************************************
 EditorState:
   ScreensOrder:
-    - scrL2Servicos
     - scrInicio
     - scrL1BoasVindas
     - scrL1Pedido
     - scrL1Saudacao
+    - scrL2Servicos
     - scrL3Detalhe
     - scrL3Lista
     - scrL3Publicacao
+    - scrL4Complemento
     - scrL4Pedidos

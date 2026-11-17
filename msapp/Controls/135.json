@@ -110,7 +110,7 @@
       "ContentLanguage"
     ],
     "IsLocked": false,
-    "ControlUniqueId": "204",
+    "ControlUniqueId": "135",
     "Children": [
       {
         "Type": "ControlInfo",
@@ -135,7 +135,7 @@
         "MetaDataIDKey": "",
         "PersistMetaDataIDKey": false,
         "IsFromScreenLayout": false,
-        "StyleName": "defaultGroupContainerStyle",
+        "StyleName": "",
         "Parent": "scrL3Publicacao",
         "IsDataControl": false,
         "AllowAccessToGlobals": true,
@@ -420,7 +420,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "205",
+        "ControlUniqueId": "136",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -507,7 +507,7 @@
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "defaultGroupContainerStyle",
+            "StyleName": "",
             "Parent": "conEcraL3c",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -792,7 +792,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "206",
+            "ControlUniqueId": "137",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -879,7 +879,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultIconStyle",
+                "StyleName": "",
                 "Parent": "conCabL3c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1040,7 +1040,7 @@
                   {
                     "Property": "TabIndex",
                     "Category": "Design",
-                    "InvariantScript": "-1",
+                    "InvariantScript": "0",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -1171,7 +1171,7 @@
                   "PreserveAspectRatio"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "207",
+                "ControlUniqueId": "138",
                 "Children": []
               },
               {
@@ -1259,7 +1259,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultIconStyle",
+                "StyleName": "",
                 "Parent": "conCabL3c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1420,7 +1420,7 @@
                   {
                     "Property": "TabIndex",
                     "Category": "Design",
-                    "InvariantScript": "-1",
+                    "InvariantScript": "0",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -1551,7 +1551,7 @@
                   "PreserveAspectRatio"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "208",
+                "ControlUniqueId": "139",
                 "Children": []
               },
               {
@@ -1639,7 +1639,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conCabL3c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1782,7 +1782,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2008,7 +2008,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "209",
+                "ControlUniqueId": "140",
                 "Children": []
               }
             ]
@@ -2098,7 +2098,7 @@
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "defaultGroupContainerStyle",
+            "StyleName": "",
             "Parent": "conEcraL3c",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -2383,7 +2383,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "210",
+            "ControlUniqueId": "141",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -2470,7 +2470,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -2613,7 +2613,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2839,7 +2839,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "211",
+                "ControlUniqueId": "142",
                 "Children": []
               },
               {
@@ -2927,7 +2927,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGroupContainerStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -3212,7 +3212,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "212",
+                "ControlUniqueId": "143",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -3299,7 +3299,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3442,7 +3442,7 @@
                       {
                         "Property": "FocusedBorderThickness",
                         "Category": "Design",
-                        "InvariantScript": "0",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -3668,7 +3668,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "213",
+                    "ControlUniqueId": "144",
                     "Children": []
                   },
                   {
@@ -3756,7 +3756,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3899,7 +3899,7 @@
                       {
                         "Property": "FocusedBorderThickness",
                         "Category": "Design",
-                        "InvariantScript": "0",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -4125,7 +4125,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "214",
+                    "ControlUniqueId": "145",
                     "Children": []
                   },
                   {
@@ -4213,7 +4213,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultGroupContainerStyle",
+                    "StyleName": "",
                     "Parent": "conL3cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4278,7 +4278,7 @@
                       {
                         "Property": "Fill",
                         "Category": "Design",
-                        "InvariantScript": "ColorValue(\"#F7F8F9\")",
+                        "InvariantScript": "nfSuperficie",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -4498,7 +4498,7 @@
                       "DropShadow"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "215",
+                    "ControlUniqueId": "146",
                     "Children": [
                       {
                         "Type": "ControlInfo",
@@ -4585,7 +4585,7 @@
                         "MetaDataIDKey": "",
                         "PersistMetaDataIDKey": false,
                         "IsFromScreenLayout": false,
-                        "StyleName": "defaultButtonStyle",
+                        "StyleName": "",
                         "Parent": "conL3PubAutor",
                         "IsDataControl": false,
                         "AllowAccessToGlobals": true,
@@ -4940,7 +4940,7 @@
                           "minimumWidth"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "216",
+                        "ControlUniqueId": "147",
                         "Children": []
                       },
                       {
@@ -5028,7 +5028,7 @@
                         "MetaDataIDKey": "",
                         "PersistMetaDataIDKey": false,
                         "IsFromScreenLayout": false,
-                        "StyleName": "defaultLabelStyle",
+                        "StyleName": "",
                         "Parent": "conL3PubAutor",
                         "IsDataControl": false,
                         "AllowAccessToGlobals": true,
@@ -5171,7 +5171,7 @@
                           {
                             "Property": "FocusedBorderThickness",
                             "Category": "Design",
-                            "InvariantScript": "0",
+                            "InvariantScript": "2",
                             "RuleProviderType": "Unknown"
                           },
                           {
@@ -5397,7 +5397,7 @@
                           "maximumHeight"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "217",
+                        "ControlUniqueId": "148",
                         "Children": []
                       },
                       {
@@ -5485,7 +5485,7 @@
                         "MetaDataIDKey": "",
                         "PersistMetaDataIDKey": false,
                         "IsFromScreenLayout": false,
-                        "StyleName": "defaultButtonStyle",
+                        "StyleName": "",
                         "Parent": "conL3PubAutor",
                         "IsDataControl": false,
                         "AllowAccessToGlobals": true,
@@ -5840,7 +5840,7 @@
                           "minimumWidth"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "218",
+                        "ControlUniqueId": "149",
                         "Children": []
                       }
                     ]
@@ -5930,7 +5930,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -6007,7 +6007,7 @@
                       {
                         "Property": "Color",
                         "Category": "Design",
-                        "InvariantScript": "ColorValue(\"#2F3B45\")",
+                        "InvariantScript": "nfTexto",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -6073,7 +6073,7 @@
                       {
                         "Property": "FocusedBorderThickness",
                         "Category": "Design",
-                        "InvariantScript": "0",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -6299,7 +6299,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "219",
+                    "ControlUniqueId": "150",
                     "Children": []
                   },
                   {
@@ -6387,7 +6387,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -6530,7 +6530,7 @@
                       {
                         "Property": "FocusedBorderThickness",
                         "Category": "Design",
-                        "InvariantScript": "0",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -6756,7 +6756,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "220",
+                    "ControlUniqueId": "151",
                     "Children": []
                   }
                 ]
