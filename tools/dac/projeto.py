@@ -33,3 +33,9 @@ def ordem_ecras(raiz: Path = RAIZ) -> list[str]:
         if d.get("ecras"):
             return list(d["ecras"])
     return sorted(p.stem.replace(".pa", "") for p in (raiz / "src" / "screens").glob("*.pa.yaml"))
+
+
+def config(raiz: Path = RAIZ) -> dict:
+    import yaml
+    cfg = raiz / "dac.yaml"
+    return (yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}) if cfg.exists() else {}

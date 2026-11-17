@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
+## [Por publicar] · repositório
+
+- `dac colar` gera `build/colar/ORDEM.md`, o guia de colagem passo a passo: fontes de dados exigidas, `App.Formulas` na barra de fórmulas, ecrãs pela ordem certa, confirmação e exportação. A ordem é calculada a partir do código (`tools/dac/ordem.py`): um ecrã que recebe variáveis por `Navigate` entra depois de um dos ecrãs que lhas envia. `TODOS_OS_ECRAS.yaml` segue a mesma ordem.
+- `dac.yaml › fontes`: as quatro fontes de dados da app, com a armadilha de cada uma (duas tabelas "Cloud Service" no ambiente).
+- A mensagem do `colar` deixa de sugerir renomear o ecrã antigo: renomear muda as fórmulas dos outros ecrãs para o nome novo.
+- `docs/alm.md`: as seis regras de colagem aprendidas a 10/11/2026.
+- `.gitattributes`: `msapp/`, `solution/`, `_export/` e os documentos gerados marcados como gerados, para os PRs mostrarem só o código escrito à mão.
+- 9 testes novos (42 no total).
+
 ## [1.2.0] · 2026-11-16 · Ficha 04 e complemento
 
 ### App (migração `tools/migracoes/m002_v1_2_ficha04.py`)

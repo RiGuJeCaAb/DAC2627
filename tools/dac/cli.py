@@ -205,12 +205,19 @@ _PROPS_TRIVIAIS = {"BorderColor", "LayoutMinHeight", "LayoutMinWidth", "Font", "
 # ---------------------------------------------------------------- colar
 
 def cmd_colar(a) -> int:
+    from . import ordem as ordem_mod
     raiz = Path(a.raiz)
     destino = Path(a.destino) if a.destino else raiz / "build" / "colar"
     destino.mkdir(parents=True, exist_ok=True)
-    ecras = a.ecras or projeto.ordem_ecras(raiz)
+    cfg = projeto.config(raiz)
+    docs = projeto.carregar(raiz)
+    fontes = [ordem_mod.Fonte(**f) for f in cfg.get("fontes", [])]
+    pedidos = a.ecras or projeto.ordem_ecras(raiz)
+    for e in pedidos:
+        _ficheiro_de(raiz, e)  # falha cedo se o ecrã não existir
+    guia = ordem_mod.calcular(docs, pedidos, fontes)
     todos: dict = {"Screens": {}}
-    for e in ecras:
+    for e in guia.ordem:
         d = yamlio.ler(_ficheiro_de(raiz, e))
         (destino / f"{e}.yaml").write_text(yamlio.escrever_texto(d, cabecalho=False), encoding="utf-8")
         todos["Screens"].update(d["Screens"])
@@ -219,9 +226,17 @@ def cmd_colar(a) -> int:
     f = str(app["Formulas"]).lstrip("=")
     (destino / "App.Formulas.invariante.txt").write_text(f + "\n", encoding="utf-8")
     (destino / "App.Formulas.pt.txt").write_text(pafx.para_pt(f) + "\n", encoding="utf-8")
-    _p(f"colar: {len(ecras)} ecrã(s) em {destino.relative_to(raiz) if destino.is_relative_to(raiz) else destino}")
-    _p("  1. App.Formulas: copie App.Formulas.pt.txt para a propriedade Formulas do objeto App.")
-    _p("  2. Ecrãs: apague (ou renomeie) o ecrã antigo, abra o .yaml, copie tudo e faça Ctrl+V na Vista de árvore.")
+    pilulas = sum(1 for x in (cfg.get("lint") or {}).get("excecoes", []) if x.get("regra") == "DAC302")
+    m = re.search(r'nfVersao = "([0-9.]+)"', f)
+    fora = {e for d in docs.values() for e in (d.get("Screens") or {})} - set(pedidos)
+    (destino / "ORDEM.md").write_text(
+        ordem_mod.gerar_md(guia, fontes, m.group(1) if m else str(cfg.get("versao", "")), pilulas, fora),
+        encoding="utf-8")
+    _p(f"colar: {len(guia.ordem)} ecrã(s) em {destino.relative_to(raiz) if destino.is_relative_to(raiz) else destino}")
+    _p("  Siga ORDEM.md: fontes de dados, App.Formulas na barra de fórmulas, ecrãs por esta ordem:")
+    _p("  " + " → ".join(guia.ordem))
+    for av in guia.avisos:
+        _p("  AVISO: " + av)
     return 0
 
 

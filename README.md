@@ -32,7 +32,7 @@ make verificar
 | `python -m tools.dac validar` | YAML, [schema oficial v3.0](schemas/NOTICE.md) e parênteses/aspas de todas as fórmulas |
 | `python -m tools.dac lint` | Regras DAC1xx–DAC5xx: nomes, variáveis, cores, acessibilidade, delegação, referências ([catálogo](docs/regras-lint.md)) |
 | `python -m tools.dac pt scrL1Pedido` | Fórmulas como o manual as mostra, `Controlo.Propriedade = ...`, já com `;` e `;;` |
-| `python -m tools.dac colar` | `build/colar/`: ecrãs prontos a colar no Studio e `App.Formulas` em PT |
+| `python -m tools.dac colar` | `build/colar/`: ecrãs prontos a colar, `App.Formulas` em PT e `ORDEM.md`, o guia passo a passo com a ordem calculada |
 | `python -m tools.dac inventario` | [`docs/inventario.md`](docs/inventario.md): controlos, variáveis, fontes de dados e mapa de navegação |
 | `python -m tools.dac paleta` | [`docs/paleta.md`](docs/paleta.md): tokens `nf*` e contraste WCAG 2.2 dos pares usados |
 | `python -m tools.dac deriva` | Diferenças entre `src/` e a última exportação |
