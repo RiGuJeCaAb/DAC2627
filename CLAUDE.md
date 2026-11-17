@@ -6,6 +6,7 @@ Este repositório é o código extraído de uma Canvas app do Power Apps (APP DA
 
 ```bash
 make verificar        # validar + formatar --verificar + lint --estrito + paleta + inventario + pytest
+python -m tools.dac colar --estrito   # blocos para o Studio, LEIA-ME.txt e verificação das fontes de dados
 ```
 
 - Alterações em muitos controlos: escrever uma migração idempotente em `tools/migracoes/mNNN_*.py` (modelo: `m001`). Não editar à mão dezenas de ocorrências.
@@ -42,7 +43,10 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 - Ficha 04: o separador Todos de `galL4Pedidos` mostra só pedidos ativos (`Estado = 'Estado (Pedidos)'.Ativo`), como a contagem do `btnL4SepTodos`. Pendentes e Concluídos usam as vistas do Dataverse no `Filter`.
 - Formulários clássicos: a largura dos cartões é por fórmula, para ficarem um por linha no telemóvel. Ficha 04 por `scrL4Pedidos.Size` (cliente 1/2/3 por linha, pedido 1/2); Ficha 02 pela largura do formulário, `If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)`, porque no tablet o painel ocupa só metade do ecrã. Descrição sempre `Parent.Width - 1`.
 - Complemento da Ficha 04 (ponto 8 do Lab 4): ecrã próprio `scrL4Complemento`, aberto pelo quinto cartão do ecrã inicial. Não é um botão dentro da Ficha 04. Textos com «: » no YAML vão entre aspas simples.
-- Cinco pílulas decorativas com `TabIndex = -1` e exceção DAC302 em `dac.yaml`: `btnL2ItemModelo`, `btnL3Iniciais`, `btnL3bIniciais`, `btnL3PubIniciais`, `btnL4PedEstado`. O Verificador mostra-as como avisos, de propósito.
+- Cinco pílulas decorativas com `TabIndex = -1` e exceção DAC302 em `dac.yaml`: `btnL2ItemModelo`, `btnL3Iniciais`, `btnL3bIniciais`, `btnL3PubIniciais`, `btnL4PedEstado`.
+- O Verificador marca qualquer controlo com `TabIndex = -1` fora de galerias com `Select(Parent)`: 134 avisos de tabulação e 11 de `AccessibleLabel` em decorativos ficam de propósito (`docs/alm.md`). Não dar `TabIndex = 0` a etiquetas decorativas para os limpar.
+- O Studio apaga ao guardar os valores por omissão (`TabIndex -1` e `Size 13` em etiquetas, `AccessibleLabel ""` e `TabIndex -1` em ícones e retângulos, `DropShadow.Light` em contentores). Não os escrever: `yamlio.OMISSAO` e o lint DAC504 tratam disso. Uma propriedade ausente vale o valor por omissão.
+- A exportação da solução leva a versão **publicada**. Depois de colar: guardar, publicar, exportar, `dac sincronizar`, `dac deriva`. A ordem de colagem está em `build/colar/LEIA-ME.txt` (gerado por `dac colar`).
 - Contentores interiores com `DropShadow.None`; filhos de altura fixa com `FillPortions = 0`; etiquetas e ícones dentro de galerias com `OnSelect = Select(Parent)`.
 
 ## Sugestões de análise (em aberto)
@@ -50,6 +54,6 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 1. Filtros duplicados entre galerias e contagens (`galL2Servicos.Items`/`lblL2Contagem`, `galL3Publicacoes.Items`/`lblL3Contagem`): candidatos a funções definidas pelo utilizador em `App.Formulas`, confirmando primeiro no Studio que a delegação se mantém.
 2. Tamanhos de letra e espaçamentos como tokens (`nfTam*`), como já se faz com as cores.
 3. Delegação e desempenho com tabelas acima de 500 registos.
-4. Resolvido na v1.1.0: 150 dos 154 avisos do Verificador e todas as cores literais. Na v1.2.0 ficam os 5 avisos das pílulas, de propósito.
+4. Verificador na v1.2.0 depois da m003: 145 avisos, todos de controlos decorativos com `TabIndex = -1` ou `AccessibleLabel ""` (ver `docs/alm.md`). Cores literais: zero.
 
 Ao propor alterações, mostre o excerto YAML antes e depois e indique o ecrã e o controlo. Responda em português de Portugal.

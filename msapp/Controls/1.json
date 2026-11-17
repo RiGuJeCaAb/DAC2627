@@ -68,14 +68,14 @@
       {
         "Property": "StartScreen",
         "Category": "OnDemandData",
-        "InvariantScript": "scrInicio   ",
+        "InvariantScript": "",
         "RuleProviderType": "User"
       },
       {
         "Property": "Formulas",
         "Category": "Formulas",
-        "InvariantScript": "nfAzul = ColorValue(\"#1F4E79\"); nfAzulClaro = ColorValue(\"#E8EFF6\"); nfVerde = ColorValue(\"#2E7D5B\"); nfVerdeFundo = ColorValue(\"#DDEFE6\"); nfVermelho = ColorValue(\"#A4262C\"); nfVermelhoFundo = ColorValue(\"#FBE9EA\"); nfFundo = ColorValue(\"#F6F4EF\"); nfTexto = ColorValue(\"#1E2A33\"); nfTextoSuave = ColorValue(\"#46525C\"); nfLinha = ColorValue(\"#E4E7EA\"); nfAmbar = ColorValue(\"#9A5B00\"); nfAmbarFundo = ColorValue(\"#FFF4DB\");",
-        "RuleProviderType": "Unknown"
+        "InvariantScript": "nfAzul = ColorValue(\"#1F4E79\"); // Paleta da APP DAC2627: todas as cores da app passam por aqui.\r\n// Azul (água): marca, cabeçalhos, ações principais.\r\nnfAzulClaro = ColorValue(\"#E8EFF6\");\r\nnfAzulFundo = ColorValue(\"#DCE7F2\");\r\n// Verde (madeira): sucesso e PaaS.\r\nnfVerde = ColorValue(\"#2E7D5B\");\r\nnfVerdeTexto = ColorValue(\"#1F5E43\");\r\nnfVerdeFundo = ColorValue(\"#DDEFE6\");\r\n// Vermelho (fogo): erros e ações destrutivas.\r\nnfVermelho = ColorValue(\"#A4262C\");\r\nnfVermelhoTexto = ColorValue(\"#8E1F25\");\r\nnfVermelhoFundo = ColorValue(\"#FBE9EA\");\r\n// Âmbar e laranja (terra quente): avisos e SaaS.\r\nnfAmbar = ColorValue(\"#9A5B00\");\r\nnfAmbarFundo = ColorValue(\"#FFF4DB\");\r\nnfLaranja = ColorValue(\"#8A3B0F\");\r\nnfLaranjaFundo = ColorValue(\"#FBEBD9\");\r\n// Neutros (terra e metal): fundos, texto, linhas e contornos.\r\nnfFundo = ColorValue(\"#F6F4EF\");\r\nnfSuperficie = ColorValue(\"#F7F8F9\");\r\nnfTexto = ColorValue(\"#1E2A33\");\r\nnfTextoSuave = ColorValue(\"#46525C\");\r\nnfLinha = ColorValue(\"#E4E7EA\");\r\nnfLinhaForte = ColorValue(\"#C5CBD1\");\r\nnfBorda = ColorValue(\"#7D8993\");\r\nnfDesativado = ColorValue(\"#A6A6A6\");\r\nnfVeu = RGBA(30, 42, 51, 0.55);\r\n// Versão mostrada no rodapé do ecrã inicial.\r\nnfVersao = \"1.2.0\";",
+        "RuleProviderType": "User"
       }
     ],
     "ControlPropertyState": [
@@ -93,14 +93,7 @@
         "IsLockable": false,
         "AFDDataSourceName": ""
       },
-      {
-        "InvariantPropertyName": "StartScreen",
-        "AutoRuleBindingEnabled": false,
-        "AutoRuleBindingString": "",
-        "NameMapSourceSchema": "?",
-        "IsLockable": false,
-        "AFDDataSourceName": ""
-      }
+      "StartScreen"
     ],
     "IsLocked": false,
     "ControlUniqueId": "1",

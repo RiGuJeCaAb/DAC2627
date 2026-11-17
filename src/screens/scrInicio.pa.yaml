@@ -44,7 +44,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="APP DAC2627"
             - conConteudoIn:
                 Control: GroupContainer@1.5.0
@@ -67,7 +66,6 @@ Screens:
                         FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Bold
                         Size: =If(scrInicio.Size = ScreenSize.Small, 22, 28)
-                        TabIndex: =-1
                         Text: ="Laboratórios de DAC 2026/27"
                   - lblInSubtitulo:
                       Control: Label@2.5.1
@@ -77,7 +75,6 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Size: =15
-                        TabIndex: =-1
                         Text: ="Escolha a ficha que quer abrir."
                   - galInFichas:
                       Control: Gallery@2.15.0
@@ -138,6 +135,7 @@ Screens:
                               OnSelect: =Select(Parent)
                               Size: =12
                               Text: =ThisItem.Ficha
+                              Width: =Parent.TemplateWidth - 48
                               X: =24
                               Y: =20
                         - lblInFichaTitulo:
@@ -189,5 +187,4 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Size: =12
-                        TabIndex: =-1
                         Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud · v" & nfVersao

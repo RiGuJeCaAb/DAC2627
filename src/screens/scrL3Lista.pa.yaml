@@ -55,7 +55,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="Ficha 03 · Consulta de API"
             - conConteudoL3a:
                 Control: GroupContainer@1.5.0
@@ -171,7 +170,6 @@ Screens:
                               FocusedBorderThickness: =2
                               Height: =48
                               Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
-                              TabIndex: =-1
                               Text: |-
                                 =If(locL3Vista = "publicacoes",
                                     CountRows(Filter(colL3Publicacoes,
@@ -289,7 +287,6 @@ Screens:
                               Color: =nfVermelho
                               Height: =28
                               Icon: =Icon.Warning
-                              TabIndex: =-1
                               Width: =28
                         - lblL3Erro:
                             Control: Label@2.5.1
@@ -300,7 +297,6 @@ Screens:
                               FocusedBorderThickness: =2
                               Height: =If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)
                               Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
-                              TabIndex: =-1
                               Text: =locL3Erro
                         - btnL3Repetir:
                             Control: Classic/Button@2.2.0
@@ -348,7 +344,6 @@ Screens:
                               Icon: =Icon.Warning
                               LayoutMinHeight: =16
                               LayoutMinWidth: =16
-                              TabIndex: =-1
                               Width: =28
                         - lblL3Vazio:
                             Control: Label@2.5.1
@@ -363,7 +358,6 @@ Screens:
                               LayoutMinHeight: =16
                               LayoutMinWidth: =16
                               Size: =If(scrL3Lista.Size = ScreenSize.Small, 12, 13)
-                              TabIndex: =-1
                               Text: =If(locL3Vista = "publicacoes", "Sem publicações para apresentar. Prima Atualizar para carregar os dados.", "Sem utilizadores para apresentar. Prima Atualizar para carregar os dados.")
                         - btnL3AvisoAtualizar:
                             Control: Classic/Button@2.2.0
@@ -397,7 +391,6 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Height: =60
-                        TabIndex: =-1
                         Text: ="A carregar dados da API…"
                         Visible: =locL3ACarregar
                   - lblL3SemResultados:
@@ -408,7 +401,6 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Height: =60
-                        TabIndex: =-1
                         Text: ="Nada corresponde à pesquisa."
                         Visible: |-
                           =If(locL3Vista = "publicacoes",
@@ -498,7 +490,6 @@ Screens:
                         - icoL3Abrir:
                             Control: Classic/Icon@2.5.0
                             Properties:
-                              AccessibleLabel: =""
                               Color: =nfBorda
                               Height: =24
                               Icon: =Icon.ChevronRight
@@ -509,10 +500,8 @@ Screens:
                         - recL3Separador:
                             Control: Rectangle@2.3.0
                             Properties:
-                              AccessibleLabel: =""
                               Fill: =nfLinha
                               Height: =1
-                              TabIndex: =-1
                               Width: =Parent.TemplateWidth
                               Y: =Parent.TemplateHeight - 1
                   - galL3Publicacoes:
@@ -580,7 +569,6 @@ Screens:
                         - icoL3PubAbrir:
                             Control: Classic/Icon@2.5.0
                             Properties:
-                              AccessibleLabel: =""
                               Color: =nfBorda
                               Height: =24
                               Icon: =Icon.ChevronRight
@@ -591,9 +579,7 @@ Screens:
                         - recL3PubSeparador:
                             Control: Rectangle@2.3.0
                             Properties:
-                              AccessibleLabel: =""
                               Fill: =nfLinha
                               Height: =1
-                              TabIndex: =-1
                               Width: =Parent.TemplateWidth
                               Y: =Parent.TemplateHeight - 1

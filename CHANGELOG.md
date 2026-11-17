@@ -2,7 +2,25 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
-## [1.2.0] · 2026-11-16 · Ficha 04 e complemento
+## [1.2.0] · 2026-11-16, publicada a 2026-11-17 · Ficha 04 e complemento
+
+### Publicação e prova (17/11/2026)
+- A v1.2.0 foi guardada no Studio a 16/11 mas não publicada. A exportação 1.0.0.2 saiu igual à 1.0.0.1 porque a exportação da solução leva a versão **publicada**. Publicada a 17/11 às 09:32. A exportação 1.0.0.3 é a primeira com os 10 ecrãs e `nfVersao = "1.2.0"`. `dac deriva`: `src/` igual à exportação.
+- `docs/alm.md`: publicar é obrigatório antes de exportar, e a ordem de colagem com o porquê de cada passo.
+
+### Repositório (17/11/2026)
+- **O Studio apaga os valores por omissão ao guardar** (116 linhas na 1.0.0.3: `TabIndex -1`, `AccessibleLabel ""`, `DropShadow.Light`...). Depois de sincronizar, o lint passou de 0 para 109 avisos e as migrações deixaram de ser idempotentes. Agora:
+  - `yamlio.OMISSAO`: `definir()` não escreve esses valores, como o Studio.
+  - DAC301, DAC302 e DAC503 leem uma propriedade ausente como o valor por omissão. DAC503 passa a «sombra dentro de sombra». Regra nova DAC504: valor por omissão escrito no código.
+  - `m001` aceita a `App` sem `StartScreen` e conhece o cartão `conL4bTabela`.
+- **`dac colar` verifica o que o lint não vê** (`tools/dac/colagem.py`): fontes de dados usadas no código contra `msapp/References/DataSources.json`, tabela certa (`mcsft_cloudservices`, não a duplicada `mcsft_cloudservice1`), e as passagens de variáveis por `Navigate`. Escreve `build/colar/LEIA-ME.txt`. `--estrito` falha se faltar uma fonte. `dac.yaml` tem a secção `fontes`.
+- 43 testes (6 de colagem, 3 de lint novos, `test_migracao_m003_idempotente`).
+
+### App (migração `tools/migracoes/m003_v1_2_studio.py`, por colar)
+- `FocusedBorderThickness = 2` nas 42 etiquetas dos cartões dos formulários e no `lblL4PedCliente`: os 43 avisos «foco invisível» do Verificador.
+- `conEcraL2` com `DropShadow.None`: era o único contentor de ecrã com a sombra por omissão.
+- `lblInFicha` com a largura do cartão: «Ficha 04 · Complemento» partia em duas linhas e ficava cortada.
+- O Verificador fica com 145 avisos, todos esperados: 134 «Tabulação em falta» em controlos decorativos com `TabIndex = -1` e 11 `AccessibleLabel` em retângulos e num ícone decorativos (ver `docs/alm.md`).
 
 ### App (migração `tools/migracoes/m002_v1_2_ficha04.py`)
 - **Ficha 04** (`scrL4Pedidos`): clientes e pedidos em duas tabelas Dataverse (`dac_cliente`, `dac_pedido`), relação 1:N com Restringir, vistas «Pedidos Pendentes» e «Pedidos Concluídos» no `Filter`, confirmação e faixa de mensagem como na Ficha 02.
@@ -44,9 +62,9 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões d
 - **Nomes**: `DataCardValue5` passa a `cmbL2Estado`.
 - **Pormenores**: o resumo das publicações só leva "…" quando o texto é cortado; versão no rodapé do ecrã inicial; o aviso da Ficha 01 passa a âmbar (`nfAmbar`/`nfAmbarFundo`), a cor de aviso da app; `StartScreen` sem espaços a mais.
 
-### Por confirmar no Studio
-- Colagem dos 8 ecrãs e de `App.Formulas` (com comentários `//`), seguida do Verificador de aplicações.
-- Aspeto do formulário da Ficha 02 com os tokens no lugar das cores por omissão.
+### Corrigido depois (17/11/2026)
+- A conta dos avisos estava errada. A v1.1.0 só chegou ao Studio com a v1.2.0, e a exportação 1.0.0.3 mostrou que o Verificador marca qualquer controlo com `TabIndex = -1` fora das galerias. Ficaram 134 avisos de tabulação, não 4, e ficam de propósito.
+- O `DropShadow.Light` explícito dos cartões não sobrevive: é o valor por omissão e o Studio apaga-o.
 
 ## [1.0.0] · 2026-11-08
 - Exportação inicial da solução DAC2627 (app, tabela Cloud Service e conector JSONPlaceholderDAC), com as correções de responsividade.

@@ -45,6 +45,7 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - icoL1Voltar:
                       Control: Classic/Icon@2.5.0
@@ -54,12 +55,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.ChevronLeft
                         OnSelect: =Back()
+                        TabIndex: =0
                         Width: =44
                   - lblCabL1b:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -105,14 +108,16 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTexto
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL1Pedido.Size = ScreenSize.Small, 24, 28)
                               Text: ="Como se chama?"
                         - txtL1Nome:
                             Control: Classic/TextInput@2.3.2
                             Properties:
+                              AccessibleLabel: ="O seu nome"
                               AlignInContainer: =AlignInContainer.Stretch
-                              BorderColor: =ColorValue("#7D8993")
+                              BorderColor: =nfBorda
                               Default: =gblL1Nome
                               Height: =52
                               HintText: ="Indique o seu nome"
@@ -125,7 +130,7 @@ Screens:
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
-                              Fill: =ColorValue("#FDF1E7")
+                              Fill: =nfAmbarFundo
                               FillPortions: =0
                               Height: =44
                               LayoutAlignItems: =LayoutAlignItems.Center
@@ -141,8 +146,9 @@ Screens:
                               - lblL1Aviso:
                                   Control: Label@2.5.1
                                   Properties:
-                                    Color: =ColorValue("#8A3B0F")
+                                    Color: =nfAmbar
                                     FillPortions: =1
+                                    FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Text: ="Introduza o seu nome."
                         - btnL1Saudar:

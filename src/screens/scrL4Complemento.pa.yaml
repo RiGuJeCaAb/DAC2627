@@ -54,7 +54,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="Ficha 04 · Complemento"
             - conConteudoL4b:
                 Control: GroupContainer@1.5.0
@@ -77,7 +76,6 @@ Screens:
                         FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Bold
                         Size: =If(scrL4Complemento.Size = ScreenSize.Small, 20, 24)
-                        TabIndex: =-1
                         Text: ="SharePoint, Dataverse e SQL"
                   - lblL4bIntro:
                       Control: Label@2.5.1
@@ -87,14 +85,11 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Size: =14
-                        TabIndex: =-1
                         Text: ="Ponto 8 do Lab 4. Três sítios onde guardar os clientes e os pedidos desta ficha, comparados pelos critérios que pesam numa canvas app."
                   - conL4bTabela:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
-                        AlignInContainer: =AlignInContainer.Stretch
-                        DropShadow: =DropShadow.Light
                         Fill: =Color.White
                         LayoutDirection: =LayoutDirection.Vertical
                         RadiusBottomLeft: =16
@@ -118,12 +113,10 @@ Screens:
                                   Properties:
                                     AlignInContainer: =AlignInContainer.Stretch
                                     Color: =nfTexto
-                                    FillPortions: =0
                                     FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Bold
                                     PaddingLeft: =16
                                     Size: =14
-                                    TabIndex: =-1
                                     Text: ="Critério"
                                     Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
                               - lblL4bCabSharePoint:
@@ -136,7 +129,6 @@ Screens:
                                     FontWeight: =FontWeight.Bold
                                     PaddingLeft: =12
                                     Size: =14
-                                    TabIndex: =-1
                                     Text: ="SharePoint (listas)"
                               - lblL4bCabDataverse:
                                   Control: Label@2.5.1
@@ -149,7 +141,6 @@ Screens:
                                     FontWeight: =FontWeight.Bold
                                     PaddingLeft: =12
                                     Size: =14
-                                    TabIndex: =-1
                                     Text: =If(scrL4Complemento.Size = ScreenSize.Medium, "Dataverse", "Dataverse · usado nesta ficha")
                               - lblL4bCabSQL:
                                   Control: Label@2.5.1
@@ -161,7 +152,6 @@ Screens:
                                     FontWeight: =FontWeight.Bold
                                     PaddingLeft: =12
                                     Size: =14
-                                    TabIndex: =-1
                                     Text: ="SQL (Azure SQL)"
                         - galL4bCriterios:
                             Control: Gallery@2.15.0
@@ -186,10 +176,8 @@ Screens:
                               - recL4bColDataverse:
                                   Control: Rectangle@2.3.0
                                   Properties:
-                                    AccessibleLabel: =""
                                     Fill: =nfAzulClaro
                                     Height: =Parent.TemplateHeight
-                                    TabIndex: =-1
                                     Visible: =scrL4Complemento.Size > ScreenSize.Small
                                     Width: =(Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3
                                     X: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3
@@ -213,7 +201,6 @@ Screens:
                                     OnSelect: =Select(Parent)
                                     PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
                                     PaddingRight: =12
-                                    Size: =13
                                     Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & ThisItem.SharePoint
                                     Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
                                     X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190))
@@ -227,7 +214,6 @@ Screens:
                                     OnSelect: =Select(Parent)
                                     PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
                                     PaddingRight: =12
-                                    Size: =13
                                     Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & ThisItem.Dataverse
                                     Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
                                     X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
@@ -240,7 +226,6 @@ Screens:
                                     OnSelect: =Select(Parent)
                                     PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
                                     PaddingRight: =12
-                                    Size: =13
                                     Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & ThisItem.SQL
                                     Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
                                     X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + 2 * (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
@@ -248,17 +233,14 @@ Screens:
                               - recL4bLinha:
                                   Control: Rectangle@2.3.0
                                   Properties:
-                                    AccessibleLabel: =""
                                     Fill: =nfLinha
                                     Height: =1
-                                    TabIndex: =-1
                                     Width: =Parent.TemplateWidth
                                     Y: =Parent.TemplateHeight - 1
                   - conL4bConclusao:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
-                        AlignInContainer: =AlignInContainer.Stretch
                         DropShadow: =DropShadow.None
                         Fill: =nfAzulClaro
                         FillPortions: =0
@@ -276,11 +258,9 @@ Screens:
                         - icoL4bConclusao:
                             Control: Classic/Icon@2.5.0
                             Properties:
-                              AccessibleLabel: =""
                               Color: =nfVerde
                               Height: =24
                               Icon: =Icon.Check
-                              TabIndex: =-1
                               Width: =24
                         - lblL4bConclusao:
                             Control: Label@2.5.1
@@ -290,6 +270,5 @@ Screens:
                               FillPortions: =1
                               FocusedBorderThickness: =2
                               Size: =14
-                              TabIndex: =-1
                               Text: |-
                                 ="A Ficha 04 usa Dataverse: relação 1:N com Restringir, número automático, vistas no Filter e delegação ampla, tudo dentro da solução DAC2627."

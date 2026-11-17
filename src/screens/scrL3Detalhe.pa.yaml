@@ -64,7 +64,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="Ficha 03 · Detalhe"
             - conConteudoL3b:
                 Control: GroupContainer@1.5.0
@@ -86,7 +85,6 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Height: =60
-                        TabIndex: =-1
                         Text: ="Escolha um utilizador na lista."
                         Visible: =IsBlank(locL3Sel)
                         Width: =400
@@ -94,7 +92,6 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Light
                         Fill: =Color.White
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =20
@@ -162,7 +159,6 @@ Screens:
                                           FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold
                                           Size: =If(scrL3Detalhe.Size = ScreenSize.Small, 20, 28)
-                                          TabIndex: =-1
                                           Text: =locL3Sel.name
                                     - lblL3Utilizador:
                                         Control: Label@2.5.1
@@ -171,7 +167,6 @@ Screens:
                                           Color: =nfTextoSuave
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: ="@" & locL3Sel.username
                         - conL3Blocos:
                             Control: GroupContainer@1.5.0
@@ -216,7 +211,6 @@ Screens:
                                           FontWeight: =FontWeight.Bold
                                           Height: =24
                                           Size: =12
-                                          TabIndex: =-1
                                           Text: ="CONTACTO"
                                     - lblL3Email:
                                         Control: Label@2.5.1
@@ -225,7 +219,6 @@ Screens:
                                           Color: =nfTexto
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: =locL3Sel.email
                                     - lblL3Telefone:
                                         Control: Label@2.5.1
@@ -234,7 +227,6 @@ Screens:
                                           Color: =nfTexto
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: =Coalesce(locL3Sel.phone, "Sem telefone")
                                     - lblL3Site:
                                         Control: Label@2.5.1
@@ -243,7 +235,6 @@ Screens:
                                           Color: =nfTexto
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: =Coalesce(locL3Sel.website, "Sem site")
                               - conL3Morada:
                                   Control: GroupContainer@1.5.0
@@ -276,7 +267,6 @@ Screens:
                                           FontWeight: =FontWeight.Bold
                                           Height: =24
                                           Size: =12
-                                          TabIndex: =-1
                                           Text: ="MORADA"
                                     - lblL3Rua:
                                         Control: Label@2.5.1
@@ -285,7 +275,6 @@ Screens:
                                           Color: =nfTexto
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: =locL3Sel.address.street & ", " & locL3Sel.address.suite
                                     - lblL3Cidade:
                                         Control: Label@2.5.1
@@ -294,7 +283,6 @@ Screens:
                                           Color: =nfTexto
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: =locL3Sel.address.zipcode & " " & locL3Sel.address.city
                               - conL3Empresa:
                                   Control: GroupContainer@1.5.0
@@ -327,7 +315,6 @@ Screens:
                                           FontWeight: =FontWeight.Bold
                                           Height: =24
                                           Size: =12
-                                          TabIndex: =-1
                                           Text: ="EMPRESA"
                                     - lblL3Empresa:
                                         Control: Label@2.5.1
@@ -336,7 +323,6 @@ Screens:
                                           Color: =nfTexto
                                           FocusedBorderThickness: =2
                                           Height: =26
-                                          TabIndex: =-1
                                           Text: =locL3Sel.company.name
                                     - lblL3Lema:
                                         Control: Label@2.5.1
@@ -346,7 +332,6 @@ Screens:
                                           FocusedBorderThickness: =2
                                           Height: =48
                                           Italic: =true
-                                          TabIndex: =-1
                                           Text: =locL3Sel.company.catchPhrase
                                           VerticalAlign: =VerticalAlign.Top
                         - conL3PubsUtil:
@@ -369,7 +354,6 @@ Screens:
                                     FontWeight: =FontWeight.Bold
                                     Height: =24
                                     Size: =12
-                                    TabIndex: =-1
                                     Text: ="PUBLICAÇÕES (" & CountRows(Filter(colL3Publicacoes, userId = locL3Sel.id)) & ")"
                               - galL3PubsUtil:
                                   Control: Gallery@2.15.0
@@ -410,7 +394,6 @@ Screens:
                                     - icoL3PubsUtilAbrir:
                                         Control: Classic/Icon@2.5.0
                                         Properties:
-                                          AccessibleLabel: =""
                                           Color: =nfBorda
                                           Height: =24
                                           Icon: =Icon.ChevronRight
@@ -421,9 +404,7 @@ Screens:
                                     - recL3PubsUtilSep:
                                         Control: Rectangle@2.3.0
                                         Properties:
-                                          AccessibleLabel: =""
                                           Fill: =nfLinha
                                           Height: =1
-                                          TabIndex: =-1
                                           Width: =Parent.TemplateWidth
                                           Y: =Parent.TemplateHeight - 1

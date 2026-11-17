@@ -38,5 +38,4 @@ App:
       nfVeu = RGBA(30, 42, 51, 0.55);
       // Versão mostrada no rodapé do ecrã inicial.
       nfVersao = "1.2.0";
-    StartScreen: =scrInicio
     Theme: =PowerAppsTheme

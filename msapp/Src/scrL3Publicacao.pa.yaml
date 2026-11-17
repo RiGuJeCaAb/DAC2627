@@ -43,6 +43,7 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - icoL3cVoltar:
                       Control: Classic/Icon@2.5.0
@@ -52,12 +53,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.ChevronLeft
                         OnSelect: =Back()
+                        TabIndex: =0
                         Width: =44
                   - lblCabL3c:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -80,6 +83,7 @@ Screens:
                       Properties:
                         Align: =Align.Center
                         Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
                         Height: =60
                         Text: ="Escolha uma publicação na lista."
                         Visible: =IsBlank(locL3Pub)
@@ -107,6 +111,7 @@ Screens:
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Height: =24
                               Size: =12
@@ -117,6 +122,7 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTexto
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL3Publicacao.Size = ScreenSize.Small, 20, 26)
                               Text: =locL3Pub.title
@@ -127,7 +133,7 @@ Screens:
                               BorderColor: =nfLinha
                               BorderThickness: =1
                               DropShadow: =DropShadow.None
-                              Fill: =ColorValue("#F7F8F9")
+                              Fill: =nfSuperficie
                               FillPortions: =0
                               Height: =If(scrL3Publicacao.Size = ScreenSize.Small, 136, 76)
                               LayoutAlignItems: =LayoutAlignItems.Center
@@ -170,6 +176,7 @@ Screens:
                                   Properties:
                                     Color: =nfTexto
                                     FillPortions: =1
+                                    FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Height: =44
                                     Text: |-
@@ -199,8 +206,9 @@ Screens:
                             Control: Label@2.5.1
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
-                              Color: =ColorValue("#2F3B45")
+                              Color: =nfTexto
                               FillPortions: =1
+                              FocusedBorderThickness: =2
                               Size: =16
                               Text: =locL3Pub.body
                               VerticalAlign: =VerticalAlign.Top
@@ -209,6 +217,7 @@ Screens:
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Height: =24
                               Size: =11
                               Text: ="Dados fictícios devolvidos pela API de demonstração JSONPlaceholder."

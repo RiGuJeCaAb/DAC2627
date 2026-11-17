@@ -117,7 +117,7 @@
       "ContentLanguage"
     ],
     "IsLocked": false,
-    "ControlUniqueId": "162",
+    "ControlUniqueId": "152",
     "Children": [
       {
         "Type": "ControlInfo",
@@ -142,7 +142,7 @@
         "MetaDataIDKey": "",
         "PersistMetaDataIDKey": false,
         "IsFromScreenLayout": false,
-        "StyleName": "defaultGroupContainerStyle",
+        "StyleName": "",
         "Parent": "scrL3Lista",
         "IsDataControl": false,
         "AllowAccessToGlobals": true,
@@ -427,7 +427,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "163",
+        "ControlUniqueId": "153",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -514,7 +514,7 @@
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "defaultGroupContainerStyle",
+            "StyleName": "",
             "Parent": "conEcraL3a",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -799,7 +799,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "164",
+            "ControlUniqueId": "154",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -886,7 +886,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultIconStyle",
+                "StyleName": "",
                 "Parent": "conCabL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1047,7 +1047,7 @@
                   {
                     "Property": "TabIndex",
                     "Category": "Design",
-                    "InvariantScript": "-1",
+                    "InvariantScript": "0",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -1178,7 +1178,7 @@
                   "PreserveAspectRatio"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "165",
+                "ControlUniqueId": "155",
                 "Children": []
               },
               {
@@ -1266,7 +1266,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conCabL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1409,7 +1409,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -1635,7 +1635,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "166",
+                "ControlUniqueId": "156",
                 "Children": []
               }
             ]
@@ -1725,7 +1725,7 @@
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "defaultGroupContainerStyle",
+            "StyleName": "",
             "Parent": "conEcraL3a",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -2010,7 +2010,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "167",
+            "ControlUniqueId": "157",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -2097,7 +2097,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGroupContainerStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -2382,7 +2382,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "168",
+                "ControlUniqueId": "158",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -2469,7 +2469,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "conL3Separadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -2824,7 +2824,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "169",
+                    "ControlUniqueId": "159",
                     "Children": []
                   },
                   {
@@ -2912,7 +2912,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "conL3Separadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3267,7 +3267,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "170",
+                    "ControlUniqueId": "160",
                     "Children": []
                   }
                 ]
@@ -3357,7 +3357,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGroupContainerStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -3642,7 +3642,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "171",
+                "ControlUniqueId": "161",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -3729,7 +3729,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultTextStyle",
+                    "StyleName": "",
                     "Parent": "conL3Barra",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3764,7 +3764,7 @@
                       {
                         "Property": "AccessibleLabel",
                         "Category": "Data",
-                        "InvariantScript": "\"\"",
+                        "InvariantScript": "Self.HintText",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -4147,7 +4147,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "172",
+                    "ControlUniqueId": "162",
                     "Children": []
                   },
                   {
@@ -4235,7 +4235,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultDropdownStyle",
+                    "StyleName": "",
                     "Parent": "conL3Barra",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4647,7 +4647,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "173",
+                    "ControlUniqueId": "163",
                     "Children": []
                   },
                   {
@@ -4735,7 +4735,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3Barra",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4752,7 +4752,7 @@
                       {
                         "Property": "Text",
                         "Category": "Data",
-                        "InvariantScript": "If(locL3Vista = \"publicacoes\",\n    CountRows(galL3Publicacoes.AllItems) & \" de \" &\n        CountRows(colL3Publicacoes) & \" publicações\",\n    CountRows(galL3Utilizadores.AllItems) & \" de \" &\n        CountRows(colL3Utilizadores) & \" utilizadores\")",
+                        "InvariantScript": "If(locL3Vista = \"publicacoes\",\n    CountRows(Filter(colL3Publicacoes,\n        (drpL3Utilizador.Selected.id = 0 || userId = drpL3Utilizador.Selected.id) &&\n        (txtL3Pesquisa.Text in title || txtL3Pesquisa.Text in body))) & \" de \" &\n        CountRows(colL3Publicacoes) & \" publicações\",\n    CountRows(Filter(colL3Utilizadores,\n        txtL3Pesquisa.Text in name || txtL3Pesquisa.Text in email)) & \" de \" &\n        CountRows(colL3Utilizadores) & \" utilizadores\")",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -4878,7 +4878,7 @@
                       {
                         "Property": "FocusedBorderThickness",
                         "Category": "Design",
-                        "InvariantScript": "0",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -5104,7 +5104,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "174",
+                    "ControlUniqueId": "164",
                     "Children": []
                   },
                   {
@@ -5192,7 +5192,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "conL3Barra",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -5547,7 +5547,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "175",
+                    "ControlUniqueId": "165",
                     "Children": []
                   },
                   {
@@ -5635,7 +5635,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "conL3Barra",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -5934,20 +5934,13 @@
                       {
                         "Property": "OnSelect",
                         "Category": "Behavior",
-                        "InvariantScript": "UpdateContext(\n    {\n        locL3ACarregar: true,\n        locL3Erro: \"\"\n    }\n);\nClear(colL3Utilizadores);\nClear(colL3Publicacoes);\nIfError(\n    If(\n        chkL3SimularFalha.Value,\n        Error(\n            {\n                Kind: ErrorKind.Network,\n                Message: \"Falha de rede simulada para teste.\"\n            }\n        ),\n        !chkL3SimularVazio.Value,\n        ClearCollect(\n            colL3Utilizadores,\n            JSONPlaceholderDAC.ListarUtilizadores()\n        )\n    ),\n    UpdateContext({locL3Erro: \"Não foi possível obter os utilizadores. \" & FirstError.Message})\n);\nIfError(\n    If(\n        chkL3SimularFalha.Value,\n        Error(\n            {\n                Kind: ErrorKind.Network,\n                Message: \"Falha de rede simulada para teste.\"\n            }\n        ),\n        !chkL3SimularVazio.Value,\n        ClearCollect(\n            colL3Publicacoes,\n            JSONPlaceholderDAC.ListarPublicacoes()\n        )\n    ),\n    UpdateContext({locL3Erro: Trim(locL3Erro & \" Não foi possível obter as publicações. \" & FirstError.Message)})\n);\nUpdateContext({locL3ACarregar: false})",
-                        "RuleProviderType": "User"
+                        "InvariantScript": "UpdateContext({locL3ACarregar: true, locL3Erro: \"\"});\nClear(colL3Utilizadores);\nClear(colL3Publicacoes);\nIfError(\n    If(\n        chkL3SimularFalha.Value,\n        Error({Kind: ErrorKind.Network, Message: \"Falha de rede simulada para teste.\"}),\n        !chkL3SimularVazio.Value,\n        ClearCollect(colL3Utilizadores, JSONPlaceholderDAC.ListarUtilizadores())\n    ),\n    UpdateContext({locL3Erro: \"Não foi possível obter os utilizadores. \" & FirstError.Message})\n);\nIfError(\n    If(\n        chkL3SimularFalha.Value,\n        Error({Kind: ErrorKind.Network, Message: \"Falha de rede simulada para teste.\"}),\n        !chkL3SimularVazio.Value,\n        ClearCollect(colL3Publicacoes, JSONPlaceholderDAC.ListarPublicacoes())\n    ),\n    UpdateContext({locL3Erro: Trim(locL3Erro & \" Não foi possível obter as publicações. \" & FirstError.Message)})\n);\nUpdateContext({locL3ACarregar: false})",
+                        "RuleProviderType": "Unknown"
                       }
                     ],
                     "ControlPropertyState": [
                       "ZIndex",
-                      {
-                        "InvariantPropertyName": "OnSelect",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "UpdateContext({locL3ACarregar: true, locL3Erro: \"\"});\nClear(colL3Utilizadores);\nClear(colL3Publicacoes);\nIfError(\n    ClearCollect(colL3Utilizadores, JSONPlaceholderDAC.ListarUtilizadores()),\n    UpdateContext({locL3Erro: \"Não foi possível obter os utilizadores. \" & FirstError.Message})\n);\nIfError(\n    ClearCollect(colL3Publicacoes, JSONPlaceholderDAC.ListarPublicacoes()),\n    UpdateContext({locL3Erro: Trim(locL3Erro & \" Não foi possível obter as publicações. \" & FirstError.Message)})\n);\nUpdateContext({locL3ACarregar: false})",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "OnSelect",
                       "AutoDisableOnSelect",
                       "Text",
                       "Tooltip",
@@ -5997,7 +5990,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "176",
+                    "ControlUniqueId": "166",
                     "Children": []
                   }
                 ]
@@ -6087,7 +6080,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultCheckboxStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -6096,15 +6089,45 @@
                 "IsAutoGenerated": false,
                 "Rules": [
                   {
+                    "Property": "Default",
+                    "Category": "Data",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Reset",
+                    "Category": "Data",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "Text",
                     "Category": "Data",
-                    "InvariantScript": "\"Simular falha da API (teste de erro)\"  ",
-                    "RuleProviderType": "User"
+                    "InvariantScript": "\"Simular falha da API (teste de erro)\"",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Tooltip",
+                    "Category": "Data",
+                    "InvariantScript": "\"\"",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "ContentLanguage",
+                    "Category": "Data",
+                    "InvariantScript": "\"\"",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "ZIndex",
+                    "Category": "Design",
+                    "InvariantScript": "3",
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "CheckmarkFill",
                     "Category": "Design",
-                    "InvariantScript": "RGBA(0, 0, 0, 1)",
+                    "InvariantScript": "nfTexto",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6117,12 +6140,18 @@
                     "Property": "CheckboxBorderColor",
                     "Category": "Design",
                     "InvariantScript": "nfVermelho",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "CheckboxSize",
+                    "Category": "Design",
+                    "InvariantScript": "24",
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "BorderColor",
                     "Category": "Design",
-                    "InvariantScript": "RGBA(0, 18, 107, 1)",
+                    "InvariantScript": "nfBorda",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6138,9 +6167,21 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
+                    "Property": "BorderThickness",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "FocusedBorderColor",
                     "Category": "Design",
                     "InvariantScript": "Self.BorderColor",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "FocusedBorderThickness",
+                    "Category": "Design",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6159,7 +6200,7 @@
                     "Property": "Color",
                     "Category": "Design",
                     "InvariantScript": "nfTextoSuave",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "DisabledColor",
@@ -6186,6 +6227,12 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
+                    "Property": "Size",
+                    "Category": "Design",
+                    "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "PressedColor",
                     "Category": "Design",
                     "InvariantScript": "RGBA(70, 68, 64, 1)",
@@ -6194,7 +6241,7 @@
                   {
                     "Property": "HoverColor",
                     "Category": "Design",
-                    "InvariantScript": "RGBA(0, 18, 107, 1)",
+                    "InvariantScript": "nfAzul",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6214,66 +6261,6 @@
                     "Category": "Design",
                     "InvariantScript": "FontWeight.Normal",
                     "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "VerticalAlign",
-                    "Category": "Design",
-                    "InvariantScript": "VerticalAlign.Middle",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "X",
-                    "Category": "Design",
-                    "InvariantScript": "0",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Y",
-                    "Category": "Design",
-                    "InvariantScript": "0",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Width",
-                    "Category": "Design",
-                    "InvariantScript": "Min(380, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight)",
-                    "RuleProviderType": "User"
-                  },
-                  {
-                    "Property": "Height",
-                    "Category": "Design",
-                    "InvariantScript": "32",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "DisplayMode",
-                    "Category": "Design",
-                    "InvariantScript": "If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)",
-                    "RuleProviderType": "User"
-                  },
-                  {
-                    "Property": "ZIndex",
-                    "Category": "Design",
-                    "InvariantScript": "3",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "BorderThickness",
-                    "Category": "Design",
-                    "InvariantScript": "0",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "FocusedBorderThickness",
-                    "Category": "Design",
-                    "InvariantScript": "2",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Size",
-                    "Category": "Design",
-                    "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
-                    "RuleProviderType": "User"
                   },
                   {
                     "Property": "Italic",
@@ -6318,104 +6305,128 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "CheckboxSize",
+                    "Property": "VerticalAlign",
                     "Category": "Design",
-                    "InvariantScript": "24",
+                    "InvariantScript": "VerticalAlign.Middle",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "X",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Y",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Width",
+                    "Category": "Design",
+                    "InvariantScript": "Min(380, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight)",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Height",
+                    "Category": "Design",
+                    "InvariantScript": "32",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Visible",
+                    "Category": "Design",
+                    "InvariantScript": "true",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "DisplayMode",
+                    "Category": "Design",
+                    "InvariantScript": "If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "TabIndex",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "maximumHeight",
+                    "Category": "Design",
+                    "InvariantScript": "768",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "maximumWidth",
+                    "Category": "Design",
+                    "InvariantScript": "1366",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "minimumHeight",
+                    "Category": "Design",
+                    "InvariantScript": "35",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "minimumWidth",
+                    "Category": "Design",
+                    "InvariantScript": "100",
                     "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "OnCheck",
                     "Category": "Behavior",
                     "InvariantScript": "false",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "OnUncheck",
                     "Category": "Behavior",
                     "InvariantScript": "false",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "OnSelect",
+                    "Category": "Behavior",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
                   }
                 ],
                 "ControlPropertyState": [
+                  "ZIndex",
+                  "Default",
+                  "OnCheck",
+                  "OnUncheck",
+                  "Reset",
                   "CheckmarkFill",
                   "CheckboxBackgroundFill",
-                  {
-                    "InvariantPropertyName": "CheckboxBorderColor",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "RGBA(0, 18, 107, 1)",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "Text",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "\"Opção\"",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "CheckboxBorderColor",
+                  "CheckboxSize",
+                  "Text",
+                  "Tooltip",
+                  "ContentLanguage",
                   "BorderColor",
                   "DisabledBorderColor",
                   "BorderStyle",
+                  "BorderThickness",
                   "FocusedBorderColor",
+                  "FocusedBorderThickness",
                   "PressedBorderColor",
                   "HoverBorderColor",
-                  {
-                    "InvariantPropertyName": "Color",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "RGBA(0, 0, 0, 1)",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "Color",
                   "DisabledColor",
                   "Fill",
                   "DisabledFill",
                   "Font",
+                  "Size",
                   "PressedColor",
                   "HoverColor",
                   "PressedFill",
                   "HoverFill",
                   "FontWeight",
-                  "VerticalAlign",
-                  "X",
-                  "Y",
-                  {
-                    "InvariantPropertyName": "Width",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "150",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "Height",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "50",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "DisplayMode",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "DisplayMode.Edit",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  "ZIndex",
-                  "BorderThickness",
-                  "FocusedBorderThickness",
-                  {
-                    "InvariantPropertyName": "Size",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "13",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
                   "Italic",
                   "Underline",
                   "Strikethrough",
@@ -6423,19 +6434,22 @@
                   "PaddingRight",
                   "PaddingBottom",
                   "PaddingLeft",
-                  "OnCheck",
-                  "OnUncheck",
-                  {
-                    "InvariantPropertyName": "CheckboxSize",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "40",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  }
+                  "VerticalAlign",
+                  "X",
+                  "Y",
+                  "Width",
+                  "Height",
+                  "Visible",
+                  "DisplayMode",
+                  "TabIndex",
+                  "OnSelect",
+                  "maximumHeight",
+                  "maximumWidth",
+                  "minimumHeight",
+                  "minimumWidth"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "177",
+                "ControlUniqueId": "167",
                 "Children": []
               },
               {
@@ -6523,7 +6537,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultCheckboxStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -6532,15 +6546,45 @@
                 "IsAutoGenerated": false,
                 "Rules": [
                   {
+                    "Property": "Default",
+                    "Category": "Data",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Reset",
+                    "Category": "Data",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "Text",
                     "Category": "Data",
                     "InvariantScript": "\"Simular resposta sem dados (teste)\"",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Tooltip",
+                    "Category": "Data",
+                    "InvariantScript": "\"\"",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "ContentLanguage",
+                    "Category": "Data",
+                    "InvariantScript": "\"\"",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "ZIndex",
+                    "Category": "Design",
+                    "InvariantScript": "4",
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "CheckmarkFill",
                     "Category": "Design",
-                    "InvariantScript": "RGBA(0, 0, 0, 1)",
+                    "InvariantScript": "nfTexto",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6553,12 +6597,18 @@
                     "Property": "CheckboxBorderColor",
                     "Category": "Design",
                     "InvariantScript": "nfVermelho",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "CheckboxSize",
+                    "Category": "Design",
+                    "InvariantScript": "24",
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "BorderColor",
                     "Category": "Design",
-                    "InvariantScript": "RGBA(0, 18, 107, 1)",
+                    "InvariantScript": "nfBorda",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6574,9 +6624,21 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
+                    "Property": "BorderThickness",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "FocusedBorderColor",
                     "Category": "Design",
                     "InvariantScript": "Self.BorderColor",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "FocusedBorderThickness",
+                    "Category": "Design",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6595,7 +6657,7 @@
                     "Property": "Color",
                     "Category": "Design",
                     "InvariantScript": "nfTextoSuave",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "DisabledColor",
@@ -6622,6 +6684,12 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
+                    "Property": "Size",
+                    "Category": "Design",
+                    "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "PressedColor",
                     "Category": "Design",
                     "InvariantScript": "RGBA(70, 68, 64, 1)",
@@ -6630,7 +6698,7 @@
                   {
                     "Property": "HoverColor",
                     "Category": "Design",
-                    "InvariantScript": "RGBA(0, 18, 107, 1)",
+                    "InvariantScript": "nfAzul",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -6650,66 +6718,6 @@
                     "Category": "Design",
                     "InvariantScript": "FontWeight.Normal",
                     "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "VerticalAlign",
-                    "Category": "Design",
-                    "InvariantScript": "VerticalAlign.Middle",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "X",
-                    "Category": "Design",
-                    "InvariantScript": "0",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Y",
-                    "Category": "Design",
-                    "InvariantScript": "0",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Width",
-                    "Category": "Design",
-                    "InvariantScript": "Min(380, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight)",
-                    "RuleProviderType": "User"
-                  },
-                  {
-                    "Property": "Height",
-                    "Category": "Design",
-                    "InvariantScript": "32",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "DisplayMode",
-                    "Category": "Design",
-                    "InvariantScript": "If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)",
-                    "RuleProviderType": "User"
-                  },
-                  {
-                    "Property": "ZIndex",
-                    "Category": "Design",
-                    "InvariantScript": "4",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "BorderThickness",
-                    "Category": "Design",
-                    "InvariantScript": "0",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "FocusedBorderThickness",
-                    "Category": "Design",
-                    "InvariantScript": "2",
-                    "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Size",
-                    "Category": "Design",
-                    "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
-                    "RuleProviderType": "User"
                   },
                   {
                     "Property": "Italic",
@@ -6754,92 +6762,128 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "CheckboxSize",
+                    "Property": "VerticalAlign",
                     "Category": "Design",
-                    "InvariantScript": "24",
+                    "InvariantScript": "VerticalAlign.Middle",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "X",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Y",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Width",
+                    "Category": "Design",
+                    "InvariantScript": "Min(380, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight)",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Height",
+                    "Category": "Design",
+                    "InvariantScript": "32",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Visible",
+                    "Category": "Design",
+                    "InvariantScript": "true",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "DisplayMode",
+                    "Category": "Design",
+                    "InvariantScript": "If(locL3ACarregar, DisplayMode.Disabled, DisplayMode.Edit)",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "TabIndex",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "maximumHeight",
+                    "Category": "Design",
+                    "InvariantScript": "768",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "maximumWidth",
+                    "Category": "Design",
+                    "InvariantScript": "1366",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "minimumHeight",
+                    "Category": "Design",
+                    "InvariantScript": "35",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "minimumWidth",
+                    "Category": "Design",
+                    "InvariantScript": "100",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "OnCheck",
+                    "Category": "Behavior",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "OnUncheck",
+                    "Category": "Behavior",
+                    "InvariantScript": "false",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "OnSelect",
+                    "Category": "Behavior",
+                    "InvariantScript": "false",
                     "RuleProviderType": "Unknown"
                   }
                 ],
                 "ControlPropertyState": [
+                  "ZIndex",
+                  "Default",
+                  "OnCheck",
+                  "OnUncheck",
+                  "Reset",
                   "CheckmarkFill",
                   "CheckboxBackgroundFill",
-                  {
-                    "InvariantPropertyName": "CheckboxBorderColor",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "RGBA(0, 18, 107, 1)",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "Text",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "\"Opção\"",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "CheckboxBorderColor",
+                  "CheckboxSize",
+                  "Text",
+                  "Tooltip",
+                  "ContentLanguage",
                   "BorderColor",
                   "DisabledBorderColor",
                   "BorderStyle",
+                  "BorderThickness",
                   "FocusedBorderColor",
+                  "FocusedBorderThickness",
                   "PressedBorderColor",
                   "HoverBorderColor",
-                  {
-                    "InvariantPropertyName": "Color",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "RGBA(0, 0, 0, 1)",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "Color",
                   "DisabledColor",
                   "Fill",
                   "DisabledFill",
                   "Font",
+                  "Size",
                   "PressedColor",
                   "HoverColor",
                   "PressedFill",
                   "HoverFill",
                   "FontWeight",
-                  "VerticalAlign",
-                  "X",
-                  "Y",
-                  {
-                    "InvariantPropertyName": "Width",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "150",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "Height",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "50",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "DisplayMode",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "DisplayMode.Edit",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  "ZIndex",
-                  "BorderThickness",
-                  "FocusedBorderThickness",
-                  {
-                    "InvariantPropertyName": "Size",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "13",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
                   "Italic",
                   "Underline",
                   "Strikethrough",
@@ -6847,17 +6891,22 @@
                   "PaddingRight",
                   "PaddingBottom",
                   "PaddingLeft",
-                  {
-                    "InvariantPropertyName": "CheckboxSize",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "40",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  }
+                  "VerticalAlign",
+                  "X",
+                  "Y",
+                  "Width",
+                  "Height",
+                  "Visible",
+                  "DisplayMode",
+                  "TabIndex",
+                  "OnSelect",
+                  "maximumHeight",
+                  "maximumWidth",
+                  "minimumHeight",
+                  "minimumWidth"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "178",
+                "ControlUniqueId": "168",
                 "Children": []
               },
               {
@@ -6945,7 +6994,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGroupContainerStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -7035,7 +7084,7 @@
                     "Property": "Height",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 236, scrL3Lista.Size = ScreenSize.Medium, 120, 100)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "Visible",
@@ -7071,13 +7120,13 @@
                     "Property": "LayoutDirection",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "LayoutAlignItems",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, LayoutAlignItems.Start, LayoutAlignItems.Center)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "LayoutJustifyContent",
@@ -7089,7 +7138,7 @@
                     "Property": "LayoutGap",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 8, 16)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "LayoutOverflowX",
@@ -7202,44 +7251,16 @@
                   "X",
                   "Y",
                   "Width",
-                  {
-                    "InvariantPropertyName": "Height",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "88",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "Height",
                   "Visible",
                   "DisplayMode",
                   "ChildTabPriority",
                   "EnableChildFocus",
                   "LayoutMode",
-                  {
-                    "InvariantPropertyName": "LayoutDirection",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "LayoutDirection.Horizontal",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "LayoutAlignItems",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "LayoutAlignItems.Center",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "LayoutDirection",
+                  "LayoutAlignItems",
                   "LayoutJustifyContent",
-                  {
-                    "InvariantPropertyName": "LayoutGap",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "16",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "LayoutGap",
                   "LayoutOverflowX",
                   "LayoutOverflowY",
                   "LayoutWrap",
@@ -7258,7 +7279,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "179",
+                "ControlUniqueId": "169",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -7345,7 +7366,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultIconStyle",
+                    "StyleName": "",
                     "Parent": "conL3Erro",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -7356,7 +7377,7 @@
                       {
                         "Property": "AccessibleLabel",
                         "Category": "Data",
-                        "InvariantScript": "\"\"",
+                        "InvariantScript": "\"Erro\"",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -7637,7 +7658,7 @@
                       "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "180",
+                    "ControlUniqueId": "170",
                     "Children": []
                   },
                   {
@@ -7651,16 +7672,9 @@
                           "Property": "FillPortions",
                           "Category": "Design",
                           "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 0, 1)",
-                          "RuleProviderType": "User"
+                          "RuleProviderType": "Unknown"
                         },
-                        "ControlPropertyState": {
-                          "InvariantPropertyName": "FillPortions",
-                          "AutoRuleBindingEnabled": false,
-                          "AutoRuleBindingString": "1",
-                          "NameMapSourceSchema": "?",
-                          "IsLockable": false,
-                          "AFDDataSourceName": ""
-                        }
+                        "ControlPropertyState": "FillPortions"
                       },
                       {
                         "PropertyName": "AlignInContainer",
@@ -7668,16 +7682,9 @@
                           "Property": "AlignInContainer",
                           "Category": "Design",
                           "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.SetByContainer)",
-                          "RuleProviderType": "User"
+                          "RuleProviderType": "Unknown"
                         },
-                        "ControlPropertyState": {
-                          "InvariantPropertyName": "AlignInContainer",
-                          "AutoRuleBindingEnabled": false,
-                          "AutoRuleBindingString": "AlignInContainer.SetByContainer",
-                          "NameMapSourceSchema": "?",
-                          "IsLockable": false,
-                          "AFDDataSourceName": ""
-                        }
+                        "ControlPropertyState": "AlignInContainer"
                       },
                       {
                         "PropertyName": "LayoutMinWidth",
@@ -7739,7 +7746,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3Erro",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -7816,7 +7823,7 @@
                       {
                         "Property": "Color",
                         "Category": "Design",
-                        "InvariantScript": "ColorValue(\"#8E1F25\")",
+                        "InvariantScript": "nfVermelhoTexto",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -7882,7 +7889,7 @@
                       {
                         "Property": "FocusedBorderThickness",
                         "Category": "Design",
-                        "InvariantScript": "0",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -7919,7 +7926,7 @@
                         "Property": "Size",
                         "Category": "Design",
                         "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "FontWeight",
@@ -8003,7 +8010,7 @@
                         "Property": "Height",
                         "Category": "Design",
                         "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "Visible",
@@ -8083,14 +8090,7 @@
                       "PressedFill",
                       "HoverFill",
                       "Font",
-                      {
-                        "InvariantPropertyName": "Size",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "13",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "Size",
                       "FontWeight",
                       "Italic",
                       "Underline",
@@ -8104,14 +8104,7 @@
                       "X",
                       "Y",
                       "Width",
-                      {
-                        "InvariantPropertyName": "Height",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "56",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "Height",
                       "Visible",
                       "DisplayMode",
                       "TabIndex",
@@ -8122,7 +8115,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "181",
+                    "ControlUniqueId": "171",
                     "Children": []
                   },
                   {
@@ -8210,7 +8203,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "conL3Erro",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -8565,7 +8558,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "182",
+                    "ControlUniqueId": "172",
                     "Children": []
                   }
                 ]
@@ -8583,14 +8576,7 @@
                       "InvariantScript": "0",
                       "RuleProviderType": "Unknown"
                     },
-                    "ControlPropertyState": {
-                      "InvariantPropertyName": "FillPortions",
-                      "AutoRuleBindingEnabled": false,
-                      "AutoRuleBindingString": "1",
-                      "NameMapSourceSchema": "?",
-                      "IsLockable": false,
-                      "AFDDataSourceName": ""
-                    }
+                    "ControlPropertyState": "FillPortions"
                   },
                   {
                     "PropertyName": "AlignInContainer",
@@ -8662,7 +8648,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGroupContainerStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -8670,6 +8656,18 @@
                 "IsGroupControl": false,
                 "IsAutoGenerated": false,
                 "Rules": [
+                  {
+                    "Property": "ContentLanguage",
+                    "Category": "Data",
+                    "InvariantScript": "\"\"",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "ZIndex",
+                    "Category": "Design",
+                    "InvariantScript": "6",
+                    "RuleProviderType": "Unknown"
+                  },
                   {
                     "Property": "BorderColor",
                     "Category": "Design",
@@ -8683,10 +8681,40 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
+                    "Property": "BorderThickness",
+                    "Category": "Design",
+                    "InvariantScript": "0",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "RadiusTopLeft",
+                    "Category": "Design",
+                    "InvariantScript": "12",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "RadiusTopRight",
+                    "Category": "Design",
+                    "InvariantScript": "12",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "RadiusBottomLeft",
+                    "Category": "Design",
+                    "InvariantScript": "12",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "RadiusBottomRight",
+                    "Category": "Design",
+                    "InvariantScript": "12",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "Fill",
                     "Category": "Design",
                     "InvariantScript": "nfAmbarFundo",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "X",
@@ -8710,7 +8738,13 @@
                     "Property": "Height",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 236, scrL3Lista.Size = ScreenSize.Medium, 120, 100)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
+                    "Property": "Visible",
+                    "Category": "Design",
+                    "InvariantScript": "!locL3ACarregar && IsBlank(locL3Erro) && If(locL3Vista = \"publicacoes\", IsEmpty(colL3Publicacoes), IsEmpty(colL3Utilizadores))",
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "DisplayMode",
@@ -8725,6 +8759,12 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
+                    "Property": "EnableChildFocus",
+                    "Category": "Design",
+                    "InvariantScript": "true",
+                    "RuleProviderType": "Unknown"
+                  },
+                  {
                     "Property": "LayoutMode",
                     "Category": "Design",
                     "InvariantScript": "LayoutMode.Auto",
@@ -8734,13 +8774,13 @@
                     "Property": "LayoutDirection",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "LayoutAlignItems",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, LayoutAlignItems.Start, LayoutAlignItems.Center)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "LayoutJustifyContent",
@@ -8752,7 +8792,7 @@
                     "Property": "LayoutGap",
                     "Category": "Design",
                     "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 8, 16)",
-                    "RuleProviderType": "User"
+                    "RuleProviderType": "Unknown"
                   },
                   {
                     "Property": "LayoutOverflowX",
@@ -8797,19 +8837,13 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "DropShadow",
+                    "Property": "PaddingTop",
                     "Category": "Design",
-                    "InvariantScript": "DropShadow.None",
-                    "RuleProviderType": "User"
-                  },
-                  {
-                    "Property": "ZIndex",
-                    "Category": "Design",
-                    "InvariantScript": "6",
+                    "InvariantScript": "16",
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "PaddingTop",
+                    "Property": "PaddingRight",
                     "Category": "Design",
                     "InvariantScript": "16",
                     "RuleProviderType": "Unknown"
@@ -8827,92 +8861,60 @@
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "PaddingRight",
+                    "Property": "minimumWidth",
                     "Category": "Design",
-                    "InvariantScript": "16",
+                    "InvariantScript": "20",
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "RadiusTopLeft",
+                    "Property": "minimumHeight",
                     "Category": "Design",
-                    "InvariantScript": "12",
+                    "InvariantScript": "20",
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "RadiusTopRight",
+                    "Property": "maximumWidth",
                     "Category": "Design",
-                    "InvariantScript": "12",
+                    "InvariantScript": "1366",
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "RadiusBottomLeft",
+                    "Property": "maximumHeight",
                     "Category": "Design",
-                    "InvariantScript": "12",
+                    "InvariantScript": "7680",
                     "RuleProviderType": "Unknown"
                   },
                   {
-                    "Property": "RadiusBottomRight",
+                    "Property": "DropShadow",
                     "Category": "Design",
-                    "InvariantScript": "12",
+                    "InvariantScript": "DropShadow.None",
                     "RuleProviderType": "Unknown"
-                  },
-                  {
-                    "Property": "Visible",
-                    "Category": "Design",
-                    "InvariantScript": "!locL3ACarregar && IsBlank(locL3Erro) && If(locL3Vista = \"publicacoes\", IsEmpty(colL3Publicacoes), IsEmpty(colL3Utilizadores))",
-                    "RuleProviderType": "User"
                   }
                 ],
                 "ControlPropertyState": [
+                  "ZIndex",
+                  "ContentLanguage",
                   "BorderColor",
                   "BorderStyle",
-                  {
-                    "InvariantPropertyName": "Fill",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "RGBA(0, 0, 0, 0)",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "BorderThickness",
+                  "RadiusTopLeft",
+                  "RadiusTopRight",
+                  "RadiusBottomLeft",
+                  "RadiusBottomRight",
+                  "Fill",
                   "X",
                   "Y",
                   "Width",
-                  {
-                    "InvariantPropertyName": "Height",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "200",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "Height",
+                  "Visible",
                   "DisplayMode",
                   "ChildTabPriority",
+                  "EnableChildFocus",
                   "LayoutMode",
-                  {
-                    "InvariantPropertyName": "LayoutDirection",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "LayoutDirection.Horizontal",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "LayoutAlignItems",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "LayoutAlignItems.Center",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "LayoutDirection",
+                  "LayoutAlignItems",
                   "LayoutJustifyContent",
-                  {
-                    "InvariantPropertyName": "LayoutGap",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "0",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "LayoutGap",
                   "LayoutOverflowX",
                   "LayoutOverflowY",
                   "LayoutWrap",
@@ -8920,90 +8922,18 @@
                   "LayoutGridColumns",
                   "LayoutGridColumnMinWidth",
                   "LayoutGridRowMinHeight",
-                  {
-                    "InvariantPropertyName": "DropShadow",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "DropShadow.Light",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  "ZIndex",
-                  {
-                    "InvariantPropertyName": "PaddingTop",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "8",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "PaddingBottom",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "8",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "PaddingLeft",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "8",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "PaddingRight",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "8",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "RadiusTopLeft",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "4",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "RadiusTopRight",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "4",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "RadiusBottomLeft",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "4",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "RadiusBottomRight",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "4",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
-                  {
-                    "InvariantPropertyName": "Visible",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "true",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  }
+                  "PaddingTop",
+                  "PaddingRight",
+                  "PaddingBottom",
+                  "PaddingLeft",
+                  "minimumWidth",
+                  "minimumHeight",
+                  "maximumWidth",
+                  "maximumHeight",
+                  "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "183",
+                "ControlUniqueId": "173",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -9085,12 +9015,12 @@
                     },
                     "Index": 0,
                     "PublishOrderIndex": 173,
-                    "VariantName": "Warning",
+                    "VariantName": "",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultIconStyle",
+                    "StyleName": "",
                     "Parent": "conL3Aviso",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -9099,16 +9029,52 @@
                     "IsAutoGenerated": false,
                     "Rules": [
                       {
+                        "Property": "AccessibleLabel",
+                        "Category": "Data",
+                        "InvariantScript": "\"Aviso\"",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Tooltip",
+                        "Category": "Data",
+                        "InvariantScript": "\"\"",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "ContentLanguage",
+                        "Category": "Data",
+                        "InvariantScript": "\"\"",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "ZIndex",
+                        "Category": "Design",
+                        "InvariantScript": "1",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "Icon",
                         "Category": "Design",
                         "InvariantScript": "Icon.Warning",
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "Rotation",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "AutoDisableOnSelect",
+                        "Category": "Design",
+                        "InvariantScript": "true",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "Color",
                         "Category": "Design",
                         "InvariantScript": "nfAmbar",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "DisabledColor",
@@ -9153,6 +9119,12 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "Visible",
+                        "Category": "Design",
+                        "InvariantScript": "true",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "DisplayMode",
                         "Category": "Design",
                         "InvariantScript": "DisplayMode.Edit",
@@ -9183,6 +9155,36 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "PaddingTop",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingRight",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingBottom",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingLeft",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "TabIndex",
+                        "Category": "Design",
+                        "InvariantScript": "-1",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "BorderStyle",
                         "Category": "Design",
                         "InvariantScript": "BorderStyle.Solid",
@@ -9191,7 +9193,7 @@
                       {
                         "Property": "BorderColor",
                         "Category": "Design",
-                        "InvariantScript": "RGBA(0, 18, 107, 1)",
+                        "InvariantScript": "nfBorda",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9213,21 +9215,15 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
-                        "Property": "FocusedBorderColor",
-                        "Category": "Design",
-                        "InvariantScript": "Self.BorderColor",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "ZIndex",
-                        "Category": "Design",
-                        "InvariantScript": "1",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
                         "Property": "BorderThickness",
                         "Category": "Design",
                         "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "FocusedBorderColor",
+                        "Category": "Design",
+                        "InvariantScript": "Self.BorderColor",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9235,18 +9231,53 @@
                         "Category": "Design",
                         "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "minimumWidth",
+                        "Category": "Design",
+                        "InvariantScript": "1",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "minimumHeight",
+                        "Category": "Design",
+                        "InvariantScript": "20",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "maximumWidth",
+                        "Category": "Design",
+                        "InvariantScript": "1366",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "maximumHeight",
+                        "Category": "Design",
+                        "InvariantScript": "768",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PreserveAspectRatio",
+                        "Category": "Design",
+                        "InvariantScript": "true",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "OnSelect",
+                        "Category": "Behavior",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
                       }
                     ],
                     "ControlPropertyState": [
+                      "ZIndex",
                       "Icon",
-                      {
-                        "InvariantPropertyName": "Color",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "RGBA(0, 18, 107, 1)",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "Rotation",
+                      "AccessibleLabel",
+                      "Tooltip",
+                      "ContentLanguage",
+                      "AutoDisableOnSelect",
+                      "Color",
                       "DisabledColor",
                       "PressedColor",
                       "HoverColor",
@@ -9254,37 +9285,34 @@
                       "DisabledFill",
                       "PressedFill",
                       "HoverFill",
+                      "Visible",
                       "DisplayMode",
                       "X",
                       "Y",
-                      {
-                        "InvariantPropertyName": "Width",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "64",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      {
-                        "InvariantPropertyName": "Height",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "64",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "Width",
+                      "Height",
+                      "PaddingTop",
+                      "PaddingRight",
+                      "PaddingBottom",
+                      "PaddingLeft",
+                      "TabIndex",
                       "BorderStyle",
                       "BorderColor",
                       "DisabledBorderColor",
                       "PressedBorderColor",
                       "HoverBorderColor",
-                      "FocusedBorderColor",
-                      "ZIndex",
                       "BorderThickness",
-                      "FocusedBorderThickness"
+                      "FocusedBorderColor",
+                      "FocusedBorderThickness",
+                      "OnSelect",
+                      "minimumWidth",
+                      "minimumHeight",
+                      "maximumWidth",
+                      "maximumHeight",
+                      "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "184",
+                    "ControlUniqueId": "174",
                     "Children": []
                   },
                   {
@@ -9298,16 +9326,9 @@
                           "Property": "FillPortions",
                           "Category": "Design",
                           "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 0, 1)",
-                          "RuleProviderType": "User"
+                          "RuleProviderType": "Unknown"
                         },
-                        "ControlPropertyState": {
-                          "InvariantPropertyName": "FillPortions",
-                          "AutoRuleBindingEnabled": false,
-                          "AutoRuleBindingString": "0",
-                          "NameMapSourceSchema": "?",
-                          "IsLockable": false,
-                          "AFDDataSourceName": ""
-                        }
+                        "ControlPropertyState": "FillPortions"
                       },
                       {
                         "PropertyName": "AlignInContainer",
@@ -9315,16 +9336,9 @@
                           "Property": "AlignInContainer",
                           "Category": "Design",
                           "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.SetByContainer)",
-                          "RuleProviderType": "User"
+                          "RuleProviderType": "Unknown"
                         },
-                        "ControlPropertyState": {
-                          "InvariantPropertyName": "AlignInContainer",
-                          "AutoRuleBindingEnabled": false,
-                          "AutoRuleBindingString": "AlignInContainer.SetByContainer",
-                          "NameMapSourceSchema": "?",
-                          "IsLockable": false,
-                          "AFDDataSourceName": ""
-                        }
+                        "ControlPropertyState": "AlignInContainer"
                       },
                       {
                         "PropertyName": "LayoutMinWidth",
@@ -9386,7 +9400,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "conL3Aviso",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -9404,12 +9418,36 @@
                         "Property": "Text",
                         "Category": "Data",
                         "InvariantScript": "If(locL3Vista = \"publicacoes\", \"Sem publicações para apresentar. Prima Atualizar para carregar os dados.\", \"Sem utilizadores para apresentar. Prima Atualizar para carregar os dados.\")",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Tooltip",
+                        "Category": "Data",
+                        "InvariantScript": "\"\"",
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "Role",
                         "Category": "Data",
                         "InvariantScript": "TextRole.Default",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "ContentLanguage",
+                        "Category": "Data",
+                        "InvariantScript": "\"\"",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "ZIndex",
+                        "Category": "Design",
+                        "InvariantScript": "2",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "LineHeight",
+                        "Category": "Design",
+                        "InvariantScript": "1.2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9419,10 +9457,28 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "AutoHeight",
+                        "Category": "Design",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Wrap",
+                        "Category": "Design",
+                        "InvariantScript": "true",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "IsErrorMessage",
+                        "Category": "Design",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "Color",
                         "Category": "Design",
                         "InvariantScript": "nfAmbar",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "DisabledColor",
@@ -9445,7 +9501,7 @@
                       {
                         "Property": "BorderColor",
                         "Category": "Design",
-                        "InvariantScript": "RGBA(0, 18, 107, 1)",
+                        "InvariantScript": "nfBorda",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9473,9 +9529,21 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "BorderThickness",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "FocusedBorderColor",
                         "Category": "Design",
                         "InvariantScript": "Self.BorderColor",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "FocusedBorderThickness",
+                        "Category": "Design",
+                        "InvariantScript": "2",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9509,82 +9577,16 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "Size",
+                        "Category": "Design",
+                        "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "FontWeight",
                         "Category": "Design",
                         "InvariantScript": "FontWeight.Normal",
                         "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Align",
-                        "Category": "Design",
-                        "InvariantScript": "Align.Left",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "VerticalAlign",
-                        "Category": "Design",
-                        "InvariantScript": "VerticalAlign.Middle",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "X",
-                        "Category": "Design",
-                        "InvariantScript": "0",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Y",
-                        "Category": "Design",
-                        "InvariantScript": "0",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Width",
-                        "Category": "Design",
-                        "InvariantScript": "150",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Height",
-                        "Category": "Design",
-                        "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)",
-                        "RuleProviderType": "User"
-                      },
-                      {
-                        "Property": "DisplayMode",
-                        "Category": "Design",
-                        "InvariantScript": "DisplayMode.Edit",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "ZIndex",
-                        "Category": "Design",
-                        "InvariantScript": "2",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "LineHeight",
-                        "Category": "Design",
-                        "InvariantScript": "1.2",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "BorderThickness",
-                        "Category": "Design",
-                        "InvariantScript": "0",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "FocusedBorderThickness",
-                        "Category": "Design",
-                        "InvariantScript": "0",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Size",
-                        "Category": "Design",
-                        "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 12, 13)",
-                        "RuleProviderType": "User"
                       },
                       {
                         "Property": "Italic",
@@ -9627,28 +9629,105 @@
                         "Category": "Design",
                         "InvariantScript": "5",
                         "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Align",
+                        "Category": "Design",
+                        "InvariantScript": "Align.Left",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "VerticalAlign",
+                        "Category": "Design",
+                        "InvariantScript": "VerticalAlign.Middle",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "X",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Y",
+                        "Category": "Design",
+                        "InvariantScript": "0",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Width",
+                        "Category": "Design",
+                        "InvariantScript": "150",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Height",
+                        "Category": "Design",
+                        "InvariantScript": "If(scrL3Lista.Size = ScreenSize.Small, 112, scrL3Lista.Size = ScreenSize.Medium, 88, 68)",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Visible",
+                        "Category": "Design",
+                        "InvariantScript": "true",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "DisplayMode",
+                        "Category": "Design",
+                        "InvariantScript": "DisplayMode.Edit",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "TabIndex",
+                        "Category": "Design",
+                        "InvariantScript": "-1",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "minimumWidth",
+                        "Category": "Design",
+                        "InvariantScript": "1",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "minimumHeight",
+                        "Category": "Design",
+                        "InvariantScript": "1",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "maximumWidth",
+                        "Category": "Design",
+                        "InvariantScript": "1366",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "maximumHeight",
+                        "Category": "Design",
+                        "InvariantScript": "7680",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "OnSelect",
+                        "Category": "Behavior",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
                       }
                     ],
                     "ControlPropertyState": [
+                      "ZIndex",
                       "Live",
+                      "LineHeight",
                       "Overflow",
-                      {
-                        "InvariantPropertyName": "Text",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "\"Texto\"",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "AutoHeight",
+                      "Wrap",
+                      "IsErrorMessage",
+                      "Text",
+                      "Tooltip",
                       "Role",
-                      {
-                        "InvariantPropertyName": "Color",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "RGBA(0, 0, 0, 1)",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "ContentLanguage",
+                      "Color",
                       "DisabledColor",
                       "PressedColor",
                       "HoverColor",
@@ -9657,49 +9736,40 @@
                       "PressedBorderColor",
                       "HoverBorderColor",
                       "BorderStyle",
+                      "BorderThickness",
                       "FocusedBorderColor",
+                      "FocusedBorderThickness",
                       "Fill",
                       "DisabledFill",
                       "PressedFill",
                       "HoverFill",
                       "Font",
+                      "Size",
                       "FontWeight",
-                      "Align",
-                      "VerticalAlign",
-                      "X",
-                      "Y",
-                      "Width",
-                      {
-                        "InvariantPropertyName": "Height",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "40",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      "DisplayMode",
-                      "ZIndex",
-                      "LineHeight",
-                      "BorderThickness",
-                      "FocusedBorderThickness",
-                      {
-                        "InvariantPropertyName": "Size",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "13",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
                       "Italic",
                       "Underline",
                       "Strikethrough",
                       "PaddingTop",
                       "PaddingRight",
                       "PaddingBottom",
-                      "PaddingLeft"
+                      "PaddingLeft",
+                      "Align",
+                      "VerticalAlign",
+                      "X",
+                      "Y",
+                      "Width",
+                      "Height",
+                      "Visible",
+                      "DisplayMode",
+                      "TabIndex",
+                      "OnSelect",
+                      "minimumWidth",
+                      "minimumHeight",
+                      "maximumWidth",
+                      "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "185",
+                    "ControlUniqueId": "175",
                     "Children": []
                   },
                   {
@@ -9787,7 +9857,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "conL3Aviso",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -9799,7 +9869,31 @@
                         "Property": "Text",
                         "Category": "Data",
                         "InvariantScript": "\"Atualizar\"",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Tooltip",
+                        "Category": "Data",
+                        "InvariantScript": "\"\"",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "ContentLanguage",
+                        "Category": "Data",
+                        "InvariantScript": "\"\"",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "ZIndex",
+                        "Category": "Design",
+                        "InvariantScript": "3",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "AutoDisableOnSelect",
+                        "Category": "Design",
+                        "InvariantScript": "true",
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "BorderColor",
@@ -9808,9 +9902,33 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "RadiusTopLeft",
+                        "Category": "Design",
+                        "InvariantScript": "12",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "RadiusTopRight",
+                        "Category": "Design",
+                        "InvariantScript": "12",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "RadiusBottomLeft",
+                        "Category": "Design",
+                        "InvariantScript": "12",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "RadiusBottomRight",
+                        "Category": "Design",
+                        "InvariantScript": "12",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "DisabledBorderColor",
                         "Category": "Design",
-                        "InvariantScript": "RGBA(166, 166, 166, 1)",
+                        "InvariantScript": "nfDesativado",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9832,15 +9950,27 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "BorderThickness",
+                        "Category": "Design",
+                        "InvariantScript": "2",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "FocusedBorderColor",
                         "Category": "Design",
                         "InvariantScript": "Self.BorderColor",
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "FocusedBorderThickness",
+                        "Category": "Design",
+                        "InvariantScript": "4",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "Color",
                         "Category": "Design",
-                        "InvariantScript": "RGBA(255, 255, 255, 1)",
+                        "InvariantScript": "Color.White",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9858,7 +9988,7 @@
                       {
                         "Property": "HoverColor",
                         "Category": "Design",
-                        "InvariantScript": "RGBA(255, 255, 255, 1)",
+                        "InvariantScript": "Color.White",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9871,7 +10001,7 @@
                         "Property": "Fill",
                         "Category": "Design",
                         "InvariantScript": "nfAzul",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "DisabledFill",
@@ -9889,12 +10019,18 @@
                         "Property": "HoverFill",
                         "Category": "Design",
                         "InvariantScript": "ColorFade(nfAzul, -20%)",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "Font",
                         "Category": "Design",
                         "InvariantScript": "Font.'Open Sans'",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Size",
+                        "Category": "Design",
+                        "InvariantScript": "15",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9904,9 +10040,57 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
+                        "Property": "Italic",
+                        "Category": "Design",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Underline",
+                        "Category": "Design",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Strikethrough",
+                        "Category": "Design",
+                        "InvariantScript": "false",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
                         "Property": "Align",
                         "Category": "Design",
                         "InvariantScript": "Align.Center",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingTop",
+                        "Category": "Design",
+                        "InvariantScript": "5",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingRight",
+                        "Category": "Design",
+                        "InvariantScript": "5",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingBottom",
+                        "Category": "Design",
+                        "InvariantScript": "5",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "PaddingLeft",
+                        "Category": "Design",
+                        "InvariantScript": "5",
+                        "RuleProviderType": "Unknown"
+                      },
+                      {
+                        "Property": "Visible",
+                        "Category": "Design",
+                        "InvariantScript": "true",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -9940,188 +10124,95 @@
                         "RuleProviderType": "Unknown"
                       },
                       {
-                        "Property": "ZIndex",
+                        "Property": "TabIndex",
                         "Category": "Design",
-                        "InvariantScript": "3",
+                        "InvariantScript": "0",
                         "RuleProviderType": "Unknown"
                       },
                       {
-                        "Property": "RadiusTopLeft",
+                        "Property": "maximumHeight",
                         "Category": "Design",
-                        "InvariantScript": "12",
+                        "InvariantScript": "768",
                         "RuleProviderType": "Unknown"
                       },
                       {
-                        "Property": "RadiusTopRight",
+                        "Property": "maximumWidth",
                         "Category": "Design",
-                        "InvariantScript": "12",
+                        "InvariantScript": "1366",
                         "RuleProviderType": "Unknown"
                       },
                       {
-                        "Property": "RadiusBottomLeft",
+                        "Property": "minimumHeight",
                         "Category": "Design",
-                        "InvariantScript": "12",
+                        "InvariantScript": "5",
                         "RuleProviderType": "Unknown"
                       },
                       {
-                        "Property": "RadiusBottomRight",
+                        "Property": "minimumWidth",
                         "Category": "Design",
-                        "InvariantScript": "12",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "BorderThickness",
-                        "Category": "Design",
-                        "InvariantScript": "2",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "FocusedBorderThickness",
-                        "Category": "Design",
-                        "InvariantScript": "4",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Size",
-                        "Category": "Design",
-                        "InvariantScript": "15",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Italic",
-                        "Category": "Design",
-                        "InvariantScript": "false",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Underline",
-                        "Category": "Design",
-                        "InvariantScript": "false",
-                        "RuleProviderType": "Unknown"
-                      },
-                      {
-                        "Property": "Strikethrough",
-                        "Category": "Design",
-                        "InvariantScript": "false",
+                        "InvariantScript": "5",
                         "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "OnSelect",
                         "Category": "Behavior",
                         "InvariantScript": "Select(btnL3Carregar)",
-                        "RuleProviderType": "User"
+                        "RuleProviderType": "Unknown"
                       }
                     ],
                     "ControlPropertyState": [
-                      {
-                        "InvariantPropertyName": "Text",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "\"Botão\"",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "ZIndex",
+                      "OnSelect",
+                      "AutoDisableOnSelect",
+                      "Text",
+                      "Tooltip",
+                      "ContentLanguage",
                       "BorderColor",
+                      "RadiusTopLeft",
+                      "RadiusTopRight",
+                      "RadiusBottomLeft",
+                      "RadiusBottomRight",
                       "DisabledBorderColor",
                       "PressedBorderColor",
                       "HoverBorderColor",
                       "BorderStyle",
+                      "BorderThickness",
                       "FocusedBorderColor",
+                      "FocusedBorderThickness",
                       "Color",
                       "DisabledColor",
                       "PressedColor",
                       "HoverColor",
                       "DisplayMode",
-                      {
-                        "InvariantPropertyName": "Fill",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "RGBA(56, 96, 178, 1)",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "Fill",
                       "DisabledFill",
                       "PressedFill",
-                      {
-                        "InvariantPropertyName": "HoverFill",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "ColorFade(RGBA(56, 96, 178, 1), -20%)",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "HoverFill",
                       "Font",
-                      "FontWeight",
-                      "Align",
-                      "VerticalAlign",
-                      "X",
-                      "Y",
-                      {
-                        "InvariantPropertyName": "Width",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "160",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      {
-                        "InvariantPropertyName": "Height",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "40",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      "ZIndex",
-                      {
-                        "InvariantPropertyName": "RadiusTopLeft",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "10",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      {
-                        "InvariantPropertyName": "RadiusTopRight",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "10",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      {
-                        "InvariantPropertyName": "RadiusBottomLeft",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "10",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      {
-                        "InvariantPropertyName": "RadiusBottomRight",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "10",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
-                      "BorderThickness",
-                      "FocusedBorderThickness",
                       "Size",
+                      "FontWeight",
                       "Italic",
                       "Underline",
                       "Strikethrough",
-                      {
-                        "InvariantPropertyName": "OnSelect",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "false",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      }
+                      "Align",
+                      "PaddingTop",
+                      "PaddingRight",
+                      "PaddingBottom",
+                      "PaddingLeft",
+                      "Visible",
+                      "VerticalAlign",
+                      "X",
+                      "Y",
+                      "Width",
+                      "Height",
+                      "TabIndex",
+                      "maximumHeight",
+                      "maximumWidth",
+                      "minimumHeight",
+                      "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "186",
+                    "ControlUniqueId": "176",
                     "Children": []
                   }
                 ]
@@ -10211,7 +10302,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -10354,7 +10445,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -10580,7 +10671,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "187",
+                "ControlUniqueId": "177",
                 "Children": []
               },
               {
@@ -10668,7 +10759,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -10811,7 +10902,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -11037,7 +11128,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "188",
+                "ControlUniqueId": "178",
                 "Children": []
               },
               {
@@ -11125,7 +11216,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGalleryStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -11160,7 +11251,7 @@
                   {
                     "Property": "AccessibleLabel",
                     "Category": "Data",
-                    "InvariantScript": "\"\"",
+                    "InvariantScript": "\"Lista de utilizadores\"",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -11370,7 +11461,7 @@
                   {
                     "Property": "TabIndex",
                     "Category": "Design",
-                    "InvariantScript": "-1",
+                    "InvariantScript": "0",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -11459,11 +11550,11 @@
                   "#CopilotOverlayVisible"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "189",
+                "ControlUniqueId": "179",
                 "Children": [
                   {
                     "Type": "ControlInfo",
-                    "Name": "587fd589-f662-4aa3-8d96-320cdda052bb",
+                    "Name": "0f5e2508-9ac4-4237-9d48-e6b705afb9d7",
                     "HasDynamicProperties": false,
                     "Template": {
                       "Id": "http://microsoft.com/appmagic/galleryTemplate",
@@ -11510,7 +11601,7 @@
                       "TemplateFill"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "190",
+                    "ControlUniqueId": "180",
                     "Children": []
                   },
                   {
@@ -11536,7 +11627,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galL3Utilizadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -11905,7 +11996,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "191",
+                    "ControlUniqueId": "181",
                     "Children": []
                   },
                   {
@@ -11931,7 +12022,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "galL3Utilizadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -12286,7 +12377,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "192",
+                    "ControlUniqueId": "182",
                     "Children": []
                   },
                   {
@@ -12312,7 +12403,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galL3Utilizadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -12681,7 +12772,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "193",
+                    "ControlUniqueId": "183",
                     "Children": []
                   },
                   {
@@ -12707,7 +12798,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultIconStyle",
+                    "StyleName": "",
                     "Parent": "galL3Utilizadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -12760,7 +12851,7 @@
                       {
                         "Property": "Color",
                         "Category": "Design",
-                        "InvariantScript": "ColorValue(\"#7D8993\")",
+                        "InvariantScript": "nfBorda",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -12999,7 +13090,7 @@
                       "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "194",
+                    "ControlUniqueId": "184",
                     "Children": []
                   },
                   {
@@ -13025,7 +13116,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galL3Utilizadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -13394,7 +13485,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "195",
+                    "ControlUniqueId": "185",
                     "Children": []
                   },
                   {
@@ -13420,7 +13511,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultRectangleStyle",
+                    "StyleName": "",
                     "Parent": "galL3Utilizadores",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -13614,7 +13705,7 @@
                       "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "196",
+                    "ControlUniqueId": "186",
                     "Children": []
                   }
                 ]
@@ -13704,7 +13795,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGalleryStyle",
+                "StyleName": "",
                 "Parent": "conConteudoL3a",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -13739,7 +13830,7 @@
                   {
                     "Property": "AccessibleLabel",
                     "Category": "Data",
-                    "InvariantScript": "\"\"",
+                    "InvariantScript": "\"Lista de publicações\"",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -13949,7 +14040,7 @@
                   {
                     "Property": "TabIndex",
                     "Category": "Design",
-                    "InvariantScript": "-1",
+                    "InvariantScript": "0",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -14038,11 +14129,11 @@
                   "#CopilotOverlayVisible"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "197",
+                "ControlUniqueId": "187",
                 "Children": [
                   {
                     "Type": "ControlInfo",
-                    "Name": "d7ad02c3-70c1-45a3-a979-2a0ba093a24a",
+                    "Name": "4a0d4000-17ba-4f2e-9f8a-0927ea3c7357",
                     "HasDynamicProperties": false,
                     "Template": {
                       "Id": "http://microsoft.com/appmagic/galleryTemplate",
@@ -14089,7 +14180,7 @@
                       "TemplateFill"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "198",
+                    "ControlUniqueId": "188",
                     "Children": []
                   },
                   {
@@ -14115,7 +14206,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galL3Publicacoes",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -14484,7 +14575,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "199",
+                    "ControlUniqueId": "189",
                     "Children": []
                   },
                   {
@@ -14510,7 +14601,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultIconStyle",
+                    "StyleName": "",
                     "Parent": "galL3Publicacoes",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -14563,7 +14654,7 @@
                       {
                         "Property": "Color",
                         "Category": "Design",
-                        "InvariantScript": "ColorValue(\"#7D8993\")",
+                        "InvariantScript": "nfBorda",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -14802,7 +14893,7 @@
                       "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "200",
+                    "ControlUniqueId": "190",
                     "Children": []
                   },
                   {
@@ -14828,7 +14919,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galL3Publicacoes",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -15197,7 +15288,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "201",
+                    "ControlUniqueId": "191",
                     "Children": []
                   },
                   {
@@ -15223,7 +15314,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galL3Publicacoes",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -15240,8 +15331,8 @@
                       {
                         "Property": "Text",
                         "Category": "Data",
-                        "InvariantScript": "Left(Substitute(ThisItem.body, Char(10), \" \"), 100) & \"...\"",
-                        "RuleProviderType": "User"
+                        "InvariantScript": "With({t: Substitute(ThisItem.body, Char(10), \" \")},\n    If(Len(t) > 100, Left(t, 100) & \"…\", t))",
+                        "RuleProviderType": "Unknown"
                       },
                       {
                         "Property": "Tooltip",
@@ -15546,14 +15637,7 @@
                       "AutoHeight",
                       "Wrap",
                       "IsErrorMessage",
-                      {
-                        "InvariantPropertyName": "Text",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "Left(ThisItem.body, 100) & \"…\"",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      },
+                      "Text",
                       "Tooltip",
                       "Role",
                       "ContentLanguage",
@@ -15599,7 +15683,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "202",
+                    "ControlUniqueId": "192",
                     "Children": []
                   },
                   {
@@ -15625,7 +15709,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultRectangleStyle",
+                    "StyleName": "",
                     "Parent": "galL3Publicacoes",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -15819,7 +15903,7 @@
                       "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "203",
+                    "ControlUniqueId": "193",
                     "Children": []
                   }
                 ]

@@ -20,7 +20,7 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from . import cores, lint, pafx, projeto, yamlio
+from . import colagem, cores, lint, pafx, projeto, yamlio
 
 # ---------------------------------------------------------------- utilitários
 
@@ -219,10 +219,13 @@ def cmd_colar(a) -> int:
     f = str(app["Formulas"]).lstrip("=")
     (destino / "App.Formulas.invariante.txt").write_text(f + "\n", encoding="utf-8")
     (destino / "App.Formulas.pt.txt").write_text(pafx.para_pt(f) + "\n", encoding="utf-8")
+    (destino / "LEIA-ME.txt").write_text(colagem.leia_me(raiz, ecras), encoding="utf-8")
     _p(f"colar: {len(ecras)} ecrã(s) em {destino.relative_to(raiz) if destino.is_relative_to(raiz) else destino}")
-    _p("  1. App.Formulas: copie App.Formulas.pt.txt para a propriedade Formulas do objeto App.")
-    _p("  2. Ecrãs: apague (ou renomeie) o ecrã antigo, abra o .yaml, copie tudo e faça Ctrl+V na Vista de árvore.")
-    return 0
+    _p("  Siga LEIA-ME.txt: fontes de dados, App.Formulas, TODOS_OS_ECRAS.yaml, guardar, publicar, exportar, deriva.")
+    problemas = colagem.verificar_fontes(raiz)
+    for pr in problemas:
+        _p(f"  ATENÇÃO: {pr}")
+    return 1 if problemas and a.estrito else 0
 
 
 # ---------------------------------------------------------------- inventário
@@ -436,6 +439,7 @@ def main(argv=None) -> int:
     s = sub.add_parser("colar", help="gera os blocos para colar no Studio")
     s.add_argument("ecras", nargs="*")
     s.add_argument("--destino")
+    s.add_argument("--estrito", action="store_true", help="falha se faltar uma fonte de dados na app exportada")
     s.set_defaults(f=cmd_colar)
 
     s = sub.add_parser("inventario", help="gera docs/inventario.md")

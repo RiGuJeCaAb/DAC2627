@@ -1,0 +1,13 @@
+# Exportação em bruto do Studio: gerada por 'dac sincronizar', nunca editada à mão.
+# linguist-generated esconde-a nos diffs dos PR no GitHub. -diff mostra só "ficheiro binário mudou"
+# no git diff local, para a alteração real (src/, tools/, docs/) não ficar soterrada.
+# msapp/Src e msapp/References continuam com diff normal: são a prova que 'dac deriva' e 'dac colar' usam.
+msapp/Controls/** linguist-generated=true -diff
+msapp/AppCheckerResult.sarif linguist-generated=true -diff
+msapp/Resources/** linguist-generated=true -diff
+msapp/References/Templates.json linguist-generated=true -diff
+msapp/References/Themes.json linguist-generated=true -diff
+msapp/References/ModernThemes.json linguist-generated=true -diff
+msapp/Src/_EditorState.pa.yaml linguist-generated=true -diff
+solution/** linguist-generated=true -diff
+_export/** linguist-generated=true

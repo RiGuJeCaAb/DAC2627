@@ -1,0 +1,274 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrL4Complemento:
+    Properties:
+      Fill: =nfFundo
+    Children:
+      - conEcraL4b:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabL4b:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - icoInicioL4b:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar ao início"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Home
+                        OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
+                        Width: =44
+                  - lblCabL4b:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="Ficha 04 · Complemento"
+            - conConteudoL4b:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =12
+                  PaddingBottom: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
+                  PaddingRight: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
+                  PaddingTop: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - lblL4bTitulo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Bold
+                        Size: =If(scrL4Complemento.Size = ScreenSize.Small, 20, 24)
+                        Text: ="SharePoint, Dataverse e SQL"
+                  - lblL4bIntro:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        Size: =14
+                        Text: ="Ponto 8 do Lab 4. Três sítios onde guardar os clientes e os pedidos desta ficha, comparados pelos critérios que pesam numa canvas app."
+                  - conL4bTabela:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =Color.White
+                        LayoutDirection: =LayoutDirection.Vertical
+                        RadiusBottomLeft: =16
+                        RadiusBottomRight: =16
+                        RadiusTopLeft: =16
+                        RadiusTopRight: =16
+                      Children:
+                        - conL4bCabecalho:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =nfFundo
+                              FillPortions: =0
+                              Height: =48
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              Visible: =scrL4Complemento.Size > ScreenSize.Small
+                            Children:
+                              - lblL4bCabCriterio:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =nfTexto
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    PaddingLeft: =16
+                                    Size: =14
+                                    Text: ="Critério"
+                                    Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                              - lblL4bCabSharePoint:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =nfTexto
+                                    FillPortions: =1
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    PaddingLeft: =12
+                                    Size: =14
+                                    Text: ="SharePoint (listas)"
+                              - lblL4bCabDataverse:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =Color.White
+                                    Fill: =nfAzul
+                                    FillPortions: =1
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    PaddingLeft: =12
+                                    Size: =14
+                                    Text: =If(scrL4Complemento.Size = ScreenSize.Medium, "Dataverse", "Dataverse · usado nesta ficha")
+                              - lblL4bCabSQL:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Color: =nfTexto
+                                    FillPortions: =1
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    PaddingLeft: =12
+                                    Size: =14
+                                    Text: ="SQL (Azure SQL)"
+                        - galL4bCriterios:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              AccessibleLabel: ="Comparação de SharePoint, Dataverse e SQL por critério"
+                              Items: |-
+                                =Table(
+                                    {Criterio: "Relações e integridade", SharePoint: "Coluna de pesquisa entre listas, com Restringir ou Em cascata se o comportamento for imposto.", Dataverse: "Relação 1:N nativa, com Restringir, Em cascata ou Remover ligação.", SQL: "Chave estrangeira com ON DELETE, definida em T-SQL."},
+                                    {Criterio: "Volume", SharePoint: "Até 30 milhões de itens, mas consultas acima de 5000 itens exigem colunas indexadas.", Dataverse: "Escala com a capacidade do ambiente, sem limiar de vista.", SQL: "Escala com o escalão da base de dados."},
+                                    {Criterio: "Delegação no Power Apps", SharePoint: "Parcial. Not e os campos de sistema não delegam.", Dataverse: "Ampla, incluindo vistas e StartsWith.", SQL: "Ampla nas tabelas. Para escrever com regras, usam-se stored procedures."},
+                                    {Criterio: "Segurança", SharePoint: "Permissões do site e da lista. Acima de 100 000 itens não se quebra a herança.", Dataverse: "Funções de segurança, equipas, unidades de negócio e segurança por coluna.", SQL: "Logins e funções da base de dados, com Microsoft Entra ID."},
+                                    {Criterio: "Lógica no servidor", SharePoint: "Validação de colunas e fluxos do Power Automate.", Dataverse: "Regras de negócio, colunas calculadas, número automático e vistas.", SQL: "Vistas, stored procedures e triggers."},
+                                    {Criterio: "Licença", SharePoint: "Conector standard, incluído no Microsoft 365.", Dataverse: "Premium (Power Apps Premium ou Developer Plan).", SQL: "Premium, mais o custo da base de dados no Azure."},
+                                    {Criterio: "Quando usar", SharePoint: "Listas simples, até alguns milhares de linhas.", Dataverse: "Apps de negócio relacionais dentro da Power Platform.", SQL: "Dados que já vivem em SQL ou são partilhados com outros sistemas."}
+                                )
+                              LayoutMinHeight: =0
+                              TabIndex: =0
+                              TemplatePadding: =0
+                              TemplateSize: =Switch(scrL4Complemento.Size, ScreenSize.Small, 248, ScreenSize.Medium, 112, 76)
+                            Children:
+                              - recL4bColDataverse:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    Fill: =nfAzulClaro
+                                    Height: =Parent.TemplateHeight
+                                    Visible: =scrL4Complemento.Size > ScreenSize.Small
+                                    Width: =(Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3
+                                    X: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3
+                              - lblL4bCriterio:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTexto
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 28, Parent.TemplateHeight)
+                                    OnSelect: =Select(Parent)
+                                    PaddingLeft: =16
+                                    Size: =14
+                                    Text: =ThisItem.Criterio
+                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190))
+                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 10, 0)
+                              - lblL4bSharePoint:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTexto
+                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 64, Parent.TemplateHeight)
+                                    OnSelect: =Select(Parent)
+                                    PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
+                                    PaddingRight: =12
+                                    Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & ThisItem.SharePoint
+                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
+                                    X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190))
+                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 40, 0)
+                              - lblL4bDataverse:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTexto
+                                    Fill: =If(scrL4Complemento.Size = ScreenSize.Small, nfAzulClaro, Color.Transparent)
+                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 64, Parent.TemplateHeight)
+                                    OnSelect: =Select(Parent)
+                                    PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
+                                    PaddingRight: =12
+                                    Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & ThisItem.Dataverse
+                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
+                                    X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
+                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 106, 0)
+                              - lblL4bSQL:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTexto
+                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 64, Parent.TemplateHeight)
+                                    OnSelect: =Select(Parent)
+                                    PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
+                                    PaddingRight: =12
+                                    Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & ThisItem.SQL
+                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
+                                    X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + 2 * (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
+                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 172, 0)
+                              - recL4bLinha:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    Fill: =nfLinha
+                                    Height: =1
+                                    Width: =Parent.TemplateWidth
+                                    Y: =Parent.TemplateHeight - 1
+                  - conL4bConclusao:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfAzulClaro
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, 96, 56)
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        RadiusBottomLeft: =12
+                        RadiusBottomRight: =12
+                        RadiusTopLeft: =12
+                        RadiusTopRight: =12
+                      Children:
+                        - icoL4bConclusao:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              Color: =nfVerde
+                              Height: =24
+                              Icon: =Icon.Check
+                              Width: =24
+                        - lblL4bConclusao:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =nfTexto
+                              FillPortions: =1
+                              FocusedBorderThickness: =2
+                              Size: =14
+                              Text: |-
+                                ="A Ficha 04 usa Dataverse: relação 1:N com Restringir, número automático, vistas no Filter e delegação ampla, tudo dentro da solução DAC2627."

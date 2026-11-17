@@ -14,7 +14,7 @@ flowchart LR
 
 ## 1. Do Studio para o git
 
-1. No Studio, **Guardar** e **Publicar**.
+1. No Studio, **Guardar** e **Publicar**. Publicar é obrigatório: a exportação da solução leva a última versão **publicada** da canvas app, não a guardada. A exportação 1.0.0.2 (16/11/2026) saiu igual, byte a byte, à 1.0.0.1, porque a v1.2.0 estava guardada mas não publicada. Em **Soluções › DAC2627 › DAC2627_RGJCA › Detalhes › Versões**, a versão com a marca **Live** é a que vai na exportação e a que os alunos abrem.
 2. Em **Soluções › DAC2627 › Exportar**, exportar como **Não gerida** e descarregar o `.zip`.
 3. No repositório:
 
@@ -52,11 +52,30 @@ Em `build/colar/` ficam:
 | `scrXxx.yaml` | Um ecrã: apagar ou renomear o ecrã antigo, abrir o ficheiro, copiar tudo e fazer Ctrl+V na Vista de árvore |
 | `TODOS_OS_ECRAS.yaml` | Todos os ecrãs de uma vez, pela ordem de `dac.yaml` |
 
-Regras práticas:
-- Colar primeiro `App.Formulas`, porque os ecrãs usam os tokens novos (`nfBorda`, `nfVeu`...).
-- O Studio só aceita a colagem com um Ctrl+V real do utilizador. Se o nome do ecrã já existir, cria `scrXxx_1`: apague o antigo antes de colar.
-- No `scrL2Servicos`, o formulário `frmL2Servico` está ligado à tabela **Cloud Service**. Confirme que a fonte de dados já está na app antes de colar.
-- No fim, corra o **Verificador de aplicações** e os testes da secção G2 do manual. Depois exporte (passo 1) e confirme com `dac deriva` que `src/` e a exportação coincidem.
+`dac colar` também escreve `build/colar/LEIA-ME.txt`, a lista de verificação pela ordem certa, e compara as fontes de dados usadas no código com as da última exportação (`msapp/References/DataSources.json`). Com `--estrito`, falha se faltar uma fonte ou se uma apontar para a tabela errada.
+
+A ordem, e porquê:
+
+1. **Fontes de dados.** Confirmar em **Dados** que estão na app: `Cloud Service` (tabela `mcsft_cloudservices`), `Clientes`, `Pedidos` e o conector `JSONPlaceholderDAC`. O ambiente tem uma segunda tabela «Cloud Service» (`mcsft_cloudservice1`): ao adicionar, escolher a do nome lógico certo.
+2. **`App.Formulas`** primeiro, porque os ecrãs usam os tokens. Colar ecrãs sem os tokens novos dá dezenas de erros (foram 24 na Ficha 03, a 16/11/2026).
+3. **Apagar os ecrãs antigos.** Renomear só o ecrã não chega: os nomes dos controlos são únicos na app inteira, e o Studio poria `_1` nos controlos colados. Logo a seguir, voltar ao passo 1: apagar o último ecrã que usa uma fonte de dados pode tirá-la da app.
+4. **Colar `TODOS_OS_ECRAS.yaml` de uma só vez.** O `scrInicio` navega para cinco ecrãs, e `scrL3Lista`, `scrL3Detalhe` e `scrL3Publicacao` passam `locL3Sel` e `locL3Pub` uns aos outros por `Navigate`. Colados um a um, a ordem errada deixa variáveis por definir (foi o que aconteceu com `locL3Pub`). Para mudar só alguns ecrãs, colá-los na mesma colagem.
+5. **0 erros de fórmula**, e o Verificador de aplicações (ver os avisos esperados abaixo).
+6. **Guardar e Publicar.** Nada avisa se não se publicar.
+7. **Prova:** exportar (passo 1), `dac sincronizar` e `dac deriva`. Se `git diff src/` mostrar mais do que valores por omissão apagados, a colagem não ficou como o código.
+
+O lint não substitui estes passos. A 10/11/2026 o lint estava a zero e o Studio mostrou 205 erros: o lint lê só o código e não sabe que fontes estão na app nem por que ordem se colou.
+
+### O que o Studio muda ao guardar
+
+O Studio apaga as propriedades iguais ao valor por omissão. Na exportação 1.0.0.3 foram 116 linhas: 86 × `TabIndex -1`, 15 × `AccessibleLabel ""`, 8 × `DropShadow.Light`, e algumas mais. A app fica igual, mas o código colado deixa de bater certo com o exportado. Por isso:
+
+- `yamlio` não escreve esses valores (tabela `OMISSAO` em `tools/dac/yamlio.py`), e as migrações herdam isso.
+- O lint lê uma propriedade ausente como o valor por omissão, e o DAC504 avisa quando o código escreve um.
+
+### Avisos do Verificador que ficam de propósito
+
+O Verificador marca todos os controlos com `TabIndex = -1` que não estejam numa galeria com `OnSelect = Select(Parent)`: 134 avisos «Tabulação em falta» na exportação 1.0.0.3, em etiquetas, ícones de estado, retângulos e nas cinco pílulas. A Microsoft manda pôr `-1` nos elementos não interativos ([Criar apps acessíveis](https://learn.microsoft.com/power-apps/maker/canvas-apps/accessible-apps)). Dar-lhes `TabIndex = 0` limparia o aviso e obrigaria quem usa o teclado a passar por cada texto. Ficam também 11 avisos de `AccessibleLabel` em retângulos e num ícone, todos decorativos. Os 43 avisos de foco invisível nas etiquetas dos formulários foram corrigidos na m003.
 
 ## 5. Ambientes e solução gerida
 

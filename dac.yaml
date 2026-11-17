@@ -17,6 +17,15 @@ ecras:
   - scrL4Pedidos
   - scrL4Complemento
 
+# Fontes de dados que a app tem de ter antes de colar (dac colar): nome na app -> conjunto de
+# entidades do Dataverse, ou "conector". Comparadas com msapp/References/DataSources.json.
+# O ambiente tem uma segunda tabela "Cloud Service" (mcsft_cloudservice1): a certa é mcsft_cloudservices.
+fontes:
+  Cloud Service: mcsft_cloudservices
+  Clientes: dac_clientes
+  Pedidos: dac_pedidos
+  JSONPlaceholderDAC: conector
+
 lint:
   # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis
   fontes_dataverse:
