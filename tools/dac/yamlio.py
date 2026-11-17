@@ -88,10 +88,12 @@ def escrever(caminho: str | Path, d: dict, cabecalho: bool = True) -> None:
 # e o código deixa de bater certo com o Studio. Só entram combinações confirmadas: na exportação não
 # sobrevive nenhuma. Para acrescentar outra, confirme-a primeiro numa exportação.
 OMISSAO: dict[str, dict[str, str]] = {
-    "Label": {"TabIndex": "=-1", "Size": "=13", "FillPortions": "=0"},
-    "Icon": {"TabIndex": "=-1", "AccessibleLabel": '=""'},
-    "Rectangle": {"TabIndex": "=-1", "AccessibleLabel": '=""'},
-    "GroupContainer": {"DropShadow": "=DropShadow.Light"},
+    "Label": {"TabIndex": "=-1", "Size": "=13", "FillPortions": "=0", "Visible": "=true"},
+    "Icon": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
+    "Rectangle": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
+    "GroupContainer": {"DropShadow": "=DropShadow.Light", "Visible": "=true"},
+    # 39 botões na 1.0.0.3: nenhum com BorderThickness 2 nem Visible true escritos
+    "Button": {"BorderThickness": "=2", "Visible": "=true"},
 }
 
 

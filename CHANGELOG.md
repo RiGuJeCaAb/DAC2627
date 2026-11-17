@@ -11,6 +11,24 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões d
 - `.gitattributes`: `msapp/`, `solution/`, `_export/` e os documentos gerados marcados como gerados, para os PRs mostrarem só o código escrito à mão.
 - 9 testes novos (42 no total).
 
+## [1.3.0] · 2026-11-17 · Ponto 8 com apresentação e tabela num botão
+
+### App (migração `tools/migracoes/m004_v1_3_ponto8.py`, por colar)
+- **Complemento da Ficha 04** (`scrL4Complemento`): duas vistas, por `locL4bVista`. O texto apresenta SharePoint, Dataverse e SQL, cada um com o que é, a favor e contra. No fim, «Ver a tabela comparativa» mostra os sete critérios do enunciado (Estrutura, Relações, Desenvolvimento Power Apps, Interface pronta, Lógica, Gestão, Caso de uso sugerido) e a conclusão.
+- **Sem alturas fixas**: etiquetas com `AutoHeight` num contentor que desloca, e cada linha da tabela com a altura da etiqueta mais alta. A galeria anterior, com `TemplateSize` fixo, cortava o texto no monitor vertical.
+- **Ecrã inicial**: o quinto cartão passa a «Origens de dados». «SharePoint, Dataverse e SQL» não cabia numa linha e aparecia cortado.
+- `nfVersao` passa a "1.3.0". A `m002` deixa de repor o cartão e a versão antigos.
+
+### Repositório
+- `conteudo/ponto8.yaml`: fonte única do ecrã e do documento para o docente, com as fontes Microsoft de cada afirmação.
+- `python -m tools.ponto8` gera o `.docx` (RETA ESTGL 2022, APA 7.ª) a partir do mesmo ficheiro.
+- `yamlio.OMISSAO`: `Visible = true` e, nos botões, `BorderThickness = 2` também são valores por omissão (nenhum sobrevive na exportação 1.0.0.3).
+- `cores.PARES`: três pares novos do ponto 8, todos AA.
+- 51 testes (`test_migracao_m004_idempotente`, `test_ponto8_conteudo_e_ecra_coerentes`).
+
+### Ambiente
+- A tabela `mcsft_cloudservice1` fica: tem 21 registos e pertence à solução DACCCMB2426Final (decisão do utilizador, 17/11).
+
 ## [1.2.0] · 2026-11-16, publicada a 2026-11-17 · Ficha 04 e complemento
 
 ### Publicação e prova (17/11/2026)

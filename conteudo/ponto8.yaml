@@ -1,0 +1,153 @@
+# Ponto 8 do Lab 4: SharePoint, Dataverse e SQL.
+# Fonte única do ecrã scrL4Complemento (migração m004) e do documento para o professor
+# (python -m tools.ponto8). Mudar aqui e voltar a gerar os dois. Cada afirmação tem fonte em `fontes`.
+
+titulo: SharePoint, Dataverse e SQL
+intro: >-
+  Ponto 8 do Lab 4. A Ficha 04 guarda clientes e pedidos no Dataverse, mas o Power Apps
+  trabalha com outras origens de dados. Primeiro, o que é cada uma e o que tem a favor e contra.
+  No fim, a tabela compara as três pelos sete critérios do enunciado.
+
+servicos:
+  - id: Sp
+    nome: SharePoint (listas)
+    refs: [lvt, lookup, lic]
+    oque: >-
+      Listas de um site SharePoint do Microsoft 365, as mesmas da aplicação Microsoft Lists.
+      Cada lista é uma tabela simples de colunas, pensada para colaboração, com vistas,
+      formulários e as permissões do site.
+    favor:
+      - Vem com o Microsoft 365. O conector é standard e não pede licença premium.
+      - Tem interface pronta no browser, com vistas, filtros, formulários e exportação para Excel.
+      - Liga listas por colunas de pesquisa, com eliminação restrita ou em cascata.
+      - Monta-se depressa e quem já usa o Microsoft 365 reconhece-a.
+    contra:
+      - Uma consulta não processa mais de 5000 itens de cada vez (limiar de vista). Acima disso, só com colunas indexadas e filtros.
+      - Uma vista aceita no máximo 12 colunas de pesquisa.
+      - A eliminação restrita ou em cascata não se ativa numa lista com mais itens do que o limiar de vista.
+      - Tipos de dados simples, sem regras de negócio no servidor nem segurança por coluna.
+  - id: Dv
+    nome: Dataverse
+    refs: [dvintro, dvlogica, dvseg, mda, lic]
+    oque: >-
+      Base de dados relacional gerida pela Microsoft, dentro de um ambiente Power Platform.
+      Guarda tabelas com tipos ricos, relações, regras de negócio e segurança por funções,
+      e é a origem de dados das apps baseadas em modelo. É a que a Ficha 04 usa.
+    favor:
+      - Relações 1:N e N:N nativas, com eliminação restrita, em cascata ou só a remover a ligação.
+      - Regras de negócio, colunas calculadas e fluxos aplicam-se em todas as apps que usam a tabela.
+      - Segurança por funções (criar, ler, escrever, eliminar), equipas, unidades de negócio e colunas.
+      - Gera apps baseadas em modelo, com formulários e vistas responsivos feitos a partir das tabelas.
+      - Delegação ampla no Power Apps e integração direta com Power Automate e Power BI.
+    contra:
+      - O conector é premium. Cada utilizador da app precisa de uma licença Power Apps paga.
+      - A capacidade de armazenamento do ambiente paga-se à parte.
+      - Prende a solução ao Power Platform e tem regras de modelação próprias.
+  - id: Sql
+    nome: SQL (Azure SQL Database)
+    refs: [sqlcon, sqlarq, licfaq]
+    oque: >-
+      O motor SQL Server como serviço na cloud do Azure. A app liga-se pelo conector SQL Server
+      e trabalha com tabelas, vistas e procedimentos armazenados escritos em T-SQL.
+    favor:
+      - Modelo relacional completo, com chaves estrangeiras, índices, vistas e procedimentos.
+      - Consultas complexas no servidor. O Power Fx chama procedimentos armazenados diretamente.
+      - Os dados servem também outros sistemas e relatórios, fora do Power Platform.
+      - É a escolha natural quando os dados já estão em SQL e não podem sair de lá.
+    contra:
+      - O conector é premium, e a base de dados no Azure paga-se à parte.
+      - Não tem interface pronta. Tudo o que o utilizador vê tem de ser construído.
+      - Pede administração de base de dados (esquema, segurança, cópias de segurança, desempenho).
+      - Nem todas as operações do Power Fx são delegadas. O que não é passa para vistas ou procedimentos.
+
+# Os sete critérios do enunciado do Lab 4, pela ordem do enunciado.
+criterios:
+  - criterio: Estrutura
+    Sp: Listas com colunas simples (texto, número, escolha, data, pessoa, pesquisa).
+    Dv: Tabelas com tipos ricos (moeda, número automático, escolha, pesquisa) e metadados.
+    Sql: Tabelas, tipos e índices definidos em T-SQL por quem desenha a base de dados.
+  - criterio: Relações
+    Sp: Coluna de pesquisa entre listas. Restrita ou em cascata só abaixo de 5000 itens.
+    Dv: 1:N e N:N nativas, com Restringir, Em cascata ou Remover ligação.
+    Sql: Chaves estrangeiras com ON DELETE e integridade referencial completa.
+  - criterio: Desenvolvimento Power Apps
+    Sp: Conector standard. Delegação parcial.
+    Dv: Conector premium. Delegação ampla, escolhas e vistas no Filter.
+    Sql: Conector premium. Delegação parcial, com vistas e procedimentos para o resto.
+  - criterio: Interface pronta
+    Sp: Sim. Microsoft Lists no browser, com vistas e formulários.
+    Dv: Sim. App baseada em modelo gerada a partir das tabelas.
+    Sql: Não. A interface tem de ser construída.
+  - criterio: Lógica
+    Sp: Validação simples nas colunas e fluxos do Power Automate.
+    Dv: Regras de negócio, colunas calculadas e fluxos, aplicados no servidor.
+    Sql: Restrições, gatilhos e procedimentos armazenados em T-SQL.
+  - criterio: Gestão
+    Sp: Dono do site no Microsoft 365, com as permissões do site e da lista.
+    Dv: Centro de administração do Power Platform, com ambientes, funções e soluções.
+    Sql: Portal do Azure (escalão, firewall, cópias, utilizadores). Pede um administrador de base de dados.
+  - criterio: Caso de uso sugerido
+    Sp: Listas simples e colaborativas, poucos milhares de registos, sem licenças premium.
+    Dv: Apps de negócio com relações, regras e segurança por funções, como esta ficha.
+    Sql: Dados que já vivem em SQL, grandes volumes ou partilhados com outros sistemas.
+
+conclusao: >-
+  A Ficha 04 usa Dataverse: relação 1:N com Restringir, número automático, vistas no Filter
+  e delegação ampla, tudo dentro da solução DAC2627. O preço é a licença premium.
+  Com poucos clientes e sem essas licenças, uma lista SharePoint chegava. Com os dados já num
+  servidor SQL, o conector SQL Server evitava migrá-los.
+
+fontes:
+  - id: lvt
+    titulo: List View Threshold for large lists and libraries
+    url: https://support.microsoft.com/office/b8588dae-9387-48c2-9248-c24122f07c59
+  - id: lookup
+    titulo: Create list relationships by using lookup columns
+    url: https://support.microsoft.com/en-au/office/create-list-relationships-by-using-lookup-columns-80a3e0a6-8016-41fb-ad09-8bf16d490632
+  - id: dvintro
+    titulo: What is Microsoft Dataverse?
+    url: https://learn.microsoft.com/en-us/powerapps/maker/data-platform/data-platform-intro
+  - id: dvlogica
+    titulo: Dataverse logic and security
+    url: https://learn.microsoft.com/en-us/training/modules/get-started-with-powerapps-common-data-service/logic-security
+  - id: dvseg
+    titulo: Understand the Dataverse security model
+    url: https://learn.microsoft.com/en-us/training/modules/configure-dataverse-security-model/2-understand-dataverse-security-model
+  - id: mda
+    titulo: What are model-driven apps in Power Apps?
+    url: https://learn.microsoft.com/power-apps/maker/model-driven-apps/model-driven-app-overview
+  - id: sqlcon
+    titulo: Connect to SQL Server from Power Apps
+    url: https://learn.microsoft.com/en-us/powerapps/maker/canvas-apps/connections/connection-azure-sqldatabase
+  - id: sqlarq
+    titulo: Canvas app with SQL Server reference architecture
+    url: https://learn.microsoft.com/en-us/power-platform/architecture/reference-architectures/sqlserver-canvas-app
+  - id: lic
+    titulo: Licensing overview for Microsoft Power Platform
+    url: https://powerapps.microsoft.com/tutorials/pricing-billing-skus/
+  - id: licfaq
+    titulo: Licensing FAQ
+    url: https://www.microsoft.com/licensing/faqs/8
+
+# Só no documento para o professor (python -m tools.ponto8). Uma frase por parágrafo.
+documento:
+  ficheiro: Ponto8_Lab4_SharePoint_Dataverse_SQL
+  capa:
+    titulo: Origens de dados para o Power Apps
+    subtitulo: SharePoint, Dataverse e SQL (Lab 4, ponto 8)
+    autor: Ricardo Abreu
+    docente: Pedro Almeida
+    local_data: Lamego, novembro de 2026
+  nome_curto: {Sp: o SharePoint, Dv: o Dataverse, Sql: o Azure SQL Database}
+  introducao:
+    - O ponto 8 do Lab 4 pede uma comparação entre três origens de dados que o Microsoft Power Apps usa para guardar informação.
+    - As três são as listas do SharePoint, o Microsoft Dataverse e uma base de dados SQL, aqui o Azure SQL Database.
+    - A Ficha 04 da APP DAC2627 guarda clientes e pedidos no Dataverse, numa relação de um para muitos com eliminação restrita.
+    - Os capítulos I a III apresentam cada origem, o que é e os fatores positivos e menos positivos.
+    - O capítulo IV compara as três pelos sete critérios do enunciado.
+    - A informação técnica segue a documentação oficial da Microsoft, consultada em novembro de 2026.
+    - O mesmo conteúdo está no ecrã «Origens de dados» da aplicação, aberto pelo quinto cartão do ecrã inicial.
+  comparacao_intro:
+    - A Tabela 1 resume os capítulos anteriores pelos sete critérios do enunciado do Lab 4.
+    - A coluna do Dataverse corresponde à opção tomada na Ficha 04.
+  tabela_legenda: Tabela 1. Comparação das três origens de dados pelos critérios do Lab 4

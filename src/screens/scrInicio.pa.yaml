@@ -91,8 +91,8 @@ Screens:
                                Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true},
                               {Num: 4, Ficha: "Ficha 04", Titulo: "Clientes e Pedidos",
                                Descricao: "Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.", Disponivel: true},
-                              {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "SharePoint, Dataverse e SQL",
-                               Descricao: "Ponto 8 do Lab 4: as três origens de dados comparadas para os clientes e pedidos.", Disponivel: true}
+                              {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "Origens de dados",
+                               Descricao: "Ponto 8 do Lab 4: SharePoint, Dataverse e SQL, o que são, a favor e contra, e a comparação.", Disponivel: true}
                           )
                         OnSelect: |-
                           =If(
