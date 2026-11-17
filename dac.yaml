@@ -17,6 +17,22 @@ ecras:
   - scrL4Pedidos
   - scrL4Complemento
 
+# Fontes de dados que a app usa. Os .yaml dos ecrãs referem-nas pelo nome mas não as trazem:
+# têm de estar no painel Dados antes de colar (build/colar/ORDEM.md, passo 1).
+fontes:
+  - nome: Cloud Service
+    tipo: Tabela Dataverse
+    nota: Escolher a de nome lógico mcsft_cloudservice. O ambiente tem outra com o mesmo nome a mostrar (mcsft_cloudservice1).
+  - nome: Clientes
+    tipo: Tabela Dataverse
+    nota: Tabela Cliente, nome lógico dac_cliente.
+  - nome: Pedidos
+    tipo: Tabela Dataverse
+    nota: Tabela Pedido, nome lógico dac_pedido.
+  - nome: JSONPlaceholderDAC
+    tipo: Conector personalizado
+    nota: Usar a ligação existente do conector da solução DAC2627 (não o Defaulttitle do Lab 3).
+
 lint:
   # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis
   fontes_dataverse:

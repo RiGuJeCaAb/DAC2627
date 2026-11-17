@@ -11,6 +11,7 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 - Alterações em muitos controlos: escrever uma migração idempotente em `tools/migracoes/mNNN_*.py` (modelo: `m001`). Não editar à mão dezenas de ocorrências.
 - Escrever `.pa.yaml` sempre através de `tools/dac/yamlio.py` (preserva o formato do Studio byte a byte). Converter fórmulas para PT com `tools/dac/pafx.py`, nunca com substituições de texto: estas trocam `,` também dentro de `"..."`.
 - `docs/inventario.md` e `docs/paleta.md` são gerados: `make docs`.
+- Para levar alterações ao Studio: `python -m tools.dac colar` e seguir `build/colar/ORDEM.md`. Não indicar outra ordem de colagem à mão: a ordem é calculada em `tools/dac/ordem.py` (quem envia variáveis por `Navigate` entra antes de quem as recebe). Uma fonte de dados nova entra em `dac.yaml › fontes` (há um teste que o exige).
 - Uma regra nova do lint precisa de um teste em `tests/test_lint.py` e de uma linha em `docs/regras-lint.md` (há um teste que o exige).
 - Uma exceção ao lint vai para `dac.yaml` com `motivo`.
 
