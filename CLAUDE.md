@@ -30,7 +30,7 @@ python -m tools.dac colar --estrito   # blocos para o Studio, LEIA-ME.txt e veri
 - Nomes: prefixo do tipo (`scr`, `con`, `gal`, `lbl`, `btn`, `txt`, `drp`, `cmb`, `dte`, `chk`, `ico`, `frm`, `tmr`, `rec`) + ficha (`In`, `L1`, `L2`, `L3`, `L4`; o complemento da Ficha 04 usa `L4b`) + função. Ex.: `galL2Servicos`, `txtL4CliNome`.
 - Variáveis: `gbl*` globais (`Set`), `loc*` de contexto (`UpdateContext`), `col*` coleções.
 - Cores só pelas fórmulas nomeadas `nf*` em `App.Formulas` (22 tokens; o lint DAC201 falha com qualquer `ColorValue`/`RGBA` fora dali). Erro: `nfVermelho`/`nfVermelhoTexto`/`nfVermelhoFundo`; aviso: `nfAmbar`/`nfAmbarFundo`; sucesso: `nfVerde`/`nfVerdeTexto`/`nfVerdeFundo`; contornos de entradas: `nfBorda`. Lista completa e contrastes em `docs/paleta.md`. Um par texto/fundo novo entra em `tools/dac/cores.py:PARES`.
-- Acessibilidade: `TabIndex` explícito (0 interativo, -1 decorativo), `AccessibleLabel` em entradas, galerias e ícones (`""` só em decorativos), `FocusedBorderThickness = 2` nas etiquetas.
+- Acessibilidade: `TabIndex = 0` em tudo o que é interativo. Nos decorativos não se escreve `TabIndex` nem `AccessibleLabel`: ausentes valem `-1` e `""`. `AccessibleLabel` com texto em entradas, galerias e ícones com ação. `FocusedBorderThickness = 2` nas etiquetas fora de galerias, incluindo as dos formulários.
 - Layout: contentores com AutoLayout (`GroupContainer@1.5.0`). Responsividade por `<ecrã>.Size` (Small < 600, Medium 600–900, Large 900–1200). Regras no manual, secção A10.
 
 ## Pontos já decididos (não reverter sem razão)
