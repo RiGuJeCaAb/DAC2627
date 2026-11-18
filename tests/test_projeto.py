@@ -79,3 +79,38 @@ def test_todas_as_regras_estao_documentadas():
     doc = (projeto.DOCS / "regras-lint.md").read_text(encoding="utf-8")
     em_falta = [r for r in lint.REGRAS if f"| {r} |" not in doc]
     assert not em_falta, f"Regras sem documentação em docs/regras-lint.md: {em_falta}"
+
+
+def _projeto_com_tabulador(tmp_path):
+    """Cópia de src/ com um tabulador colado no fim de um texto, como o Studio exporta."""
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    shutil.copytree(projeto.RAIZ / "schemas", raiz / "schemas")
+    shutil.copy2(projeto.RAIZ / "dac.yaml", raiz / "dac.yaml")
+    f = raiz / "src" / "screens" / "scrL1BoasVindas.pa.yaml"
+    t = f.read_text(encoding="utf-8")
+    i = t.index('Text: ="') + len('Text: ="')
+    j = t.index('"', i)
+    f.write_text(t[:j] + "\t" + t[j:], encoding="utf-8")
+    return raiz, f
+
+
+def test_validar_avisa_tabulador_sem_falhar(tmp_path, capsys):
+    raiz, f = _projeto_com_tabulador(tmp_path)
+    assert cli.main(["--raiz", str(raiz), "validar"]) == 0
+    out = capsys.readouterr().out
+    assert "AVISO src/screens/scrL1BoasVindas.pa.yaml:" in out and "1 aviso(s)" in out
+
+
+def test_formatar_nao_reescreve_ficheiro_com_tabulador(tmp_path, capsys):
+    raiz, f = _projeto_com_tabulador(tmp_path)
+    antes = f.read_text(encoding="utf-8")
+    cli.main(["--raiz", str(raiz), "formatar"])
+    assert f.read_text(encoding="utf-8") == antes          # o tabulador não vira espaço em silêncio
+    assert cli.main(["--raiz", str(raiz), "formatar", "--verificar"]) == 1
+    assert "não formatado" in capsys.readouterr().out
+
+
+def test_lint_le_ficheiro_com_tabulador(tmp_path):
+    raiz, _ = _projeto_com_tabulador(tmp_path)
+    assert "scrL1BoasVindas" in str(list(projeto.carregar(raiz)))

@@ -75,16 +75,19 @@ def cmd_validar(a) -> int:
     raiz = Path(a.raiz)
     schema = yaml.safe_load((raiz / "schemas" / "pa.schema.v3.0.yaml").read_text(encoding="utf-8"))
     validador = jsonschema.Draft7Validator(schema)
-    erros = 0
+    erros = avisos = 0
     ficheiros = projeto.ficheiros_src(raiz)
     for f in ficheiros:
         rel = f.relative_to(raiz)
         try:
-            d = yamlio.ler(f)
+            d, tabs = yamlio.ler_tolerante(f)
         except yaml.YAMLError as e:
             _p(f"ERRO {rel}: YAML inválido: {e}")
             erros += 1
             continue
+        for n in tabs:
+            avisos += 1
+            _p(f"AVISO {rel}:{n}: tabulador dentro de um valor (o Studio aceita, mas é quase sempre texto colado com lixo)")
         for e in validador.iter_errors(d):
             _p(f"ERRO {rel}: schema: {'/'.join(map(str, e.absolute_path))}: {e.message[:200]}")
             erros += 1
@@ -92,14 +95,14 @@ def cmd_validar(a) -> int:
             for prob in pafx.verificar_equilibrio(fx):
                 _p(f"ERRO {rel}: {onde}.{prop}: {prob}")
                 erros += 1
-        if not a.sem_formato and f.read_text(encoding="utf-8") != yamlio.escrever_texto(d):
+        if not a.sem_formato and not tabs and f.read_text(encoding="utf-8") != yamlio.escrever_texto(d):
             _p(f"AVISO {rel}: formato diferente do Studio (corra 'dac formatar')")
     ecras_ficheiro = {f.name.replace(".pa.yaml", "") for f in ficheiros if f.parent.name == "screens"}
     ordem = set(projeto.ordem_ecras(raiz))
     if ordem and ordem != ecras_ficheiro:
         _p(f"ERRO dac.yaml: a lista 'ecras' não coincide com src/screens: {sorted(ordem ^ ecras_ficheiro)}")
         erros += 1
-    _p(f"validar: {len(ficheiros)} ficheiros, {erros} erro(s)")
+    _p(f"validar: {len(ficheiros)} ficheiros, {erros} erro(s), {avisos} aviso(s)")
     return 1 if erros else 0
 
 
@@ -108,7 +111,13 @@ def cmd_formatar(a) -> int:
     mudados = 0
     for f in projeto.ficheiros_src(raiz):
         orig = f.read_text(encoding="utf-8")
-        novo = yamlio.escrever_texto(yamlio.ler(f))
+        d, tabs = yamlio.ler_tolerante(f)
+        if tabs:
+            # Reescrever trocaria cada tabulador por um espaço sem ninguém dar por isso.
+            mudados += 1
+            _p(f"não formatado (tabulador nas linhas {', '.join(map(str, tabs))}; corrija no Studio): {f.relative_to(raiz)}")
+            continue
+        novo = yamlio.escrever_texto(d)
         if orig != novo:
             mudados += 1
             if not a.verificar:
@@ -180,7 +189,7 @@ def _ficheiro_de(raiz: Path, nome: str) -> Path:
 def cmd_pt(a) -> int:
     """Escreve as fórmulas como o manual as mostra: Controlo.Propriedade = fórmula, em formato PT."""
     raiz = Path(a.raiz)
-    d = yamlio.ler(_ficheiro_de(raiz, a.alvo))
+    d = yamlio.ler_tolerante(_ficheiro_de(raiz, a.alvo))[0]
     saida = []
     for onde, prop, fx in yamlio.formulas(d):
         if a.controlo and onde not in a.controlo:
@@ -218,7 +227,9 @@ def cmd_colar(a) -> int:
     guia = ordem_mod.calcular(docs, pedidos, fontes)
     todos: dict = {"Screens": {}}
     for e in guia.ordem:
-        d = yamlio.ler(_ficheiro_de(raiz, e))
+        d, tabs = yamlio.ler_tolerante(_ficheiro_de(raiz, e))
+        if tabs:
+            _p(f"AVISO {e}: tabulador nas linhas {', '.join(map(str, tabs))}; o bloco de colagem leva um espaço no lugar dele")
         (destino / f"{e}.yaml").write_text(yamlio.escrever_texto(d, cabecalho=False), encoding="utf-8")
         todos["Screens"].update(d["Screens"])
     (destino / "TODOS_OS_ECRAS.yaml").write_text(yamlio.escrever_texto(todos, cabecalho=False), encoding="utf-8")
@@ -352,7 +363,7 @@ def cmd_deriva(a) -> int:
         if not exp.exists():
             diferentes.append((f.name, "só em src/"))
             continue
-        if yamlio.ler(f) != yamlio.ler(exp):
+        if yamlio.ler_tolerante(f)[0] != yamlio.ler_tolerante(exp)[0]:
             diferentes.append((f.name, "diferente da exportação"))
     if not diferentes:
         _p("deriva: src/ igual à última exportação")

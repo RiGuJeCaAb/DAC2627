@@ -29,6 +29,31 @@ def ler(caminho: str | Path) -> dict:
         return yaml.safe_load(f)
 
 
+def ler_tolerante(caminho: str | Path) -> tuple[dict, list[int]]:
+    """Como ler(), mas aceita tabuladores dentro de valores, como o Studio aceita.
+
+    O Studio exporta, sem aspas YAML, textos com um tabulador lá dentro
+    (ex.: `Text: ="Voltar<TAB>"`, colado do Microsoft Learn). O YamlDotNet do Studio lê-os, o
+    PyYAML recusa-os. Aqui cada tabulador fora da indentação é trocado por um espaço só para a
+    leitura, e devolvem-se os números das linhas afetadas, para serem reportados como aviso.
+    O ficheiro não é alterado.
+    """
+    texto = Path(caminho).read_text(encoding="utf-8")
+    try:
+        return yaml.safe_load(texto), []
+    except yaml.YAMLError:
+        if "\t" not in texto:
+            raise
+    linhas, afetadas = [], []
+    for n, ln in enumerate(texto.split("\n"), 1):
+        corpo = ln.lstrip(" ")
+        if "\t" in corpo:
+            afetadas.append(n)
+            ln = ln[: len(ln) - len(corpo)] + corpo.replace("\t", " ")
+        linhas.append(ln)
+    return yaml.safe_load("\n".join(linhas)), afetadas
+
+
 def _precisa_bloco(v: str) -> bool:
     return "\n" in v or ": " in v or " #" in v or v.endswith(":")
 
