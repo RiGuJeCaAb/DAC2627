@@ -149,9 +149,7 @@ def conteudo_l4b(c: dict) -> list:
             _caixa(f"lblL4b{i}Contra", _lista(sv["contra"]), TEXTO),
         ]
     f.append(_botao("btnL4bVerTabela", "Ver a tabela comparativa", 'UpdateContext({locL4bVista: "tabela"})', TEXTO, True))
-    f.append(_etiqueta("lblL4bTabIntro", _s("Os sete critérios do enunciado do Lab 4, lado a lado. "
-                                            "A coluna Dataverse é a origem usada na Ficha 04."),
-                       TABELA, Color="=nfTextoSuave"))
+    f.append(_etiqueta("lblL4bTabIntro", _s(c["tab_intro"]), TABELA, Color="=nfTextoSuave"))
     f.append(_cabecalho())
     f += [_linha_tabela(n, cr) for n, cr in enumerate(c["criterios"], 1)]
     f.append(_caixa("lblL4bConclusao", _s(c["conclusao"]), TABELA, fundo="nfAzulClaro", cor="nfAzul"))

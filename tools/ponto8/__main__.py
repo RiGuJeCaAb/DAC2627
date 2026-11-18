@@ -40,13 +40,18 @@ def dados(raiz: Path, agora: datetime) -> dict:
     for s in c["servicos"]:
         anos = ", ".join(sorted(letra[r] for r in s["refs"]))
         servicos.append({**s, "nome_curto": doc["nome_curto"][s["id"]], "citacao": f"(Microsoft, {anos})"})
+    questoes = []
+    for qq in doc.get("questoes", []):
+        anos = ", ".join(sorted(letra[r] for r in qq["refs"]))
+        questoes.append({"pergunta": " ".join(qq["pergunta"].split()), "resposta": qq["resposta"],
+                         "citacao": f"(Microsoft, {anos})"})
     todas = sorted(letra.values())
     return {
         "capa": doc["capa"], "introducao": doc["introducao"], "servicos": servicos,
         "criterios": c["criterios"], "comparacao_intro": doc["comparacao_intro"],
         "tabela_legenda": doc["tabela_legenda"],
         "tabela_fonte": f"Fonte: elaboração própria, a partir de Microsoft ({todas[0]} a {todas[-1]}).",
-        "conclusao": frases(c["conclusao"]), "referencias": refs,
+        "questoes": questoes, "conclusao": frases(c["conclusao"]), "referencias": refs,
     }
 
 

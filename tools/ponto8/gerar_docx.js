@@ -58,7 +58,7 @@ cap.push(titulo("INTRODUÇÃO", HeadingLevel.HEADING_1, true));
 for (const f of d.introducao) cap.push(p(f));
 
 // ---- Um capítulo por serviço
-const romanos = ["I", "II", "III", "IV", "V"];
+const romanos = ["I", "II", "III", "IV", "V", "VI"];
 d.servicos.forEach((s, i) => {
   const r = romanos[i];
   cap.push(titulo(`${r}. ${s.nome.toUpperCase()}`, HeadingLevel.HEADING_1, true));
@@ -108,6 +108,16 @@ cap.push(new Paragraph({
   alignment: AlignmentType.LEFT, spacing: { before: 120, after: 240 },
   children: [new TextRun({ text: d.tabela_fonte, font: FONTE, size: 20 })],
 }));
+
+// ---- Questões de análise: a comparação aplicada a dois casos
+if (d.questoes && d.questoes.length) {
+  const rV = romanos[d.servicos.length + 1];
+  cap.push(titulo(`${rV}. QUESTÕES DE ANÁLISE`, HeadingLevel.HEADING_1, true));
+  d.questoes.forEach((q, i) => {
+    cap.push(titulo(`${rV}.${i + 1}. ${q.pergunta}`, HeadingLevel.HEADING_2));
+    q.resposta.forEach((f, k) => cap.push(p(k === q.resposta.length - 1 ? f.replace(/\.$/, ` ${q.citacao}.`) : f)));
+  });
+}
 
 // ---- Conclusão (sem numeração)
 cap.push(titulo("CONCLUSÃO", HeadingLevel.HEADING_1, true));

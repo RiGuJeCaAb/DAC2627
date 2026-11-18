@@ -103,16 +103,20 @@ def test_migracao_m004_idempotente(tmp_path):
 def test_ponto8_conteudo_e_ecra_coerentes():
     import yaml
     c = yaml.safe_load((projeto.RAIZ / "conteudo" / "ponto8.yaml").read_text(encoding="utf-8"))
-    # os sete critérios do enunciado do Lab 4, pela ordem do enunciado
+    # os sete critérios do enunciado do Lab 4, pela ordem do enunciado, e depois os dois da perspetiva cloud
     assert [x["criterio"] for x in c["criterios"]] == [
         "Estrutura", "Relações", "Desenvolvimento Power Apps", "Interface pronta", "Lógica", "Gestão",
-        "Caso de uso sugerido"]
+        "Caso de uso sugerido", "Modelo de serviço cloud", "Custo e licenciamento"]
+    # cada fonte citada existe, e cada fonte listada é citada (APA: nada na lista que não esteja no texto)
+    ids = {f["id"] for f in c["fontes"]}
+    citadas = {r for s in c["servicos"] for r in s["refs"]} | {r for q in c["documento"]["questoes"] for r in q["refs"]}
+    assert citadas == ids
     assert [s["id"] for s in c["servicos"]] == ["Sp", "Dv", "Sql"]
     assert all(set(x) == {"criterio", "Sp", "Dv", "Sql"} for x in c["criterios"])
     assert all(s["favor"] and s["contra"] and s["oque"] for s in c["servicos"])
     d = yamlio.ler(projeto.RAIZ / "src" / "screens" / "scrL4Complemento.pa.yaml")
     nomes = {x.nome for x in yamlio.controlos(d)}
-    assert {f"conL4bLinha{i}" for i in range(1, 8)} <= nomes
+    assert {f"conL4bLinha{i}" for i in range(1, len(c["criterios"]) + 1)} <= nomes
     assert {"btnL4bVerTabela", "btnL4bVoltarTexto", "lblL4bConclusao"} <= nomes
 
 

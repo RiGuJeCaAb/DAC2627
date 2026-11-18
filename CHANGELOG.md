@@ -16,12 +16,15 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões d
 ## [1.3.0] · 2026-11-17 · Ponto 8 com apresentação e tabela num botão
 
 ### App (migração `tools/migracoes/m004_v1_3_ponto8.py`, por colar)
+- 18/11: o ponto 8 ganha a perspetiva cloud. Cada serviço diz o modelo de serviço (SharePoint SaaS, Dataverse plataforma gerida, Azure SQL PaaS com vCores, DTU e conjuntos elásticos). Fatores novos: segurança por coluna e ALM com soluções no Dataverse, o limite de 500 a 10 000 registos sem delegação, o custo por GB do Dataverse. A tabela passa a nove linhas: os sete critérios do enunciado e «Modelo de serviço cloud» e «Custo e licenciamento». A introdução da tabela (`tab_intro`) passa para o `.yaml`.
+- Fonte desta revisão: um texto de apoio gerado por outro modelo (Qwen), verificado afirmação a afirmação. Ficou de fora o que as fontes da Microsoft não confirmam (a «farm partilhada por milhares de organizações») ou desmentem (o limite de 2000 registos, que hoje vai até 10 000, e ambientes separados como obrigatórios, que são recomendados).
 - **Complemento da Ficha 04** (`scrL4Complemento`): duas vistas, por `locL4bVista`. O texto apresenta SharePoint, Dataverse e SQL, cada um com o que é, a favor e contra. No fim, «Ver a tabela comparativa» mostra os sete critérios do enunciado (Estrutura, Relações, Desenvolvimento Power Apps, Interface pronta, Lógica, Gestão, Caso de uso sugerido) e a conclusão.
 - **Sem alturas fixas**: etiquetas com `AutoHeight` num contentor que desloca, e cada linha da tabela com a altura da etiqueta mais alta. A galeria anterior, com `TemplateSize` fixo, cortava o texto no monitor vertical.
 - **Ecrã inicial**: o quinto cartão passa a «Origens de dados». «SharePoint, Dataverse e SQL» não cabia numa linha e aparecia cortado.
 - `nfVersao` passa a "1.3.0". A `m002` deixa de repor o cartão e a versão antigos.
 
 ### Repositório
+- 18/11: o `.docx` ganha o capítulo V, «Questões de análise» (`documento › questoes`, com fontes por questão). 18 fontes, e um teste novo garante que cada fonte listada é citada e cada citação existe. 59 testes.
 - `conteudo/ponto8.yaml`: fonte única do ecrã e do documento para o docente, com as fontes Microsoft de cada afirmação.
 - `python -m tools.ponto8` gera o `.docx` (RETA ESTGL 2022, APA 7.ª) a partir do mesmo ficheiro.
 - `yamlio.OMISSAO`: `Visible = true` e, nos botões, `BorderThickness = 2` também são valores por omissão (nenhum sobrevive na exportação 1.0.0.3).

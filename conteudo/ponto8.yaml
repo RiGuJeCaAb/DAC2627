@@ -6,16 +6,19 @@ titulo: SharePoint, Dataverse e SQL
 intro: >-
   Ponto 8 do Lab 4. A Ficha 04 guarda clientes e pedidos no Dataverse, mas o Power Apps
   trabalha com outras origens de dados. Primeiro, o que é cada uma e o que tem a favor e contra.
-  No fim, a tabela compara as três pelos sete critérios do enunciado.
+  No fim, a tabela compara as três pelos sete critérios do enunciado e por mais dois da
+  perspetiva cloud: o modelo de serviço e o custo.
 
 servicos:
   - id: Sp
     nome: SharePoint (listas)
-    refs: [lvt, lookup, lic]
+    refs: [lvt, lookup, lic, deleg, spsaas]
     oque: >-
       Listas de um site SharePoint do Microsoft 365, as mesmas da aplicação Microsoft Lists.
       Cada lista é uma tabela simples de colunas, pensada para colaboração, com vistas,
-      formulários e as permissões do site.
+      formulários e as permissões do site. É software como serviço (SaaS): a Microsoft gere
+      servidores, atualizações e disponibilidade, e o cliente só usa as listas. O limiar de
+      5000 itens existe para manter um desempenho igual para todos os utilizadores do serviço.
     favor:
       - Vem com o Microsoft 365. O conector é standard e não pede licença premium.
       - Tem interface pronta no browser, com vistas, filtros, formulários e exportação para Excel.
@@ -26,41 +29,54 @@ servicos:
       - Uma vista aceita no máximo 12 colunas de pesquisa.
       - A eliminação restrita ou em cascata não se ativa numa lista com mais itens do que o limiar de vista.
       - Tipos de dados simples, sem regras de negócio no servidor nem segurança por coluna.
+      - Uma fórmula que o SharePoint não consegue delegar só trabalha com os primeiros 500 registos (até 10 000, se se aumentar o limite da app).
   - id: Dv
     nome: Dataverse
-    refs: [dvintro, dvlogica, dvseg, mda, lic]
+    refs: [dvintro, dvlogica, dvseg, dvcol, mda, alm, payg, lic]
     oque: >-
       Base de dados relacional gerida pela Microsoft, dentro de um ambiente Power Platform.
       Guarda tabelas com tipos ricos, relações, regras de negócio e segurança por funções,
-      e é a origem de dados das apps baseadas em modelo. É a que a Ficha 04 usa.
+      e é a origem de dados das apps baseadas em modelo. É a que a Ficha 04 usa. Funciona como
+      uma plataforma gerida (PaaS): a Microsoft trata da infraestrutura e quem desenvolve trabalha
+      só com tabelas, relações e regras. Cada ambiente tem a sua base de dados, e as soluções levam
+      tabelas, apps e fluxos de um ambiente para outro.
     favor:
       - Relações 1:N e N:N nativas, com eliminação restrita, em cascata ou só a remover a ligação.
       - Regras de negócio, colunas calculadas e fluxos aplicam-se em todas as apps que usam a tabela.
-      - Segurança por funções (criar, ler, escrever, eliminar), equipas, unidades de negócio e colunas.
+      - Segurança por funções (criar, ler, escrever, eliminar), equipas e unidades de negócio.
+      - 'Segurança por coluna: um perfil de segurança de coluna esconde dados sensíveis, como os protegidos pelo RGPD, a quem não os deve ver.'
+      - Ciclo de vida (ALM) com soluções. Não geridas no ambiente de desenvolvimento, geridas nos de teste e produção.
       - Gera apps baseadas em modelo, com formulários e vistas responsivos feitos a partir das tabelas.
       - Delegação ampla no Power Apps e integração direta com Power Automate e Power BI.
     contra:
       - O conector é premium. Cada utilizador da app precisa de uma licença Power Apps paga.
-      - A capacidade de armazenamento do ambiente paga-se à parte.
+      - A capacidade de armazenamento paga-se por GB. Em pagamento por utilização, cada GB de base de dados acima do incluído custa 48 USD por mês (preço de novembro de 2026).
       - Prende a solução ao Power Platform e tem regras de modelação próprias.
   - id: Sql
     nome: SQL (Azure SQL Database)
-    refs: [sqlcon, sqlarq, licfaq]
+    refs: [sqlpaas, sqlcompra, sqlcon, sqlarq, licfaq]
     oque: >-
       O motor SQL Server como serviço na cloud do Azure. A app liga-se pelo conector SQL Server
-      e trabalha com tabelas, vistas e procedimentos armazenados escritos em T-SQL.
+      e trabalha com tabelas, vistas e procedimentos armazenados escritos em T-SQL. É uma plataforma
+      como serviço (PaaS): a Microsoft trata das atualizações, das correções, das cópias de segurança
+      e da monitorização. A computação compra-se por vCores ou por DTU, e um conjunto elástico
+      partilha os mesmos recursos entre várias bases de dados.
     favor:
       - Modelo relacional completo, com chaves estrangeiras, índices, vistas e procedimentos.
       - Consultas complexas no servidor. O Power Fx chama procedimentos armazenados diretamente.
       - Os dados servem também outros sistemas e relatórios, fora do Power Platform.
       - É a escolha natural quando os dados já estão em SQL e não podem sair de lá.
+      - A computação escala à parte do armazenamento, por vCores ou DTU, e os conjuntos elásticos poupam quando há várias bases de dados.
     contra:
       - O conector é premium, e a base de dados no Azure paga-se à parte.
       - Não tem interface pronta. Tudo o que o utilizador vê tem de ser construído.
       - Pede administração de base de dados (esquema, segurança, cópias de segurança, desempenho).
       - Nem todas as operações do Power Fx são delegadas. O que não é passa para vistas ou procedimentos.
 
-# Os sete critérios do enunciado do Lab 4, pela ordem do enunciado.
+# Os sete critérios do enunciado do Lab 4, pela ordem do enunciado, e dois da perspetiva cloud.
+tab_intro: >-
+  Os sete critérios do enunciado do Lab 4 e dois da perspetiva cloud, lado a lado.
+  A coluna Dataverse é a origem usada na Ficha 04.
 criterios:
   - criterio: Estrutura
     Sp: Listas com colunas simples (texto, número, escolha, data, pessoa, pesquisa).
@@ -90,12 +106,23 @@ criterios:
     Sp: Listas simples e colaborativas, poucos milhares de registos, sem licenças premium.
     Dv: Apps de negócio com relações, regras e segurança por funções, como esta ficha.
     Sql: Dados que já vivem em SQL, grandes volumes ou partilhados com outros sistemas.
+  # Dois critérios a mais, da perspetiva da unidade curricular (Computação Cloud).
+  - criterio: Modelo de serviço cloud
+    Sp: SaaS. Faz parte do Microsoft 365 e a Microsoft gere tudo.
+    Dv: Plataforma gerida (PaaS), com uma base de dados por ambiente.
+    Sql: PaaS do Azure. Computação por vCores ou DTU, e conjuntos elásticos.
+  - criterio: Custo e licenciamento
+    Sp: Incluído no Microsoft 365. Conector standard.
+    Dv: Licença Power Apps premium por utilizador e capacidade de armazenamento por GB.
+    Sql: Licença Power Apps premium e a base de dados no Azure (computação e armazenamento).
 
 conclusao: >-
   A Ficha 04 usa Dataverse: relação 1:N com Restringir, número automático, vistas no Filter
   e delegação ampla, tudo dentro da solução DAC2627. O preço é a licença premium.
   Com poucos clientes e sem essas licenças, uma lista SharePoint chegava. Com os dados já num
-  servidor SQL, o conector SQL Server evitava migrá-los.
+  servidor SQL, o conector SQL Server evitava migrá-los. Na perspetiva cloud, os três são
+  serviços geridos pela Microsoft, mas com modelos diferentes. O SharePoint é SaaS e só se usa,
+  o Dataverse e o Azure SQL são plataformas sobre as quais se constrói a aplicação.
 
 fontes:
   - id: lvt
@@ -128,6 +155,30 @@ fontes:
   - id: licfaq
     titulo: Licensing FAQ
     url: https://www.microsoft.com/licensing/faqs/8
+  - id: deleg
+    titulo: Understand delegation in a canvas app
+    url: https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/delegation-overview
+  - id: spsaas
+    titulo: Introduction to SharePoint and OneDrive in Microsoft 365 for administrators
+    url: https://learn.microsoft.com/en-us/sharepoint/introduction
+  - id: dvcol
+    titulo: Column-level security to control access
+    url: https://learn.microsoft.com/en-us/power-platform/admin/field-level-security
+  - id: alm
+    titulo: Solution concepts
+    url: https://learn.microsoft.com/en-us/power-platform/alm/solution-concepts-alm
+  - id: payg
+    titulo: Pay-as-you-go meters
+    url: https://learn.microsoft.com/en-us/power-platform/admin/pay-as-you-go-meters
+  - id: capac
+    titulo: Dataverse capacity-based storage overview
+    url: https://learn.microsoft.com/en-us/power-platform/admin/whats-new-storage
+  - id: sqlpaas
+    titulo: What is Azure SQL Database?
+    url: https://learn.microsoft.com/en-us/azure/azure-sql/database/sql-database-paas-overview
+  - id: sqlcompra
+    titulo: Compare vCore and DTU-based purchasing models of Azure SQL Database
+    url: https://learn.microsoft.com/en-us/azure/azure-sql/database/purchasing-models
 
 # Só no documento para o professor (python -m tools.ponto8). Uma frase por parágrafo.
 documento:
@@ -144,10 +195,32 @@ documento:
     - As três são as listas do SharePoint, o Microsoft Dataverse e uma base de dados SQL, aqui o Azure SQL Database.
     - A Ficha 04 da APP DAC2627 guarda clientes e pedidos no Dataverse, numa relação de um para muitos com eliminação restrita.
     - Os capítulos I a III apresentam cada origem, o que é e os fatores positivos e menos positivos.
-    - O capítulo IV compara as três pelos sete critérios do enunciado.
+    - O capítulo IV compara as três pelos sete critérios do enunciado e por dois critérios da perspetiva cloud, o modelo de serviço e o custo.
+    - O capítulo V aplica a comparação a duas questões de análise.
     - A informação técnica segue a documentação oficial da Microsoft, consultada em novembro de 2026.
     - O mesmo conteúdo está no ecrã «Origens de dados» da aplicação, aberto pelo quinto cartão do ecrã inicial.
   comparacao_intro:
     - A Tabela 1 resume os capítulos anteriores pelos sete critérios do enunciado do Lab 4.
+    - As duas últimas linhas, o modelo de serviço cloud e o custo, acrescentam a perspetiva da Computação Cloud.
     - A coluna do Dataverse corresponde à opção tomada na Ficha 04.
   tabela_legenda: Tabela 1. Comparação das três origens de dados pelos critérios do Lab 4
+  # Capítulo V. Uma frase por parágrafo na resposta.
+  questoes:
+    - pergunta: >-
+        A Ficha 04 usa uma relação de um para muitos com eliminação restrita no Dataverse.
+        O que aconteceria com a mesma relação entre duas listas do SharePoint, com 6000 pedidos?
+      refs: [lookup, lvt, dvintro]
+      resposta:
+        - No SharePoint, a relação faz-se com uma coluna de pesquisa entre as duas listas.
+        - A eliminação restrita ou em cascata não se ativa numa lista com mais itens do que o limiar de vista, que é de 5000.
+        - Com 6000 pedidos já não se podia ativar a regra que impede apagar um cliente com pedidos, e essa proteção teria de passar para a app ou para um fluxo.
+        - No Dataverse, a eliminação restrita é uma propriedade da relação e é aplicada pelo serviço, seja qual for o número de registos.
+    - pergunta: >-
+        Uma app em Dataverse passa a ter o triplo dos utilizadores e muito mais pedidos.
+        Que custos crescem?
+      refs: [lic, capac, sqlcompra]
+      resposta:
+        - Cresce o licenciamento, porque o conector do Dataverse é premium e cada utilizador da app precisa de uma licença Power Apps.
+        - Cresce a capacidade de armazenamento, que no Dataverse se mede em GB de base de dados, ficheiros e registos de auditoria.
+        - Cada licença acrescenta alguma capacidade ao conjunto do inquilino, mas o que passar disso paga-se à parte.
+        - No Azure SQL, o mesmo crescimento pagava-se em computação (vCores ou DTU) e armazenamento, além das licenças premium do Power Apps.

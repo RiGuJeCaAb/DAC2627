@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-10 ecrãs e 376 controlos.
+10 ecrãs e 386 controlos.
 
 ## Navegação
 
@@ -44,7 +44,7 @@ flowchart LR
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
 | `scrL4Pedidos` | 103 | Label 44, Button 15, GroupContainer 13, TypedDataCard 9 | `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista` | — |
-| `scrL4Complemento` | 69 | Label 55, GroupContainer 11, Button 2, Icon 1 | `locL4bVista` | — |
+| `scrL4Complemento` | 79 | Label 63, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
 
 ## scrInicio
 
@@ -468,6 +468,16 @@ conEcraL4b  [GroupContainer/AutoLayout]
       lblL4bSp7  [Label]
       lblL4bDv7  [Label]
       lblL4bSql7  [Label]
+    conL4bLinha8  [GroupContainer/AutoLayout]
+      lblL4bCrit8  [Label]
+      lblL4bSp8  [Label]
+      lblL4bDv8  [Label]
+      lblL4bSql8  [Label]
+    conL4bLinha9  [GroupContainer/AutoLayout]
+      lblL4bCrit9  [Label]
+      lblL4bSp9  [Label]
+      lblL4bDv9  [Label]
+      lblL4bSql9  [Label]
     lblL4bConclusao  [Label]
     btnL4bVoltarTexto  [Button]
 ```
