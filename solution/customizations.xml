@@ -1314,6 +1314,8 @@
                   </filter>
                   <filter type="or" isquickfindfields="1">
                     <condition attribute="dac_nome" operator="like" value="{0}" />
+                    <condition attribute="dac_nif" operator="like" value="{0}" />
+                    <condition attribute="dac_email" operator="like" value="{0}" />
                   </filter>
                 </entity>
               </fetch>
@@ -5178,16 +5180,16 @@
   <CanvasApps>
     <CanvasApp>
       <Name>dac_dac2627rgjca_273fc</Name>
-      <AppVersion>2026-11-16T12:15:59Z</AppVersion>
+      <AppVersion>2026-11-17T09:31:27Z</AppVersion>
       <Status>Ready</Status>
       <CreatedByClientVersion>3.26103.34.0</CreatedByClientVersion>
       <MinClientVersion>3.26103.34.0</MinClientVersion>
-      <Tags>{"primaryDeviceWidth":"1279","primaryDeviceHeight":"797","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26103.34","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0"}</Tags>
+      <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26103.34","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","m365CopilotSettingValue":"0"}</Tags>
       <IsCdsUpgraded>0</IsCdsUpgraded>
       <GalleryItemId xsi:nil="true"></GalleryItemId>
       <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
       <DisplayName>DAC2627_RGJCA</DisplayName>
-      <Description>Laboratórios de DAC 2026/27: Hello Cloud, Serviços Cloud (Dataverse), Consulta de API e Clientes e Pedidos (Dataverse, relação 1:N e vistas).</Description>
+      <Description>Laboratórios de DAC 2026/27: Hello Cloud, Serviços Cloud (Dataverse), Consulta de API, Clientes e Pedidos (Dataverse, relação 1:N e vistas) e complemento SharePoint, Dataverse e SQL. v1.2.0.</Description>
       <CommitMessage xsi:nil="true"></CommitMessage>
       <Publisher xsi:nil="true"></Publisher>
       <AuthorizationReferences>[]</AuthorizationReferences>

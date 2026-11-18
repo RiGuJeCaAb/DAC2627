@@ -112,23 +112,23 @@
   "ConnectionString": "",
   "EnableInstrumentation": false,
   "ControlCount": {
-    "screen": 9,
-    "groupContainer": 67,
-    "icon": 22,
-    "label": 122,
+    "screen": 10,
+    "groupContainer": 73,
+    "icon": 24,
+    "label": 135,
     "text": 13,
-    "dropdown": 2,
     "button": 39,
-    "gallery": 7,
-    "galleryTemplate": 7,
-    "rectangle": 8,
+    "gallery": 8,
+    "galleryTemplate": 8,
+    "rectangle": 10,
     "form": 3,
     "typedDataCard": 14,
     "combobox": 4,
+    "datepicker": 1,
     "timer": 2,
-    "checkbox": 2,
-    "datepicker": 1
+    "dropdown": 2,
+    "checkbox": 2
   },
-  "DeserializationLoadTime": 2.1942778,
-  "AnalysisLoadTime": 2.8429995
+  "DeserializationLoadTime": 2.0402388,
+  "AnalysisLoadTime": 2.6476042
 }

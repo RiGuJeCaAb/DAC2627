@@ -14,7 +14,7 @@
       "IsComponentDefinition": false,
       "OverridableProperties": {}
     },
-    "Index": 1,
+    "Index": 0,
     "PublishOrderIndex": 0,
     "VariantName": "",
     "LayoutName": "",
@@ -110,7 +110,7 @@
       "ContentLanguage"
     ],
     "IsLocked": false,
-    "ControlUniqueId": "75",
+    "ControlUniqueId": "230",
     "Children": [
       {
         "Type": "ControlInfo",
@@ -129,13 +129,13 @@
           "OverridableProperties": {}
         },
         "Index": 0,
-        "PublishOrderIndex": 70,
+        "PublishOrderIndex": 0,
         "VariantName": "horizontalAutoLayoutContainer",
         "LayoutName": "",
         "MetaDataIDKey": "",
         "PersistMetaDataIDKey": false,
         "IsFromScreenLayout": false,
-        "StyleName": "defaultGroupContainerStyle",
+        "StyleName": "",
         "Parent": "scrInicio",
         "IsDataControl": false,
         "AllowAccessToGlobals": true,
@@ -420,7 +420,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "76",
+        "ControlUniqueId": "231",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -501,13 +501,13 @@
               "OverridableProperties": {}
             },
             "Index": 0,
-            "PublishOrderIndex": 71,
+            "PublishOrderIndex": 1,
             "VariantName": "horizontalAutoLayoutContainer",
             "LayoutName": "",
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "defaultGroupContainerStyle",
+            "StyleName": "",
             "Parent": "conEcraIn",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -792,7 +792,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "77",
+            "ControlUniqueId": "232",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -873,13 +873,13 @@
                   "OverridableProperties": {}
                 },
                 "Index": 0,
-                "PublishOrderIndex": 72,
+                "PublishOrderIndex": 2,
                 "VariantName": "",
                 "LayoutName": "",
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conCabIn",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1022,7 +1022,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -1248,7 +1248,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "78",
+                "ControlUniqueId": "233",
                 "Children": []
               }
             ]
@@ -1332,13 +1332,13 @@
               "OverridableProperties": {}
             },
             "Index": 0,
-            "PublishOrderIndex": 73,
+            "PublishOrderIndex": 3,
             "VariantName": "horizontalAutoLayoutContainer",
             "LayoutName": "",
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "defaultGroupContainerStyle",
+            "StyleName": "",
             "Parent": "conEcraIn",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -1623,7 +1623,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "79",
+            "ControlUniqueId": "234",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -1704,13 +1704,13 @@
                   "OverridableProperties": {}
                 },
                 "Index": 0,
-                "PublishOrderIndex": 74,
+                "PublishOrderIndex": 4,
                 "VariantName": "",
                 "LayoutName": "",
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conConteudoIn",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1853,7 +1853,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2079,7 +2079,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "80",
+                "ControlUniqueId": "235",
                 "Children": []
               },
               {
@@ -2161,13 +2161,13 @@
                   "OverridableProperties": {}
                 },
                 "Index": 0,
-                "PublishOrderIndex": 75,
+                "PublishOrderIndex": 5,
                 "VariantName": "",
                 "LayoutName": "",
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conConteudoIn",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -2310,7 +2310,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2536,7 +2536,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "81",
+                "ControlUniqueId": "236",
                 "Children": []
               },
               {
@@ -2618,13 +2618,13 @@
                   "OverridableProperties": {}
                 },
                 "Index": 0,
-                "PublishOrderIndex": 76,
+                "PublishOrderIndex": 6,
                 "VariantName": "galleryVertical",
                 "LayoutName": "",
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultGalleryStyle",
+                "StyleName": "",
                 "Parent": "conConteudoIn",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -2635,7 +2635,7 @@
                   {
                     "Property": "Items",
                     "Category": "Data",
-                    "InvariantScript": "Table({Num: 1, Ficha: \"Ficha 01\", Titulo: \"Hello Cloud\", Descricao: \"Primeira Canvas app: três ecrãs, navegação e variável global.\", Disponivel: true}, {Num: 2, Ficha: \"Ficha 02\", Titulo: \"Serviços Cloud\", Descricao: \"Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.\", Disponivel: true}, {Num: 3, Ficha: \"Ficha 03\", Titulo: \"Consulta de API\", Descricao: \"Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.\", Disponivel: true}, {Num: 4, Ficha: \"Ficha 04\", Titulo: \"Clientes e Pedidos\", Descricao: \"Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.\", Disponivel: true})",
+                    "InvariantScript": "Table(\n    {Num: 1, Ficha: \"Ficha 01\", Titulo: \"Hello Cloud\",\n     Descricao: \"Primeira Canvas app: três ecrãs, navegação e variável global.\", Disponivel: true},\n    {Num: 2, Ficha: \"Ficha 02\", Titulo: \"Serviços Cloud\",\n     Descricao: \"Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.\", Disponivel: true},\n    {Num: 3, Ficha: \"Ficha 03\", Titulo: \"Consulta de API\",\n     Descricao: \"Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.\", Disponivel: true},\n    {Num: 4, Ficha: \"Ficha 04\", Titulo: \"Clientes e Pedidos\",\n     Descricao: \"Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.\", Disponivel: true},\n    {Num: 5, Ficha: \"Ficha 04 · Complemento\", Titulo: \"SharePoint, Dataverse e SQL\",\n     Descricao: \"Ponto 8 do Lab 4: as três origens de dados comparadas para os clientes e pedidos.\", Disponivel: true}\n)",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2659,7 +2659,7 @@
                   {
                     "Property": "AccessibleLabel",
                     "Category": "Data",
-                    "InvariantScript": "\"\"",
+                    "InvariantScript": "\"Fichas de laboratório\"",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2869,7 +2869,7 @@
                   {
                     "Property": "TabIndex",
                     "Category": "Design",
-                    "InvariantScript": "-1",
+                    "InvariantScript": "0",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -2911,14 +2911,7 @@
                 ],
                 "ControlPropertyState": [
                   "ZIndex",
-                  {
-                    "InvariantPropertyName": "Items",
-                    "AutoRuleBindingEnabled": false,
-                    "AutoRuleBindingString": "Table(\n    {Num: 1, Ficha: \"Ficha 01\", Titulo: \"Hello Cloud\",\n     Descricao: \"Primeira Canvas app: três ecrãs, navegação e variável global.\", Disponivel: true},\n    {Num: 2, Ficha: \"Ficha 02\", Titulo: \"Serviços Cloud\",\n     Descricao: \"Inventário de serviços cloud em Dataverse, com criar, editar e remover num só ecrã.\", Disponivel: true},\n    {Num: 3, Ficha: \"Ficha 03\", Titulo: \"Consulta de API\",\n     Descricao: \"Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.\", Disponivel: true},\n    {Num: 4, Ficha: \"Ficha 04\", Titulo: \"Próximo laboratório\",\n     Descricao: \"Reservado para a próxima ficha do docente.\", Disponivel: false}\n)",
-                    "NameMapSourceSchema": "?",
-                    "IsLockable": false,
-                    "AFDDataSourceName": ""
-                  },
+                  "Items",
                   "WrapCount",
                   "Selectable",
                   "TemplateSize",
@@ -2965,11 +2958,11 @@
                   "#CopilotOverlayVisible"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "82",
+                "ControlUniqueId": "237",
                 "Children": [
                   {
                     "Type": "ControlInfo",
-                    "Name": "90cb2ef6-0f8b-4ca9-aeb1-c8a447e8b3d2",
+                    "Name": "3327f551-109b-4a9f-9367-fa2adc981788",
                     "HasDynamicProperties": false,
                     "Template": {
                       "Id": "http://microsoft.com/appmagic/galleryTemplate",
@@ -2984,7 +2977,7 @@
                       "OverridableProperties": {}
                     },
                     "Index": 0,
-                    "PublishOrderIndex": 77,
+                    "PublishOrderIndex": 7,
                     "VariantName": "",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
@@ -3001,22 +2994,15 @@
                       {
                         "Property": "OnSelect",
                         "Category": "Behavior",
-                        "InvariantScript": "If(galInFichas.Selected.Disponivel, Switch(galInFichas.Selected.Num, 1, Navigate(scrL1BoasVindas, ScreenTransition.Cover), 2, Navigate(scrL2Servicos, ScreenTransition.Cover), 3, Navigate(scrL3Lista, ScreenTransition.Cover), 4, Navigate(scrL4Pedidos, ScreenTransition.Cover)))",
-                        "RuleProviderType": "User"
+                        "InvariantScript": "If(\n    galInFichas.Selected.Disponivel,\n    Switch(\n        galInFichas.Selected.Num,\n        1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),\n        2, Navigate(scrL2Servicos, ScreenTransition.Cover),\n        3, Navigate(scrL3Lista, ScreenTransition.Cover),\n        4, Navigate(scrL4Pedidos, ScreenTransition.Cover),\n        5, Navigate(scrL4Complemento, ScreenTransition.Cover)\n    )\n)",
+                        "RuleProviderType": "Unknown"
                       }
                     ],
                     "ControlPropertyState": [
-                      {
-                        "InvariantPropertyName": "OnSelect",
-                        "AutoRuleBindingEnabled": false,
-                        "AutoRuleBindingString": "If(\n    galInFichas.Selected.Disponivel,\n    Switch(\n        galInFichas.Selected.Num,\n        1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),\n        2, Navigate(scrL2Servicos, ScreenTransition.Cover),\n        3, Navigate(scrL3Lista, ScreenTransition.Cover)\n    )\n)",
-                        "NameMapSourceSchema": "?",
-                        "IsLockable": false,
-                        "AFDDataSourceName": ""
-                      }
+                      "OnSelect"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "83",
+                    "ControlUniqueId": "238",
                     "Children": []
                   },
                   {
@@ -3036,13 +3022,13 @@
                       "OverridableProperties": {}
                     },
                     "Index": 0,
-                    "PublishOrderIndex": 78,
+                    "PublishOrderIndex": 8,
                     "VariantName": "manualLayoutContainer",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultGroupContainerStyle",
+                    "StyleName": "",
                     "Parent": "galInFichas",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3065,7 +3051,7 @@
                       {
                         "Property": "BorderColor",
                         "Category": "Design",
-                        "InvariantScript": "If(ThisItem.Disponivel, nfLinha, ColorValue(\"#C5CBD1\"))",
+                        "InvariantScript": "If(ThisItem.Disponivel, nfLinha, nfLinhaForte)",
                         "RuleProviderType": "Unknown"
                       },
                       {
@@ -3327,7 +3313,7 @@
                       "DropShadow"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "84",
+                    "ControlUniqueId": "239",
                     "Children": []
                   },
                   {
@@ -3347,13 +3333,13 @@
                       "OverridableProperties": {}
                     },
                     "Index": 0,
-                    "PublishOrderIndex": 79,
+                    "PublishOrderIndex": 9,
                     "VariantName": "",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galInFichas",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3722,7 +3708,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "85",
+                    "ControlUniqueId": "240",
                     "Children": []
                   },
                   {
@@ -3742,13 +3728,13 @@
                       "OverridableProperties": {}
                     },
                     "Index": 0,
-                    "PublishOrderIndex": 80,
+                    "PublishOrderIndex": 10,
                     "VariantName": "",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galInFichas",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4117,7 +4103,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "86",
+                    "ControlUniqueId": "241",
                     "Children": []
                   },
                   {
@@ -4137,13 +4123,13 @@
                       "OverridableProperties": {}
                     },
                     "Index": 0,
-                    "PublishOrderIndex": 81,
+                    "PublishOrderIndex": 11,
                     "VariantName": "",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultLabelStyle",
+                    "StyleName": "",
                     "Parent": "galInFichas",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4512,7 +4498,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "87",
+                    "ControlUniqueId": "242",
                     "Children": []
                   },
                   {
@@ -4532,13 +4518,13 @@
                       "OverridableProperties": {}
                     },
                     "Index": 0,
-                    "PublishOrderIndex": 82,
+                    "PublishOrderIndex": 12,
                     "VariantName": "",
                     "LayoutName": "",
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "defaultButtonStyle",
+                    "StyleName": "",
                     "Parent": "galInFichas",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4893,7 +4879,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "88",
+                    "ControlUniqueId": "243",
                     "Children": []
                   }
                 ]
@@ -4977,13 +4963,13 @@
                   "OverridableProperties": {}
                 },
                 "Index": 0,
-                "PublishOrderIndex": 83,
+                "PublishOrderIndex": 13,
                 "VariantName": "",
                 "LayoutName": "",
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "defaultLabelStyle",
+                "StyleName": "",
                 "Parent": "conConteudoIn",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -5000,7 +4986,7 @@
                   {
                     "Property": "Text",
                     "Category": "Data",
-                    "InvariantScript": "\"Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud\"",
+                    "InvariantScript": "\"Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud · v\" & nfVersao",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -5126,7 +5112,7 @@
                   {
                     "Property": "FocusedBorderThickness",
                     "Category": "Design",
-                    "InvariantScript": "0",
+                    "InvariantScript": "2",
                     "RuleProviderType": "Unknown"
                   },
                   {
@@ -5352,7 +5338,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "89",
+                "ControlUniqueId": "244",
                 "Children": []
               }
             ]

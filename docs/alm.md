@@ -14,7 +14,7 @@ flowchart LR
 
 ## 1. Do Studio para o git
 
-1. No Studio, **Guardar** e **Publicar**.
+1. No Studio, **Guardar** e **Publicar**. Publicar é obrigatório: a exportação da solução leva a última versão **publicada** da canvas app, não a guardada. A exportação 1.0.0.2 (16/11/2026) saiu igual, byte a byte, à 1.0.0.1, porque a v1.2.0 estava guardada mas não publicada. Em **Soluções › DAC2627 › DAC2627_RGJCA › Detalhes › Versões**, a versão marcada **Live** é a que vai na exportação e a que os alunos abrem.
 2. Em **Soluções › DAC2627 › Exportar**, exportar como **Não gerida** e descarregar o `.zip`.
 3. No repositório:
 
@@ -59,8 +59,21 @@ As regras que o `ORDEM.md` aplica, e porquê (aprendidas na colagem de 10/11/202
 2. **`App.Formulas` na barra de fórmulas, não na Vista de árvore.** Colado na árvore, o Studio lê o texto como YAML e responde `PA1001 ... YamlInvalidSyntax`.
 3. **Eliminar, nunca renomear.** Renomear `scrL1Pedido` para `scrL1Pedido_old` faz o Studio mudar as fórmulas dos outros ecrãs para `scrL1Pedido_old`, e essas ligações partem quando o antigo sai. Com o antigo ainda na app, o novo entra com `_1` em todos os nomes.
 4. **Quem envia variáveis antes de quem as recebe.** Uma variável que chega por `Navigate(scrX, ..., {locY: ...})` só é reconhecida se um dos ecrãs que a envia já estiver na app quando `scrX` é colado; o Studio não volta a verificar depois. Basta um: é isso que resolve o ciclo `scrL3Detalhe` ⇄ `scrL3Publicacao`, colando antes o `scrL3Lista`. O `dac colar` calcula a ordem a partir do código (`tools/dac/ordem.py`) e avisa se houver um ciclo sem saída.
-5. **Guardar e Publicar no fim.** A exportação de 16/11/2026 não tinha nada da v1.1.0, colada a 10/11.
-6. **Fechar o ciclo:** Verificador de aplicações, testes da secção G2 do manual, exportar (passo 1) e `dac deriva` igual a zero.
+5. **Guardar e Publicar no fim.** Nada avisa se não se publicar, e a exportação leva a versão publicada (passo 1). Foi por isso que a exportação de 16/11/2026 não tinha nada das versões coladas depois da última publicação.
+6. **Fechar o ciclo:** Verificador de aplicações (avisos esperados abaixo), testes da secção G2 do manual, exportar (passo 1), `dac sincronizar` e `dac deriva` igual a zero. O `git diff src/` só deve mostrar valores por omissão apagados pelo Studio.
+
+Antes de gerar os blocos, `dac colar` compara as fontes usadas no código com as da última exportação (`msapp/References/DataSources.json`): avisa se faltar uma fonte na app ou se uma apontar para outra tabela (`conjunto` em `dac.yaml › fontes`). Com `--estrito`, falha. O lint não vê nada disto: a 10/11/2026 estava a zero e o Studio mostrou 205 erros.
+
+### O que o Studio muda ao guardar
+
+O Studio apaga as propriedades iguais ao valor por omissão. Na exportação 1.0.0.3 foram 116 linhas: 86 × `TabIndex -1`, 15 × `AccessibleLabel ""`, 8 × `DropShadow.Light`, e algumas mais. A app fica igual, mas o código colado deixa de bater certo com o exportado, e o lint passou de 0 para 109 avisos. Por isso:
+
+- `yamlio` não escreve esses valores (tabela `OMISSAO` em `tools/dac/yamlio.py`), e as migrações herdam isso.
+- O lint lê uma propriedade ausente como o valor por omissão, e o DAC504 avisa quando o código escreve um.
+
+### Avisos do Verificador que ficam de propósito
+
+O Verificador marca todos os controlos com `TabIndex = -1` que não estejam numa galeria com `OnSelect = Select(Parent)`: 134 avisos «Tabulação em falta» na exportação 1.0.0.3, em etiquetas, ícones de estado, retângulos e nas cinco pílulas. A Microsoft manda pôr `-1` nos elementos não interativos ([Criar apps acessíveis](https://learn.microsoft.com/power-apps/maker/canvas-apps/accessible-apps)). Dar-lhes `TabIndex = 0` limparia o aviso e obrigaria quem usa o teclado a passar por cada texto. Ficam também 11 avisos de `AccessibleLabel` em retângulos e num ícone, todos decorativos. Os 43 avisos de foco invisível nas etiquetas dos formulários foram corrigidos na m003.
 
 O Studio só aceita a colagem com um Ctrl+V real do utilizador.
 

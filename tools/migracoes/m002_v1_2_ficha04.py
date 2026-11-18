@@ -18,6 +18,7 @@ O que faz:
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -83,13 +84,19 @@ CARTOES_PEDIDO = {"Cliente_DataCard1", "DataPedido_DataCard1", "Estado (dac_esta
 
 def migrar_documento(doc: dict) -> None:
     if "App" in doc:
-        doc["App"]["Properties"]["Formulas"] = "=" + FORMULAS
+        p = doc["App"]["Properties"]
+        # Uma migração posterior (m004, ...) pode já ter subido nfVersao: mantém-se a mais recente.
+        atual = re.search(r'nfVersao = "([0-9.]+)"', str(p.get("Formulas") or ""))
+        versao = atual.group(1) if atual and tuple(map(int, atual.group(1).split("."))) > tuple(map(int, VERSAO.split("."))) else VERSAO
+        p["Formulas"] = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
         return
     ecras = doc.get("Screens") or {}
     if "scrInicio" in ecras:
         for c in yamlio.controlos(doc):
             if c.nome == "galInFichas":
-                c.definir("Items", ITENS_INICIO)
+                # só acrescenta o quinto cartão; os textos dele podem ter mudado depois (m004)
+                if "Num: 5" not in str(c.prop("Items")):
+                    c.definir("Items", ITENS_INICIO)
                 c.definir("OnSelect", ONSELECT_INICIO)
         return
     if "scrL2Servicos" in ecras:

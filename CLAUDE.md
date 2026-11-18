@@ -6,6 +6,7 @@ Este repositório é o código extraído de uma Canvas app do Power Apps (APP DA
 
 ```bash
 make verificar        # validar + formatar --verificar + lint --estrito + paleta + inventario + pytest
+python -m tools.dac colar --estrito   # blocos para o Studio, ORDEM.md e verificação das fontes contra a exportação
 ```
 
 - Alterações em muitos controlos: escrever uma migração idempotente em `tools/migracoes/mNNN_*.py` (modelo: `m001`). Não editar à mão dezenas de ocorrências.
@@ -30,7 +31,7 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 - Nomes: prefixo do tipo (`scr`, `con`, `gal`, `lbl`, `btn`, `txt`, `drp`, `cmb`, `dte`, `chk`, `ico`, `frm`, `tmr`, `rec`) + ficha (`In`, `L1`, `L2`, `L3`, `L4`; o complemento da Ficha 04 usa `L4b`) + função. Ex.: `galL2Servicos`, `txtL4CliNome`.
 - Variáveis: `gbl*` globais (`Set`), `loc*` de contexto (`UpdateContext`), `col*` coleções.
 - Cores só pelas fórmulas nomeadas `nf*` em `App.Formulas` (22 tokens; o lint DAC201 falha com qualquer `ColorValue`/`RGBA` fora dali). Erro: `nfVermelho`/`nfVermelhoTexto`/`nfVermelhoFundo`; aviso: `nfAmbar`/`nfAmbarFundo`; sucesso: `nfVerde`/`nfVerdeTexto`/`nfVerdeFundo`; contornos de entradas: `nfBorda`. Lista completa e contrastes em `docs/paleta.md`. Um par texto/fundo novo entra em `tools/dac/cores.py:PARES`.
-- Acessibilidade: `TabIndex` explícito (0 interativo, -1 decorativo), `AccessibleLabel` em entradas, galerias e ícones (`""` só em decorativos), `FocusedBorderThickness = 2` nas etiquetas.
+- Acessibilidade: `TabIndex = 0` em tudo o que é interativo. Nos decorativos não se escreve `TabIndex` nem `AccessibleLabel`: ausentes valem `-1` e `""`. `AccessibleLabel` com texto em entradas, galerias e ícones com ação. `FocusedBorderThickness = 2` nas etiquetas fora de galerias, incluindo as dos formulários.
 - Layout: contentores com AutoLayout (`GroupContainer@1.5.0`). Responsividade por `<ecrã>.Size` (Small < 600, Medium 600–900, Large 900–1200). Regras no manual, secção A10.
 
 ## Pontos já decididos (não reverter sem razão)
@@ -42,8 +43,15 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 - Textos da API com quebras de linha (`body`) mostrados numa só linha passam por `Substitute(..., Char(10), " ")`.
 - Ficha 04: o separador Todos de `galL4Pedidos` mostra só pedidos ativos (`Estado = 'Estado (Pedidos)'.Ativo`), como a contagem do `btnL4SepTodos`. Pendentes e Concluídos usam as vistas do Dataverse no `Filter`.
 - Formulários clássicos: a largura dos cartões é por fórmula, para ficarem um por linha no telemóvel. Ficha 04 por `scrL4Pedidos.Size` (cliente 1/2/3 por linha, pedido 1/2); Ficha 02 pela largura do formulário, `If(Parent.Width < 560, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)`, porque no tablet o painel ocupa só metade do ecrã. Descrição sempre `Parent.Width - 1`.
-- Complemento da Ficha 04 (ponto 8 do Lab 4): ecrã próprio `scrL4Complemento`, aberto pelo quinto cartão do ecrã inicial. Não é um botão dentro da Ficha 04. Textos com «: » no YAML vão entre aspas simples.
-- Cinco pílulas decorativas com `TabIndex = -1` e exceção DAC302 em `dac.yaml`: `btnL2ItemModelo`, `btnL3Iniciais`, `btnL3bIniciais`, `btnL3PubIniciais`, `btnL4PedEstado`. O Verificador mostra-as como avisos, de propósito.
+- Complemento da Ficha 04 (ponto 8 do Lab 4): ecrã próprio `scrL4Complemento`, aberto pelo quinto cartão do ecrã inicial («Origens de dados»). Não é um botão dentro da Ficha 04. Duas vistas por `locL4bVista`: texto (o que é, a favor, contra) e tabela com os sete critérios do enunciado, aberta por um botão no fim do texto. Textos com «: » no YAML vão entre aspas simples.
+- O texto do ponto 8 vive só em `conteudo/ponto8.yaml`. A `m004` gera o ecrã e `python -m tools.ponto8` gera o `.docx` para o docente. Mudar o texto lá e gerar os dois, nunca editar um só.
+- Ecrãs com muito texto: etiquetas com `AutoHeight` num contentor com `LayoutOverflow.Scroll`, e linhas de tabela com `Height = Max(<alturas das etiquetas>)`. Nada de galerias com `TemplateSize` fixo para texto de comprimento variável.
+- Nas partes A a G do Manual o aluno escreve as fórmulas à mão. O `dac colar` é só do repositório (parte H).
+- A tabela `mcsft_cloudservice1` fica no ambiente: pertence à solução DACCCMB2426Final e tem dados (decisão do utilizador).
+- Cinco pílulas decorativas com `TabIndex = -1` e exceção DAC302 em `dac.yaml`: `btnL2ItemModelo`, `btnL3Iniciais`, `btnL3bIniciais`, `btnL3PubIniciais`, `btnL4PedEstado`.
+- O Verificador marca qualquer controlo com `TabIndex = -1` fora de galerias com `Select(Parent)`: 134 avisos de tabulação e 11 de `AccessibleLabel` em decorativos ficam de propósito (`docs/alm.md`). Não dar `TabIndex = 0` a etiquetas decorativas para os limpar.
+- O Studio apaga ao guardar os valores por omissão (`TabIndex -1` e `Size 13` em etiquetas, `AccessibleLabel ""` e `TabIndex -1` em ícones e retângulos, `DropShadow.Light` em contentores). Não os escrever: `yamlio.OMISSAO` e o lint DAC504 tratam disso. Uma propriedade ausente vale o valor por omissão.
+- A exportação da solução leva a versão **publicada**. Depois de colar: guardar, publicar, exportar, `dac sincronizar`, `dac deriva`. A ordem de colagem está em `build/colar/ORDEM.md` (gerado por `dac colar`, calculado em `tools/dac/ordem.py`).
 - Contentores interiores com `DropShadow.None`; filhos de altura fixa com `FillPortions = 0`; etiquetas e ícones dentro de galerias com `OnSelect = Select(Parent)`.
 
 ## Sugestões de análise (em aberto)
@@ -51,6 +59,6 @@ make verificar        # validar + formatar --verificar + lint --estrito + paleta
 1. Filtros duplicados entre galerias e contagens (`galL2Servicos.Items`/`lblL2Contagem`, `galL3Publicacoes.Items`/`lblL3Contagem`): candidatos a funções definidas pelo utilizador em `App.Formulas`, confirmando primeiro no Studio que a delegação se mantém.
 2. Tamanhos de letra e espaçamentos como tokens (`nfTam*`), como já se faz com as cores.
 3. Delegação e desempenho com tabelas acima de 500 registos.
-4. Resolvido na v1.1.0: 150 dos 154 avisos do Verificador e todas as cores literais. Na v1.2.0 ficam os 5 avisos das pílulas, de propósito.
+4. Verificador na v1.2.0 depois da m003: 145 avisos, todos de controlos decorativos com `TabIndex = -1` ou `AccessibleLabel ""` (ver `docs/alm.md`). Cores literais: zero.
 
 Ao propor alterações, mostre o excerto YAML antes e depois e indique o ecrã e o controlo. Responda em português de Portugal.

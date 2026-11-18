@@ -20,8 +20,10 @@ mas não as trazem: a ligação vive na app. Apagar ecrãs pode deixar a app sem
 """
 from __future__ import annotations
 
+import json
 import re
 from collections import defaultdict
+from pathlib import Path
 from dataclasses import dataclass, field
 
 from . import pafx, yamlio
@@ -32,6 +34,7 @@ class Fonte:
     nome: str
     tipo: str = ""
     nota: str = ""
+    conjunto: str = ""     # conjunto de entidades no Dataverse (vazio nos conectores)
 
 
 @dataclass
@@ -118,6 +121,43 @@ def fontes_usadas(docs: dict[str, dict], fontes: list[Fonte]) -> dict[str, list[
     return usos
 
 
+def fontes_na_exportacao(raiz: Path) -> dict[str, str] | None:
+    """Fontes da última exportação: nome -> conjunto de entidades ('' nos conectores). None sem exportação."""
+    ds = raiz / "msapp" / "References" / "DataSources.json"
+    if not ds.exists():
+        return None
+    out: dict[str, str] = {}
+    for x in json.loads(ds.read_text(encoding="utf-8")).get("DataSources", []):
+        if x.get("Type") == "NativeCDSDataSourceInfo":
+            out[x["Name"]] = x.get("EntitySetName", "")
+        elif x.get("Type") == "ServiceInfo":
+            out[x["Name"]] = ""
+    return out
+
+
+def verificar_fontes(guia: "Guia", fontes: list[Fonte], raiz: Path) -> list[str]:
+    """O que o lint não vê: uma fonte usada no código que falta na app, ou que aponta para outra tabela.
+
+    Compara com a última exportação. A 10/11/2026 o lint estava a zero e o Studio mostrou 205 erros,
+    101 deles por faltar a tabela Cloud Service.
+    """
+    na_app = fontes_na_exportacao(raiz)
+    if na_app is None:
+        return ["Não há exportação em msapp/: corra 'dac sincronizar' antes de colar."]
+    problemas = []
+    for f in fontes:
+        usos = guia.fontes.get(f.nome, [])
+        if not usos:
+            continue
+        if f.nome not in na_app:
+            problemas.append(f"'{f.nome}' é usada em {', '.join(usos)} mas não está na app exportada. "
+                             f"Adicione-a em Dados antes de colar.")
+        elif f.conjunto and na_app[f.nome] != f.conjunto:
+            problemas.append(f"'{f.nome}' aponta para '{na_app[f.nome]}' e devia apontar para '{f.conjunto}'. "
+                             f"Há tabelas com o mesmo nome a apresentar: confirme a tabela em Dados.")
+    return problemas
+
+
 def calcular(docs: dict[str, dict], preferida: list[str], fontes: list[Fonte]) -> Guia:
     """Ordem de colagem: a ordem preferida (dac.yaml), adiada só o necessário.
 
@@ -187,11 +227,15 @@ def gerar_md(guia: Guia, fontes: list[Fonte], versao: str, pilulas: int, fora: s
           "elimine e cole outra vez esse ecrã.", "",
           "## 4 · Confirmar", "",
           "- [ ] Painel de erros de fórmulas: **0 erros**.",
-          f"- [ ] **Verificador de aplicações**: só os {pilulas} avisos das pílulas (exceções em `dac.yaml`, regra DAC302).",
+          "- [ ] **Verificador de aplicações**: sem erros. Os avisos de acessibilidade que ficam são todos de controlos "
+          f"decorativos com `TabIndex = -1` ou `AccessibleLabel` vazio, incluindo as {pilulas} pílulas (ver `docs/alm.md`). "
+          "Avisos de foco, rótulo ou tabulação num controlo **interativo** são para corrigir.",
           f"- [ ] **F5**: rodapé do ecrã inicial mostra `v{versao}`; testes da secção G2 do manual.",
           "", "## 5 · Guardar e fechar o ciclo", "",
-          "- [ ] **Guardar** e **Publicar**. Sem isto, nada fica na app. A exportação de 16/11/2026 não tinha a v1.1.0, colada a 10/11.",
+          "- [ ] **Guardar** e **Publicar**. A exportação da solução leva a versão **publicada**: só guardado, a "
+          "exportação sai igual à anterior (aconteceu com a 1.0.0.2, a 16/11/2026), e os alunos continuam a abrir a versão antiga.",
           "- [ ] Exportar a solução (não gerida) e, no repositório:", "",
           "```", "python -m tools.dac sincronizar <caminho do zip>", "python -m tools.dac deriva", "```", "",
-          "- [ ] `deriva` responde `src/ igual à última exportação`.", ""]
+          "- [ ] `deriva` responde `src/ igual à última exportação`, e o `git diff src/` só mostra valores por omissão "
+          "que o Studio apagou (`TabIndex -1`, `AccessibleLabel \"\"`, `DropShadow.Light`...).", ""]
     return "\n".join(L)
