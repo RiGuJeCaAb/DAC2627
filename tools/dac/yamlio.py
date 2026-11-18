@@ -29,28 +29,35 @@ def ler(caminho: str | Path) -> dict:
         return yaml.safe_load(f)
 
 
+def linhas_com_tabulador(texto: str) -> list[int]:
+    """Números das linhas com um tabulador depois da indentação (dentro de um valor)."""
+    return [n for n, ln in enumerate(texto.split("\n"), 1) if "\t" in ln.lstrip(" \t")]
+
+
 def ler_tolerante(caminho: str | Path) -> tuple[dict, list[int]]:
     """Como ler(), mas aceita tabuladores dentro de valores, como o Studio aceita.
 
     O Studio exporta, sem aspas YAML, textos com um tabulador lá dentro
     (ex.: `Text: ="Voltar<TAB>"`, colado do Microsoft Learn). O YamlDotNet do Studio lê-os, o
-    PyYAML recusa-os. Aqui cada tabulador fora da indentação é trocado por um espaço só para a
-    leitura, e devolvem-se os números das linhas afetadas, para serem reportados como aviso.
-    O ficheiro não é alterado.
+    PyYAML recusa-os. Aqui cada tabulador dentro de um valor é trocado por um espaço só para a
+    leitura. O ficheiro não é alterado.
+
+    Devolve sempre as linhas com tabuladores dentro de valores, mesmo quando o PyYAML lê o
+    ficheiro sem ajuda (tabulador entre aspas): quem reescreve ficheiros precisa de saber.
+    Um tabulador na indentação não é tocado e continua a dar erro de YAML.
     """
     texto = Path(caminho).read_text(encoding="utf-8")
+    afetadas = linhas_com_tabulador(texto)
     try:
-        return yaml.safe_load(texto), []
+        return yaml.safe_load(texto), afetadas
     except yaml.YAMLError:
-        if "\t" not in texto:
+        if not afetadas:
             raise
-    linhas, afetadas = [], []
-    for n, ln in enumerate(texto.split("\n"), 1):
-        corpo = ln.lstrip(" ")
-        if "\t" in corpo:
-            afetadas.append(n)
-            ln = ln[: len(ln) - len(corpo)] + corpo.replace("\t", " ")
-        linhas.append(ln)
+    linhas = []
+    for ln in texto.split("\n"):
+        corpo = ln.lstrip(" \t")
+        indent = ln[: len(ln) - len(corpo)]
+        linhas.append(indent + corpo.replace("\t", " "))
     return yaml.safe_load("\n".join(linhas)), afetadas
 
 

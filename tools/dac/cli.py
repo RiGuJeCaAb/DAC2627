@@ -108,13 +108,13 @@ def cmd_validar(a) -> int:
 
 def cmd_formatar(a) -> int:
     raiz = Path(a.raiz)
-    mudados = 0
+    mudados = saltados = 0
     for f in projeto.ficheiros_src(raiz):
         orig = f.read_text(encoding="utf-8")
         d, tabs = yamlio.ler_tolerante(f)
         if tabs:
             # Reescrever trocaria cada tabulador por um espaço sem ninguém dar por isso.
-            mudados += 1
+            saltados += 1
             _p(f"não formatado (tabulador nas linhas {', '.join(map(str, tabs))}; corrija no Studio): {f.relative_to(raiz)}")
             continue
         novo = yamlio.escrever_texto(d)
@@ -123,7 +123,7 @@ def cmd_formatar(a) -> int:
             if not a.verificar:
                 f.write_text(novo, encoding="utf-8")
             _p(("por formatar: " if a.verificar else "formatado: ") + str(f.relative_to(raiz)))
-    return 1 if (a.verificar and mudados) else 0
+    return 1 if (saltados or (a.verificar and mudados)) else 0
 
 
 # ---------------------------------------------------------------- lint
@@ -189,7 +189,10 @@ def _ficheiro_de(raiz: Path, nome: str) -> Path:
 def cmd_pt(a) -> int:
     """Escreve as fórmulas como o manual as mostra: Controlo.Propriedade = fórmula, em formato PT."""
     raiz = Path(a.raiz)
-    d = yamlio.ler_tolerante(_ficheiro_de(raiz, a.alvo))[0]
+    d, tabs = yamlio.ler_tolerante(_ficheiro_de(raiz, a.alvo))
+    if tabs:
+        print(f"AVISO {a.alvo}: tabulador nas linhas {', '.join(map(str, tabs))}; aqui aparece como espaço",
+              file=sys.stderr)
     saida = []
     for onde, prop, fx in yamlio.formulas(d):
         if a.controlo and onde not in a.controlo:
@@ -213,6 +216,13 @@ _PROPS_TRIVIAIS = {"BorderColor", "LayoutMinHeight", "LayoutMinWidth", "Font", "
 
 # ---------------------------------------------------------------- colar
 
+def _ler_app(raiz: Path) -> dict:
+    d, tabs = yamlio.ler_tolerante(raiz / "src" / "app" / "App.pa.yaml")
+    if tabs:
+        _p(f"AVISO App.pa.yaml: tabulador nas linhas {', '.join(map(str, tabs))}; lido como espaço")
+    return d["App"]["Properties"]
+
+
 def cmd_colar(a) -> int:
     from . import ordem as ordem_mod
     raiz = Path(a.raiz)
@@ -233,7 +243,7 @@ def cmd_colar(a) -> int:
         (destino / f"{e}.yaml").write_text(yamlio.escrever_texto(d, cabecalho=False), encoding="utf-8")
         todos["Screens"].update(d["Screens"])
     (destino / "TODOS_OS_ECRAS.yaml").write_text(yamlio.escrever_texto(todos, cabecalho=False), encoding="utf-8")
-    app = yamlio.ler(raiz / "src" / "app" / "App.pa.yaml")["App"]["Properties"]
+    app = _ler_app(raiz)
     f = str(app["Formulas"]).lstrip("=")
     (destino / "App.Formulas.invariante.txt").write_text(f + "\n", encoding="utf-8")
     (destino / "App.Formulas.pt.txt").write_text(pafx.para_pt(f) + "\n", encoding="utf-8")
@@ -315,7 +325,7 @@ def cmd_inventario(a) -> int:
 
 def cmd_paleta(a) -> int:
     raiz = Path(a.raiz)
-    app = yamlio.ler(raiz / "src" / "app" / "App.pa.yaml")["App"]["Properties"]
+    app = _ler_app(raiz)
     tk = cores.tokens(str(app["Formulas"]))
     tk["Color.White"] = cores.BRANCO
     falhas = 0
@@ -355,6 +365,12 @@ def cmd_paleta(a) -> int:
 
 # ---------------------------------------------------------------- deriva
 
+def _linhas_tab(f: Path, linhas: list[int]) -> list[str]:
+    """Conteúdo das linhas com tabulador: a leitura tolerante iguala tabulador e espaço."""
+    texto = f.read_text(encoding="utf-8").split("\n")
+    return [texto[n - 1].strip(" ") for n in linhas]
+
+
 def cmd_deriva(a) -> int:
     raiz = Path(a.raiz)
     diferentes = []
@@ -363,7 +379,8 @@ def cmd_deriva(a) -> int:
         if not exp.exists():
             diferentes.append((f.name, "só em src/"))
             continue
-        if yamlio.ler_tolerante(f)[0] != yamlio.ler_tolerante(exp)[0]:
+        (ds, ts), (de, te) = yamlio.ler_tolerante(f), yamlio.ler_tolerante(exp)
+        if ds != de or _linhas_tab(f, ts) != _linhas_tab(exp, te):
             diferentes.append((f.name, "diferente da exportação"))
     if not diferentes:
         _p("deriva: src/ igual à última exportação")
