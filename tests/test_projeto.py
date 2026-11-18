@@ -43,6 +43,15 @@ def test_migracao_m002_idempotente(tmp_path):
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
 
 
+def test_migracao_m003_idempotente(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m003_v1_2_studio as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+
+
 def test_colar_gera_yaml_valido(tmp_path):
     assert cli.main(["colar", "--destino", str(tmp_path)]) == 0
     d = yamlio.ler(tmp_path / "TODOS_OS_ECRAS.yaml")
@@ -79,3 +88,29 @@ def test_todas_as_regras_estao_documentadas():
     doc = (projeto.DOCS / "regras-lint.md").read_text(encoding="utf-8")
     em_falta = [r for r in lint.REGRAS if f"| {r} |" not in doc]
     assert not em_falta, f"Regras sem documentação em docs/regras-lint.md: {em_falta}"
+
+
+def test_migracao_m004_idempotente(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    shutil.copytree(projeto.RAIZ / "conteudo", raiz / "conteudo")
+    from tools.migracoes import m004_v1_3_ponto8 as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+
+
+def test_ponto8_conteudo_e_ecra_coerentes():
+    import yaml
+    c = yaml.safe_load((projeto.RAIZ / "conteudo" / "ponto8.yaml").read_text(encoding="utf-8"))
+    # os sete critérios do enunciado do Lab 4, pela ordem do enunciado
+    assert [x["criterio"] for x in c["criterios"]] == [
+        "Estrutura", "Relações", "Desenvolvimento Power Apps", "Interface pronta", "Lógica", "Gestão",
+        "Caso de uso sugerido"]
+    assert [s["id"] for s in c["servicos"]] == ["Sp", "Dv", "Sql"]
+    assert all(set(x) == {"criterio", "Sp", "Dv", "Sql"} for x in c["criterios"])
+    assert all(s["favor"] and s["contra"] and s["oque"] for s in c["servicos"])
+    d = yamlio.ler(projeto.RAIZ / "src" / "screens" / "scrL4Complemento.pa.yaml")
+    nomes = {x.nome for x in yamlio.controlos(d)}
+    assert {f"conL4bLinha{i}" for i in range(1, 8)} <= nomes
+    assert {"btnL4bVerTabela", "btnL4bVoltarTexto", "lblL4bConclusao"} <= nomes

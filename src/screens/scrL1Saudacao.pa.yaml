@@ -54,7 +54,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="Ficha 01 · Passo 2 de 2"
             - conConteudoL1c:
                 Control: GroupContainer@1.5.0
@@ -74,7 +73,6 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.Light
                         Fill: =Color.White
                         FillPortions: =0
                         Height: =If(scrL1Saudacao.Size = ScreenSize.Small, 480, 420)
@@ -98,7 +96,6 @@ Screens:
                               AccessibleLabel: ="Sucesso"
                               Color: =nfVerde
                               Icon: =Icon.Check
-                              TabIndex: =-1
                         - lblL1BoasVindas:
                             Control: Label@2.5.1
                             Properties:
@@ -109,7 +106,6 @@ Screens:
                               FontWeight: =FontWeight.Bold
                               Height: =32
                               Size: =16
-                              TabIndex: =-1
                               Text: ="Bem-vindo à Cloud"
                         - lblL1Saudacao:
                             Control: Label@2.5.1
@@ -121,7 +117,6 @@ Screens:
                               FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL1Saudacao.Size = ScreenSize.Small, 30, 40)
-                              TabIndex: =-1
                               Text: =If(IsBlank(gblL1Nome), "Introduza o seu nome.", "Olá, " & gblL1Nome & "!")
                         - conL1Botoes:
                             Control: GroupContainer@1.5.0

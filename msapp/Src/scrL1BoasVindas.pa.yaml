@@ -43,12 +43,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - lblCabL1a:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -95,6 +97,7 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTexto
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL1BoasVindas.Size = ScreenSize.Small, 28, 36)
                               Text: ="Bem-vindo à Cloud"
@@ -105,6 +108,7 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
                               Size: =15
                               Text: ="A sua primeira aplicação Power Apps, criada, executada e partilhada a partir da cloud."
                         - btnL1Comecar:

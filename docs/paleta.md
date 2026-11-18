@@ -43,6 +43,9 @@ AA exige 4,5:1 para texto normal e 3:1 para texto grande e contornos (WCAG 2.2, 
 | `nfAzul` | `Color.White` | 8.66:1 | AAA | Botões secundários e títulos de ficha |
 | `nfAzul` | `nfAzulClaro` | 7.47:1 | AAA | Iniciais e linha selecionada |
 | `nfAzul` | `nfAzulFundo` | 6.91:1 | AA | Etiqueta IaaS |
+| `nfAzul` | `nfFundo` | 7.88:1 | AAA | Nomes dos serviços no ponto 8, sobre o fundo |
+| `nfTexto` | `nfAzulClaro` | 12.63:1 | AAA | Coluna Dataverse na tabela do ponto 8 |
+| `nfTexto` | `nfSuperficie` | 13.77:1 | AAA | Linhas alternadas da tabela do ponto 8 |
 | `nfVerdeTexto` | `nfVerdeFundo` | 6.41:1 | AA | Mensagem de sucesso e etiqueta PaaS |
 | `nfLaranja` | `nfLaranjaFundo` | 6.63:1 | AA | Etiqueta SaaS |
 | `nfVermelhoTexto` | `nfVermelhoFundo` | 7.56:1 | AAA | Faixas de erro |

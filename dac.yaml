@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.2.0
+versao: 1.3.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -19,15 +19,20 @@ ecras:
 
 # Fontes de dados que a app usa. Os .yaml dos ecrãs referem-nas pelo nome mas não as trazem:
 # têm de estar no painel Dados antes de colar (build/colar/ORDEM.md, passo 1).
+# conjunto: nome do conjunto de entidades no Dataverse. dac colar compara-o com a última exportação
+# (msapp/References/DataSources.json) para apanhar uma fonte em falta ou a tabela errada.
 fontes:
   - nome: Cloud Service
     tipo: Tabela Dataverse
+    conjunto: mcsft_cloudservices
     nota: Escolher a de nome lógico mcsft_cloudservice. O ambiente tem outra com o mesmo nome a mostrar (mcsft_cloudservice1).
   - nome: Clientes
     tipo: Tabela Dataverse
+    conjunto: dac_clientes
     nota: Tabela Cliente, nome lógico dac_cliente.
   - nome: Pedidos
     tipo: Tabela Dataverse
+    conjunto: dac_pedidos
     nota: Tabela Pedido, nome lógico dac_pedido.
   - nome: JSONPlaceholderDAC
     tipo: Conector personalizado

@@ -56,7 +56,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="Ficha 04 · Clientes e Pedidos"
             - conConteudoL4:
                 Control: GroupContainer@1.5.0
@@ -103,7 +102,6 @@ Screens:
                               FocusedBorderThickness: =2
                               Height: =48
                               Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 12, 13)
-                              TabIndex: =-1
                               Text: |-
                                 =With({n: CountRows(Filter(Clientes, StartsWith(Nome, txtL4Pesquisa.Text)))},
                                     If(n = 1, "1 cliente", n & " clientes"))
@@ -157,7 +155,6 @@ Screens:
                                     Height: =44
                                     PaddingLeft: =20
                                     Size: =12
-                                    TabIndex: =-1
                                     Text: ="CLIENTES"
                               - lblL4ListaVazia:
                                   Control: Label@2.5.1
@@ -167,7 +164,6 @@ Screens:
                                     Color: =nfTextoSuave
                                     FocusedBorderThickness: =2
                                     Height: =80
-                                    TabIndex: =-1
                                     Text: ="Nenhum cliente começa por este texto."
                                     Visible: =IsEmpty(galL4Clientes.AllItems)
                               - galL4Clientes:
@@ -212,7 +208,6 @@ Screens:
                                     - icoL4CliSeta:
                                         Control: Classic/Icon@2.5.0
                                         Properties:
-                                          AccessibleLabel: =""
                                           Color: =nfTextoSuave
                                           Height: =24
                                           Icon: =Icon.ChevronRight
@@ -223,10 +218,8 @@ Screens:
                                     - recL4CliSeparador:
                                         Control: Rectangle@2.3.0
                                         Properties:
-                                          AccessibleLabel: =""
                                           Fill: =nfLinha
                                           Height: =1
-                                          TabIndex: =-1
                                           Width: =Parent.TemplateWidth
                                           Y: =Parent.TemplateHeight - 1
                         - conL4Painel:
@@ -284,7 +277,6 @@ Screens:
                                           FontWeight: =FontWeight.Bold
                                           Height: =44
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 18, 22)
-                                          TabIndex: =-1
                                           Text: =Switch(locL4Modo, "cliente", If(locL4Acao = "criar", "Novo cliente", "Editar cliente"), "pedido", If(locL4Acao = "criar", "Novo pedido · " & locL4Cliente.Nome, "Pedido " & locL4Pedido.NumeroPedido), If(IsBlank(locL4Cliente), "Todos os clientes", locL4Cliente.Nome))
                                           Wrap: =false
                               - lblL4ClienteDados:
@@ -294,7 +286,6 @@ Screens:
                                     AutoHeight: =true
                                     Color: =nfTextoSuave
                                     FocusedBorderThickness: =2
-                                    TabIndex: =-1
                                     Text: |-
                                       =If(IsBlank(locL4Cliente),
                                           "Pedidos de todos os clientes. Escolha um cliente na lista para ver só os dele.",
@@ -374,7 +365,6 @@ Screens:
                                     FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Height: =32
-                                    TabIndex: =-1
                                     Text: =Switch(locL4Vista, "pendentes", "Vista do Dataverse «Pedidos Pendentes» · mais recentes primeiro", "concluidos", "Vista do Dataverse «Pedidos Concluídos» · mais recentes primeiro", "Todos os pedidos ativos · mais recentes primeiro")
                                     Visible: =IsBlank(locL4Modo)
                               - lblL4SemPedidos:
@@ -385,7 +375,6 @@ Screens:
                                     Color: =nfTextoSuave
                                     FocusedBorderThickness: =2
                                     Height: =80
-                                    TabIndex: =-1
                                     Text: =If(IsBlank(locL4Cliente), "Não há pedidos nesta vista.", "Este cliente não tem pedidos nesta vista.")
                                     Visible: =IsBlank(locL4Modo) && IsEmpty(galL4Pedidos.AllItems)
                               - galL4Pedidos:
@@ -469,10 +458,8 @@ Screens:
                                     - recL4PedSeparador:
                                         Control: Rectangle@2.3.0
                                         Properties:
-                                          AccessibleLabel: =""
                                           Fill: =nfLinha
                                           Height: =1
-                                          TabIndex: =-1
                                           Width: =Parent.TemplateWidth
                                           Y: =Parent.TemplateHeight - 1
                               - frmL4Cliente:
@@ -514,6 +501,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -550,6 +538,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -571,6 +560,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey6.Height
                                                 Text: ="*"
@@ -601,6 +591,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -637,6 +628,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -658,6 +650,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey9.Height
                                                 Text: ="*"
@@ -688,6 +681,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -724,6 +718,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -745,6 +740,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey7.Height
                                                 Text: ="*"
@@ -775,6 +771,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -811,6 +808,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -832,6 +830,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey8.Height
                                                 Text: ="*"
@@ -878,6 +877,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -920,6 +920,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -941,6 +942,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey22.Height
                                                 Text: ="*"
@@ -953,6 +955,7 @@ Screens:
                                               Properties:
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =cmbL4PedCliente.Height
@@ -982,6 +985,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1016,6 +1020,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1037,6 +1042,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey15.Height
                                                 Text: ="*"
@@ -1065,6 +1071,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1105,6 +1112,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1126,6 +1134,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey17.Height
                                                 Text: ="*"
@@ -1154,6 +1163,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1190,6 +1200,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1211,6 +1222,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey19.Height
                                                 Text: ="*"
@@ -1240,6 +1252,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -1277,6 +1290,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -1298,6 +1312,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey16.Height
                                                 Text: ="*"
@@ -1465,10 +1480,8 @@ Screens:
       - recL4Veu:
           Control: Rectangle@2.3.0
           Properties:
-            AccessibleLabel: =""
             Fill: =nfVeu
             Height: =Parent.Height
-            TabIndex: =-1
             Visible: =!IsBlank(locL4Confirmar)
             Width: =Parent.Width
       - conL4Dialogo:
@@ -1502,7 +1515,6 @@ Screens:
                   FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Bold
                   Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 18, 22)
-                  TabIndex: =-1
                   Text: |-
                     =Switch(locL4Confirmar,
                         "guardar", If(locL4Modo = "cliente",
@@ -1517,7 +1529,6 @@ Screens:
                   Color: =nfTextoSuave
                   FillPortions: =1
                   FocusedBorderThickness: =2
-                  TabIndex: =-1
                   Text: |-
                     =Switch(locL4Confirmar,
                         "guardar", If(locL4Modo = "cliente",
@@ -1629,7 +1640,6 @@ Screens:
                   Color: =If(locL4MsgTipo = "erro", nfVermelho, nfVerde)
                   Height: =24
                   Icon: =If(locL4MsgTipo = "erro", Icon.Warning, Icon.Check)
-                  TabIndex: =-1
                   Width: =24
             - lblL4Mensagem:
                 Control: Label@2.5.1
@@ -1638,7 +1648,6 @@ Screens:
                   FillPortions: =1
                   FocusedBorderThickness: =2
                   FontWeight: =FontWeight.Semibold
-                  TabIndex: =-1
                   Text: =locL4Msg
             - icoL4FecharMsg:
                 Control: Classic/Icon@2.5.0

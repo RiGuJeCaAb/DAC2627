@@ -44,7 +44,6 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        TabIndex: =-1
                         Text: ="APP DAC2627"
             - conConteudoIn:
                 Control: GroupContainer@1.5.0
@@ -67,7 +66,6 @@ Screens:
                         FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Bold
                         Size: =If(scrInicio.Size = ScreenSize.Small, 22, 28)
-                        TabIndex: =-1
                         Text: ="Laboratórios de DAC 2026/27"
                   - lblInSubtitulo:
                       Control: Label@2.5.1
@@ -77,7 +75,6 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Size: =15
-                        TabIndex: =-1
                         Text: ="Escolha a ficha que quer abrir."
                   - galInFichas:
                       Control: Gallery@2.15.0
@@ -94,8 +91,8 @@ Screens:
                                Descricao: "Utilizadores e publicações de uma API REST, com filtro por utilizador e tratamento de erros.", Disponivel: true},
                               {Num: 4, Ficha: "Ficha 04", Titulo: "Clientes e Pedidos",
                                Descricao: "Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.", Disponivel: true},
-                              {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "SharePoint, Dataverse e SQL",
-                               Descricao: "Ponto 8 do Lab 4: as três origens de dados comparadas para os clientes e pedidos.", Disponivel: true}
+                              {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "Origens de dados",
+                               Descricao: "Ponto 8 do Lab 4: SharePoint, Dataverse e SQL, o que são, a favor e contra, e a comparação.", Disponivel: true}
                           )
                         OnSelect: |-
                           =If(
@@ -138,6 +135,7 @@ Screens:
                               OnSelect: =Select(Parent)
                               Size: =12
                               Text: =ThisItem.Ficha
+                              Width: =Parent.TemplateWidth - 48
                               X: =24
                               Y: =20
                         - lblInFichaTitulo:
@@ -189,5 +187,4 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Size: =12
-                        TabIndex: =-1
                         Text: ="Desenvolvimento de Aplicações na Cloud · CTeSP Computação Cloud · v" & nfVersao

@@ -83,6 +83,25 @@ def escrever(caminho: str | Path, d: dict, cabecalho: bool = True) -> None:
 
 # ---------- percorrer a árvore de controlos ----------
 
+# Valores por omissão que o Studio apaga ao guardar (observados na exportação 1.0.0.3, 17/11/2026).
+# Escrever um destes valores no código não muda nada na app, mas a próxima exportação já não o traz,
+# e o código deixa de bater certo com o Studio. Só entram combinações confirmadas: na exportação não
+# sobrevive nenhuma. Para acrescentar outra, confirme-a primeiro numa exportação.
+OMISSAO: dict[str, dict[str, str]] = {
+    "Label": {"TabIndex": "=-1", "Size": "=13", "FillPortions": "=0", "Visible": "=true"},
+    "Icon": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
+    "Rectangle": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
+    "GroupContainer": {"DropShadow": "=DropShadow.Light", "Visible": "=true"},
+    # 39 botões na 1.0.0.3: nenhum com BorderThickness 2 nem Visible true escritos
+    "Button": {"BorderThickness": "=2", "Visible": "=true"},
+}
+
+
+def omissao(tipo: str, nome: str) -> str | None:
+    """Valor por omissão de uma propriedade, quando é um dos que o Studio apaga."""
+    return OMISSAO.get(tipo, {}).get(nome)
+
+
 class Controlo:
     """Vista de um controlo dentro da árvore (nome, tipo, propriedades, caminho)."""
 
@@ -116,10 +135,21 @@ class Controlo:
         Children...) ficam exatamente onde estavam.
         """
         p = dict(self.corpo.get("Properties") or {})
-        p[nome] = valor
+        if omissao(self.tipo, nome) == valor:
+            # o Studio guarda-o como ausente: faz-se o mesmo, para o código bater certo com a exportação
+            if nome not in p:
+                return
+            del p[nome]
+        else:
+            p[nome] = valor
         ordenado = dict(sorted(p.items(), key=lambda kv: kv[0]))
         if "Properties" in self.corpo:
-            self.corpo["Properties"] = ordenado
+            if ordenado:
+                self.corpo["Properties"] = ordenado
+            else:
+                del self.corpo["Properties"]
+            return
+        if not ordenado:
             return
         novo = {}
         for k, v in self.corpo.items():

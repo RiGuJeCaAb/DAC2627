@@ -112,7 +112,10 @@ ROTULOS = {
 }
 DECORATIVOS = ("Rectangle",)  # e os chevrons dentro de galerias
 
-CARTOES = {"conL1aCartao", "conL1bCartao", "conL1cCartao", "conL2Lista", "conL2Painel", "conL3bCartao", "conL3cCartao"}
+# Cartões com sombra (DropShadow.Light, o valor por omissão). conL4bTabela é da v1.2.0: entra aqui para a
+# m001 não lhe tirar a sombra quando corre sobre uma exportação, que já não traz o Light escrito.
+CARTOES = {"conL1aCartao", "conL1bCartao", "conL1cCartao", "conL2Lista", "conL2Painel", "conL3bCartao", "conL3cCartao",
+           "conL4bTabela"}
 
 FORMULAS_NOVAS = {
     ("lblL3TituloPubs", "Text"):
@@ -239,7 +242,9 @@ def migrar_documento(doc: dict) -> None:
         atual = re.search(r'nfVersao = "([0-9.]+)"', str(p.get("Formulas") or ""))
         versao = atual.group(1) if atual and tuple(map(int, atual.group(1).split("."))) > tuple(map(int, VERSAO.split("."))) else VERSAO
         p["Formulas"] = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
-        p["StartScreen"] = "=" + str(p["StartScreen"]).lstrip("=").strip()
+        # O Studio apaga StartScreen quando é o primeiro ecrã (valor por omissão): só se limpa se existir.
+        if "StartScreen" in p:
+            p["StartScreen"] = "=" + str(p["StartScreen"]).lstrip("=").strip()
         return
     _renomear(doc, "DataCardValue5", "cmbL2Estado")
     for c in list(yamlio.controlos(doc)):

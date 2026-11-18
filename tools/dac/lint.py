@@ -19,6 +19,7 @@ from pathlib import Path
 
 from . import pafx
 from .yamlio import Controlo, controlos
+from .yamlio import omissao as yamlio_omissao
 
 ERRO, AVISO, INFO = "erro", "aviso", "info"
 
@@ -29,8 +30,8 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC104": (INFO, "Controlo de cartão de dados com o nome gerado pelo Studio"),
     "DAC201": (AVISO, "Cor literal fora de App.Formulas: use um token nf*"),
     "DAC202": (ERRO, "Token de cor nf* usado mas não definido em App.Formulas"),
-    "DAC301": (AVISO, "AccessibleLabel em falta"),
-    "DAC302": (AVISO, "TabIndex não definido"),
+    "DAC301": (AVISO, "AccessibleLabel em falta num controlo interativo"),
+    "DAC302": (AVISO, "Controlo interativo fora da ordem de tabulação"),
     "DAC303": (AVISO, "FocusedBorderThickness em falta ou a 0"),
     "DAC304": (AVISO, "Alvo de toque menor do que 44 × 44"),
     "DAC401": (AVISO, "CountRows sobre AllItems de uma galeria"),
@@ -39,7 +40,8 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC404": (AVISO, "Variável lida mas nunca definida"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
-    "DAC503": (AVISO, "Contentor interior sem DropShadow explícito"),
+    "DAC503": (AVISO, "Sombra dentro de sombra"),
+    "DAC504": (AVISO, "Valor por omissão escrito no código: o Studio apaga-o ao guardar"),
     "DAC900": (ERRO, "Exceção em dac.yaml sem motivo"),
 }
 
@@ -111,6 +113,21 @@ def _onselect_acao(c: Controlo) -> bool:
     """True quando o OnSelect faz alguma coisa além de passar a seleção à galeria."""
     v = _fx(c.prop("OnSelect")).strip()
     return bool(v) and v not in ("false", "Select(Parent)")
+
+
+def _com_sombra(c: Controlo) -> bool:
+    """Contentor com sombra. Ausente vale DropShadow.Light, o valor por omissão (o Studio apaga-o)."""
+    v = c.prop("DropShadow")
+    return v is None or "DropShadow.None" not in _fx(v)
+
+
+def _antepassado_com_sombra(c: Controlo) -> bool:
+    p = c.pai
+    while p is not None:
+        if p.tipo == "GroupContainer" and _com_sombra(p):
+            return True
+        p = p.pai
+    return False
 
 
 def _args_de(codigo: str, inicio: int) -> str:
@@ -271,33 +288,36 @@ class Analise:
             self._add("DAC202", "App.Formulas", f"'{t}' não está definido")
 
     # ----- DAC3xx -----
+    # O Studio apaga ao guardar as propriedades iguais ao valor por omissão (exportação 1.0.0.3:
+    # 86 × TabIndex -1, 15 × AccessibleLabel "", 8 × DropShadow.Light). Uma propriedade ausente
+    # vale o valor por omissão, e as regras leem-na assim: o que o Studio exporta tem de passar.
     def _acessibilidade(self):
         for c in self.todos:
             onde = f"{c.ecra}.{c.nome}"
-            if c.dentro_de_formulario and c.tipo in ("Label", "TypedDataCard"):
+            if c.tipo == "TypedDataCard":
                 continue
-            al = c.prop("AccessibleLabel")
-            precisa_al = c.tipo in ("Gallery", "TextInput", "DropDown", "ComboBox", "Rectangle", "Image") or (
-                c.tipo == "Icon")
-            if precisa_al and al is None:
-                self._add("DAC301", onde, f"{c.tipo} sem AccessibleLabel" +
-                          (" (decorativo: use \"\")" if c.tipo == "Rectangle" else ""))
-            if al is not None and _fx(al) == '""' and c.tipo in ("Icon",) and _onselect_acao(c):
-                self._add("DAC301", onde, "ícone com ação não pode ter AccessibleLabel vazio")
-            if c.dentro_de_formulario:
-                continue
-            tab = _num(c.prop("TabIndex"))
+            em_form = c.dentro_de_formulario
             em_gal = c.dentro_de_galeria
-            if c.tipo == "Button" and tab is not None and tab < 0:
-                self._add("DAC302", onde, "botão com TabIndex -1 não recebe foco pelo teclado")
-            elif c.prop("TabIndex") is None and (c.tipo == "Rectangle" or (
-                    not em_gal and c.tipo in ("Label", "Icon", "Gallery"))):
-                self._add("DAC302", onde, f"defina TabIndex ({'0' if _onselect_acao(c) or c.tipo == 'Gallery' else '-1'})")
+            acao = _onselect_acao(c)
+            if not em_form:
+                al = c.prop("AccessibleLabel")
+                vazio = al is None or _fx(al).strip() in ('""', "")
+                sempre = c.tipo in ("Gallery", "TextInput", "DropDown", "ComboBox")
+                if vazio and (sempre or (acao and c.tipo in ("Icon", "Image", "Rectangle"))):
+                    self._add("DAC301", onde, f"{c.tipo} interativo sem AccessibleLabel" if al is None
+                              else f"{c.tipo} interativo com AccessibleLabel vazio")
+                tab = _num(c.prop("TabIndex"))
+                if c.tipo == "Button" and tab is not None and tab < 0:
+                    self._add("DAC302", onde, "botão com TabIndex -1 não recebe foco pelo teclado")
+                elif c.tipo == "Gallery" and tab is None:
+                    self._add("DAC302", onde, "defina TabIndex = 0")
+                elif acao and not em_gal and c.tipo in ("Label", "Icon", "Image", "Rectangle") and (tab is None or tab < 0):
+                    self._add("DAC302", onde, "tem ação no OnSelect: defina TabIndex = 0 (por omissão é -1)")
             if c.tipo == "Label" and not em_gal:
                 fb = _num(c.prop("FocusedBorderThickness"))
                 if fb is None or fb <= 0:
                     self._add("DAC303", onde, "defina FocusedBorderThickness = 2")
-            if c.tipo in ("Icon", "Button") and _onselect_acao(c) and _fx(c.prop("Visible")) != "false":
+            if not em_form and c.tipo in ("Icon", "Button") and acao and _fx(c.prop("Visible")) != "false":
                 w, h = _num(c.prop("Width")), _num(c.prop("Height"))
                 if (w is not None and w < 44) or (h is not None and h < 44):
                     self._add("DAC304", onde, f"{int(w or 0)} × {int(h or 0)}")
@@ -343,8 +363,11 @@ class Analise:
                         self._add("DAC501", f"{onde}.Size", f"{n} não está em {sorted(escala)}")
             if c.dentro_de_galeria and c.tipo in ("Label", "Icon") and _fx(c.prop("OnSelect")).strip() != "Select(Parent)" and not _onselect_acao(c):
                 self._add("DAC502", onde, "acrescente OnSelect = Select(Parent)")
-            if c.tipo == "GroupContainer" and c.pai is not None and c.prop("DropShadow") is None:
-                self._add("DAC503", onde, "acrescente DropShadow = DropShadow.None")
+            for k, v in (c.corpo.get("Properties") or {}).items():
+                if yamlio_omissao(c.tipo, k) == str(v):
+                    self._add("DAC504", f"{onde}.{k}", f"{v} é o valor por omissão: retire a linha")
+            if c.tipo == "GroupContainer" and _com_sombra(c) and _antepassado_com_sombra(c):
+                self._add("DAC503", onde, "sombra dentro de sombra: DropShadow = DropShadow.None")
 
     # ----- exceções -----
     def _excecoes(self):

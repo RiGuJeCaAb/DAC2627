@@ -43,12 +43,14 @@ Screens:
                         Height: =44
                         Icon: =Icon.Home
                         OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
                         Width: =44
                   - lblCabL1c:
                       Control: Label@2.5.1
                       Properties:
                         Color: =Color.White
                         FillPortions: =1
+                        FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
@@ -91,6 +93,7 @@ Screens:
                         - icoL1Sucesso:
                             Control: Classic/Icon@2.5.0
                             Properties:
+                              AccessibleLabel: ="Sucesso"
                               Color: =nfVerde
                               Icon: =Icon.Check
                         - lblL1BoasVindas:
@@ -99,6 +102,7 @@ Screens:
                               Align: =Align.Center
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =nfVerde
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Height: =32
                               Size: =16
@@ -110,6 +114,7 @@ Screens:
                               AlignInContainer: =AlignInContainer.Stretch
                               AutoHeight: =true
                               Color: =nfTexto
+                              FocusedBorderThickness: =2
                               FontWeight: =FontWeight.Bold
                               Size: =If(scrL1Saudacao.Size = ScreenSize.Small, 30, 40)
                               Text: =If(IsBlank(gblL1Nome), "Introduza o seu nome.", "Olá, " & gblL1Nome & "!")

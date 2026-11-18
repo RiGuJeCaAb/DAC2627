@@ -84,3 +84,54 @@ def test_colar_escreve_ordem_md(tmp_path):
     assert md.index("scrL3Lista.yaml") < md.index("scrL3Detalhe.yaml") < md.index("scrL3Publicacao.yaml")
     todos = list(yamlio.ler(tmp_path / "TODOS_OS_ECRAS.yaml")["Screens"])
     assert todos.index("scrL3Lista") < todos.index("scrL3Publicacao")
+
+
+# ---- fontes contra a última exportação (msapp/References/DataSources.json)
+
+def _copia(tmp_path):
+    import shutil
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    shutil.copytree(projeto.RAIZ / "msapp" / "References", raiz / "msapp" / "References")
+    shutil.copy2(projeto.RAIZ / "dac.yaml", raiz / "dac.yaml")
+    return raiz
+
+
+def _guia(raiz):
+    fontes = [Fonte(**f) for f in projeto.config(raiz).get("fontes", [])]
+    return ordem.calcular(projeto.carregar(raiz), projeto.ordem_ecras(raiz), fontes), fontes
+
+
+def _mexer_datasources(raiz, f):
+    import json
+    ds = raiz / "msapp" / "References" / "DataSources.json"
+    d = json.loads(ds.read_text(encoding="utf-8"))
+    f(d)
+    ds.write_text(json.dumps(d), encoding="utf-8")
+
+
+def test_fontes_do_projeto_estao_na_exportacao():
+    g, fontes = _guia(projeto.RAIZ)
+    assert ordem.verificar_fontes(g, fontes, projeto.RAIZ) == []
+
+
+def test_falta_uma_fonte_na_app(tmp_path):
+    raiz = _copia(tmp_path)
+    _mexer_datasources(raiz, lambda d: d.update(DataSources=[x for x in d["DataSources"] if x["Name"] != "Pedidos"]))
+    g, fontes = _guia(raiz)
+    problemas = ordem.verificar_fontes(g, fontes, raiz)
+    assert len(problemas) == 1 and "'Pedidos'" in problemas[0] and "não está na app" in problemas[0]
+    assert cli.main(["--raiz", str(raiz), "colar", "--estrito", "--destino", str(tmp_path / "b")]) == 1
+
+
+def test_tabela_duplicada_com_o_mesmo_nome(tmp_path):
+    raiz = _copia(tmp_path)
+
+    def trocar(d):
+        for x in d["DataSources"]:
+            if x["Name"] == "Cloud Service":
+                x["EntitySetName"] = "mcsft_cloudservice1s"
+    _mexer_datasources(raiz, trocar)
+    g, fontes = _guia(raiz)
+    problemas = ordem.verificar_fontes(g, fontes, raiz)
+    assert len(problemas) == 1 and "mcsft_cloudservice1s" in problemas[0]
