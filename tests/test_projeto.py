@@ -114,3 +114,94 @@ def test_ponto8_conteudo_e_ecra_coerentes():
     nomes = {x.nome for x in yamlio.controlos(d)}
     assert {f"conL4bLinha{i}" for i in range(1, 8)} <= nomes
     assert {"btnL4bVerTabela", "btnL4bVoltarTexto", "lblL4bConclusao"} <= nomes
+
+
+def _copia(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    shutil.copytree(projeto.RAIZ / "schemas", raiz / "schemas")
+    shutil.copytree(projeto.RAIZ / "msapp", raiz / "msapp")
+    shutil.copy2(projeto.RAIZ / "dac.yaml", raiz / "dac.yaml")
+    return raiz
+
+
+def _projeto_com_tabulador(tmp_path, entre_aspas=False):
+    """Cópia do projeto com um tabulador colado no fim de um texto, como o Studio exporta.
+
+    Devolve (raiz, ficheiro, número da linha alterada)."""
+    raiz = _copia(tmp_path)
+    f = raiz / "src" / "screens" / "scrL1BoasVindas.pa.yaml"
+    t = f.read_text(encoding="utf-8")
+    i = t.index('Text: ="') + len('Text: ="')
+    j = t.index('"', i)
+    if entre_aspas:
+        # Valor YAML entre aspas simples: o PyYAML lê o tabulador sem erro
+        ini = t.rindex("Text: ", 0, i) + len("Text: ")
+        fim = t.index("\n", j)
+        t = t[:ini] + "'" + t[ini:j].replace("'", "''") + "\t" + t[j:fim].replace("'", "''") + "'" + t[fim:]
+    else:
+        t = t[:j] + "\t" + t[j:]
+    f.write_text(t, encoding="utf-8")
+    return raiz, f, t[:j].count("\n") + 1
+
+
+def test_validar_avisa_tabulador_sem_falhar(tmp_path, capsys):
+    raiz, f, linha = _projeto_com_tabulador(tmp_path)
+    assert cli.main(["--raiz", str(raiz), "validar"]) == 0
+    out = capsys.readouterr().out
+    assert f"AVISO src/screens/scrL1BoasVindas.pa.yaml:{linha}:" in out and "1 aviso(s)" in out
+
+
+def test_tabulador_na_indentacao_continua_a_ser_erro(tmp_path, capsys):
+    raiz = _copia(tmp_path)
+    f = raiz / "src" / "screens" / "scrL1BoasVindas.pa.yaml"
+    linhas = f.read_text(encoding="utf-8").split("\n")
+    n = next(k for k, ln in enumerate(linhas) if ln.startswith("        ") and ":" in ln)
+    linhas[n] = "\t" + linhas[n][8:]
+    f.write_text("\n".join(linhas), encoding="utf-8")
+    assert cli.main(["--raiz", str(raiz), "validar"]) == 1
+    assert "YAML inválido" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("entre_aspas", [False, True])
+def test_formatar_nao_reescreve_ficheiro_com_tabulador(tmp_path, capsys, entre_aspas):
+    raiz, f, _ = _projeto_com_tabulador(tmp_path, entre_aspas)
+    antes = f.read_text(encoding="utf-8")
+    assert cli.main(["--raiz", str(raiz), "formatar"]) == 1   # saltou um ficheiro: não é sucesso
+    assert f.read_text(encoding="utf-8") == antes              # o tabulador não vira espaço em silêncio
+    assert cli.main(["--raiz", str(raiz), "formatar", "--verificar"]) == 1
+    assert "não formatado" in capsys.readouterr().out
+
+
+def test_lint_le_ficheiro_com_tabulador(tmp_path):
+    raiz, _, _ = _projeto_com_tabulador(tmp_path)
+    assert "src/screens/scrL1BoasVindas.pa.yaml" in projeto.carregar(raiz)
+
+
+def test_deriva_distingue_tabulador_de_espaco(tmp_path):
+    raiz, f, linha = _projeto_com_tabulador(tmp_path)
+    # Exportação igual a src/ em tudo, para o deriva só poder reagir à diferença testada
+    for s in projeto.ficheiros_src(raiz):
+        shutil.copy2(s, raiz / "msapp" / "Src" / s.name)
+    assert cli.main(["--raiz", str(raiz), "deriva", "--falhar"]) == 0
+    exp = raiz / "msapp" / "Src" / f.name
+    linhas = f.read_text(encoding="utf-8").split("\n")
+    linhas[linha - 1] = linhas[linha - 1].replace("\t", " ")
+    exp.write_text("\n".join(linhas), encoding="utf-8")          # exportação com espaço, src com tabulador
+    assert cli.main(["--raiz", str(raiz), "deriva", "--falhar"]) == 1
+
+
+def test_pt_avisa_quando_mostra_espaco_no_lugar_do_tabulador(tmp_path, capsys):
+    raiz, _, linha = _projeto_com_tabulador(tmp_path)
+    assert cli.main(["--raiz", str(raiz), "pt", "scrL1BoasVindas"]) == 0
+    assert f"tabulador nas linhas {linha}" in capsys.readouterr().err
+
+
+def test_colar_le_app_com_tabulador(tmp_path, capsys):
+    raiz = _copia(tmp_path)
+    app = raiz / "src" / "app" / "App.pa.yaml"
+    t = app.read_text(encoding="utf-8")
+    i = t.index('nfVersao = "') + len('nfVersao = "')
+    app.write_text(t[:i] + "\t" + t[i:], encoding="utf-8")
+    assert cli.main(["--raiz", str(raiz), "colar", "--destino", str(tmp_path / "out")]) == 0
+    assert "AVISO App.pa.yaml" in capsys.readouterr().out

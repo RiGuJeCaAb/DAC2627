@@ -10,6 +10,8 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões d
 - `docs/alm.md`: as seis regras de colagem aprendidas a 10/11/2026.
 - `.gitattributes`: `msapp/`, `solution/`, `_export/` e os documentos gerados marcados como gerados, para os PRs mostrarem só o código escrito à mão.
 - 9 testes novos (42 no total).
+- `yamlio.ler_tolerante`: lê `.pa.yaml` com um tabulador dentro de um valor (`Text: ="Voltar<TAB>"`), que o Studio exporta sem aspas e o PyYAML recusa. Visto na DACLearn a 18/11/2026. O `validar` avisa com a linha, o `lint`, o `pt`, o `deriva` e o `colar` leem na mesma (o `colar` avisa que o bloco leva um espaço no lugar do tabulador), e o `formatar` recusa reescrever o ficheiro, para o tabulador não virar espaço em silêncio. As migrações continuam com a leitura estrita. Depois da revisão do Sourcery no PR #5: as linhas com tabulador são devolvidas mesmo quando o PyYAML lê o ficheiro sozinho (tabulador entre aspas), um tabulador na indentação continua a ser erro, o `formatar` devolve 1 quando salta ficheiros, o `deriva` distingue tabulador de espaço, o `pt` avisa quando mostra um espaço no lugar do tabulador, e o `App.pa.yaml` também é lido assim no `colar` e no `paleta`.
+- 8 testes novos (59 no total, com os da v1.3.0).
 
 ## [1.3.0] · 2026-11-17 · Ponto 8 com apresentação e tabela num botão
 

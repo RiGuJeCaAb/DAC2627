@@ -21,7 +21,7 @@ def ficheiros_src(raiz: Path = RAIZ) -> list[Path]:
 
 
 def carregar(raiz: Path = RAIZ) -> dict[str, dict]:
-    return {str(p.relative_to(raiz)): yamlio.ler(p) for p in ficheiros_src(raiz)}
+    return {str(p.relative_to(raiz)): yamlio.ler_tolerante(p)[0] for p in ficheiros_src(raiz)}
 
 
 def ordem_ecras(raiz: Path = RAIZ) -> list[str]:

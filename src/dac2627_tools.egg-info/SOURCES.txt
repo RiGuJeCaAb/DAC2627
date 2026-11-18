@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+src/dac2627_tools.egg-info/PKG-INFO
+src/dac2627_tools.egg-info/SOURCES.txt
+src/dac2627_tools.egg-info/dependency_links.txt
+src/dac2627_tools.egg-info/requires.txt
+src/dac2627_tools.egg-info/top_level.txt
+tests/test_lint.py
+tests/test_ordem.py
+tests/test_pafx.py
+tests/test_projeto.py
