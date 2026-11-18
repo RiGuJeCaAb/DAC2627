@@ -45,8 +45,16 @@ def _s(texto: str) -> str:
     return '"' + " ".join(str(texto).split()).replace('"', '""') + '"'
 
 
-def _lista(itens: list[str]) -> str:
-    return " & Char(10) & ".join(_s("• " + i) for i in itens)
+def _paragrafos(lista: list[str] | str) -> str:
+    """Parágrafos separados por uma linha em branco (Char(10) duas vezes)."""
+    if isinstance(lista, str):
+        lista = [lista]
+    return " & Char(10) & Char(10) & ".join(_s(x) for x in lista)
+
+
+def _lista(itens: list[dict]) -> str:
+    """Fatores: «• Título. Texto», um por linha, com uma linha em branco entre eles."""
+    return " & Char(10) & Char(10) & ".join(_s(f"• {i['titulo']}. {i['texto']}") for i in itens)
 
 
 def _ctl(nome: str, controlo: str, props: dict, filhos: list | None = None, variante: str | None = None) -> dict:
@@ -140,19 +148,25 @@ def conteudo_l4b(c: dict) -> list:
         f += [
             _etiqueta(f"lblL4b{i}Nome", _s(sv["nome"]), TEXTO, Color="=nfAzul", FontWeight="=FontWeight.Bold",
                       Size="=20", PaddingTop="=12"),
-            _caixa(f"lblL4b{i}OQue", _s(sv["oque"]), TEXTO),
+            _etiqueta(f"lblL4b{i}Modelo", _s(sv["modelo"][0].upper() + sv["modelo"][1:]), TEXTO,
+                      Color="=nfTextoSuave", FontWeight="=FontWeight.Semibold"),
+            _caixa(f"lblL4b{i}OQue", _paragrafos(sv["oque"]), TEXTO),
+            _etiqueta(f"lblL4b{i}AprofTit", _s(sv["aprofundamento"]["titulo"]), TEXTO, Color="=nfAzul",
+                      FontWeight="=FontWeight.Semibold", Size="=16", PaddingTop="=4"),
+            _caixa(f"lblL4b{i}Aprof", _paragrafos(sv["aprofundamento"]["paragrafos"]), TEXTO),
             _caixa(f"lblL4b{i}FavorTit", _s("A favor"), TEXTO, fundo="nfVerdeFundo", cor="nfVerdeTexto",
                    FontWeight="=FontWeight.Semibold", PaddingTop="=8", PaddingBottom="=8"),
             _caixa(f"lblL4b{i}Favor", _lista(sv["favor"]), TEXTO),
             _caixa(f"lblL4b{i}ContraTit", _s("Contra"), TEXTO, fundo="nfAmbarFundo", cor="nfAmbar",
                    FontWeight="=FontWeight.Semibold", PaddingTop="=8", PaddingBottom="=8"),
             _caixa(f"lblL4b{i}Contra", _lista(sv["contra"]), TEXTO),
+            _caixa(f"lblL4b{i}Sintese", _s("Em síntese. " + sv["sintese"]), TEXTO, fundo="nfAzulClaro", cor="nfAzul"),
         ]
     f.append(_botao("btnL4bVerTabela", "Ver a tabela comparativa", 'UpdateContext({locL4bVista: "tabela"})', TEXTO, True))
     f.append(_etiqueta("lblL4bTabIntro", _s(c["tab_intro"]), TABELA, Color="=nfTextoSuave"))
     f.append(_cabecalho())
     f += [_linha_tabela(n, cr) for n, cr in enumerate(c["criterios"], 1)]
-    f.append(_caixa("lblL4bConclusao", _s(c["conclusao"]), TABELA, fundo="nfAzulClaro", cor="nfAzul"))
+    f.append(_caixa("lblL4bConclusao", _paragrafos(c["conclusao"]), TABELA, fundo="nfAzulClaro", cor="nfAzul"))
     f.append(_botao("btnL4bVoltarTexto", "Voltar ao texto", 'UpdateContext({locL4bVista: "texto"})', TABELA, False))
     return f
 
