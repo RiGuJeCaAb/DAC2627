@@ -382,7 +382,7 @@ Screens:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                AccessibleLabel: =Parent.DisplayName
+                                                AccessibleLabel: ="Nome do serviço"
                                                 BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
@@ -398,7 +398,7 @@ Screens:
                                                 RadiusBottomRight: =0
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
-                                                Tooltip: =Parent.DisplayName
+                                                Tooltip: ="Nome do serviço"
                                                 Width: =Parent.Width - 60
                                                 X: =30
                                                 Y: =DataCardKey2.Y + DataCardKey2.Height + 5
@@ -473,7 +473,7 @@ Screens:
                                               Control: Classic/ComboBox@2.4.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                AccessibleLabel: =Parent.DisplayName
+                                                AccessibleLabel: ="Estado"
                                                 BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 ChevronBackground: =nfAzul
                                                 ChevronFill: =Color.White
@@ -491,7 +491,7 @@ Screens:
                                                 SelectMultiple: =false
                                                 SelectionColor: =Color.White
                                                 SelectionFill: =nfAzul
-                                                Tooltip: =Parent.DisplayName
+                                                Tooltip: ="Estado"
                                                 Width: =Parent.Width - 60
                                                 X: =30
                                                 Y: =DataCardKey5.Y + DataCardKey5.Height + 5
@@ -566,7 +566,7 @@ Screens:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                AccessibleLabel: =Parent.DisplayName
+                                                AccessibleLabel: ="Fornecedor"
                                                 BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
@@ -582,7 +582,7 @@ Screens:
                                                 RadiusBottomRight: =0
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
-                                                Tooltip: =Parent.DisplayName
+                                                Tooltip: ="Fornecedor"
                                                 Width: =Parent.Width - 60
                                                 X: =30
                                                 Y: =DataCardKey1.Y + DataCardKey1.Height + 5
@@ -656,7 +656,7 @@ Screens:
                                               Control: Classic/ComboBox@2.4.0
                                               MetadataKey: FieldValue
                                               Properties:
-                                                AccessibleLabel: =Parent.DisplayName
+                                                AccessibleLabel: ="Modelo de serviço"
                                                 BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 ChevronBackground: =nfAzul
                                                 ChevronFill: =Color.White
@@ -677,7 +677,7 @@ Screens:
                                                 SelectMultiple: =false
                                                 SelectionColor: =Color.White
                                                 SelectionFill: =nfAzul
-                                                Tooltip: =Parent.DisplayName
+                                                Tooltip: ="Modelo de serviço"
                                                 Width: =Parent.Width - 60
                                                 X: =30
                                                 Y: =DataCardKey4.Y + DataCardKey4.Height + 5
@@ -753,7 +753,7 @@ Screens:
                                               Control: Classic/TextInput@2.3.2
                                               MetadataKey: FieldValue
                                               Properties:
-                                                AccessibleLabel: =Parent.DisplayName
+                                                AccessibleLabel: ="Descrição"
                                                 BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
                                                 Default: =Parent.Default
                                                 DelayOutput: =true
@@ -769,7 +769,7 @@ Screens:
                                                 RadiusBottomRight: =0
                                                 RadiusTopLeft: =0
                                                 RadiusTopRight: =0
-                                                Tooltip: =Parent.DisplayName
+                                                Tooltip: ="Descrição"
                                                 Width: =Parent.Width - 60
                                                 X: =30
                                                 Y: =DataCardKey3.Y + DataCardKey3.Height + 5
@@ -896,10 +896,10 @@ Screens:
                                               Variant: AutoLayout
                                               Properties:
                                                 AlignInContainer: =If(conL2Ficha.Width >= 720, AlignInContainer.Start, AlignInContainer.Stretch)
-                                                BorderColor: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                BorderColor: =If(IsBlank(locSel.'Service Model'), nfLinhaForte, Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, "SaaS", nfLaranja, nfTexto))
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
-                                                Fill: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)
+                                                Fill: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, "SaaS", nfLaranjaFundo, nfSuperficie)
                                                 FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
                                                 Height: =100
                                                 LayoutDirection: =LayoutDirection.Vertical
@@ -918,7 +918,7 @@ Screens:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
-                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, "SaaS", nfLaranja, nfTexto)
                                                       FocusedBorderThickness: =2
                                                       FontWeight: =FontWeight.Semibold
                                                       Height: =18
@@ -929,32 +929,32 @@ Screens:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
-                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, "SaaS", nfLaranja, nfTexto)
                                                       FocusedBorderThickness: =2
                                                       FontWeight: =FontWeight.Bold
                                                       Height: =30
                                                       Size: =18
-                                                      Text: =Text(locSel.'Service Model')
+                                                      Text: =If(IsBlank(locSel.'Service Model'), "—", Text(locSel.'Service Model'))
                                                       Wrap: =false
                                                 - lblL2FichaModeloNota:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
-                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, "SaaS", nfLaranja, nfTexto)
                                                       FocusedBorderThickness: =2
                                                       Height: =20
                                                       Size: =12
-                                                      Text: =Switch(Text(locSel.'Service Model'), "IaaS", "Infraestrutura como serviço", "PaaS", "Plataforma como serviço", "SaaS", "Software como serviço", "")
+                                                      Text: =Switch(Text(locSel.'Service Model'), "IaaS", "Infraestrutura como serviço", "PaaS", "Plataforma como serviço", "SaaS", "Software como serviço", "Modelo por indicar")
                                                       Wrap: =false
                                           - conL2FichaEstado:
                                               Control: GroupContainer@1.5.0
                                               Variant: AutoLayout
                                               Properties:
                                                 AlignInContainer: =If(conL2Ficha.Width >= 720, AlignInContainer.Start, AlignInContainer.Stretch)
-                                                BorderColor: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                BorderColor: =If(IsBlank(locSel.Status), nfLinhaForte, Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, "Descontinuado", nfVermelhoTexto, nfTexto))
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
-                                                Fill: =Switch(Text(locSel.Status), "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, nfVermelhoFundo)
+                                                Fill: =Switch(Text(locSel.Status), "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, "Descontinuado", nfVermelhoFundo, nfSuperficie)
                                                 FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
                                                 Height: =100
                                                 LayoutDirection: =LayoutDirection.Vertical
@@ -973,7 +973,7 @@ Screens:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
-                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, "Descontinuado", nfVermelhoTexto, nfTexto)
                                                       FocusedBorderThickness: =2
                                                       FontWeight: =FontWeight.Semibold
                                                       Height: =18
@@ -984,22 +984,22 @@ Screens:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
-                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, "Descontinuado", nfVermelhoTexto, nfTexto)
                                                       FocusedBorderThickness: =2
                                                       FontWeight: =FontWeight.Bold
                                                       Height: =30
                                                       Size: =18
-                                                      Text: =Text(locSel.Status)
+                                                      Text: =If(IsBlank(locSel.Status), "—", Text(locSel.Status))
                                                       Wrap: =false
                                                 - lblL2FichaEstadoNota:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Stretch
-                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, "Descontinuado", nfVermelhoTexto, nfTexto)
                                                       FocusedBorderThickness: =2
                                                       Height: =20
                                                       Size: =12
-                                                      Text: =Switch(Text(locSel.Status), "Ativo", "Em uso no inventário", "Em avaliação", "Em análise, ainda sem uso", "Descontinuado", "Já não é usado", "")
+                                                      Text: =Switch(Text(locSel.Status), "Ativo", "Em uso no inventário", "Em avaliação", "Em análise, ainda sem uso", "Descontinuado", "Já não é usado", "Estado por indicar")
                                                       Wrap: =false
                                     - lblL2FichaDescricaoTit:
                                         Control: Label@2.5.1
@@ -1088,7 +1088,7 @@ Screens:
                                                 PaddingRight: =16
                                                 PaddingTop: =14
                                                 Size: =14
-                                                Text: =Switch(Text(locSel.'Service Model'), "IaaS", "O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.", "PaaS", "O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.", "SaaS", "O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.", "")
+                                                Text: =Switch(Text(locSel.'Service Model'), "IaaS", "O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.", "PaaS", "O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.", "SaaS", "O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.", "Indique o modelo de serviço para ver o que fica a cargo do fornecedor e do cliente.")
                               - lblL2PainelVazio:
                                   Control: Label@2.5.1
                                   Properties:

@@ -117,7 +117,7 @@
       "ContentLanguage"
     ],
     "IsLocked": false,
-    "ControlUniqueId": "599",
+    "ControlUniqueId": "439",
     "Children": [
       {
         "Type": "ControlInfo",
@@ -427,7 +427,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "600",
+        "ControlUniqueId": "440",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -799,7 +799,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "601",
+            "ControlUniqueId": "441",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -1178,7 +1178,7 @@
                   "PreserveAspectRatio"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "602",
+                "ControlUniqueId": "442",
                 "Children": []
               },
               {
@@ -1635,7 +1635,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "603",
+                "ControlUniqueId": "443",
                 "Children": []
               }
             ]
@@ -2010,7 +2010,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "604",
+            "ControlUniqueId": "444",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -2382,7 +2382,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "605",
+                "ControlUniqueId": "445",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -2887,7 +2887,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "606",
+                    "ControlUniqueId": "446",
                     "Children": []
                   },
                   {
@@ -3387,7 +3387,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "607",
+                    "ControlUniqueId": "447",
                     "Children": []
                   },
                   {
@@ -3844,7 +3844,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "608",
+                    "ControlUniqueId": "448",
                     "Children": []
                   },
                   {
@@ -4287,7 +4287,7 @@
                       "minimumWidth"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "609",
+                    "ControlUniqueId": "449",
                     "Children": []
                   }
                 ]
@@ -4662,7 +4662,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "610",
+                "ControlUniqueId": "450",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -5034,7 +5034,7 @@
                       "DropShadow"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "611",
+                    "ControlUniqueId": "451",
                     "Children": [
                       {
                         "Type": "ControlInfo",
@@ -5490,7 +5490,7 @@
                           "maximumHeight"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "612",
+                        "ControlUniqueId": "452",
                         "Children": []
                       },
                       {
@@ -5912,11 +5912,11 @@
                           "#CopilotOverlayVisible"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "613",
+                        "ControlUniqueId": "453",
                         "Children": [
                           {
                             "Type": "ControlInfo",
-                            "Name": "7b2faaf8-ab1e-4e1a-b990-b9cae668fadc",
+                            "Name": "d04faf7b-b6b6-4952-aae9-98fcfff0794f",
                             "HasDynamicProperties": false,
                             "Template": {
                               "Id": "http://microsoft.com/appmagic/galleryTemplate",
@@ -5963,7 +5963,7 @@
                               "TemplateFill"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "614",
+                            "ControlUniqueId": "454",
                             "Children": []
                           },
                           {
@@ -6358,7 +6358,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "615",
+                            "ControlUniqueId": "455",
                             "Children": []
                           },
                           {
@@ -6739,7 +6739,7 @@
                               "minimumWidth"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "617",
+                            "ControlUniqueId": "457",
                             "Children": []
                           },
                           {
@@ -7134,7 +7134,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "616",
+                            "ControlUniqueId": "456",
                             "Children": []
                           },
                           {
@@ -7354,7 +7354,7 @@
                               "PreserveAspectRatio"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "618",
+                            "ControlUniqueId": "458",
                             "Children": []
                           }
                         ]
@@ -7731,7 +7731,7 @@
                       "DropShadow"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "619",
+                    "ControlUniqueId": "459",
                     "Children": [
                       {
                         "Type": "ControlInfo",
@@ -8103,7 +8103,7 @@
                           "DropShadow"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "623",
+                        "ControlUniqueId": "463",
                         "Children": [
                           {
                             "Type": "ControlInfo",
@@ -8559,7 +8559,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "624",
+                            "ControlUniqueId": "464",
                             "Children": []
                           }
                         ]
@@ -8857,7 +8857,7 @@
                           "TabIndex"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "625",
+                        "ControlUniqueId": "465",
                         "Children": [
                           {
                             "Type": "ControlInfo",
@@ -9090,7 +9090,7 @@
                               "MaxLength"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "626",
+                            "ControlUniqueId": "466",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -9484,7 +9484,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "630",
+                                "ControlUniqueId": "470",
                                 "Children": []
                               },
                               {
@@ -9879,7 +9879,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "627",
+                                "ControlUniqueId": "467",
                                 "Children": []
                               },
                               {
@@ -9946,13 +9946,13 @@
                                   {
                                     "Property": "AccessibleLabel",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Nome do serviço\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
                                     "Property": "Tooltip",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Nome do serviço\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -10330,7 +10330,7 @@
                                   "minimumWidth"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "628",
+                                "ControlUniqueId": "468",
                                 "Children": []
                               },
                               {
@@ -10725,7 +10725,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "629",
+                                "ControlUniqueId": "469",
                                 "Children": []
                               }
                             ]
@@ -10954,7 +10954,7 @@
                               "Update"
                             ],
                             "IsLocked": true,
-                            "ControlUniqueId": "631",
+                            "ControlUniqueId": "471",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -11348,7 +11348,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": true,
-                                "ControlUniqueId": "635",
+                                "ControlUniqueId": "475",
                                 "Children": []
                               },
                               {
@@ -11743,7 +11743,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": true,
-                                "ControlUniqueId": "632",
+                                "ControlUniqueId": "472",
                                 "Children": []
                               },
                               {
@@ -11852,13 +11852,13 @@
                                   {
                                     "Property": "AccessibleLabel",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Estado\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
                                     "Property": "Tooltip",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Estado\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -12278,7 +12278,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": true,
-                                "ControlUniqueId": "633",
+                                "ControlUniqueId": "473",
                                 "Children": []
                               },
                               {
@@ -12673,7 +12673,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": true,
-                                "ControlUniqueId": "634",
+                                "ControlUniqueId": "474",
                                 "Children": []
                               }
                             ]
@@ -12909,7 +12909,7 @@
                               "MaxLength"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "636",
+                            "ControlUniqueId": "476",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -13303,7 +13303,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "640",
+                                "ControlUniqueId": "480",
                                 "Children": []
                               },
                               {
@@ -13698,7 +13698,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "637",
+                                "ControlUniqueId": "477",
                                 "Children": []
                               },
                               {
@@ -13765,13 +13765,13 @@
                                   {
                                     "Property": "AccessibleLabel",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Fornecedor\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
                                     "Property": "Tooltip",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Fornecedor\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -14149,7 +14149,7 @@
                                   "minimumWidth"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "638",
+                                "ControlUniqueId": "478",
                                 "Children": []
                               },
                               {
@@ -14544,7 +14544,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "639",
+                                "ControlUniqueId": "479",
                                 "Children": []
                               }
                             ]
@@ -14773,7 +14773,7 @@
                               "Update"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "641",
+                            "ControlUniqueId": "481",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -15167,7 +15167,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "645",
+                                "ControlUniqueId": "485",
                                 "Children": []
                               },
                               {
@@ -15562,7 +15562,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "642",
+                                "ControlUniqueId": "482",
                                 "Children": []
                               },
                               {
@@ -15671,13 +15671,13 @@
                                   {
                                     "Property": "AccessibleLabel",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Modelo de serviço\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
                                     "Property": "Tooltip",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Modelo de serviço\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -16097,7 +16097,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "643",
+                                "ControlUniqueId": "483",
                                 "Children": []
                               },
                               {
@@ -16492,7 +16492,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "644",
+                                "ControlUniqueId": "484",
                                 "Children": []
                               }
                             ]
@@ -16728,7 +16728,7 @@
                               "MaxLength"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "646",
+                            "ControlUniqueId": "486",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -17122,7 +17122,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "650",
+                                "ControlUniqueId": "490",
                                 "Children": []
                               },
                               {
@@ -17517,7 +17517,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "647",
+                                "ControlUniqueId": "487",
                                 "Children": []
                               },
                               {
@@ -17584,13 +17584,13 @@
                                   {
                                     "Property": "AccessibleLabel",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Descrição\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
                                     "Property": "Tooltip",
                                     "Category": "Data",
-                                    "InvariantScript": "Parent.DisplayName",
+                                    "InvariantScript": "\"Descrição\"",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -17968,7 +17968,7 @@
                                   "minimumWidth"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "648",
+                                "ControlUniqueId": "488",
                                 "Children": []
                               },
                               {
@@ -18363,7 +18363,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "649",
+                                "ControlUniqueId": "489",
                                 "Children": []
                               }
                             ]
@@ -18740,7 +18740,7 @@
                           "DropShadow"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "651",
+                        "ControlUniqueId": "491",
                         "Children": [
                           {
                             "Type": "ControlInfo",
@@ -19112,7 +19112,7 @@
                               "DropShadow"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "652",
+                            "ControlUniqueId": "492",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -19484,7 +19484,7 @@
                                   "DropShadow"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "653",
+                                "ControlUniqueId": "493",
                                 "Children": [
                                   {
                                     "Type": "ControlInfo",
@@ -19940,7 +19940,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "654",
+                                    "ControlUniqueId": "494",
                                     "Children": []
                                   },
                                   {
@@ -20397,7 +20397,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "655",
+                                    "ControlUniqueId": "495",
                                     "Children": []
                                   },
                                   {
@@ -20854,7 +20854,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "656",
+                                    "ControlUniqueId": "496",
                                     "Children": []
                                   }
                                 ]
@@ -20967,7 +20967,7 @@
                                   {
                                     "Property": "BorderColor",
                                     "Category": "Design",
-                                    "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, nfLaranja)",
+                                    "InvariantScript": "If(IsBlank(locSel.'Service Model'), nfLinhaForte, Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, \"SaaS\", nfLaranja, nfTexto))",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -21009,7 +21009,7 @@
                                   {
                                     "Property": "Fill",
                                     "Category": "Design",
-                                    "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzulFundo, \"PaaS\", nfVerdeFundo, nfLaranjaFundo)",
+                                    "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzulFundo, \"PaaS\", nfVerdeFundo, \"SaaS\", nfLaranjaFundo, nfSuperficie)",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -21229,7 +21229,7 @@
                                   "DropShadow"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "657",
+                                "ControlUniqueId": "497",
                                 "Children": [
                                   {
                                     "Type": "ControlInfo",
@@ -21393,7 +21393,7 @@
                                       {
                                         "Property": "Color",
                                         "Category": "Design",
-                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, nfLaranja)",
+                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, \"SaaS\", nfLaranja, nfTexto)",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -21685,7 +21685,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "658",
+                                    "ControlUniqueId": "498",
                                     "Children": []
                                   },
                                   {
@@ -21790,7 +21790,7 @@
                                       {
                                         "Property": "Text",
                                         "Category": "Data",
-                                        "InvariantScript": "Text(locSel.'Service Model')",
+                                        "InvariantScript": "If(IsBlank(locSel.'Service Model'), \"—\", Text(locSel.'Service Model'))",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -21850,7 +21850,7 @@
                                       {
                                         "Property": "Color",
                                         "Category": "Design",
-                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, nfLaranja)",
+                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, \"SaaS\", nfLaranja, nfTexto)",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -22142,7 +22142,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "659",
+                                    "ControlUniqueId": "499",
                                     "Children": []
                                   },
                                   {
@@ -22247,7 +22247,7 @@
                                       {
                                         "Property": "Text",
                                         "Category": "Data",
-                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", \"Infraestrutura como serviço\", \"PaaS\", \"Plataforma como serviço\", \"SaaS\", \"Software como serviço\", \"\")",
+                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", \"Infraestrutura como serviço\", \"PaaS\", \"Plataforma como serviço\", \"SaaS\", \"Software como serviço\", \"Modelo por indicar\")",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -22307,7 +22307,7 @@
                                       {
                                         "Property": "Color",
                                         "Category": "Design",
-                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, nfLaranja)",
+                                        "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", nfAzul, \"PaaS\", nfVerdeTexto, \"SaaS\", nfLaranja, nfTexto)",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -22599,7 +22599,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "660",
+                                    "ControlUniqueId": "500",
                                     "Children": []
                                   }
                                 ]
@@ -22712,7 +22712,7 @@
                                   {
                                     "Property": "BorderColor",
                                     "Category": "Design",
-                                    "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, nfVermelhoTexto)",
+                                    "InvariantScript": "If(IsBlank(locSel.Status), nfLinhaForte, Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, \"Descontinuado\", nfVermelhoTexto, nfTexto))",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -22754,7 +22754,7 @@
                                   {
                                     "Property": "Fill",
                                     "Category": "Design",
-                                    "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeFundo, \"Em avaliação\", nfAmbarFundo, nfVermelhoFundo)",
+                                    "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeFundo, \"Em avaliação\", nfAmbarFundo, \"Descontinuado\", nfVermelhoFundo, nfSuperficie)",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -22974,7 +22974,7 @@
                                   "DropShadow"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "661",
+                                "ControlUniqueId": "501",
                                 "Children": [
                                   {
                                     "Type": "ControlInfo",
@@ -23138,7 +23138,7 @@
                                       {
                                         "Property": "Color",
                                         "Category": "Design",
-                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, nfVermelhoTexto)",
+                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, \"Descontinuado\", nfVermelhoTexto, nfTexto)",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -23430,7 +23430,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "662",
+                                    "ControlUniqueId": "502",
                                     "Children": []
                                   },
                                   {
@@ -23535,7 +23535,7 @@
                                       {
                                         "Property": "Text",
                                         "Category": "Data",
-                                        "InvariantScript": "Text(locSel.Status)",
+                                        "InvariantScript": "If(IsBlank(locSel.Status), \"—\", Text(locSel.Status))",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -23595,7 +23595,7 @@
                                       {
                                         "Property": "Color",
                                         "Category": "Design",
-                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, nfVermelhoTexto)",
+                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, \"Descontinuado\", nfVermelhoTexto, nfTexto)",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -23887,7 +23887,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "663",
+                                    "ControlUniqueId": "503",
                                     "Children": []
                                   },
                                   {
@@ -23992,7 +23992,7 @@
                                       {
                                         "Property": "Text",
                                         "Category": "Data",
-                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", \"Em uso no inventário\", \"Em avaliação\", \"Em análise, ainda sem uso\", \"Descontinuado\", \"Já não é usado\", \"\")",
+                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", \"Em uso no inventário\", \"Em avaliação\", \"Em análise, ainda sem uso\", \"Descontinuado\", \"Já não é usado\", \"Estado por indicar\")",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -24052,7 +24052,7 @@
                                       {
                                         "Property": "Color",
                                         "Category": "Design",
-                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, nfVermelhoTexto)",
+                                        "InvariantScript": "Switch(Text(locSel.Status), \"Ativo\", nfVerdeTexto, \"Em avaliação\", nfAmbar, \"Descontinuado\", nfVermelhoTexto, nfTexto)",
                                         "RuleProviderType": "Unknown"
                                       },
                                       {
@@ -24344,7 +24344,7 @@
                                       "maximumHeight"
                                     ],
                                     "IsLocked": false,
-                                    "ControlUniqueId": "664",
+                                    "ControlUniqueId": "504",
                                     "Children": []
                                   }
                                 ]
@@ -24805,7 +24805,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "665",
+                            "ControlUniqueId": "505",
                             "Children": []
                           },
                           {
@@ -25178,7 +25178,7 @@
                               "DropShadow"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "666",
+                            "ControlUniqueId": "506",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -25634,7 +25634,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "667",
+                                "ControlUniqueId": "507",
                                 "Children": []
                               }
                             ]
@@ -26093,7 +26093,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "668",
+                            "ControlUniqueId": "508",
                             "Children": []
                           },
                           {
@@ -26466,7 +26466,7 @@
                               "DropShadow"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "669",
+                            "ControlUniqueId": "509",
                             "Children": [
                               {
                                 "Type": "ControlInfo",
@@ -26570,7 +26570,7 @@
                                   {
                                     "Property": "Text",
                                     "Category": "Data",
-                                    "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", \"O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.\", \"PaaS\", \"O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.\", \"SaaS\", \"O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.\", \"\")",
+                                    "InvariantScript": "Switch(Text(locSel.'Service Model'), \"IaaS\", \"O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.\", \"PaaS\", \"O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.\", \"SaaS\", \"O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.\", \"Indique o modelo de serviço para ver o que fica a cargo do fornecedor e do cliente.\")",
                                     "RuleProviderType": "Unknown"
                                   },
                                   {
@@ -26922,7 +26922,7 @@
                                   "maximumHeight"
                                 ],
                                 "IsLocked": false,
-                                "ControlUniqueId": "670",
+                                "ControlUniqueId": "510",
                                 "Children": []
                               }
                             ]
@@ -27299,7 +27299,7 @@
                           "DropShadow"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "620",
+                        "ControlUniqueId": "460",
                         "Children": [
                           {
                             "Type": "ControlInfo",
@@ -27741,7 +27741,7 @@
                               "minimumWidth"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "621",
+                            "ControlUniqueId": "461",
                             "Children": []
                           },
                           {
@@ -28198,7 +28198,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "622",
+                            "ControlUniqueId": "462",
                             "Children": []
                           }
                         ]
@@ -28657,7 +28657,7 @@
                           "maximumHeight"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "671",
+                        "ControlUniqueId": "511",
                         "Children": []
                       },
                       {
@@ -29030,7 +29030,7 @@
                           "DropShadow"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "672",
+                        "ControlUniqueId": "512",
                         "Children": [
                           {
                             "Type": "ControlInfo",
@@ -29472,7 +29472,7 @@
                               "minimumWidth"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "673",
+                            "ControlUniqueId": "513",
                             "Children": []
                           },
                           {
@@ -29915,7 +29915,7 @@
                               "minimumWidth"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "675",
+                            "ControlUniqueId": "515",
                             "Children": []
                           },
                           {
@@ -30358,7 +30358,7 @@
                               "minimumWidth"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "676",
+                            "ControlUniqueId": "516",
                             "Children": []
                           },
                           {
@@ -30801,7 +30801,7 @@
                               "minimumWidth"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "677",
+                            "ControlUniqueId": "517",
                             "Children": []
                           },
                           {
@@ -31258,7 +31258,7 @@
                               "maximumHeight"
                             ],
                             "IsLocked": false,
-                            "ControlUniqueId": "674",
+                            "ControlUniqueId": "514",
                             "Children": []
                           }
                         ]
@@ -31488,7 +31488,7 @@
           "PreserveAspectRatio"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "678",
+        "ControlUniqueId": "518",
         "Children": []
       },
       {
@@ -31918,7 +31918,7 @@
           "minimumWidth"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "689",
+        "ControlUniqueId": "529",
         "Children": []
       },
       {
@@ -32229,7 +32229,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "685",
+        "ControlUniqueId": "525",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -32608,7 +32608,7 @@
               "PreserveAspectRatio"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "688",
+            "ControlUniqueId": "528",
             "Children": []
           },
           {
@@ -33065,7 +33065,7 @@
               "maximumHeight"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "687",
+            "ControlUniqueId": "527",
             "Children": []
           },
           {
@@ -33445,7 +33445,7 @@
               "PreserveAspectRatio"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "686",
+            "ControlUniqueId": "526",
             "Children": []
           }
         ]
@@ -33758,7 +33758,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "679",
+        "ControlUniqueId": "519",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -34214,7 +34214,7 @@
               "maximumHeight"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "680",
+            "ControlUniqueId": "520",
             "Children": []
           },
           {
@@ -34671,7 +34671,7 @@
               "maximumHeight"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "681",
+            "ControlUniqueId": "521",
             "Children": []
           },
           {
@@ -35044,7 +35044,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "682",
+            "ControlUniqueId": "522",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -35486,7 +35486,7 @@
                   "minimumWidth"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "683",
+                "ControlUniqueId": "523",
                 "Children": []
               },
               {
@@ -35929,7 +35929,7 @@
                   "minimumWidth"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "684",
+                "ControlUniqueId": "524",
                 "Children": []
               }
             ]
