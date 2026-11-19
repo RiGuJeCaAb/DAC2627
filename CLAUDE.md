@@ -49,7 +49,7 @@ python -m tools.dac colar --estrito   # blocos para o Studio, ORDEM.md e verific
 - Nas partes A a G do Manual o aluno escreve as fórmulas à mão. O `dac colar` é só do repositório (parte H).
 - A tabela `mcsft_cloudservice1` fica no ambiente: pertence à solução DACCCMB2426Final e tem dados (decisão do utilizador).
 - Cinco pílulas decorativas com `TabIndex = -1` e exceção DAC302 em `dac.yaml`: `btnL2ItemModelo`, `btnL3Iniciais`, `btnL3bIniciais`, `btnL3PubIniciais`, `btnL4PedEstado`.
-- O Verificador marca qualquer controlo com `TabIndex = -1` fora de galerias com `Select(Parent)`: 134 avisos de tabulação e 11 de `AccessibleLabel` em decorativos ficam de propósito (`docs/alm.md`). Não dar `TabIndex = 0` a etiquetas decorativas para os limpar.
+- O Verificador marca qualquer controlo com `TabIndex = -1` fora de galerias com `Select(Parent)`: na v1.3.0, 198 avisos de tabulação e 8 de `AccessibleLabel` em decorativos ficam de propósito (`docs/alm.md`). Não dar `TabIndex = 0` a etiquetas decorativas para os limpar.
 - O Studio apaga ao guardar os valores por omissão (`TabIndex -1` e `Size 13` em etiquetas, `AccessibleLabel ""` e `TabIndex -1` em ícones e retângulos, `DropShadow.Light` em contentores). Não os escrever: `yamlio.OMISSAO` e o lint DAC504 tratam disso. Uma propriedade ausente vale o valor por omissão.
 - A exportação da solução leva a versão **publicada**. Depois de colar: guardar, publicar, exportar, `dac sincronizar`, `dac deriva`. A ordem de colagem está em `build/colar/ORDEM.md` (gerado por `dac colar`, calculado em `tools/dac/ordem.py`).
 - Contentores interiores com `DropShadow.None`; filhos de altura fixa com `FillPortions = 0`; etiquetas e ícones dentro de galerias com `OnSelect = Select(Parent)`.
@@ -59,6 +59,6 @@ python -m tools.dac colar --estrito   # blocos para o Studio, ORDEM.md e verific
 1. Filtros duplicados entre galerias e contagens (`galL2Servicos.Items`/`lblL2Contagem`, `galL3Publicacoes.Items`/`lblL3Contagem`): candidatos a funções definidas pelo utilizador em `App.Formulas`, confirmando primeiro no Studio que a delegação se mantém.
 2. Tamanhos de letra e espaçamentos como tokens (`nfTam*`), como já se faz com as cores.
 3. Delegação e desempenho com tabelas acima de 500 registos.
-4. Verificador na v1.2.0 depois da m003: 145 avisos, todos de controlos decorativos com `TabIndex = -1` ou `AccessibleLabel ""` (ver `docs/alm.md`). Cores literais: zero.
+4. Verificador na v1.3.0: 206 avisos (198 de tabulação, 8 de `AccessibleLabel`), todos de controlos decorativos com `TabIndex = -1` ou `AccessibleLabel ""` (ver `docs/alm.md`). Os 64 a mais do que na v1.2.0 são as etiquetas de texto do `scrL4Complemento`. Cores literais: zero.
 
 Ao propor alterações, mostre o excerto YAML antes e depois e indique o ecrã e o controlo. Responda em português de Portugal.
