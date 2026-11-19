@@ -30,7 +30,8 @@ from tools.dac import projeto, yamlio
 VERSAO = "1.4.0"
 ECRA = "scrL2Servicos"
 S = f"{ECRA}.Size"
-LARGO = f"{S} >= ScreenSize.Large"
+# lado a lado só com espaço para os três cartões: no monitor vertical o painel tem ~560 px e cortava os rótulos
+LARGO = "conL2Ficha.Width >= 720"
 VER = "frmL2Servico.Mode = FormMode.View && !IsBlank(locSel)"
 MODELO = "Text(locSel.'Service Model')"
 ESTADO = "Text(locSel.Status)"
@@ -89,7 +90,7 @@ def _cartao(chave: str, rotulo: str, valor: str, nota: str, cor: str, fundo: str
     """Cartão de um facto: rótulo pequeno em maiúsculas, valor em destaque e uma nota."""
     filhos = [
         _etiqueta(f"lblL2Ficha{chave}Rotulo", _s(rotulo.upper()), Color="=" + cor, FontWeight="=FontWeight.Semibold",
-                  Height="=18", Size="=11"),
+                  Height="=18", Size="=11", Wrap="=false"),
         _etiqueta(f"lblL2Ficha{chave}", valor, Color="=" + cor, FontWeight="=FontWeight.Bold", Height="=30", Size="=18",
                   Wrap="=false"),
         _etiqueta(f"lblL2Ficha{chave}Nota", nota, Color="=" + cor, Height="=20", Size="=12", Wrap="=false"),
@@ -102,7 +103,7 @@ def _cartao(chave: str, rotulo: str, valor: str, nota: str, cor: str, fundo: str
 
 def _seccao(chave: str, titulo: str) -> dict:
     return _etiqueta(f"lblL2Ficha{chave}Tit", _s(titulo), Color="=nfAzul", FontWeight="=FontWeight.Semibold",
-                     Height="=28", PaddingTop="=4", Size="=15")
+                     Height="=36", PaddingTop="=12", Size="=15")
 
 
 def conteudo_ficha() -> dict:
@@ -120,16 +121,19 @@ def conteudo_ficha() -> dict:
         _cartao("Fornecedor", "Fornecedor", "locSel.Provider", nota_fornecedor, "nfTexto", "nfSuperficie", "nfLinhaForte"),
         _cartao("Modelo", "Modelo de serviço", MODELO, nota_modelo, cor_modelo, fundo_modelo, cor_modelo),
         _cartao("Estado", "Estado", ESTADO, nota_estado, cor_estado, fundo_estado, cor_estado),
-    ], Height=f"=If({LARGO}, 96, 3 * 96 + 2 * 12)", LayoutDirection=f"=If({LARGO}, LayoutDirection.Horizontal, LayoutDirection.Vertical)",
-        LayoutGap="=12")
-    caixa = dict(AutoHeight="=true", Height="=48", PaddingBottom="=14", PaddingLeft="=16", PaddingRight="=16",
-                 PaddingTop="=14", Size="=14")
-    descricao = _etiqueta("lblL2FichaDescricao",
-                          "If(IsBlank(Trim(locSel.'Service Description')), \"Sem descrição.\", locSel.'Service Description')",
-                          BorderColor="=nfLinhaForte", BorderThickness="=1", Fill="=nfSuperficie", **caixa)
+    ], Height=f"=If({LARGO}, 96, 3 * 96 + 2 * 12) + 2", LayoutDirection=f"=If({LARGO}, LayoutDirection.Horizontal, LayoutDirection.Vertical)",
+        LayoutGap="=12", PaddingBottom="=1", PaddingLeft="=1", PaddingRight="=1", PaddingTop="=1")  # o contorno dos cartões não fica rente ao corte
+    def caixa(chave: str, texto: str, fundo: str, contorno: str | None) -> dict:
+        """Caixa de texto com cantos redondos: a etiqueta não tem Radius, por isso vai dentro de um contentor."""
+        lbl = _etiqueta(f"lblL2Ficha{chave}", texto, AutoHeight="=true", Height="=48", PaddingBottom="=14",
+                        PaddingLeft="=16", PaddingRight="=16", PaddingTop="=14", Size="=14")
+        extra = {"BorderColor": "=" + contorno, "BorderThickness": "=1"} if contorno else {}
+        return _contentor(f"conL2Ficha{chave}", [lbl], Fill="=" + fundo, Height=f"=lblL2Ficha{chave}.Height + 2",
+                          PaddingBottom="=1", PaddingLeft="=1", PaddingRight="=1", PaddingTop="=1", **extra, **_raio(8))
+    descricao = caixa("Descricao", "If(IsBlank(Trim(locSel.'Service Description')), \"Sem descrição.\", locSel.'Service Description')",
+                      "nfSuperficie", "nfLinhaForte")
     resp = " ".join(f'"{m}", {_s(t)},' for m, t in RESPONSABILIDADE.items())
-    responsabilidade = _etiqueta("lblL2FichaResponsabilidade", f"Switch({MODELO}, {resp} \"\")",
-                                 Color="=nfTexto", Fill="=nfAzulClaro", **caixa)
+    responsabilidade = caixa("Responsabilidade", f"Switch({MODELO}, {resp} \"\")", "nfAzulClaro", None)
     filhos = [factos, _seccao("Descricao", "Descrição"), descricao,
               _seccao("Responsabilidade", "Quem gere o quê"), responsabilidade]
     return _ctl("conL2Ficha", "GroupContainer@1.5.0", {

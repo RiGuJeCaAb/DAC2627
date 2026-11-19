@@ -828,9 +828,13 @@ Screens:
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          Height: =If(scrL2Servicos.Size >= ScreenSize.Large, 96, 3 * 96 + 2 * 12)
-                                          LayoutDirection: =If(scrL2Servicos.Size >= ScreenSize.Large, LayoutDirection.Horizontal, LayoutDirection.Vertical)
+                                          Height: =If(conL2Ficha.Width >= 720, 96, 3 * 96 + 2 * 12) + 2
+                                          LayoutDirection: =If(conL2Ficha.Width >= 720, LayoutDirection.Horizontal, LayoutDirection.Vertical)
                                           LayoutGap: =12
+                                          PaddingBottom: =1
+                                          PaddingLeft: =1
+                                          PaddingRight: =1
+                                          PaddingTop: =1
                                         Children:
                                           - conL2FichaFornecedor:
                                               Control: GroupContainer@1.5.0
@@ -841,7 +845,7 @@ Screens:
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
                                                 Fill: =nfSuperficie
-                                                FillPortions: =If(scrL2Servicos.Size >= ScreenSize.Large, 1, 0)
+                                                FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
                                                 Height: =96
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =2
@@ -865,6 +869,7 @@ Screens:
                                                       Height: =18
                                                       Size: =11
                                                       Text: ="FORNECEDOR"
+                                                      Wrap: =false
                                                 - lblL2FichaFornecedor:
                                                     Control: Label@2.5.1
                                                     Properties:
@@ -896,7 +901,7 @@ Screens:
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
                                                 Fill: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)
-                                                FillPortions: =If(scrL2Servicos.Size >= ScreenSize.Large, 1, 0)
+                                                FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
                                                 Height: =96
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =2
@@ -920,6 +925,7 @@ Screens:
                                                       Height: =18
                                                       Size: =11
                                                       Text: ="MODELO DE SERVIÇO"
+                                                      Wrap: =false
                                                 - lblL2FichaModelo:
                                                     Control: Label@2.5.1
                                                     Properties:
@@ -950,7 +956,7 @@ Screens:
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
                                                 Fill: =Switch(Text(locSel.Status), "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, nfVermelhoFundo)
-                                                FillPortions: =If(scrL2Servicos.Size >= ScreenSize.Large, 1, 0)
+                                                FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
                                                 Height: =96
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =2
@@ -974,6 +980,7 @@ Screens:
                                                       Height: =18
                                                       Size: =11
                                                       Text: ="ESTADO"
+                                                      Wrap: =false
                                                 - lblL2FichaEstado:
                                                     Control: Label@2.5.1
                                                     Properties:
@@ -1002,27 +1009,44 @@ Screens:
                                           Color: =nfAzul
                                           FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Semibold
-                                          Height: =28
-                                          PaddingTop: =4
+                                          Height: =36
+                                          PaddingTop: =12
                                           Size: =15
                                           Text: ="Descrição"
-                                    - lblL2FichaDescricao:
-                                        Control: Label@2.5.1
+                                    - conL2FichaDescricao:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
                                         Properties:
-                                          AlignInContainer: =AlignInContainer.Stretch
-                                          AutoHeight: =true
                                           BorderColor: =nfLinhaForte
                                           BorderThickness: =1
-                                          Color: =nfTexto
+                                          DropShadow: =DropShadow.None
                                           Fill: =nfSuperficie
-                                          FocusedBorderThickness: =2
-                                          Height: =48
-                                          PaddingBottom: =14
-                                          PaddingLeft: =16
-                                          PaddingRight: =16
-                                          PaddingTop: =14
-                                          Size: =14
-                                          Text: =If(IsBlank(Trim(locSel.'Service Description')), "Sem descrição.", locSel.'Service Description')
+                                          FillPortions: =0
+                                          Height: =lblL2FichaDescricao.Height + 2
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          PaddingBottom: =1
+                                          PaddingLeft: =1
+                                          PaddingRight: =1
+                                          PaddingTop: =1
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                        Children:
+                                          - lblL2FichaDescricao:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FocusedBorderThickness: =2
+                                                Height: =48
+                                                PaddingBottom: =14
+                                                PaddingLeft: =16
+                                                PaddingRight: =16
+                                                PaddingTop: =14
+                                                Size: =14
+                                                Text: =If(IsBlank(Trim(locSel.'Service Description')), "Sem descrição.", locSel.'Service Description')
                                     - lblL2FichaResponsabilidadeTit:
                                         Control: Label@2.5.1
                                         Properties:
@@ -1030,25 +1054,42 @@ Screens:
                                           Color: =nfAzul
                                           FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Semibold
-                                          Height: =28
-                                          PaddingTop: =4
+                                          Height: =36
+                                          PaddingTop: =12
                                           Size: =15
                                           Text: ="Quem gere o quê"
-                                    - lblL2FichaResponsabilidade:
-                                        Control: Label@2.5.1
+                                    - conL2FichaResponsabilidade:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
                                         Properties:
-                                          AlignInContainer: =AlignInContainer.Stretch
-                                          AutoHeight: =true
-                                          Color: =nfTexto
+                                          DropShadow: =DropShadow.None
                                           Fill: =nfAzulClaro
-                                          FocusedBorderThickness: =2
-                                          Height: =48
-                                          PaddingBottom: =14
-                                          PaddingLeft: =16
-                                          PaddingRight: =16
-                                          PaddingTop: =14
-                                          Size: =14
-                                          Text: =Switch(Text(locSel.'Service Model'), "IaaS", "O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.", "PaaS", "O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.", "SaaS", "O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.", "")
+                                          FillPortions: =0
+                                          Height: =lblL2FichaResponsabilidade.Height + 2
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          PaddingBottom: =1
+                                          PaddingLeft: =1
+                                          PaddingRight: =1
+                                          PaddingTop: =1
+                                          RadiusBottomLeft: =8
+                                          RadiusBottomRight: =8
+                                          RadiusTopLeft: =8
+                                          RadiusTopRight: =8
+                                        Children:
+                                          - lblL2FichaResponsabilidade:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FocusedBorderThickness: =2
+                                                Height: =48
+                                                PaddingBottom: =14
+                                                PaddingLeft: =16
+                                                PaddingRight: =16
+                                                PaddingTop: =14
+                                                Size: =14
+                                                Text: =Switch(Text(locSel.'Service Model'), "IaaS", "O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.", "PaaS", "O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.", "SaaS", "O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.", "")
                               - lblL2PainelVazio:
                                   Control: Label@2.5.1
                                   Properties:

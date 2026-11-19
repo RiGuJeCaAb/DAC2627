@@ -111,9 +111,10 @@ def test_migracao_m005_idempotente_e_ficha(tmp_path):
     # a vista de leitura substitui o formulário em modo View; o formulário fica para criar e editar
     assert ctl["frmL2Servico"].prop("Visible") == "=Self.Mode <> FormMode.View"
     assert "FormMode.View" in ctl["conL2Ficha"].prop("Visible")
-    for nome in ("conL2FichaFornecedor", "conL2FichaModelo", "conL2FichaEstado", "lblL2FichaDescricao",
-                 "lblL2FichaResponsabilidade"):
+    for nome in ("conL2FichaFornecedor", "conL2FichaModelo", "conL2FichaEstado", "conL2FichaDescricao",
+                 "conL2FichaResponsabilidade"):
         assert ctl[nome].pai.nome in ("conL2Ficha", "conL2FichaFactos"), nome
+    assert ctl["lblL2FichaDescricao"].pai.nome == "conL2FichaDescricao"
     rotulos = {c.prop("Text") for c in ctl.values() if c.nome.startswith("DataCardKey")}
     assert not any("DisplayName" in str(r) for r in rotulos), "rótulos do formulário ainda em inglês"
 

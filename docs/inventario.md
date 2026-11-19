@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-10 ecrãs e 416 controlos.
+10 ecrãs e 418 controlos.
 
 ## Navegação
 
@@ -39,7 +39,7 @@ flowchart LR
 | `scrL1BoasVindas` | 9 | GroupContainer 4, Label 3, Icon 1, Button 1 | — | — |
 | `scrL1Pedido` | 12 | GroupContainer 5, Label 3, Icon 2, TextInput 1 | `gblL1Nome`, `locAviso` | — |
 | `scrL1Saudacao` | 12 | GroupContainer 5, Label 3, Icon 2, Button 2 | `gblL1Nome` | — |
-| `scrL2Servicos` | 87 | Label 40, GroupContainer 18, Button 9, TypedDataCard 5 | `locAcao`, `locMsg`, `locMsgTipo`, `locSel`, `locTentou`, `locTimer`, `locUltimaAcao` | Dataverse · Cloud Service |
+| `scrL2Servicos` | 89 | Label 40, GroupContainer 20, Button 9, TypedDataCard 5 | `locAcao`, `locMsg`, `locMsgTipo`, `locSel`, `locTentou`, `locTimer`, `locUltimaAcao` | Dataverse · Cloud Service |
 | `scrL3Lista` | 39 | Label 12, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
@@ -180,9 +180,11 @@ conEcraL2  [GroupContainer/AutoLayout]
               lblL2FichaEstado  [Label]
               lblL2FichaEstadoNota  [Label]
           lblL2FichaDescricaoTit  [Label]
-          lblL2FichaDescricao  [Label]
+          conL2FichaDescricao  [GroupContainer/AutoLayout]
+            lblL2FichaDescricao  [Label]
           lblL2FichaResponsabilidadeTit  [Label]
-          lblL2FichaResponsabilidade  [Label]
+          conL2FichaResponsabilidade  [GroupContainer/AutoLayout]
+            lblL2FichaResponsabilidade  [Label]
         lblL2PainelVazio  [Label]
         conL2Acoes  [GroupContainer/AutoLayout]
           btnL2Remover  [Button]
