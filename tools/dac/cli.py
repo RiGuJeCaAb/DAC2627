@@ -131,7 +131,7 @@ def cmd_formatar(a) -> int:
 def cmd_lint(a) -> int:
     raiz = Path(a.raiz)
     cfg = lint.Config.ler(raiz / "dac.yaml")
-    achados = lint.Analise(projeto.carregar(raiz), cfg).correr()
+    achados = lint.Analise(projeto.carregar(raiz), cfg, projeto.propriedades_exportadas(raiz)).correr()
     if a.regra:
         achados = [x for x in achados if x.regra in a.regra]
     conta = Counter(x.gravidade for x in achados)
@@ -245,8 +245,8 @@ def cmd_colar(a) -> int:
     (destino / "TODOS_OS_ECRAS.yaml").write_text(yamlio.escrever_texto(todos, cabecalho=False), encoding="utf-8")
     app = _ler_app(raiz)
     f = str(app["Formulas"]).lstrip("=")
-    (destino / "App.Formulas.invariante.txt").write_text(f + "\n", encoding="utf-8")
-    (destino / "App.Formulas.pt.txt").write_text(pafx.para_pt(f) + "\n", encoding="utf-8")
+    (destino / "App.Formulas.invariante.txt").write_text(f, encoding="utf-8")
+    (destino / "App.Formulas.pt.txt").write_text(pafx.para_pt(f), encoding="utf-8")
     pilulas = sum(1 for x in (cfg.get("lint") or {}).get("excecoes", []) if x.get("regra") == "DAC302")
     m = re.search(r'nfVersao = "([0-9.]+)"', f)
     fora = {e for d in docs.values() for e in (d.get("Screens") or {})} - set(pedidos)

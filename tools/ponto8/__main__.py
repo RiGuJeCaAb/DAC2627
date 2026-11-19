@@ -7,7 +7,6 @@ O ecrã scrL4Complemento sai do mesmo ficheiro (migração m004): mudar o texto 
 from __future__ import annotations
 
 import json
-import re
 import subprocess
 import sys
 from datetime import datetime
@@ -20,10 +19,6 @@ from tools.dac import projeto
 MESES = ["jan.", "fev.", "mar.", "abr.", "maio", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."]
 SITES = {"support.microsoft.com": "Microsoft Support", "learn.microsoft.com": "Microsoft Learn",
          "powerapps.microsoft.com": "Microsoft Power Apps", "www.microsoft.com": "Microsoft"}
-
-
-def frases(texto: str) -> list[str]:
-    return [f.strip() for f in re.findall(r"[^.!?]+[.!?]+(?:\s|$)", " ".join(str(texto).split()))]
 
 
 def dados(raiz: Path, agora: datetime) -> dict:
@@ -39,14 +34,19 @@ def dados(raiz: Path, agora: datetime) -> dict:
     servicos = []
     for s in c["servicos"]:
         anos = ", ".join(sorted(letra[r] for r in s["refs"]))
-        servicos.append({**s, "nome_curto": doc["nome_curto"][s["id"]], "citacao": f"(Microsoft, {anos})"})
+        servicos.append({**s, "citacao": f"(Microsoft, {anos})"})
+    questoes = []
+    for qq in doc.get("questoes", []):
+        anos = ", ".join(sorted(letra[r] for r in qq["refs"]))
+        questoes.append({"titulo": qq["titulo"], "pergunta": " ".join(qq["pergunta"].split()),
+                         "resposta": qq["resposta"], "citacao": f"(Microsoft, {anos})"})
     todas = sorted(letra.values())
     return {
         "capa": doc["capa"], "introducao": doc["introducao"], "servicos": servicos,
         "criterios": c["criterios"], "comparacao_intro": doc["comparacao_intro"],
         "tabela_legenda": doc["tabela_legenda"],
         "tabela_fonte": f"Fonte: elaboração própria, a partir de Microsoft ({todas[0]} a {todas[-1]}).",
-        "conclusao": frases(c["conclusao"]), "referencias": refs,
+        "questoes": questoes, "conclusao": c["conclusao"], "referencias": refs,
     }
 
 

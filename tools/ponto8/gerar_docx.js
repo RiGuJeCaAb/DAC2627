@@ -19,7 +19,6 @@ const p = (texto, extra = {}) => new Paragraph({
   alignment: AlignmentType.JUSTIFIED,
   indent: { firstLine: Math.round(1.25 * CM) },
   spacing: { line: 360, after: 120 },
-  keepLines: true,
   children: [new TextRun({ text: texto, font: FONTE, size: 24 })],
   ...extra,
 });
@@ -31,13 +30,15 @@ const titulo = (texto, nivel, novaPagina = false) => new Paragraph({
   heading: nivel, pageBreakBefore: novaPagina, keepNext: true, keepLines: true,
   children: [new TextRun({ text: texto, font: FONTE, bold: true, size: nivel === HeadingLevel.HEADING_1 ? 28 : 24 })],
 });
-const item = (texto) => new Paragraph({
+// Tópico com título a negrito: «Título. Texto»
+const item = (tit, texto) => new Paragraph({
   numbering: { reference: "pontos", level: 0 }, alignment: AlignmentType.JUSTIFIED,
-  spacing: { line: 360, after: 60 }, keepLines: true,
-  children: [new TextRun({ text: texto, font: FONTE, size: 24 })],
+  spacing: { line: 360, after: 80 },
+  children: [new TextRun({ text: `${tit}. `, font: FONTE, size: 24, bold: true }),
+             new TextRun({ text: texto, font: FONTE, size: 24 })],
 });
-// Uma frase por parágrafo (regra de escrita do projeto)
-const frases = (texto) => texto.replace(/\s+/g, " ").trim().match(/[^.!?]+[.!?]+(\s|$)/g).map((f) => f.trim());
+// Os textos chegam em parágrafos desenvolvidos: cada entrada é um parágrafo, nunca se parte em frases.
+const comCitacao = (texto, citacao) => texto.replace(/\.$/, ` ${citacao}.`);
 
 const cap = [];
 // ---- Capa
@@ -57,21 +58,22 @@ cap.push(
 cap.push(titulo("INTRODUÇÃO", HeadingLevel.HEADING_1, true));
 for (const f of d.introducao) cap.push(p(f));
 
-// ---- Um capítulo por serviço
-const romanos = ["I", "II", "III", "IV", "V"];
+// ---- Um capítulo por serviço: fundamentação, aspeto técnico, fatores e síntese
+const romanos = ["I", "II", "III", "IV", "V", "VI"];
 d.servicos.forEach((s, i) => {
   const r = romanos[i];
-  cap.push(titulo(`${r}. ${s.nome.toUpperCase()}`, HeadingLevel.HEADING_1, true));
-  cap.push(titulo(`${r}.1. O que é`, HeadingLevel.HEADING_2));
-  const fs_ = frases(s.oque);
-  // a citação vai na frase da definição (a primeira), que é a que vem das fontes
-  fs_.forEach((f, k) => cap.push(p(k === 0 ? f.replace(/\.$/, ` ${s.citacao}.`) : f)));
-  cap.push(titulo(`${r}.2. Fatores positivos`, HeadingLevel.HEADING_2));
-  cap.push(p(`Do lado positivo, ${s.nome_curto} apresenta os seguintes fatores:`));
-  s.favor.forEach((t, k) => cap.push(item(k === s.favor.length - 1 ? t.replace(/\.$/, ` ${s.citacao}.`) : t)));
-  cap.push(titulo(`${r}.3. Fatores menos positivos`, HeadingLevel.HEADING_2));
-  cap.push(p(`Do lado menos positivo, há a ter em conta:`));
-  s.contra.forEach((t, k) => cap.push(item(k === s.contra.length - 1 ? t.replace(/\.$/, ` ${s.citacao}.`) : t)));
+  cap.push(titulo(`${r}. ${s.nome.toUpperCase()}: ${s.modelo.toUpperCase()}`, HeadingLevel.HEADING_1, true));
+  cap.push(titulo(`${r}.1. Fundamentação arquitetural`, HeadingLevel.HEADING_2));
+  s.oque.forEach((f, k) => cap.push(p(k === s.oque.length - 1 ? comCitacao(f, s.citacao) : f)));
+  cap.push(titulo(`${r}.2. ${s.aprofundamento.titulo}`, HeadingLevel.HEADING_2));
+  const ap = s.aprofundamento.paragrafos;
+  ap.forEach((f, k) => cap.push(p(k === ap.length - 1 ? comCitacao(f, s.citacao) : f)));
+  cap.push(titulo(`${r}.3. Fatores positivos`, HeadingLevel.HEADING_2));
+  s.favor.forEach((t) => cap.push(item(t.titulo, t.texto)));
+  cap.push(titulo(`${r}.4. Fatores menos positivos`, HeadingLevel.HEADING_2));
+  s.contra.forEach((t) => cap.push(item(t.titulo, t.texto)));
+  cap.push(titulo(`${r}.5. Síntese`, HeadingLevel.HEADING_2));
+  cap.push(p(s.sintese));
 });
 
 // ---- Comparação
@@ -108,6 +110,21 @@ cap.push(new Paragraph({
   alignment: AlignmentType.LEFT, spacing: { before: 120, after: 240 },
   children: [new TextRun({ text: d.tabela_fonte, font: FONTE, size: 20 })],
 }));
+
+// ---- Questões de análise: a pergunta em itálico e a resposta fundamentada
+if (d.questoes && d.questoes.length) {
+  const rV = romanos[d.servicos.length + 1];
+  cap.push(titulo(`${rV}. QUESTÕES DE ANÁLISE`, HeadingLevel.HEADING_1, true));
+  d.questoes.forEach((q, i) => {
+    cap.push(titulo(`${rV}.${i + 1}. ${q.titulo}`, HeadingLevel.HEADING_2));
+    cap.push(new Paragraph({
+      alignment: AlignmentType.JUSTIFIED, spacing: { line: 360, after: 120 }, keepNext: true,
+      children: [new TextRun({ text: "Questão. ", font: FONTE, size: 24, bold: true }),
+                 new TextRun({ text: q.pergunta, font: FONTE, size: 24, italics: true })],
+    }));
+    q.resposta.forEach((f, k) => cap.push(p(k === q.resposta.length - 1 ? comCitacao(f, q.citacao) : f)));
+  });
+}
 
 // ---- Conclusão (sem numeração)
 cap.push(titulo("CONCLUSÃO", HeadingLevel.HEADING_1, true));

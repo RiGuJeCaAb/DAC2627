@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-10 ecrãs e 376 controlos.
+10 ecrãs e 398 controlos.
 
 ## Navegação
 
@@ -44,7 +44,7 @@ flowchart LR
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
 | `scrL4Pedidos` | 103 | Label 44, Button 15, GroupContainer 13, TypedDataCard 9 | `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista` | — |
-| `scrL4Complemento` | 69 | Label 55, GroupContainer 11, Button 2, Icon 1 | `locL4bVista` | — |
+| `scrL4Complemento` | 91 | Label 75, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
 
 ## scrInicio
 
@@ -409,23 +409,35 @@ conEcraL4b  [GroupContainer/AutoLayout]
     lblL4bTitulo  [Label]
     lblL4bIntro  [Label]
     lblL4bSpNome  [Label]
+    lblL4bSpModelo  [Label]
     lblL4bSpOQue  [Label]
+    lblL4bSpAprofTit  [Label]
+    lblL4bSpAprof  [Label]
     lblL4bSpFavorTit  [Label]
     lblL4bSpFavor  [Label]
     lblL4bSpContraTit  [Label]
     lblL4bSpContra  [Label]
+    lblL4bSpSintese  [Label]
     lblL4bDvNome  [Label]
+    lblL4bDvModelo  [Label]
     lblL4bDvOQue  [Label]
+    lblL4bDvAprofTit  [Label]
+    lblL4bDvAprof  [Label]
     lblL4bDvFavorTit  [Label]
     lblL4bDvFavor  [Label]
     lblL4bDvContraTit  [Label]
     lblL4bDvContra  [Label]
+    lblL4bDvSintese  [Label]
     lblL4bSqlNome  [Label]
+    lblL4bSqlModelo  [Label]
     lblL4bSqlOQue  [Label]
+    lblL4bSqlAprofTit  [Label]
+    lblL4bSqlAprof  [Label]
     lblL4bSqlFavorTit  [Label]
     lblL4bSqlFavor  [Label]
     lblL4bSqlContraTit  [Label]
     lblL4bSqlContra  [Label]
+    lblL4bSqlSintese  [Label]
     btnL4bVerTabela  [Button]
     lblL4bTabIntro  [Label]
     conL4bCabecalho  [GroupContainer/AutoLayout]
@@ -468,6 +480,16 @@ conEcraL4b  [GroupContainer/AutoLayout]
       lblL4bSp7  [Label]
       lblL4bDv7  [Label]
       lblL4bSql7  [Label]
+    conL4bLinha8  [GroupContainer/AutoLayout]
+      lblL4bCrit8  [Label]
+      lblL4bSp8  [Label]
+      lblL4bDv8  [Label]
+      lblL4bSql8  [Label]
+    conL4bLinha9  [GroupContainer/AutoLayout]
+      lblL4bCrit9  [Label]
+      lblL4bSp9  [Label]
+      lblL4bDv9  [Label]
+      lblL4bSql9  [Label]
     lblL4bConclusao  [Label]
     btnL4bVoltarTexto  [Button]
 ```

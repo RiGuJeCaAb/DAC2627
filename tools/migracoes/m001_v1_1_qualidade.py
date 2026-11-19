@@ -241,7 +241,11 @@ def migrar_documento(doc: dict) -> None:
         # Uma migração posterior (m002, ...) pode já ter subido nfVersao: mantém-se a versão mais recente.
         atual = re.search(r'nfVersao = "([0-9.]+)"', str(p.get("Formulas") or ""))
         versao = atual.group(1) if atual and tuple(map(int, atual.group(1).split("."))) > tuple(map(int, VERSAO.split("."))) else VERSAO
-        p["Formulas"] = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
+        novo = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
+        # Colado com uma linha em branco no fim, o Studio guarda-a (bloco |+ no YAML). É o mesmo texto:
+        # não se reescreve, para a migração não criar diferenças com a exportação.
+        if str(p.get("Formulas") or "").rstrip() != novo.rstrip():
+            p["Formulas"] = novo
         # O Studio apaga StartScreen quando é o primeiro ecrã (valor por omissão): só se limpa se existir.
         if "StartScreen" in p:
             p["StartScreen"] = "=" + str(p["StartScreen"]).lstrip("=").strip()

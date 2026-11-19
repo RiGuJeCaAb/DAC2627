@@ -101,11 +101,13 @@ def test_valor_por_omissao_escrito():
     r = _regras(_app(), _ecra("scrL1A", [
         _c("lblL1A", "Label@2.5.1", {"TabIndex": "=-1", "FocusedBorderThickness": "=2", "Size": "=13"}),
         _c("conL1B", "GroupContainer@1.5.0", {"DropShadow": "=DropShadow.Light"}),
-        _c("btnL1C", "Classic/Button@2.2.0", {"OnSelect": "=Back()", "TabIndex": "=0", "Width": "=120", "Height": "=44"}),
+        _c("btnL1C", "Classic/Button@2.2.0", {"OnSelect": "=Back()", "Width": "=120", "Height": "=44"}),
+        _c("btnL1D", "Classic/Button@2.2.0", {"OnSelect": "=Back()", "TabIndex": "=0", "Width": "=120", "Height": "=44"}),
     ]))
     assert ("DAC504", "lblL1A") in r and ("DAC504", "conL1B") in r
-    assert sum(1 for x in r if x[0] == "DAC504") == 3
-    assert ("DAC504", "btnL1C") not in r
+    # o Studio apaga TabIndex 0 nos botões (visto na 1.0.0.4)
+    assert ("DAC504", "btnL1D") in r and ("DAC504", "btnL1C") not in r
+    assert sum(1 for x in r if x[0] == "DAC504") == 4
 
 
 def test_sombra_dentro_de_sombra():
@@ -133,3 +135,27 @@ def test_excecao_precisa_de_motivo():
     assert ("DAC302", "btnL1C") not in _regras(_app(), doc, cfg=com)
     r = _regras(_app(), doc, cfg=sem)
     assert ("DAC302", "btnL1C") in r and any(x[0] == "DAC900" for x in r)
+
+
+def test_propriedade_desconhecida():
+    conhecidas = {"groupcontainer": {"LayoutOverflowY", "LayoutDirection"}, "label": {"Text"},
+                  "dropdown": {"Items"}, "screen": {"Fill"}}
+    ecra = _ecra("scrL1A", [
+        _c("conL1A", "GroupContainer@1.5.0", {"LayoutOverflow": "=LayoutOverflow.Scroll"}, variante="AutoLayout"),
+        _c("conL1B", "GroupContainer@1.5.0", {"LayoutOverflowY": "=LayoutOverflow.Scroll"}, variante="AutoLayout"),
+        _c("drpL1C", "DropDown@0.0.45", {"Items.Value": "=Value"}),
+        _c("tmrL1D", "Timer@2.1.0", {"Qualquer": "=1"}),
+    ], props={"Fill": "=nfFundo", "Cor": "=1"})
+    d = {"a": _app(), "b": ecra}
+    r = [(a.regra, a.onde) for a in lint.Analise(d, None, conhecidas).correr() if a.regra == "DAC405"]
+    assert r == [("DAC405", "scrL1A.Cor"), ("DAC405", "scrL1A.conL1A.LayoutOverflow")]
+    # sem exportação a regra não corre
+    assert not [a for a in lint.Analise(d).correr() if a.regra == "DAC405"]
+
+
+def test_propriedades_da_exportacao_do_projeto():
+    from tools.dac import projeto
+    p = projeto.propriedades_exportadas()
+    assert "LayoutOverflowY" in p["groupcontainer"] and "LayoutOverflow" not in p["groupcontainer"]
+    assert {"OnSelect", "TemplateFill"} <= p["gallery"]
+    assert "FillPortions" in p["label"]

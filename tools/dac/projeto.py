@@ -39,3 +39,32 @@ def config(raiz: Path = RAIZ) -> dict:
     import yaml
     cfg = raiz / "dac.yaml"
     return (yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}) if cfg.exists() else {}
+
+
+def propriedades_exportadas(raiz: Path = RAIZ) -> dict[str, set[str]]:
+    """Propriedades que o Studio conhece por tipo de controlo, tiradas da exportação (msapp/Controls).
+
+    Chave: nome do modelo em minúsculas (label, groupcontainer, gallery...). Junta as regras
+    e as propriedades dinâmicas (as que o contentor com AutoLayout dá aos filhos). As do modelo
+    da galeria (OnSelect, TemplateFill) contam como da galeria, que é onde o YAML as escreve.
+    Sem exportação devolve um dicionário vazio e a verificação não corre.
+    """
+    import json
+    from collections import defaultdict
+    conhecidas: dict[str, set[str]] = defaultdict(set)
+
+    def anda(no: dict) -> None:
+        nome = ((no.get("Template") or {}).get("Name") or "").lower()
+        if nome == "gallerytemplate":
+            nome = "gallery"
+        for r in no.get("Rules") or []:
+            conhecidas[nome].add(r["Property"])
+        for r in no.get("DynamicProperties") or []:
+            if r.get("PropertyName"):
+                conhecidas[nome].add(r["PropertyName"])
+        for c in no.get("Children") or []:
+            anda(c)
+
+    for f in sorted((raiz / "msapp" / "Controls").glob("*.json")):
+        anda(json.loads(f.read_text(encoding="utf-8")).get("TopParent") or {})
+    return dict(conhecidas)
