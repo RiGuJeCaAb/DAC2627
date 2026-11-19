@@ -4,6 +4,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões d
 
 ## [Por publicar] · repositório
 
+- Correção de 19/11/2026: o `conConteudoL4b` (ecrã `scrL4Complemento`) tinha `LayoutOverflow`, uma propriedade que não existe, e o Studio recusou a colagem com `PA2108`. O nome certo é `LayoutOverflowY`; a `m004` passa a escrevê-lo e apaga o errado. Nova regra `DAC405` (erro): compara cada propriedade com as que o Studio já exportou para esse tipo de controlo (`projeto.propriedades_exportadas`, a partir de `msapp/Controls`), para o lint apanhar estes nomes antes da colagem. Manual F8 e Aula 4 corrigidos. 2 testes novos (61 no total).
 - `dac colar` gera `build/colar/ORDEM.md`, o guia de colagem passo a passo: fontes de dados exigidas, `App.Formulas` na barra de fórmulas, ecrãs pela ordem certa, confirmação e exportação. A ordem é calculada a partir do código (`tools/dac/ordem.py`): um ecrã que recebe variáveis por `Navigate` entra depois de um dos ecrãs que lhas envia. `TODOS_OS_ECRAS.yaml` segue a mesma ordem.
 - `dac.yaml › fontes`: as quatro fontes de dados da app, com a armadilha de cada uma (duas tabelas "Cloud Service" no ambiente).
 - A mensagem do `colar` deixa de sugerir renomear o ecrã antigo: renomear muda as fórmulas dos outros ecrãs para o nome novo.

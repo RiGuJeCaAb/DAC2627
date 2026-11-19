@@ -133,3 +133,27 @@ def test_excecao_precisa_de_motivo():
     assert ("DAC302", "btnL1C") not in _regras(_app(), doc, cfg=com)
     r = _regras(_app(), doc, cfg=sem)
     assert ("DAC302", "btnL1C") in r and any(x[0] == "DAC900" for x in r)
+
+
+def test_propriedade_desconhecida():
+    conhecidas = {"groupcontainer": {"LayoutOverflowY", "LayoutDirection"}, "label": {"Text"},
+                  "dropdown": {"Items"}, "screen": {"Fill"}}
+    ecra = _ecra("scrL1A", [
+        _c("conL1A", "GroupContainer@1.5.0", {"LayoutOverflow": "=LayoutOverflow.Scroll"}, variante="AutoLayout"),
+        _c("conL1B", "GroupContainer@1.5.0", {"LayoutOverflowY": "=LayoutOverflow.Scroll"}, variante="AutoLayout"),
+        _c("drpL1C", "DropDown@0.0.45", {"Items.Value": "=Value"}),
+        _c("tmrL1D", "Timer@2.1.0", {"Qualquer": "=1"}),
+    ], props={"Fill": "=nfFundo", "Cor": "=1"})
+    d = {"a": _app(), "b": ecra}
+    r = [(a.regra, a.onde) for a in lint.Analise(d, None, conhecidas).correr() if a.regra == "DAC405"]
+    assert r == [("DAC405", "scrL1A.Cor"), ("DAC405", "scrL1A.conL1A.LayoutOverflow")]
+    # sem exportação a regra não corre
+    assert not [a for a in lint.Analise(d).correr() if a.regra == "DAC405"]
+
+
+def test_propriedades_da_exportacao_do_projeto():
+    from tools.dac import projeto
+    p = projeto.propriedades_exportadas()
+    assert "LayoutOverflowY" in p["groupcontainer"] and "LayoutOverflow" not in p["groupcontainer"]
+    assert {"OnSelect", "TemplateFill"} <= p["gallery"]
+    assert "FillPortions" in p["label"]

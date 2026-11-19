@@ -64,7 +64,7 @@ Screens:
                   DropShadow: =DropShadow.None
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =12
-                  LayoutOverflow: =LayoutOverflow.Scroll
+                  LayoutOverflowY: =LayoutOverflow.Scroll
                   PaddingBottom: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
                   PaddingLeft: =Max(If(scrL4Complemento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1000) / 2)
                   PaddingRight: =Max(If(scrL4Complemento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1000) / 2)

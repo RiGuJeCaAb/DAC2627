@@ -191,7 +191,9 @@ def migrar_documento(doc: dict, c: dict) -> None:
         for ctl in yamlio.controlos(doc):
             if ctl.nome == "conConteudoL4b":
                 largura = "Max(If(scrL4Complemento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1000) / 2)"
-                ctl.definir("LayoutOverflow", "=LayoutOverflow.Scroll")
+                # a propriedade é LayoutOverflowY (vertical); LayoutOverflow não existe (PA2108)
+                (ctl.corpo.get("Properties") or {}).pop("LayoutOverflow", None)
+                ctl.definir("LayoutOverflowY", "=LayoutOverflow.Scroll")
                 ctl.definir("PaddingLeft", "=" + largura)
                 ctl.definir("PaddingRight", "=" + largura)
                 ctl.corpo["Children"] = conteudo_l4b(c)

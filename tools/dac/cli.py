@@ -131,7 +131,7 @@ def cmd_formatar(a) -> int:
 def cmd_lint(a) -> int:
     raiz = Path(a.raiz)
     cfg = lint.Config.ler(raiz / "dac.yaml")
-    achados = lint.Analise(projeto.carregar(raiz), cfg).correr()
+    achados = lint.Analise(projeto.carregar(raiz), cfg, projeto.propriedades_exportadas(raiz)).correr()
     if a.regra:
         achados = [x for x in achados if x.regra in a.regra]
     conta = Counter(x.gravidade for x in achados)

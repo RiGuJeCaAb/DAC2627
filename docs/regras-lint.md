@@ -18,6 +18,7 @@ Cada achado tem um código estável. Um **erro** faz falhar o CI; um **aviso** t
 | DAC402 | erro | `Text()`, `Len()`, `Left()`, `in`, ... dentro de `Filter`/`LookUp` sobre uma tabela Dataverse: deixa de ser delegável e só vê 500 registos | Comparar a escolha com `LookUp(Choices(...))`, usar `StartsWith` |
 | DAC403 | erro | Referência a um controlo ou ecrã com nome da convenção que não existe | Corrigir o nome (gralha ou controlo renomeado) |
 | DAC404 | aviso | Variável `loc*`, `gbl*` ou `col*` lida mas nunca definida (as `loc*` por ecrã, contando com o `Navigate`) | Definir a variável ou corrigir o nome |
+| DAC405 | erro | Propriedade que o Studio não conhece para o tipo de controlo, comparada com as que aparecem na exportação (`msapp/Controls`). Ex.: `LayoutOverflow` num contentor, quando o nome certo é `LayoutOverflowY`. O Studio recusa a colagem com `PA2108` | Corrigir o nome. Se for uma propriedade legítima que a exportação ainda não usa, colar no Studio para confirmar e registar a exceção em `dac.yaml` |
 | DAC501 | info | `Size` fora da escala tipográfica de `dac.yaml` | Usar um tamanho da escala |
 | DAC502 | aviso | Etiqueta ou ícone dentro de galeria sem `OnSelect = Select(Parent)` | Acrescentar `OnSelect = Select(Parent)` |
 | DAC503 | aviso | Sombra dentro de sombra: contentor com sombra (ausente vale `Light`) dentro de outro com sombra | `DropShadow.None` no contentor de fora ou no de dentro |

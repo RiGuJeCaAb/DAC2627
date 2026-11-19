@@ -38,6 +38,7 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC402": (ERRO, "Função não delegável dentro de Filter/LookUp sobre Dataverse"),
     "DAC403": (ERRO, "Referência a um controlo ou ecrã que não existe"),
     "DAC404": (AVISO, "Variável lida mas nunca definida"),
+    "DAC405": (ERRO, "Propriedade que o Studio não conhece neste tipo de controlo"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
     "DAC503": (AVISO, "Sombra dentro de sombra"),
@@ -144,9 +145,15 @@ def _args_de(codigo: str, inicio: int) -> str:
 
 
 class Analise:
-    def __init__(self, docs: dict[str, dict], cfg: Config | None = None):
-        """docs: {caminho: documento} com o App.pa.yaml e os ecrãs."""
+    def __init__(self, docs: dict[str, dict], cfg: Config | None = None,
+                 conhecidas: dict[str, set[str]] | None = None):
+        """docs: {caminho: documento} com o App.pa.yaml e os ecrãs.
+
+        conhecidas: propriedades por tipo de controlo (projeto.propriedades_exportadas).
+        Sem elas a regra DAC405 não corre.
+        """
         self.cfg = cfg or Config()
+        self.conhecidas = conhecidas or {}
         self.docs = docs
         self.achados: list[Achado] = []
         self.todos: list[Controlo] = [c for d in docs.values() for c in controlos(d)]
@@ -166,6 +173,7 @@ class Analise:
         self._cores()
         self._acessibilidade()
         self._dados()
+        self._propriedades()
         self._layout()
         self._excecoes()
         ordem = {ERRO: 0, AVISO: 1, INFO: 2}
@@ -352,6 +360,27 @@ class Analise:
                             self._add("DAC403", onde, f"'{nome}' não existe")
 
     # ----- DAC5xx -----
+    # o YAML e a exportação nem sempre dão o mesmo nome ao tipo
+    TIPO_MODELO = {"textinput": "text"}
+
+    def _propriedades(self):
+        if not self.conhecidas:
+            return
+        for d in self.docs.values():
+            for ecra, corpo in (d.get("Screens") or {}).items():
+                for k in (corpo.get("Properties") or {}):
+                    if k not in self.conhecidas.get("screen", {k}):
+                        self._add("DAC405", f"{ecra}.{k}", f"Screen não tem a propriedade '{k}'")
+        for c in self.todos:
+            base = c.tipo.split("@")[0].lower()
+            sabidas = self.conhecidas.get(self.TIPO_MODELO.get(base, base))
+            if sabidas is None:
+                continue  # tipo que ainda não está na exportação: nada a comparar
+            for k in (c.corpo.get("Properties") or {}):
+                if k.split(".")[0] not in sabidas and k not in sabidas:
+                    self._add("DAC405", f"{c.ecra}.{c.nome}.{k}",
+                              f"{c.tipo} não tem a propriedade '{k}': o Studio recusa a colagem (PA2108)")
+
     def _layout(self):
         escala = set(self.cfg.tamanhos_letra)
         for c in self.todos:
