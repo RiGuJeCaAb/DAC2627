@@ -346,7 +346,7 @@ Screens:
                                       =UpdateContext({locMsg: "Não foi possível guardar. " & frmL2Servico.Error, locMsgTipo: "erro"})
                                     OnSuccess: |-
                                       =UpdateContext({locSel: frmL2Servico.LastSubmit, locTentou: false, locMsgTipo: "ok", locTimer: true, locMsg: If(locUltimaAcao = "criar", "Serviço " & frmL2Servico.LastSubmit.'Service Title' & " criado.", "Alterações a " & frmL2Servico.LastSubmit.'Service Title' & " guardadas.")}); ViewForm(frmL2Servico)
-                                    Visible: =Self.Mode <> FormMode.View || !IsBlank(locSel)
+                                    Visible: =Self.Mode <> FormMode.View
                                   Children:
                                     - Service Title_DataCard1:
                                         Control: TypedDataCard@1.0.7
@@ -373,7 +373,7 @@ Screens:
                                                 FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
-                                                Text: =Parent.DisplayName
+                                                Text: ="Nome do serviço"
                                                 Width: =Parent.Width - 60
                                                 Wrap: =false
                                                 X: =30
@@ -464,7 +464,7 @@ Screens:
                                                 FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
-                                                Text: =Parent.DisplayName
+                                                Text: ="Estado"
                                                 Width: =Parent.Width - 60
                                                 Wrap: =false
                                                 X: =30
@@ -557,7 +557,7 @@ Screens:
                                                 FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
-                                                Text: =Parent.DisplayName
+                                                Text: ="Fornecedor"
                                                 Width: =Parent.Width - 60
                                                 Wrap: =false
                                                 X: =30
@@ -647,7 +647,7 @@ Screens:
                                                 FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
-                                                Text: =Parent.DisplayName
+                                                Text: ="Modelo de serviço"
                                                 Width: =Parent.Width - 60
                                                 Wrap: =false
                                                 X: =30
@@ -744,7 +744,7 @@ Screens:
                                                 FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
-                                                Text: =Parent.DisplayName
+                                                Text: ="Descrição"
                                                 Width: =Parent.Width - 60
                                                 Wrap: =false
                                                 X: =30
@@ -810,6 +810,245 @@ Screens:
                                                 Width: =30
                                                 Wrap: =false
                                                 Y: =DataCardKey3.Y
+                              - conL2Ficha:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =1
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    LayoutMinHeight: =0
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    Visible: =frmL2Servico.Mode = FormMode.View && !IsBlank(locSel)
+                                  Children:
+                                    - conL2FichaFactos:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =If(scrL2Servicos.Size >= ScreenSize.Large, 96, 3 * 96 + 2 * 12)
+                                          LayoutDirection: =If(scrL2Servicos.Size >= ScreenSize.Large, LayoutDirection.Horizontal, LayoutDirection.Vertical)
+                                          LayoutGap: =12
+                                        Children:
+                                          - conL2FichaFornecedor:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                BorderColor: =nfLinhaForte
+                                                BorderThickness: =1
+                                                DropShadow: =DropShadow.None
+                                                Fill: =nfSuperficie
+                                                FillPortions: =If(scrL2Servicos.Size >= ScreenSize.Large, 1, 0)
+                                                Height: =96
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinWidth: =0
+                                                PaddingBottom: =12
+                                                PaddingLeft: =16
+                                                PaddingRight: =16
+                                                PaddingTop: =12
+                                                RadiusBottomLeft: =8
+                                                RadiusBottomRight: =8
+                                                RadiusTopLeft: =8
+                                                RadiusTopRight: =8
+                                              Children:
+                                                - lblL2FichaFornecedorRotulo:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =nfTexto
+                                                      FocusedBorderThickness: =2
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =18
+                                                      Size: =11
+                                                      Text: ="FORNECEDOR"
+                                                - lblL2FichaFornecedor:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =nfTexto
+                                                      FocusedBorderThickness: =2
+                                                      FontWeight: =FontWeight.Bold
+                                                      Height: =30
+                                                      Size: =18
+                                                      Text: =locSel.Provider
+                                                      Wrap: =false
+                                                - lblL2FichaFornecedorNota:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =nfTexto
+                                                      FocusedBorderThickness: =2
+                                                      Height: =20
+                                                      Size: =12
+                                                      Text: |-
+                                                        =With({n: CountRows(Filter('Cloud Service', Provider = locSel.Provider))}, n & If(n = 1, " serviço", " serviços") & " deste fornecedor no inventário")
+                                                      Wrap: =false
+                                          - conL2FichaModelo:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                BorderColor: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                BorderThickness: =1
+                                                DropShadow: =DropShadow.None
+                                                Fill: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)
+                                                FillPortions: =If(scrL2Servicos.Size >= ScreenSize.Large, 1, 0)
+                                                Height: =96
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinWidth: =0
+                                                PaddingBottom: =12
+                                                PaddingLeft: =16
+                                                PaddingRight: =16
+                                                PaddingTop: =12
+                                                RadiusBottomLeft: =8
+                                                RadiusBottomRight: =8
+                                                RadiusTopLeft: =8
+                                                RadiusTopRight: =8
+                                              Children:
+                                                - lblL2FichaModeloRotulo:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                      FocusedBorderThickness: =2
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =18
+                                                      Size: =11
+                                                      Text: ="MODELO DE SERVIÇO"
+                                                - lblL2FichaModelo:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                      FocusedBorderThickness: =2
+                                                      FontWeight: =FontWeight.Bold
+                                                      Height: =30
+                                                      Size: =18
+                                                      Text: =Text(locSel.'Service Model')
+                                                      Wrap: =false
+                                                - lblL2FichaModeloNota:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
+                                                      FocusedBorderThickness: =2
+                                                      Height: =20
+                                                      Size: =12
+                                                      Text: =Switch(Text(locSel.'Service Model'), "IaaS", "Infraestrutura como serviço", "PaaS", "Plataforma como serviço", "SaaS", "Software como serviço", "")
+                                                      Wrap: =false
+                                          - conL2FichaEstado:
+                                              Control: GroupContainer@1.5.0
+                                              Variant: AutoLayout
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Stretch
+                                                BorderColor: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                BorderThickness: =1
+                                                DropShadow: =DropShadow.None
+                                                Fill: =Switch(Text(locSel.Status), "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, nfVermelhoFundo)
+                                                FillPortions: =If(scrL2Servicos.Size >= ScreenSize.Large, 1, 0)
+                                                Height: =96
+                                                LayoutDirection: =LayoutDirection.Vertical
+                                                LayoutGap: =2
+                                                LayoutMinWidth: =0
+                                                PaddingBottom: =12
+                                                PaddingLeft: =16
+                                                PaddingRight: =16
+                                                PaddingTop: =12
+                                                RadiusBottomLeft: =8
+                                                RadiusBottomRight: =8
+                                                RadiusTopLeft: =8
+                                                RadiusTopRight: =8
+                                              Children:
+                                                - lblL2FichaEstadoRotulo:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                      FocusedBorderThickness: =2
+                                                      FontWeight: =FontWeight.Semibold
+                                                      Height: =18
+                                                      Size: =11
+                                                      Text: ="ESTADO"
+                                                - lblL2FichaEstado:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                      FocusedBorderThickness: =2
+                                                      FontWeight: =FontWeight.Bold
+                                                      Height: =30
+                                                      Size: =18
+                                                      Text: =Text(locSel.Status)
+                                                      Wrap: =false
+                                                - lblL2FichaEstadoNota:
+                                                    Control: Label@2.5.1
+                                                    Properties:
+                                                      AlignInContainer: =AlignInContainer.Stretch
+                                                      Color: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
+                                                      FocusedBorderThickness: =2
+                                                      Height: =20
+                                                      Size: =12
+                                                      Text: =Switch(Text(locSel.Status), "Ativo", "Em uso no inventário", "Em avaliação", "Em análise, ainda sem uso", "Descontinuado", "Já não é usado", "")
+                                                      Wrap: =false
+                                    - lblL2FichaDescricaoTit:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfAzul
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =28
+                                          PaddingTop: =4
+                                          Size: =15
+                                          Text: ="Descrição"
+                                    - lblL2FichaDescricao:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          BorderColor: =nfLinhaForte
+                                          BorderThickness: =1
+                                          Color: =nfTexto
+                                          Fill: =nfSuperficie
+                                          FocusedBorderThickness: =2
+                                          Height: =48
+                                          PaddingBottom: =14
+                                          PaddingLeft: =16
+                                          PaddingRight: =16
+                                          PaddingTop: =14
+                                          Size: =14
+                                          Text: =If(IsBlank(Trim(locSel.'Service Description')), "Sem descrição.", locSel.'Service Description')
+                                    - lblL2FichaResponsabilidadeTit:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          Color: =nfAzul
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =28
+                                          PaddingTop: =4
+                                          Size: =15
+                                          Text: ="Quem gere o quê"
+                                    - lblL2FichaResponsabilidade:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfTexto
+                                          Fill: =nfAzulClaro
+                                          FocusedBorderThickness: =2
+                                          Height: =48
+                                          PaddingBottom: =14
+                                          PaddingLeft: =16
+                                          PaddingRight: =16
+                                          PaddingTop: =14
+                                          Size: =14
+                                          Text: =Switch(Text(locSel.'Service Model'), "IaaS", "O fornecedor gere os centros de dados, o hardware, a rede e a virtualização. O cliente instala e mantém o sistema operativo, o runtime, os dados e as aplicações.", "PaaS", "O fornecedor gere também o sistema operativo, o runtime e a escala. O cliente concentra-se no código, na configuração e nos dados da sua aplicação.", "SaaS", "O fornecedor entrega a aplicação pronta e gere toda a pilha. O cliente configura o serviço, gere os utilizadores e responde pelos seus dados.", "")
                               - lblL2PainelVazio:
                                   Control: Label@2.5.1
                                   Properties:

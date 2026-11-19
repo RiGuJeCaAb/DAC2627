@@ -174,7 +174,10 @@ def conteudo_l4b(c: dict) -> list:
 def migrar_documento(doc: dict, c: dict) -> None:
     if "App" in doc:
         p = doc["App"]["Properties"]
-        p["Formulas"] = re.sub(r'nfVersao = "[0-9.]+";', f'nfVersao = "{VERSAO}";', str(p["Formulas"]))
+        # só sobe a versão: uma migração posterior (m005, ...) pode já a ter passado à frente
+        atual = re.search(r'nfVersao = "([0-9.]+)"', str(p.get("Formulas") or ""))
+        if not atual or tuple(map(int, atual.group(1).split("."))) < tuple(map(int, VERSAO.split("."))):
+            p["Formulas"] = re.sub(r'nfVersao = "[0-9.]+";', f'nfVersao = "{VERSAO}";', str(p["Formulas"]))
         return
     ecras = doc.get("Screens") or {}
     if "scrInicio" in ecras:

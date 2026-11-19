@@ -2,6 +2,10 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
+## [1.4.0] · por colar no Studio
+
+- Ficha 02 (`scrL2Servicos`): o painel de detalhe em modo de leitura passa a ser uma ficha própria (`conL2Ficha`), no lugar do formulário com os rótulos do Dataverse em inglês. Três cartões com contorno para Fornecedor (com o número de serviços desse fornecedor no inventário), Modelo de serviço e Estado, com as cores das etiquetas da lista (IaaS azul, PaaS verde, SaaS laranja; Ativo verde, Em avaliação âmbar, Descontinuado vermelho), a descrição numa caixa delimitada e «Quem gere o quê», o que fica a cargo do fornecedor e do cliente nesse modelo. O `frmL2Servico` fica só para criar e editar, com os rótulos em português. Migração `m005`, teste novo (62 no total).
+
 ## [Por publicar] · repositório
 
 - Exportação 1.0.0.4 (v1.3.0 publicada a 19/11/2026) sincronizada, `dac deriva` a zero. Verificador: 206 avisos, todos de decorativos (138 etiquetas, 48 etiquetas geradas dos cartões de formulário, 8 retângulos, 5 ícones, as 5 pílulas e 8 `AccessibleLabel` em retângulos). O Studio apagou `TabIndex 0` e `FontWeight.Semibold` nos botões e guardou a `App.Formulas` com a linha em branco final (bloco `|+`): os dois botões passam a `yamlio.OMISSAO`, o `yamlio` escreve `|+` byte a byte, as migrações m001 e m002 não reescrevem a fórmula só por essa linha, e o `colar` deixa de acrescentar a linha em branco aos `App.Formulas.*.txt`.

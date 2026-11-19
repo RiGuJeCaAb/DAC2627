@@ -100,6 +100,24 @@ def test_migracao_m004_idempotente(tmp_path):
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
 
 
+def test_migracao_m005_idempotente_e_ficha(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m005_v1_4_ficha02_ficha as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    ctl = {c.nome: c for c in yamlio.controlos(yamlio.ler(raiz / "src" / "screens" / "scrL2Servicos.pa.yaml"))}
+    # a vista de leitura substitui o formulário em modo View; o formulário fica para criar e editar
+    assert ctl["frmL2Servico"].prop("Visible") == "=Self.Mode <> FormMode.View"
+    assert "FormMode.View" in ctl["conL2Ficha"].prop("Visible")
+    for nome in ("conL2FichaFornecedor", "conL2FichaModelo", "conL2FichaEstado", "lblL2FichaDescricao",
+                 "lblL2FichaResponsabilidade"):
+        assert ctl[nome].pai.nome in ("conL2Ficha", "conL2FichaFactos"), nome
+    rotulos = {c.prop("Text") for c in ctl.values() if c.nome.startswith("DataCardKey")}
+    assert not any("DisplayName" in str(r) for r in rotulos), "rótulos do formulário ainda em inglês"
+
+
 def test_ponto8_conteudo_e_ecra_coerentes():
     import yaml
     c = yaml.safe_load((projeto.RAIZ / "conteudo" / "ponto8.yaml").read_text(encoding="utf-8"))
