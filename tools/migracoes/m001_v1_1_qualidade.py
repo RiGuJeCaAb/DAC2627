@@ -182,7 +182,10 @@ def migrar_controlo(c: Controlo) -> None:
 
     # 3. rótulos acessíveis
     if c.nome in ROTULOS:
-        c.definir("AccessibleLabel", "=" + ROTULOS[c.nome])
+        # Parent.DisplayName só nos campos do formulário da Ficha 02 que ainda não têm rótulo próprio:
+        # a m005 passa-os a português e esta migração não os volta a pôr em inglês
+        if not (c.nome.startswith(("txtL2", "cmbL2")) and c.prop("AccessibleLabel") not in (None, "=Parent.DisplayName", '=""')):
+            c.definir("AccessibleLabel", "=" + ROTULOS[c.nome])
     elif c.prop("AccessibleLabel") is None and (
             c.tipo in DECORATIVOS or (c.tipo == "Icon" and c.dentro_de_galeria and not _interativo(c))):
         c.definir("AccessibleLabel", '=""')

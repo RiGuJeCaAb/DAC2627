@@ -100,6 +100,49 @@ def test_migracao_m004_idempotente(tmp_path):
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
 
 
+def test_migracao_m005_idempotente_e_ficha(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m005_v1_4_ficha02_ficha as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    ctl = {c.nome: c for c in yamlio.controlos(yamlio.ler(raiz / "src" / "screens" / "scrL2Servicos.pa.yaml"))}
+    # a vista de leitura substitui o formulário em modo View; o formulário fica para criar e editar
+    assert ctl["frmL2Servico"].prop("Visible") == "=Self.Mode <> FormMode.View"
+    assert "FormMode.View" in ctl["conL2Ficha"].prop("Visible")
+    for nome in ("conL2FichaFornecedor", "conL2FichaModelo", "conL2FichaEstado", "conL2FichaDescricao",
+                 "conL2FichaResponsabilidade"):
+        assert ctl[nome].pai.nome in ("conL2Ficha", "conL2FichaFactos"), nome
+    assert ctl["lblL2FichaDescricao"].pai.nome == "conL2FichaDescricao"
+    rotulos = {c.prop("Text") for c in ctl.values() if c.nome.startswith("DataCardKey")}
+    assert not any("DisplayName" in str(r) for r in rotulos), "rótulos do formulário ainda em inglês"
+
+
+def test_migracao_m005_a_partir_do_estado_anterior(tmp_path):
+    """A m005 sobre o ecrã como estava antes dela (sem a ficha, rótulos do Dataverse, v1.3.0) dá o ecrã atual."""
+    from tools.migracoes import m005_v1_4_ficha02_ficha as m
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    ecra, app = raiz / "src" / "screens" / "scrL2Servicos.pa.yaml", raiz / "src" / "app" / "App.pa.yaml"
+    esperado = {f: f.read_text(encoding="utf-8") for f in (ecra, app)}
+    d = yamlio.ler(ecra)
+    for c in yamlio.controlos(d):
+        if c.nome == "frmL2Servico":
+            c.corpo["Properties"]["Visible"] = "=Self.Mode <> FormMode.View || !IsBlank(locSel)"
+        elif c.nome == "conL2Painel":
+            c.corpo["Children"] = [f for f in c.corpo["Children"] if "conL2Ficha" not in f]
+        elif c.nome.startswith("DataCardKey") and c.pai.nome in m.ROTULOS:
+            c.corpo["Properties"]["Text"] = "=Parent.DisplayName"
+        elif c.nome.startswith(("txtL2", "cmbL2")) and c.pai and c.pai.nome in m.ROTULOS:
+            c.corpo["Properties"].update(AccessibleLabel="=Parent.DisplayName", Tooltip="=Parent.DisplayName")
+    yamlio.escrever(ecra, d)
+    app.write_text(esperado[app].replace('nfVersao = "1.4.0"', 'nfVersao = "1.3.0"'), encoding="utf-8")
+    assert ecra.read_text(encoding="utf-8") != esperado[ecra]
+    m.main(raiz)
+    assert {f: f.read_text(encoding="utf-8") for f in (ecra, app)} == esperado
+
+
 def test_ponto8_conteudo_e_ecra_coerentes():
     import yaml
     c = yaml.safe_load((projeto.RAIZ / "conteudo" / "ponto8.yaml").read_text(encoding="utf-8"))

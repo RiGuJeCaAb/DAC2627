@@ -18,8 +18,8 @@
       "RelatedColumnInvariantName": "mcsft_servicemodel",
       "OptionSetInfoNameMapping": {
         "1": "IaaS",
-        "3": "SaaS",
-        "2": "PaaS"
+        "2": "PaaS",
+        "3": "SaaS"
       },
       "OptionSetIsGlobal": false,
       "OptionSetIsBooleanValued": false,
@@ -40,8 +40,8 @@
       "RelatedColumnInvariantName": "mcsft_status",
       "OptionSetInfoNameMapping": {
         "0": "Descontinuado",
-        "291310001": "Em avaliação",
-        "1": "Ativo"
+        "1": "Ativo",
+        "291310001": "Em avaliação"
       },
       "OptionSetIsGlobal": false,
       "OptionSetIsBooleanValued": false,
@@ -145,9 +145,9 @@
       "RelatedEntityName": "Pedidos",
       "RelatedColumnInvariantName": "dac_estado",
       "OptionSetInfoNameMapping": {
-        "774300000": "Pendente",
         "774300003": "Cancelado",
         "774300002": "Concluído",
+        "774300000": "Pendente",
         "774300001": "Em Processamento"
       },
       "OptionSetIsGlobal": false,
@@ -208,10 +208,10 @@
       "DisplayName": "Cloud Service (Vistas)",
       "RelatedEntityName": "Cloud Service",
       "ViewInfoNameMapping": {
-        "a9310bab-fc17-44a0-bc27-526af9403fa5": "Vista de Pesquisa de Cloud Service",
-        "39071535-5d13-4e6c-9298-77927538c2d7": "Entidades Cloud Service Ativas",
         "7ad1834a-2834-4153-8af4-162d7a29b177": "Vista Localização Avançada de Cloud Service",
         "fa3cee5c-f330-4c1d-88b7-88407b2fbc36": "Vista Associada de Cloud Service",
+        "39071535-5d13-4e6c-9298-77927538c2d7": "Entidades Cloud Service Ativas",
+        "a9310bab-fc17-44a0-bc27-526af9403fa5": "Vista de Pesquisa de Cloud Service",
         "9fb7295c-345b-4f27-a149-6090b6221ad2": "Entidades Cloud Service Inativas"
       }
     },
@@ -221,11 +221,11 @@
       "DisplayName": "Clientes (Vistas)",
       "RelatedEntityName": "Clientes",
       "ViewInfoNameMapping": {
-        "304b1e52-f983-4312-9c41-b60c015024b1": "Entidades Clientes Ativas",
-        "6531f3ed-daee-41e9-b20b-50ac22671e35": "Vista Associada de Cliente",
         "b5fc3a7e-6462-4196-9572-ba8f1911a321": "Entidades Clientes Inativas",
+        "6531f3ed-daee-41e9-b20b-50ac22671e35": "Vista Associada de Cliente",
         "16affbc5-09a3-4abd-9401-f436fcb1870f": "Vista Localização Avançada de Cliente",
-        "5469b038-5254-40fc-90ea-4501df878cbf": "Vista de Pesquisa de Cliente"
+        "5469b038-5254-40fc-90ea-4501df878cbf": "Vista de Pesquisa de Cliente",
+        "304b1e52-f983-4312-9c41-b60c015024b1": "Entidades Clientes Ativas"
       }
     },
     {
@@ -234,13 +234,13 @@
       "DisplayName": "Pedidos (Vistas)",
       "RelatedEntityName": "Pedidos",
       "ViewInfoNameMapping": {
-        "679af935-eade-f111-84e8-0022489e7a0d": "Pedidos Pendentes",
-        "ba45ee5b-96d8-4a93-b604-e4491321e871": "Entidades Pedidos Inativas",
-        "699af935-eade-f111-84e8-0022489e7a0d": "Pedidos Concluídos",
-        "9bc5b0f8-5ae1-4713-aab8-c84e51dcb2bf": "Vista Associada de Pedido",
-        "efb2f6ae-0de1-4ad2-8c87-49171055ea5f": "Vista Localização Avançada de Pedido",
         "c574a311-ac69-4062-abd1-141febc2c758": "Vista de Pesquisa de Pedido",
-        "1c009666-e9e8-45bd-942b-2248a959041e": "Entidades Pedidos Ativas"
+        "699af935-eade-f111-84e8-0022489e7a0d": "Pedidos Concluídos",
+        "679af935-eade-f111-84e8-0022489e7a0d": "Pedidos Pendentes",
+        "efb2f6ae-0de1-4ad2-8c87-49171055ea5f": "Vista Localização Avançada de Pedido",
+        "9bc5b0f8-5ae1-4713-aab8-c84e51dcb2bf": "Vista Associada de Pedido",
+        "1c009666-e9e8-45bd-942b-2248a959041e": "Entidades Pedidos Ativas",
+        "ba45ee5b-96d8-4a93-b604-e4491321e871": "Entidades Pedidos Inativas"
       }
     },
     {
