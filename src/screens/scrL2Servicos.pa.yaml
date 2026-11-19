@@ -828,25 +828,25 @@ Screens:
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          Height: =If(conL2Ficha.Width >= 720, 96, 3 * 96 + 2 * 12) + 2
+                                          Height: =If(conL2Ficha.Width >= 720, 100, 3 * 100 + 2 * 12) + 4
                                           LayoutDirection: =If(conL2Ficha.Width >= 720, LayoutDirection.Horizontal, LayoutDirection.Vertical)
                                           LayoutGap: =12
-                                          PaddingBottom: =1
+                                          PaddingBottom: =2
                                           PaddingLeft: =1
                                           PaddingRight: =1
-                                          PaddingTop: =1
+                                          PaddingTop: =2
                                         Children:
                                           - conL2FichaFornecedor:
                                               Control: GroupContainer@1.5.0
                                               Variant: AutoLayout
                                               Properties:
-                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AlignInContainer: =If(conL2Ficha.Width >= 720, AlignInContainer.Start, AlignInContainer.Stretch)
                                                 BorderColor: =nfLinhaForte
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
                                                 Fill: =nfSuperficie
                                                 FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
-                                                Height: =96
+                                                Height: =100
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =2
                                                 LayoutMinWidth: =0
@@ -890,19 +890,19 @@ Screens:
                                                       Height: =20
                                                       Size: =12
                                                       Text: |-
-                                                        =With({n: CountRows(Filter('Cloud Service', Provider = locSel.Provider))}, n & If(n = 1, " serviço", " serviços") & " deste fornecedor no inventário")
+                                                        =With({n: CountRows(Filter('Cloud Service', Provider = locSel.Provider))}, n & If(n = 1, " serviço", " serviços") & " deste fornecedor")
                                                       Wrap: =false
                                           - conL2FichaModelo:
                                               Control: GroupContainer@1.5.0
                                               Variant: AutoLayout
                                               Properties:
-                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AlignInContainer: =If(conL2Ficha.Width >= 720, AlignInContainer.Start, AlignInContainer.Stretch)
                                                 BorderColor: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
                                                 Fill: =Switch(Text(locSel.'Service Model'), "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)
                                                 FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
-                                                Height: =96
+                                                Height: =100
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =2
                                                 LayoutMinWidth: =0
@@ -951,13 +951,13 @@ Screens:
                                               Control: GroupContainer@1.5.0
                                               Variant: AutoLayout
                                               Properties:
-                                                AlignInContainer: =AlignInContainer.Stretch
+                                                AlignInContainer: =If(conL2Ficha.Width >= 720, AlignInContainer.Start, AlignInContainer.Stretch)
                                                 BorderColor: =Switch(Text(locSel.Status), "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)
                                                 BorderThickness: =1
                                                 DropShadow: =DropShadow.None
                                                 Fill: =Switch(Text(locSel.Status), "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, nfVermelhoFundo)
                                                 FillPortions: =If(conL2Ficha.Width >= 720, 1, 0)
-                                                Height: =96
+                                                Height: =100
                                                 LayoutDirection: =LayoutDirection.Vertical
                                                 LayoutGap: =2
                                                 LayoutMinWidth: =0

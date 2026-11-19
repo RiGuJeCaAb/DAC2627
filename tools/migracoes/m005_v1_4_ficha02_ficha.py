@@ -32,6 +32,7 @@ ECRA = "scrL2Servicos"
 S = f"{ECRA}.Size"
 # lado a lado só com espaço para os três cartões: no monitor vertical o painel tem ~560 px e cortava os rótulos
 LARGO = "conL2Ficha.Width >= 720"
+ALTURA = 100  # cartões de factos
 VER = "frmL2Servico.Mode = FormMode.View && !IsBlank(locSel)"
 MODELO = "Text(locSel.'Service Model')"
 ESTADO = "Text(locSel.Status)"
@@ -95,9 +96,12 @@ def _cartao(chave: str, rotulo: str, valor: str, nota: str, cor: str, fundo: str
                   Wrap="=false"),
         _etiqueta(f"lblL2Ficha{chave}Nota", nota, Color="=" + cor, Height="=20", Size="=12", Wrap="=false"),
     ]
-    return _contentor(f"conL2Ficha{chave}", filhos, AlignInContainer="=AlignInContainer.Stretch",
+    # Altura com folga (conteúdo 96) e sem esticar na vertical quando estão lado a lado: esticado ao
+    # contentor, o contorno de baixo ficava cortado no ecrã inteiro.
+    return _contentor(f"conL2Ficha{chave}", filhos,
+                      AlignInContainer=f"=If({LARGO}, AlignInContainer.Start, AlignInContainer.Stretch)",
                       BorderColor="=" + contorno, BorderThickness="=1", Fill="=" + fundo,
-                      FillPortions=f"=If({LARGO}, 1, 0)", Height="=96", LayoutGap="=2", LayoutMinWidth="=0",
+                      FillPortions=f"=If({LARGO}, 1, 0)", Height=f"={ALTURA}", LayoutGap="=2", LayoutMinWidth="=0",
                       PaddingBottom="=12", PaddingLeft="=16", PaddingRight="=16", PaddingTop="=12", **_raio(8))
 
 
@@ -116,13 +120,13 @@ def conteudo_ficha() -> dict:
     nota_estado = (f'Switch({ESTADO}, "Ativo", "Em uso no inventário", "Em avaliação", "Em análise, ainda sem uso", '
                    f'"Descontinuado", "Já não é usado", "")')
     nota_fornecedor = ("With({n: CountRows(Filter('Cloud Service', Provider = locSel.Provider))}, "
-                       'n & If(n = 1, " serviço", " serviços") & " deste fornecedor no inventário")')
+                       'n & If(n = 1, " serviço", " serviços") & " deste fornecedor")')
     factos = _contentor("conL2FichaFactos", [
         _cartao("Fornecedor", "Fornecedor", "locSel.Provider", nota_fornecedor, "nfTexto", "nfSuperficie", "nfLinhaForte"),
         _cartao("Modelo", "Modelo de serviço", MODELO, nota_modelo, cor_modelo, fundo_modelo, cor_modelo),
         _cartao("Estado", "Estado", ESTADO, nota_estado, cor_estado, fundo_estado, cor_estado),
-    ], Height=f"=If({LARGO}, 96, 3 * 96 + 2 * 12) + 2", LayoutDirection=f"=If({LARGO}, LayoutDirection.Horizontal, LayoutDirection.Vertical)",
-        LayoutGap="=12", PaddingBottom="=1", PaddingLeft="=1", PaddingRight="=1", PaddingTop="=1")  # o contorno dos cartões não fica rente ao corte
+    ], Height=f"=If({LARGO}, {ALTURA}, 3 * {ALTURA} + 2 * 12) + 4", LayoutDirection=f"=If({LARGO}, LayoutDirection.Horizontal, LayoutDirection.Vertical)",
+        LayoutGap="=12", PaddingBottom="=2", PaddingLeft="=1", PaddingRight="=1", PaddingTop="=2")  # o contorno dos cartões não fica rente ao corte
     def caixa(chave: str, texto: str, fundo: str, contorno: str | None) -> dict:
         """Caixa de texto com cantos redondos: a etiqueta não tem Radius, por isso vai dentro de um contentor."""
         lbl = _etiqueta(f"lblL2Ficha{chave}", texto, AutoHeight="=true", Height="=48", PaddingBottom="=14",
