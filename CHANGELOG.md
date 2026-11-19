@@ -2,9 +2,9 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
-## [1.4.0] · por colar no Studio
+## [1.4.0] · 19/11/2026 · publicada (exportação 1.0.0.5)
 
-- Ficha 02 (`scrL2Servicos`): o painel de detalhe em modo de leitura passa a ser uma ficha própria (`conL2Ficha`), no lugar do formulário com os rótulos do Dataverse em inglês. Três cartões com contorno para Fornecedor (com o número de serviços desse fornecedor no inventário), Modelo de serviço e Estado, com as cores das etiquetas da lista (IaaS azul, PaaS verde, SaaS laranja; Ativo verde, Em avaliação âmbar, Descontinuado vermelho), a descrição numa caixa delimitada e «Quem gere o quê», o que fica a cargo do fornecedor e do cliente nesse modelo. O `frmL2Servico` fica só para criar e editar, com os rótulos em português. Migração `m005`, teste novo (62 no total).
+- Ficha 02 (`scrL2Servicos`): o painel de detalhe em modo de leitura passa a ser uma ficha própria (`conL2Ficha`), no lugar do formulário com os rótulos do Dataverse em inglês. Três cartões com contorno para Fornecedor (com o número de serviços desse fornecedor no inventário), Modelo de serviço e Estado, com as cores das etiquetas da lista (IaaS azul, PaaS verde, SaaS laranja; Ativo verde, Em avaliação âmbar, Descontinuado vermelho), a descrição numa caixa delimitada e «Quem gere o quê», o que fica a cargo do fornecedor e do cliente nesse modelo. O `frmL2Servico` fica só para criar e editar, com os rótulos em português. Migração `m005`, teste novo (62 no total). Afinada depois de vista no Studio: cartões empilhados quando a ficha tem menos de 720 px (no monitor vertical o rótulo «MODELO DE SERVIÇO» partia-se), caixas com cantos redondos dentro de contentores, e cartões com folga e sem esticar na vertical, porque esticados o contorno de baixo ficava cortado no ecrã inteiro. Exportação 1.0.0.5 sincronizada, `dac deriva` a zero; o Studio apagou o `FillPortions = 1` do `conL2Ficha`, que passa a `yamlio.OMISSAO`. Verificador: 219 avisos, os 13 novos todos etiquetas decorativas da ficha.
 
 ## [Por publicar] · repositório
 

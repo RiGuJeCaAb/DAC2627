@@ -129,7 +129,8 @@ OMISSAO: dict[str, dict[str, str]] = {
     "Label": {"TabIndex": "=-1", "Size": "=13", "FillPortions": "=0", "Visible": "=true"},
     "Icon": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
     "Rectangle": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
-    "GroupContainer": {"DropShadow": "=DropShadow.Light", "Visible": "=true"},
+    # FillPortions 1: nenhum contentor o tem escrito; o Studio apagou-o do conL2Ficha na 1.0.0.5
+    "GroupContainer": {"DropShadow": "=DropShadow.Light", "Visible": "=true", "FillPortions": "=1"},
     # 39 botões na 1.0.0.3: nenhum com BorderThickness 2 nem Visible true escritos.
     # Na 1.0.0.4 o Studio apagou também TabIndex 0 e FontWeight.Semibold dos botões do complemento.
     "Button": {"BorderThickness": "=2", "Visible": "=true", "TabIndex": "=0", "FontWeight": "=FontWeight.Semibold"},
