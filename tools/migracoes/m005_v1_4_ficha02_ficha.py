@@ -16,7 +16,8 @@ O que faz:
      - «Quem gere o quê»: o que fica a cargo do fornecedor e do cliente no modelo do serviço
        (modelo de responsabilidade partilhada, NIST SP 800-145).
   2. frmL2Servico só aparece a criar ou a editar (Visible = Self.Mode <> FormMode.View).
-  3. Rótulos do formulário em português (os DisplayName do Dataverse estão em inglês).
+  3. Rótulos do formulário em português (os DisplayName do Dataverse estão em inglês), também no
+     AccessibleLabel e na Tooltip dos controlos de entrada.
   4. App.Formulas: nfVersao passa a "1.4.0".
 """
 from __future__ import annotations
@@ -111,20 +112,23 @@ def _seccao(chave: str, titulo: str) -> dict:
 
 
 def conteudo_ficha() -> dict:
-    cor_modelo = f'Switch({MODELO}, "IaaS", nfAzul, "PaaS", nfVerdeTexto, nfLaranja)'
-    fundo_modelo = f'Switch({MODELO}, "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, nfLaranjaFundo)'
-    cor_estado = f'Switch({ESTADO}, "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, nfVermelhoTexto)'
-    fundo_estado = f'Switch({ESTADO}, "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, nfVermelhoFundo)'
+    # Sem valor (nenhuma coluna é obrigatória na tabela), o cartão fica neutro em vez de cair na última cor
+    cor_modelo = f'Switch({MODELO}, "IaaS", nfAzul, "PaaS", nfVerdeTexto, "SaaS", nfLaranja, nfTexto)'
+    fundo_modelo = f'Switch({MODELO}, "IaaS", nfAzulFundo, "PaaS", nfVerdeFundo, "SaaS", nfLaranjaFundo, nfSuperficie)'
+    cor_estado = f'Switch({ESTADO}, "Ativo", nfVerdeTexto, "Em avaliação", nfAmbar, "Descontinuado", nfVermelhoTexto, nfTexto)'
+    fundo_estado = f'Switch({ESTADO}, "Ativo", nfVerdeFundo, "Em avaliação", nfAmbarFundo, "Descontinuado", nfVermelhoFundo, nfSuperficie)'
     nota_modelo = (f'Switch({MODELO}, "IaaS", "Infraestrutura como serviço", "PaaS", "Plataforma como serviço", '
-                   f'"SaaS", "Software como serviço", "")')
+                   f'"SaaS", "Software como serviço", "Modelo por indicar")')
     nota_estado = (f'Switch({ESTADO}, "Ativo", "Em uso no inventário", "Em avaliação", "Em análise, ainda sem uso", '
-                   f'"Descontinuado", "Já não é usado", "")')
+                   f'"Descontinuado", "Já não é usado", "Estado por indicar")')
     nota_fornecedor = ("With({n: CountRows(Filter('Cloud Service', Provider = locSel.Provider))}, "
                        'n & If(n = 1, " serviço", " serviços") & " deste fornecedor")')
     factos = _contentor("conL2FichaFactos", [
         _cartao("Fornecedor", "Fornecedor", "locSel.Provider", nota_fornecedor, "nfTexto", "nfSuperficie", "nfLinhaForte"),
-        _cartao("Modelo", "Modelo de serviço", MODELO, nota_modelo, cor_modelo, fundo_modelo, cor_modelo),
-        _cartao("Estado", "Estado", ESTADO, nota_estado, cor_estado, fundo_estado, cor_estado),
+        _cartao("Modelo", "Modelo de serviço", f'If(IsBlank(locSel.\'Service Model\'), "—", {MODELO})', nota_modelo,
+                cor_modelo, fundo_modelo, f'If(IsBlank(locSel.\'Service Model\'), nfLinhaForte, {cor_modelo})'),
+        _cartao("Estado", "Estado", f'If(IsBlank(locSel.Status), "—", {ESTADO})', nota_estado,
+                cor_estado, fundo_estado, f'If(IsBlank(locSel.Status), nfLinhaForte, {cor_estado})'),
     ], Height=f"=If({LARGO}, {ALTURA}, 3 * {ALTURA} + 2 * 12) + 4", LayoutDirection=f"=If({LARGO}, LayoutDirection.Horizontal, LayoutDirection.Vertical)",
         LayoutGap="=12", PaddingBottom="=2", PaddingLeft="=1", PaddingRight="=1", PaddingTop="=2")  # o contorno dos cartões não fica rente ao corte
     def caixa(chave: str, texto: str, fundo: str, contorno: str | None) -> dict:
@@ -137,7 +141,8 @@ def conteudo_ficha() -> dict:
     descricao = caixa("Descricao", "If(IsBlank(Trim(locSel.'Service Description')), \"Sem descrição.\", locSel.'Service Description')",
                       "nfSuperficie", "nfLinhaForte")
     resp = " ".join(f'"{m}", {_s(t)},' for m, t in RESPONSABILIDADE.items())
-    responsabilidade = caixa("Responsabilidade", f"Switch({MODELO}, {resp} \"\")", "nfAzulClaro", None)
+    responsabilidade = caixa("Responsabilidade", f"Switch({MODELO}, {resp} {_s('Indique o modelo de serviço para ver o que fica a cargo do fornecedor e do cliente.')})",
+                             "nfAzulClaro", None)
     filhos = [factos, _seccao("Descricao", "Descrição"), descricao,
               _seccao("Responsabilidade", "Quem gere o quê"), responsabilidade]
     return _ctl("conL2Ficha", "GroupContainer@1.5.0", {
@@ -163,6 +168,10 @@ def migrar_documento(doc: dict) -> None:
                 (nome, corpo), = filho.items()
                 if nome.startswith("DataCardKey"):
                     corpo.setdefault("Properties", {})["Text"] = "=" + _s(ROTULOS[ctl.nome])
+                elif nome.startswith(("txtL2", "cmbL2")):
+                    # o leitor de ecrã e a dica diziam o DisplayName do Dataverse, em inglês
+                    for prop in ("AccessibleLabel", "Tooltip"):
+                        corpo.setdefault("Properties", {})[prop] = "=" + _s(ROTULOS[ctl.nome])
         elif ctl.nome == "conL2Painel":
             filhos = ctl.corpo["Children"]
             filhos[:] = [f for f in filhos if "conL2Ficha" not in f]
