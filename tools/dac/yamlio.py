@@ -75,6 +75,12 @@ def _escalar(chave: str, v: Any, ind: int) -> list[str]:
     if v != v.rstrip() and "\n" not in v:
         return [f"{s}{chave}: '" + v.replace("'", "''") + "'"]
     if _precisa_bloco(v):
+        if v.endswith("\n"):
+            # |+ guarda as quebras de linha finais: o Studio escreve-o quando a fórmula foi colada
+            # com uma linha em branco no fim (App.Formulas na 1.0.0.4)
+            nucleo = v.rstrip("\n")
+            linhas = nucleo.split("\n") + [""] * (len(v) - len(nucleo) - 1)
+            return [f"{s}{chave}: |+"] + [(f"{s}  {ln}" if ln else "") for ln in linhas]
         linhas = v.split("\n")
         return [f"{s}{chave}: |-"] + [(f"{s}  {ln}" if ln else "") for ln in linhas]
     return [f"{s}{chave}: {v}"]
@@ -124,8 +130,9 @@ OMISSAO: dict[str, dict[str, str]] = {
     "Icon": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
     "Rectangle": {"TabIndex": "=-1", "AccessibleLabel": '=""', "Visible": "=true"},
     "GroupContainer": {"DropShadow": "=DropShadow.Light", "Visible": "=true"},
-    # 39 botões na 1.0.0.3: nenhum com BorderThickness 2 nem Visible true escritos
-    "Button": {"BorderThickness": "=2", "Visible": "=true"},
+    # 39 botões na 1.0.0.3: nenhum com BorderThickness 2 nem Visible true escritos.
+    # Na 1.0.0.4 o Studio apagou também TabIndex 0 e FontWeight.Semibold dos botões do complemento.
+    "Button": {"BorderThickness": "=2", "Visible": "=true", "TabIndex": "=0", "FontWeight": "=FontWeight.Semibold"},
 }
 
 

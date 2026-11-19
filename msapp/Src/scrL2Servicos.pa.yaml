@@ -19,6 +19,7 @@ Screens:
           Control: GroupContainer@1.5.0
           Variant: AutoLayout
           Properties:
+            DropShadow: =DropShadow.None
             Fill: =nfFundo
             Height: =Parent.Height
             LayoutDirection: =LayoutDirection.Vertical
@@ -369,6 +370,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -407,6 +409,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -428,6 +431,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey2.Height
                                                 Text: ="*"
@@ -457,6 +461,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -497,6 +502,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -518,6 +524,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey5.Height
                                                 Text: ="*"
@@ -547,6 +554,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -585,6 +593,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -606,6 +615,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey1.Height
                                                 Text: ="*"
@@ -634,6 +644,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -677,6 +688,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -698,6 +710,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey4.Height
                                                 Text: ="*"
@@ -728,6 +741,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =34
                                                 Text: =Parent.DisplayName
@@ -766,6 +780,7 @@ Screens:
                                                 AutoHeight: =true
                                                 BorderColor: =nfBorda
                                                 Color: =nfVermelhoTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =10
@@ -787,6 +802,7 @@ Screens:
                                                 Align: =Align.Center
                                                 BorderColor: =nfBorda
                                                 Color: =nfTexto
+                                                FocusedBorderThickness: =2
                                                 Font: =Font.'Open Sans'
                                                 Height: =DataCardKey3.Height
                                                 Text: ="*"

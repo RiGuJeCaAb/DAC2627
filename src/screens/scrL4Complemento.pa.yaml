@@ -524,7 +524,6 @@ Screens:
                         BorderColor: =nfAzul
                         Color: =Color.White
                         Fill: =nfAzul
-                        FontWeight: =FontWeight.Semibold
                         Height: =44
                         HoverColor: =Color.White
                         HoverFill: =nfAzul
@@ -537,7 +536,6 @@ Screens:
                         RadiusTopLeft: =12
                         RadiusTopRight: =12
                         Size: =14
-                        TabIndex: =0
                         Text: ="Ver a tabela comparativa"
                         Visible: =locL4bVista <> "tabela"
                         Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 280)
@@ -1224,7 +1222,6 @@ Screens:
                         BorderColor: =nfAzul
                         Color: =nfAzul
                         Fill: =Color.White
-                        FontWeight: =FontWeight.Semibold
                         Height: =44
                         HoverColor: =nfAzul
                         HoverFill: =nfAzulClaro
@@ -1237,7 +1234,6 @@ Screens:
                         RadiusTopLeft: =12
                         RadiusTopRight: =12
                         Size: =14
-                        TabIndex: =0
                         Text: ="Voltar ao texto"
                         Visible: =locL4bVista = "tabela"
                         Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 280)

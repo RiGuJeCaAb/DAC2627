@@ -88,7 +88,9 @@ def migrar_documento(doc: dict) -> None:
         # Uma migração posterior (m004, ...) pode já ter subido nfVersao: mantém-se a mais recente.
         atual = re.search(r'nfVersao = "([0-9.]+)"', str(p.get("Formulas") or ""))
         versao = atual.group(1) if atual and tuple(map(int, atual.group(1).split("."))) > tuple(map(int, VERSAO.split("."))) else VERSAO
-        p["Formulas"] = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
+        novo = "=" + FORMULAS.replace(f'nfVersao = "{VERSAO}";', f'nfVersao = "{versao}";')
+        if str(p.get("Formulas") or "").rstrip() != novo.rstrip():  # linha em branco final do Studio: igual
+            p["Formulas"] = novo
         return
     ecras = doc.get("Screens") or {}
     if "scrInicio" in ecras:

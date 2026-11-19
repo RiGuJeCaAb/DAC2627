@@ -10,6 +10,8 @@ Screens:
   scrL4Complemento:
     Properties:
       Fill: =nfFundo
+      OnVisible: |-
+        =UpdateContext({locL4bVista: "texto"})
     Children:
       - conEcraL4b:
           Control: GroupContainer@1.5.0
@@ -62,9 +64,10 @@ Screens:
                   DropShadow: =DropShadow.None
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =12
+                  LayoutOverflowY: =LayoutOverflow.Scroll
                   PaddingBottom: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
-                  PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
-                  PaddingRight: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =Max(If(scrL4Complemento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1000) / 2)
+                  PaddingRight: =Max(If(scrL4Complemento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1000) / 2)
                   PaddingTop: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 24)
                 Children:
                   - lblL4bTitulo:
@@ -76,7 +79,7 @@ Screens:
                         FocusedBorderThickness: =2
                         FontWeight: =FontWeight.Bold
                         Size: =If(scrL4Complemento.Size = ScreenSize.Small, 20, 24)
-                        Text: ="SharePoint, Dataverse e SQL"
+                        Text: =If(locL4bVista = "tabela", "Comparação por critério", "SharePoint, Dataverse e SQL")
                   - lblL4bIntro:
                       Control: Label@2.5.1
                       Properties:
@@ -85,190 +88,1152 @@ Screens:
                         Color: =nfTextoSuave
                         FocusedBorderThickness: =2
                         Size: =14
-                        Text: ="Ponto 8 do Lab 4. Três sítios onde guardar os clientes e os pedidos desta ficha, comparados pelos critérios que pesam numa canvas app."
-                  - conL4bTabela:
-                      Control: GroupContainer@1.5.0
-                      Variant: AutoLayout
+                        Text: |-
+                          ="Ponto 8 do Lab 4. A Ficha 04 guarda clientes e pedidos no Dataverse, mas o Power Apps trabalha com outras origens de dados, e escolher uma delas é uma decisão de arquitetura cloud: define o modelo de serviço, quem gere a infraestrutura, até onde a solução escala e quanto custa. Este ecrã apresenta as listas do SharePoint, o Dataverse e o Azure SQL Database, cada um com a sua fundamentação, um aspeto técnico que o distingue e os fatores positivos e menos positivos. No fim, um botão abre a tabela que os compara pelos sete critérios do enunciado e por dois da perspetiva cloud."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpNome:
+                      Control: Label@2.5.1
                       Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Bold
+                        PaddingTop: =12
+                        Size: =20
+                        Text: ="SharePoint (listas)"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpModelo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        Size: =14
+                        Text: ="O modelo SaaS colaborativo"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpOQue:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
                         Fill: =Color.White
-                        LayoutDirection: =LayoutDirection.Vertical
-                        RadiusBottomLeft: =16
-                        RadiusBottomRight: =16
-                        RadiusTopLeft: =16
-                        RadiusTopRight: =16
-                      Children:
-                        - conL4bCabecalho:
-                            Control: GroupContainer@1.5.0
-                            Variant: AutoLayout
-                            Properties:
-                              DropShadow: =DropShadow.None
-                              Fill: =nfFundo
-                              FillPortions: =0
-                              Height: =48
-                              LayoutDirection: =LayoutDirection.Horizontal
-                              Visible: =scrL4Complemento.Size > ScreenSize.Small
-                            Children:
-                              - lblL4bCabCriterio:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Stretch
-                                    Color: =nfTexto
-                                    FocusedBorderThickness: =2
-                                    FontWeight: =FontWeight.Bold
-                                    PaddingLeft: =16
-                                    Size: =14
-                                    Text: ="Critério"
-                                    Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
-                              - lblL4bCabSharePoint:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Stretch
-                                    Color: =nfTexto
-                                    FillPortions: =1
-                                    FocusedBorderThickness: =2
-                                    FontWeight: =FontWeight.Bold
-                                    PaddingLeft: =12
-                                    Size: =14
-                                    Text: ="SharePoint (listas)"
-                              - lblL4bCabDataverse:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Stretch
-                                    Color: =Color.White
-                                    Fill: =nfAzul
-                                    FillPortions: =1
-                                    FocusedBorderThickness: =2
-                                    FontWeight: =FontWeight.Bold
-                                    PaddingLeft: =12
-                                    Size: =14
-                                    Text: =If(scrL4Complemento.Size = ScreenSize.Medium, "Dataverse", "Dataverse · usado nesta ficha")
-                              - lblL4bCabSQL:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    AlignInContainer: =AlignInContainer.Stretch
-                                    Color: =nfTexto
-                                    FillPortions: =1
-                                    FocusedBorderThickness: =2
-                                    FontWeight: =FontWeight.Bold
-                                    PaddingLeft: =12
-                                    Size: =14
-                                    Text: ="SQL (Azure SQL)"
-                        - galL4bCriterios:
-                            Control: Gallery@2.15.0
-                            Variant: Vertical
-                            Properties:
-                              AccessibleLabel: ="Comparação de SharePoint, Dataverse e SQL por critério"
-                              Items: |-
-                                =Table(
-                                    {Criterio: "Relações e integridade", SharePoint: "Coluna de pesquisa entre listas, com Restringir ou Em cascata se o comportamento for imposto.", Dataverse: "Relação 1:N nativa, com Restringir, Em cascata ou Remover ligação.", SQL: "Chave estrangeira com ON DELETE, definida em T-SQL."},
-                                    {Criterio: "Volume", SharePoint: "Até 30 milhões de itens, mas consultas acima de 5000 itens exigem colunas indexadas.", Dataverse: "Escala com a capacidade do ambiente, sem limiar de vista.", SQL: "Escala com o escalão da base de dados."},
-                                    {Criterio: "Delegação no Power Apps", SharePoint: "Parcial. Not e os campos de sistema não delegam.", Dataverse: "Ampla, incluindo vistas e StartsWith.", SQL: "Ampla nas tabelas. Para escrever com regras, usam-se stored procedures."},
-                                    {Criterio: "Segurança", SharePoint: "Permissões do site e da lista. Acima de 100 000 itens não se quebra a herança.", Dataverse: "Funções de segurança, equipas, unidades de negócio e segurança por coluna.", SQL: "Logins e funções da base de dados, com Microsoft Entra ID."},
-                                    {Criterio: "Lógica no servidor", SharePoint: "Validação de colunas e fluxos do Power Automate.", Dataverse: "Regras de negócio, colunas calculadas, número automático e vistas.", SQL: "Vistas, stored procedures e triggers."},
-                                    {Criterio: "Licença", SharePoint: "Conector standard, incluído no Microsoft 365.", Dataverse: "Premium (Power Apps Premium ou Developer Plan).", SQL: "Premium, mais o custo da base de dados no Azure."},
-                                    {Criterio: "Quando usar", SharePoint: "Listas simples, até alguns milhares de linhas.", Dataverse: "Apps de negócio relacionais dentro da Power Platform.", SQL: "Dados que já vivem em SQL ou são partilhados com outros sistemas."}
-                                )
-                              LayoutMinHeight: =0
-                              TabIndex: =0
-                              TemplatePadding: =0
-                              TemplateSize: =Switch(scrL4Complemento.Size, ScreenSize.Small, 248, ScreenSize.Medium, 112, 76)
-                            Children:
-                              - recL4bColDataverse:
-                                  Control: Rectangle@2.3.0
-                                  Properties:
-                                    Fill: =nfAzulClaro
-                                    Height: =Parent.TemplateHeight
-                                    Visible: =scrL4Complemento.Size > ScreenSize.Small
-                                    Width: =(Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3
-                                    X: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3
-                              - lblL4bCriterio:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    Color: =nfTexto
-                                    FontWeight: =FontWeight.Semibold
-                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 28, Parent.TemplateHeight)
-                                    OnSelect: =Select(Parent)
-                                    PaddingLeft: =16
-                                    Size: =14
-                                    Text: =ThisItem.Criterio
-                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190))
-                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 10, 0)
-                              - lblL4bSharePoint:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    Color: =nfTexto
-                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 64, Parent.TemplateHeight)
-                                    OnSelect: =Select(Parent)
-                                    PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
-                                    PaddingRight: =12
-                                    Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & ThisItem.SharePoint
-                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
-                                    X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190))
-                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 40, 0)
-                              - lblL4bDataverse:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    Color: =nfTexto
-                                    Fill: =If(scrL4Complemento.Size = ScreenSize.Small, nfAzulClaro, Color.Transparent)
-                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 64, Parent.TemplateHeight)
-                                    OnSelect: =Select(Parent)
-                                    PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
-                                    PaddingRight: =12
-                                    Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & ThisItem.Dataverse
-                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
-                                    X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
-                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 106, 0)
-                              - lblL4bSQL:
-                                  Control: Label@2.5.1
-                                  Properties:
-                                    Color: =nfTexto
-                                    Height: =If(scrL4Complemento.Size = ScreenSize.Small, 64, Parent.TemplateHeight)
-                                    OnSelect: =Select(Parent)
-                                    PaddingLeft: =If(scrL4Complemento.Size = ScreenSize.Small, 16, 12)
-                                    PaddingRight: =12
-                                    Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & ThisItem.SQL
-                                    Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.TemplateWidth, (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
-                                    X: =If(scrL4Complemento.Size = ScreenSize.Small, 0, If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190) + 2 * (Parent.TemplateWidth - If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)) / 3)
-                                    Y: =If(scrL4Complemento.Size = ScreenSize.Small, 172, 0)
-                              - recL4bLinha:
-                                  Control: Rectangle@2.3.0
-                                  Properties:
-                                    Fill: =nfLinha
-                                    Height: =1
-                                    Width: =Parent.TemplateWidth
-                                    Y: =Parent.TemplateHeight - 1
-                  - conL4bConclusao:
-                      Control: GroupContainer@1.5.0
-                      Variant: AutoLayout
-                      Properties:
-                        DropShadow: =DropShadow.None
-                        Fill: =nfAzulClaro
-                        FillPortions: =0
-                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, 96, 56)
-                        LayoutAlignItems: =LayoutAlignItems.Center
-                        LayoutDirection: =LayoutDirection.Horizontal
-                        LayoutGap: =12
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
                         PaddingLeft: =16
                         PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="As listas do SharePoint são as mesmas da aplicação Microsoft Lists e vivem num site do SharePoint Online, dentro do Microsoft 365. Cada lista é uma tabela de colunas simples, como texto, número, escolha, data, pessoa ou pesquisa, pensada para equipas que precisam de registar e partilhar informação com vistas, formulários e as permissões do próprio site." & Char(10) & Char(10) & "Do ponto de vista da Computação Cloud, o SharePoint Online é software como serviço (SaaS). A Microsoft gere os servidores, as atualizações e a disponibilidade, e a organização limita-se a configurar e a usar as listas. Essa comodidade paga-se em controlo, porque o serviço impõe os mesmos limites a todos os clientes, e é desses limites que depende o que uma app consegue fazer com os dados."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpAprofTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingTop: =4
+                        Size: =16
+                        Text: ="O limiar de vista e a delegação"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpAprof:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="Uma lista pode guardar até 30 milhões de itens, mas uma consulta que percorra mais de 5000 de cada vez esbarra no limiar de vista (List View Threshold). A Microsoft justifica este limite com a necessidade de manter um desempenho consistente para todos os utilizadores nas consultas à base de dados do serviço. Acima dele, só se trabalha com colunas indexadas e com filtros que reduzam o resultado a menos de 5000 itens." & Char(10) & Char(10) & "No Power Apps, este limite cruza-se com a delegação. Quando uma fórmula, como um Filter, pode ser traduzida numa consulta que o SharePoint entende, é o serviço que a executa sobre todos os dados. Quando não pode, a app traz para o dispositivo apenas os primeiros 500 registos, valor que se pode subir até 10 000 nas definições da app, e trabalha só sobre esses, sem que o utilizador perceba o que ficou de fora."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpFavorTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfVerdeTexto
+                        Fill: =nfVerdeFundo
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =8
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =8
+                        Size: =14
+                        Text: ="A favor"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpFavor:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="• Incluído no Microsoft 365. O conector do SharePoint é standard, por isso uma app que só use listas não exige licenças premium do Power Apps." & Char(10) & Char(10) & "• Interface pronta. As listas já têm, no browser, vistas, filtros, formulários e exportação para Excel, o que permite trabalhar com os dados antes de existir qualquer app." & Char(10) & Char(10) & "• Relações simples entre listas. As colunas de pesquisa ligam listas entre si e aceitam eliminação restrita ou em cascata, desde que as listas não passem o limiar de vista." & Char(10) & Char(10) & "• Rapidez e familiaridade. Uma lista monta-se em minutos, e quem já trabalha no Microsoft 365 reconhece de imediato a forma de a usar."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpContraTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAmbar
+                        Fill: =nfAmbarFundo
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =8
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =8
+                        Size: =14
+                        Text: ="Contra"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpContra:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="• Limiar de vista. Uma consulta não processa mais de 5000 itens de cada vez, e acima disso tudo depende de colunas indexadas e de filtros." & Char(10) & Char(10) & "• Delegação parcial. Uma fórmula que o SharePoint não consegue delegar só vê os primeiros 500 registos, ou até 10 000 se se aumentar o limite da app." & Char(10) & Char(10) & "• Relações limitadas. Uma vista aceita no máximo 12 colunas de pesquisa, e a eliminação restrita ou em cascata não se ativa numa lista que já passou o limiar de vista." & Char(10) & Char(10) & "• Modelo de dados simples. Não há regras de negócio aplicadas no servidor nem segurança por coluna, por isso essas proteções ficam a cargo da app ou de fluxos."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSpSintese:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        Fill: =nfAzulClaro
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="Em síntese. O SharePoint é uma boa escolha para prototipar depressa e para listas colaborativas de poucos milhares de registos, sem custos de licenciamento adicionais. Os limites que protegem o desempenho do serviço tornam-no, porém, pouco indicado como base de uma aplicação transacional que vá crescer, e é nesse ponto que o Dataverse ou o Azure SQL Database passam a fazer sentido."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvNome:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Bold
+                        PaddingTop: =12
+                        Size: =20
+                        Text: ="Dataverse"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvModelo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        Size: =14
+                        Text: ="A plataforma de dados da Power Platform"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvOQue:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="O Microsoft Dataverse é uma base de dados relacional gerida pela Microsoft, que existe dentro de um ambiente da Power Platform. Guarda tabelas com tipos de dados ricos, como moeda, número automático, escolha ou pesquisa, e junta-lhes relações, regras de negócio e um modelo de segurança próprio. É a origem de dados das apps baseadas em modelo e foi a escolhida para a Ficha 04." & Char(10) & Char(10) & "Na classificação dos modelos de serviço, o Dataverse comporta-se como uma plataforma gerida (PaaS). A Microsoft gere a infraestrutura e a sua manutenção, e quem desenvolve trabalha apenas com tabelas, relações e regras. Cada ambiente tem a sua própria base de dados, o que permite separar o trabalho de desenvolvimento, de teste e de produção."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvAprofTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingTop: =4
+                        Size: =16
+                        Text: ="Ciclo de vida, segurança e ambientes"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvAprof:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="O Dataverse traz para o desenvolvimento low-code a gestão do ciclo de vida das aplicações (ALM). Tabelas, apps e fluxos agrupam-se em soluções, que se exportam de um ambiente e se importam noutro. A Microsoft recomenda ambientes separados para desenvolvimento e produção, e pelo menos um de teste, com soluções não geridas apenas no ambiente de desenvolvimento e soluções geridas em todos os outros." & Char(10) & Char(10) & "A segurança é também mais fina do que a das listas. O acesso define-se por funções de segurança, que dizem quem pode criar, ler, escrever ou eliminar registos, e organiza-se por unidades de negócio e equipas. Para dados sensíveis, como os protegidos pelo RGPD, os perfis de segurança de coluna escondem colunas específicas a quem não as deve ver, sem ser preciso criar tabelas ou vistas à parte." & Char(10) & Char(10) & "Os metadados das tabelas servem ainda para gerar apps baseadas em modelo, com formulários e vistas responsivos, o que reduz muito o trabalho de construir uma interface de raiz."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvFavorTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfVerdeTexto
+                        Fill: =nfVerdeFundo
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =8
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =8
+                        Size: =14
+                        Text: ="A favor"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvFavor:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="• Relações nativas. As relações de um para muitos e de muitos para muitos pertencem ao próprio serviço, com eliminação restrita, em cascata ou apenas da ligação." & Char(10) & Char(10) & "• Lógica no servidor. Regras de negócio, colunas calculadas e fluxos aplicam-se em todas as apps que usam a tabela, e não apenas numa." & Char(10) & Char(10) & "• Segurança granular. Funções, equipas, unidades de negócio e perfis de segurança de coluna controlam quem vê e quem altera cada registo e cada coluna." & Char(10) & Char(10) & "• Ciclo de vida com soluções. As soluções levam tabelas, apps e fluxos de um ambiente para outro de forma controlada e repetível." & Char(10) & Char(10) & "• Delegação ampla. O Power Apps delega ao Dataverse a maior parte das consultas, e a integração com o Power Automate e o Power BI é direta."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvContraTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAmbar
+                        Fill: =nfAmbarFundo
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =8
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =8
+                        Size: =14
+                        Text: ="Contra"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvContra:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="• Licenciamento premium. O conector do Dataverse é premium, e cada utilizador da app precisa de uma licença Power Apps paga." & Char(10) & Char(10) & "• Custo do armazenamento. A capacidade paga-se por GB. Em pagamento por utilização, cada GB de base de dados acima do incluído custa 48 USD por mês, preço consultado em novembro de 2026." & Char(10) & Char(10) & "• Dependência da plataforma. Os dados e a lógica ficam presos à Power Platform, e a modelação segue regras próprias, que não são as de uma base de dados SQL."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bDvSintese:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        Fill: =nfAzulClaro
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="Em síntese. O Dataverse é a escolha natural para aplicações de negócio que precisam de relações, regras e segurança, e foi por isso a origem da Ficha 04. Essa riqueza paga-se em licenças e em capacidade de armazenamento, um custo que convém prever antes de a aplicação ganhar utilizadores e dados."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlNome:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Bold
+                        PaddingTop: =12
+                        Size: =20
+                        Text: ="SQL (Azure SQL Database)"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlModelo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        Size: =14
+                        Text: ="O PaaS relacional"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlOQue:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="O Azure SQL Database é o motor do SQL Server oferecido como serviço na cloud do Azure. A app liga-se a ele pelo conector SQL Server e trabalha com tabelas, vistas e procedimentos armazenados escritos em T-SQL, o que faz dele a escolha óbvia quando os dados já vivem num servidor SQL ou têm de ser partilhados com outros sistemas." & Char(10) & Char(10) & "É uma plataforma como serviço (PaaS) totalmente gerida. A Microsoft trata das atualizações, das correções, das cópias de segurança e da monitorização, e a organização fica responsável pelo desenho da base de dados, pela segurança dos dados e pelo desempenho das consultas."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlAprofTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingTop: =4
+                        Size: =16
+                        Text: ="Computação, armazenamento e lógica no servidor"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlAprof:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="No Dataverse, a parte variável do custo é a capacidade de armazenamento. No Azure SQL Database, a computação vende-se à parte. No modelo vCore escolhem-se os núcleos virtuais e a memória, e no modelo DTU compra-se um pacote que junta computação, memória e operações de leitura e escrita. Quando há várias bases de dados com cargas que variam ao longo do dia, um conjunto elástico partilha os mesmos recursos entre elas e reduz o custo total." & Char(10) & Char(10) & "A outra diferença está na lógica. O Power Fx não é uma linguagem de base de dados, e as operações pesadas, como junções grandes ou transações que envolvem várias tabelas, devem ficar em procedimentos armazenados. O Power Apps chama esses procedimentos diretamente a partir de uma fórmula, e o trabalho é feito no servidor, não no dispositivo de quem usa a app."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlFavorTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfVerdeTexto
+                        Fill: =nfVerdeFundo
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =8
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =8
+                        Size: =14
+                        Text: ="A favor"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlFavor:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="• Modelo relacional completo. Chaves estrangeiras, índices, vistas e procedimentos dão a quem desenha a base de dados controlo total sobre a integridade e o desempenho." & Char(10) & Char(10) & "• Lógica no servidor. Consultas complexas e procedimentos armazenados correm no servidor, e o Power Fx chama-os diretamente." & Char(10) & Char(10) & "• Dados partilhados. Os mesmos dados servem outros sistemas, relatórios e integrações fora da Power Platform." & Char(10) & Char(10) & "• Escala independente. A computação escala à parte do armazenamento, por vCores ou DTU, e os conjuntos elásticos poupam quando há várias bases de dados."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlContraTit:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAmbar
+                        Fill: =nfAmbarFundo
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        PaddingBottom: =8
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =8
+                        Size: =14
+                        Text: ="Contra"
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlContra:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        Fill: =Color.White
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="• Custos somados. O conector SQL Server é premium, e a base de dados no Azure paga-se à parte, em computação e em armazenamento." & Char(10) & Char(10) & "• Sem interface pronta. Tudo o que o utilizador vê tem de ser construído, numa canvas app ou noutra aplicação." & Char(10) & Char(10) & "• Administração exigente. O esquema, a segurança, o desempenho e as cópias de segurança pedem alguém com conhecimentos de bases de dados." & Char(10) & Char(10) & "• Delegação parcial. Nem todas as funções do Power Fx são delegadas ao SQL Server, e o que não é tem de passar para vistas ou procedimentos."
+                        Visible: =locL4bVista <> "tabela"
+                  - lblL4bSqlSintese:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        Fill: =nfAzulClaro
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: ="Em síntese. O Azure SQL Database é a escolha para grandes volumes de dados, para informação que já existe em SQL e para sistemas que partilham dados com outras aplicações. Dá o máximo de controlo, mas obriga a construir a interface e a administrar a base de dados."
+                        Visible: =locL4bVista <> "tabela"
+                  - btnL4bVerTabela:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =nfAzul
+                        Color: =Color.White
+                        Fill: =nfAzul
+                        Height: =44
+                        HoverColor: =Color.White
+                        HoverFill: =nfAzul
+                        OnSelect: |-
+                          =UpdateContext({locL4bVista: "tabela"})
+                        PressedColor: =Color.White
+                        PressedFill: =nfAzul
                         RadiusBottomLeft: =12
                         RadiusBottomRight: =12
                         RadiusTopLeft: =12
                         RadiusTopRight: =12
+                        Size: =14
+                        Text: ="Ver a tabela comparativa"
+                        Visible: =locL4bVista <> "tabela"
+                        Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 280)
+                  - lblL4bTabIntro:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        Size: =14
+                        Text: ="Os sete critérios do enunciado do Lab 4 e dois da perspetiva cloud, lado a lado. A coluna Dataverse é a origem usada na Ficha 04."
+                        Visible: =locL4bVista = "tabela"
+                  - conL4bCabecalho:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfLinha
+                        FillPortions: =0
+                        Height: =48
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        Visible: =locL4bVista = "tabela" && scrL4Complemento.Size > ScreenSize.Small
                       Children:
-                        - icoL4bConclusao:
-                            Control: Classic/Icon@2.5.0
+                        - lblL4bCabCriterio:
+                            Control: Label@2.5.1
                             Properties:
-                              Color: =nfVerde
-                              Height: =24
-                              Icon: =Icon.Check
-                              Width: =24
-                        - lblL4bConclusao:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Bold
+                              PaddingLeft: =16
+                              Size: =14
+                              Text: ="Critério"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bCabSharePoint:
                             Control: Label@2.5.1
                             Properties:
                               AlignInContainer: =AlignInContainer.Stretch
                               Color: =nfTexto
                               FillPortions: =1
                               FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Bold
+                              PaddingLeft: =12
                               Size: =14
-                              Text: |-
-                                ="A Ficha 04 usa Dataverse: relação 1:N com Restringir, número automático, vistas no Filter e delegação ampla, tudo dentro da solução DAC2627."
+                              Text: ="SharePoint (listas)"
+                        - lblL4bCabDataverse:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =Color.White
+                              Fill: =nfAzul
+                              FillPortions: =1
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Bold
+                              PaddingLeft: =12
+                              Size: =14
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Medium, "Dataverse", "Dataverse · usado nesta ficha")
+                        - lblL4bCabSQL:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              Color: =nfTexto
+                              FillPortions: =1
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Bold
+                              PaddingLeft: =12
+                              Size: =14
+                              Text: ="SQL (Azure SQL)"
+                  - conL4bLinha1:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit1.Height + lblL4bSp1.Height + lblL4bDv1.Height + lblL4bSql1.Height, Max(lblL4bCrit1.Height, lblL4bSp1.Height, lblL4bDv1.Height, lblL4bSql1.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit1:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Estrutura"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp1:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Listas com colunas simples (texto, número, escolha, data, pessoa, pesquisa)."
+                        - lblL4bDv1:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Tabelas com tipos ricos (moeda, número automático, escolha, pesquisa) e metadados."
+                        - lblL4bSql1:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Tabelas, tipos e índices definidos em T-SQL por quem desenha a base de dados."
+                  - conL4bLinha2:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfSuperficie
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit2.Height + lblL4bSp2.Height + lblL4bDv2.Height + lblL4bSql2.Height, Max(lblL4bCrit2.Height, lblL4bSp2.Height, lblL4bDv2.Height, lblL4bSql2.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit2:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Relações"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp2:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Coluna de pesquisa entre listas. Restrita ou em cascata só abaixo de 5000 itens."
+                        - lblL4bDv2:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "1:N e N:N nativas, com Restringir, Em cascata ou Remover ligação."
+                        - lblL4bSql2:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Chaves estrangeiras com ON DELETE e integridade referencial completa."
+                  - conL4bLinha3:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit3.Height + lblL4bSp3.Height + lblL4bDv3.Height + lblL4bSql3.Height, Max(lblL4bCrit3.Height, lblL4bSp3.Height, lblL4bDv3.Height, lblL4bSql3.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit3:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Desenvolvimento Power Apps"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp3:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Conector standard. Delegação parcial."
+                        - lblL4bDv3:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Conector premium. Delegação ampla, escolhas e vistas no Filter."
+                        - lblL4bSql3:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Conector premium. Delegação parcial, com vistas e procedimentos para o resto."
+                  - conL4bLinha4:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfSuperficie
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit4.Height + lblL4bSp4.Height + lblL4bDv4.Height + lblL4bSql4.Height, Max(lblL4bCrit4.Height, lblL4bSp4.Height, lblL4bDv4.Height, lblL4bSql4.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit4:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Interface pronta"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp4:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Sim. Microsoft Lists no browser, com vistas e formulários."
+                        - lblL4bDv4:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Sim. App baseada em modelo gerada a partir das tabelas."
+                        - lblL4bSql4:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Não. A interface tem de ser construída."
+                  - conL4bLinha5:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit5.Height + lblL4bSp5.Height + lblL4bDv5.Height + lblL4bSql5.Height, Max(lblL4bCrit5.Height, lblL4bSp5.Height, lblL4bDv5.Height, lblL4bSql5.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit5:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Lógica"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp5:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Validação simples nas colunas e fluxos do Power Automate."
+                        - lblL4bDv5:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Regras de negócio, colunas calculadas e fluxos, aplicados no servidor."
+                        - lblL4bSql5:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Restrições, gatilhos e procedimentos armazenados em T-SQL."
+                  - conL4bLinha6:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfSuperficie
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit6.Height + lblL4bSp6.Height + lblL4bDv6.Height + lblL4bSql6.Height, Max(lblL4bCrit6.Height, lblL4bSp6.Height, lblL4bDv6.Height, lblL4bSql6.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit6:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Gestão"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp6:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Dono do site no Microsoft 365, com as permissões do site e da lista."
+                        - lblL4bDv6:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Centro de administração do Power Platform, com ambientes, funções e soluções."
+                        - lblL4bSql6:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Portal do Azure (escalão, firewall, cópias, utilizadores). Pede um administrador de base de dados."
+                  - conL4bLinha7:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit7.Height + lblL4bSp7.Height + lblL4bDv7.Height + lblL4bSql7.Height, Max(lblL4bCrit7.Height, lblL4bSp7.Height, lblL4bDv7.Height, lblL4bSql7.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit7:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Caso de uso sugerido"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp7:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Listas simples e colaborativas, poucos milhares de registos, sem licenças premium."
+                        - lblL4bDv7:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Apps de negócio com relações, regras e segurança por funções, como esta ficha."
+                        - lblL4bSql7:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Dados que já vivem em SQL, grandes volumes ou partilhados com outros sistemas."
+                  - conL4bLinha8:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =nfSuperficie
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit8.Height + lblL4bSp8.Height + lblL4bDv8.Height + lblL4bSql8.Height, Max(lblL4bCrit8.Height, lblL4bSp8.Height, lblL4bDv8.Height, lblL4bSql8.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit8:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Modelo de serviço cloud"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp8:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "SaaS. Faz parte do Microsoft 365 e a Microsoft gere tudo."
+                        - lblL4bDv8:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Plataforma gerida (PaaS), com uma base de dados por ambiente."
+                        - lblL4bSql8:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "PaaS do Azure. Computação por vCores ou DTU, e conjuntos elásticos."
+                  - conL4bLinha9:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =If(scrL4Complemento.Size = ScreenSize.Small, lblL4bCrit9.Height + lblL4bSp9.Height + lblL4bDv9.Height + lblL4bSql9.Height, Max(lblL4bCrit9.Height, lblL4bSp9.Height, lblL4bDv9.Height, lblL4bSql9.Height))
+                        LayoutDirection: =If(scrL4Complemento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        Visible: =locL4bVista = "tabela"
+                      Children:
+                        - lblL4bCrit9:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              PaddingBottom: =10
+                              PaddingLeft: =16
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Size: =14
+                              Text: ="Custo e licenciamento"
+                              Width: =If(scrL4Complemento.Size = ScreenSize.Medium, 150, 190)
+                        - lblL4bSp9:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SharePoint · ", "") & "Incluído no Microsoft 365. Conector standard."
+                        - lblL4bDv9:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              Fill: =nfAzulClaro
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "Dataverse · ", "") & "Licença Power Apps premium por utilizador e capacidade de armazenamento por GB."
+                        - lblL4bSql9:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =If(scrL4Complemento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              AutoHeight: =true
+                              Color: =nfTexto
+                              FillPortions: =If(scrL4Complemento.Size = ScreenSize.Small, 0, 1)
+                              FocusedBorderThickness: =2
+                              PaddingBottom: =10
+                              PaddingLeft: =12
+                              PaddingRight: =12
+                              PaddingTop: =10
+                              Text: =If(scrL4Complemento.Size = ScreenSize.Small, "SQL · ", "") & "Licença Power Apps premium e a base de dados no Azure (computação e armazenamento)."
+                  - lblL4bConclusao:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        Fill: =nfAzulClaro
+                        FocusedBorderThickness: =2
+                        PaddingBottom: =12
+                        PaddingLeft: =16
+                        PaddingRight: =16
+                        PaddingTop: =12
+                        Size: =14
+                        Text: |-
+                          ="A Ficha 04 usa o Dataverse porque o problema o pedia: uma relação de um para muitos com eliminação restrita, número automático nos pedidos, vistas usadas diretamente no Filter e delegação ampla, tudo dentro da solução DAC2627. O custo dessa escolha é a licença premium de cada utilizador." & Char(10) & Char(10) & "As outras duas origens não são piores, servem outros casos. Com poucos clientes e sem licenças premium, uma lista do SharePoint chegava, desde que ficasse longe do limiar de vista. Com os dados já num servidor SQL, o conector SQL Server evitava migrá-los e deixava a lógica pesada nos procedimentos armazenados." & Char(10) & Char(10) & "Na perspetiva da Computação Cloud, as três são serviços geridos pela Microsoft, mas com modelos diferentes. O SharePoint é SaaS e usa-se tal como está, enquanto o Dataverse e o Azure SQL Database são plataformas sobre as quais se constrói a aplicação. Escolher entre eles é decidir quem gere o quê, até onde a solução pode crescer e como se paga."
+                        Visible: =locL4bVista = "tabela"
+                  - btnL4bVoltarTexto:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =nfAzul
+                        Color: =nfAzul
+                        Fill: =Color.White
+                        Height: =44
+                        HoverColor: =nfAzul
+                        HoverFill: =nfAzulClaro
+                        OnSelect: |-
+                          =UpdateContext({locL4bVista: "texto"})
+                        PressedColor: =nfAzul
+                        PressedFill: =nfAzulClaro
+                        RadiusBottomLeft: =12
+                        RadiusBottomRight: =12
+                        RadiusTopLeft: =12
+                        RadiusTopRight: =12
+                        Size: =14
+                        Text: ="Voltar ao texto"
+                        Visible: =locL4bVista = "tabela"
+                        Width: =If(scrL4Complemento.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 280)

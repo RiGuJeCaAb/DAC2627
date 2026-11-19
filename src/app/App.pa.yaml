@@ -8,7 +8,7 @@
 # ************************************************************************************************
 App:
   Properties:
-    Formulas: |-
+    Formulas: |+
       =nfAzul = ColorValue("#1F4E79"); // Paleta da APP DAC2627: todas as cores da app passam por aqui.
       // Azul (água): marca, cabeçalhos, ações principais.
       nfAzulClaro = ColorValue("#E8EFF6");

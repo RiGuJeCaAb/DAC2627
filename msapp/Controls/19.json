@@ -110,7 +110,7 @@
       "ContentLanguage"
     ],
     "IsLocked": false,
-    "ControlUniqueId": "326",
+    "ControlUniqueId": "19",
     "Children": [
       {
         "Type": "ControlInfo",
@@ -135,7 +135,7 @@
         "MetaDataIDKey": "",
         "PersistMetaDataIDKey": false,
         "IsFromScreenLayout": false,
-        "StyleName": "",
+        "StyleName": "defaultGroupContainerStyle",
         "Parent": "scrL1Saudacao",
         "IsDataControl": false,
         "AllowAccessToGlobals": true,
@@ -420,7 +420,7 @@
           "DropShadow"
         ],
         "IsLocked": false,
-        "ControlUniqueId": "327",
+        "ControlUniqueId": "20",
         "Children": [
           {
             "Type": "ControlInfo",
@@ -507,7 +507,7 @@
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "",
+            "StyleName": "defaultGroupContainerStyle",
             "Parent": "conEcraL1c",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -792,7 +792,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "328",
+            "ControlUniqueId": "21",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -879,7 +879,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "",
+                "StyleName": "defaultIconStyle",
                 "Parent": "conCabL1c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1171,7 +1171,7 @@
                   "PreserveAspectRatio"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "329",
+                "ControlUniqueId": "22",
                 "Children": []
               },
               {
@@ -1259,7 +1259,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "",
+                "StyleName": "defaultLabelStyle",
                 "Parent": "conCabL1c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -1628,7 +1628,7 @@
                   "maximumHeight"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "330",
+                "ControlUniqueId": "23",
                 "Children": []
               }
             ]
@@ -1718,7 +1718,7 @@
             "MetaDataIDKey": "",
             "PersistMetaDataIDKey": false,
             "IsFromScreenLayout": false,
-            "StyleName": "",
+            "StyleName": "defaultGroupContainerStyle",
             "Parent": "conEcraL1c",
             "IsDataControl": false,
             "AllowAccessToGlobals": true,
@@ -2003,7 +2003,7 @@
               "DropShadow"
             ],
             "IsLocked": false,
-            "ControlUniqueId": "331",
+            "ControlUniqueId": "24",
             "Children": [
               {
                 "Type": "ControlInfo",
@@ -2090,7 +2090,7 @@
                 "MetaDataIDKey": "",
                 "PersistMetaDataIDKey": false,
                 "IsFromScreenLayout": false,
-                "StyleName": "",
+                "StyleName": "defaultGroupContainerStyle",
                 "Parent": "conConteudoL1c",
                 "IsDataControl": false,
                 "AllowAccessToGlobals": true,
@@ -2375,7 +2375,7 @@
                   "DropShadow"
                 ],
                 "IsLocked": false,
-                "ControlUniqueId": "332",
+                "ControlUniqueId": "25",
                 "Children": [
                   {
                     "Type": "ControlInfo",
@@ -2462,7 +2462,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "",
+                    "StyleName": "defaultIconStyle",
                     "Parent": "conL1cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -2754,7 +2754,7 @@
                       "PreserveAspectRatio"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "333",
+                    "ControlUniqueId": "26",
                     "Children": []
                   },
                   {
@@ -2842,7 +2842,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "",
+                    "StyleName": "defaultLabelStyle",
                     "Parent": "conL1cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3211,7 +3211,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "334",
+                    "ControlUniqueId": "27",
                     "Children": []
                   },
                   {
@@ -3299,7 +3299,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "",
+                    "StyleName": "defaultLabelStyle",
                     "Parent": "conL1cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -3668,7 +3668,7 @@
                       "maximumHeight"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "335",
+                    "ControlUniqueId": "28",
                     "Children": []
                   },
                   {
@@ -3756,7 +3756,7 @@
                     "MetaDataIDKey": "",
                     "PersistMetaDataIDKey": false,
                     "IsFromScreenLayout": false,
-                    "StyleName": "",
+                    "StyleName": "defaultGroupContainerStyle",
                     "Parent": "conL1cCartao",
                     "IsDataControl": false,
                     "AllowAccessToGlobals": true,
@@ -4041,7 +4041,7 @@
                       "DropShadow"
                     ],
                     "IsLocked": false,
-                    "ControlUniqueId": "336",
+                    "ControlUniqueId": "29",
                     "Children": [
                       {
                         "Type": "ControlInfo",
@@ -4128,7 +4128,7 @@
                         "MetaDataIDKey": "",
                         "PersistMetaDataIDKey": false,
                         "IsFromScreenLayout": false,
-                        "StyleName": "",
+                        "StyleName": "defaultButtonStyle",
                         "Parent": "conL1Botoes",
                         "IsDataControl": false,
                         "AllowAccessToGlobals": true,
@@ -4483,7 +4483,7 @@
                           "minimumWidth"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "337",
+                        "ControlUniqueId": "30",
                         "Children": []
                       },
                       {
@@ -4571,7 +4571,7 @@
                         "MetaDataIDKey": "",
                         "PersistMetaDataIDKey": false,
                         "IsFromScreenLayout": false,
-                        "StyleName": "",
+                        "StyleName": "defaultButtonStyle",
                         "Parent": "conL1Botoes",
                         "IsDataControl": false,
                         "AllowAccessToGlobals": true,
@@ -4926,7 +4926,7 @@
                           "minimumWidth"
                         ],
                         "IsLocked": false,
-                        "ControlUniqueId": "338",
+                        "ControlUniqueId": "31",
                         "Children": []
                       }
                     ]
