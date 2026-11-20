@@ -131,13 +131,14 @@ const entrar = def({}, gatilhoApp([['Email', 'Email do utilizador'], ['Password'
         runAfter: { Verificar: ['Succeeded'] }, type: 'If',
         expression: { equals: ["@body('Verificar')?['valido']", true] },
         actions: {
-          Gerar_testemunho: { runAfter: {}, type: 'Compose', inputs: "@replace(concat(guid(),guid()),'-','')", runtimeConfiguration: SEGURO },
-          Abrir_sessao: atualizarUtilizador(`@${U}?['dac_utilizadorid']`, {
+          // o testemunho é gerado aqui (64 carateres hexadecimais) e lido da resposta da atualização,
+          // porque uma ação Compose não aceita a proteção dos dados no histórico
+          Abrir_sessao: { ...atualizarUtilizador(`@${U}?['dac_utilizadorid']`, {
             dac_tentativasfalhadas: 0, dac_bloqueadoate: null, dac_ultimoacesso: '@utcNow()',
-            dac_sessaotoken: "@outputs('Gerar_testemunho')", dac_sessaoexpira: '@addHours(utcNow(),8)',
-          }, { Gerar_testemunho: ['Succeeded'] }, true),
+            dac_sessaotoken: "@replace(concat(guid(),guid()),'-','')", dac_sessaoexpira: '@addHours(utcNow(),8)',
+          }), runtimeConfiguration: SEGURO },
           Responder_ok: responder({
-            resultado: 'ok', mensagem: `Bem-vindo, @{${U}?['dac_nome']}.`, token: "@{outputs('Gerar_testemunho')}", nome: `@{${U}?['dac_nome']}`,
+            resultado: 'ok', mensagem: `Bem-vindo, @{${U}?['dac_nome']}.`, token: "@{outputs('Abrir_sessao')?['body/dac_sessaotoken']}", nome: `@{${U}?['dac_nome']}`,
             perfil: `@{if(equals(${U}?['dac_perfil'],${PERFIL.admin}),'Admin',if(equals(${U}?['dac_perfil'],${PERFIL.gestor}),'Gestor','Cliente'))}`,
             utilizadorid: `@{${U}?['dac_utilizadorid']}`, clienteid: `@{coalesce(${U}?['_dac_cliente_value'],'')}`,
           }, { Abrir_sessao: ['Succeeded'] }, true),
