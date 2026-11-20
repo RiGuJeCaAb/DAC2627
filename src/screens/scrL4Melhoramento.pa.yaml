@@ -159,7 +159,7 @@ Screens:
                                     Height: =48
                                     HoverFill: =nfAzulFundo
                                     InputTextPlaceholder: ="Escolher o cliente"
-                                    Items: =Sort(Clientes, Nome)
+                                    Items: =Choices([@Pedidos].dac_Cliente)
                                     PressedColor: =Color.White
                                     PressedFill: =nfAzul
                                     SearchFields: =["dac_nome"]
@@ -215,8 +215,8 @@ Screens:
                                           Color: =nfTextoSuave
                                           FocusedBorderThickness: =2
                                           Height: =44
-                                          Text: ="Valores de teste da aula:"
-                                          Width: =170
+                                          Text: ="Testes da aula:"
+                                          Width: =110
                                     - btnL4cTeste100:
                                         Control: Classic/Button@2.2.0
                                         Properties:
@@ -368,7 +368,7 @@ Screens:
                               DropShadow: =DropShadow.None
                               Fill: =Color.White
                               FillPortions: =If(scrL4Melhoramento.Size = ScreenSize.Small, 0, 1)
-                              Height: =40 + lblL4cEstadoTitulo.Height + If(lblL4cSemPedido.Visible, 10 + lblL4cSemPedido.Height, 0) + If(conL4cResumo.Visible, 10 + 36, 0) + If(lblL4cAguarda.Visible, 10 + lblL4cAguarda.Height, 0) + If(lblL4cDetalhes.Visible, 10 + lblL4cDetalhes.Height, 0) + If(lblL4cDecisao.Visible, 10 + lblL4cDecisao.Height, 0) + If(conL4cAcoes.Visible, 10 + conL4cAcoes.Height, 0)
+                              Height: =40 + lblL4cEstadoTitulo.Height + If(lblL4cSemPedido.Visible, 10 + lblL4cSemPedido.Height, 0) + If(conL4cResumo.Visible, 10 + conL4cResumo.Height, 0) + If(lblL4cAguarda.Visible, 10 + lblL4cAguarda.Height, 0) + If(lblL4cDetalhes.Visible, 10 + lblL4cDetalhes.Height, 0) + If(lblL4cDecisao.Visible, 10 + lblL4cDecisao.Height, 0) + If(conL4cAcoes.Visible, 10 + conL4cAcoes.Height, 0)
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =10
                               LayoutMinWidth: =300
@@ -407,7 +407,8 @@ Screens:
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    Height: =36
+                                    Height: =Max(36, lblL4cNumero.Height + 4)
+                                    LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
                                     LayoutGap: =12
                                     Visible: =!IsBlank(locL4cPedido)
@@ -416,13 +417,12 @@ Screens:
                                         Control: Label@2.5.1
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Center
-                                          AutoHeight: =false
+                                          AutoHeight: =true
                                           Color: =nfTexto
                                           FillPortions: =1
                                           FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Semibold
-                                          Height: =32
-                                          Size: =16
+                                          Size: =15
                                           Text: =locL4cPedido.NumeroPedido & "  ·  " & locL4cPedido.Clientes.Nome
                                     - btnL4cTratamento:
                                         Control: Classic/Button@2.2.0

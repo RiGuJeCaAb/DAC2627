@@ -157,7 +157,7 @@ def _novo() -> dict:
             "AccessibleLabel": '="Cliente do pedido"', "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight",
             "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White",
             "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["dac_nome"]', "Height": "=48",
-            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Sort(Clientes, Nome)",
+            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Choices([@Pedidos].dac_Cliente)",
             "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["dac_nome"]',
             "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0"}),
         _rotulo("lblL4cValorRot", "Valor (€)"),
@@ -166,8 +166,8 @@ def _novo() -> dict:
             "Default": "=locL4cValorTeste", "DisplayMode": "=If(chkL4cSemValor.Value, DisplayMode.Disabled, DisplayMode.Edit)",
             "Format": "=TextFormat.Number", "HintText": '="Ex.: 750"', "TabIndex": "=0", **entrada}),
         _contentor("conL4cTestes", [
-            _etiqueta("lblL4cTestesRot", _s("Valores de teste da aula:"), AlignInContainer="=AlignInContainer.Center",
-                      AutoHeight="=false", Color="=nfTextoSuave", Height="=44", Size="=13", Width="=170"),
+            _etiqueta("lblL4cTestesRot", _s("Testes da aula:"), AlignInContainer="=AlignInContainer.Center",
+                      AutoHeight="=false", Color="=nfTextoSuave", Height="=44", Size="=13", Width="=110"),
             _teste(100), _teste(500), _teste(750),
         ], vertical=False, FillPortions="=0", Height="=If(" + PEQ + ", 96, 44)", LayoutAlignItems="=LayoutAlignItems.Center",
            LayoutGap="=8", LayoutWrap="=true"),
@@ -227,9 +227,10 @@ def _estado() -> dict:
                   Color="=nfTextoSuave", Visible=f"=IsBlank({P})"),
         _contentor("conL4cResumo", [
             _etiqueta("lblL4cNumero", f'{P}.NumeroPedido & "  ·  " & {P}.Clientes.Nome', AlignInContainer="=AlignInContainer.Center",
-                      AutoHeight="=false", FillPortions="=1", FontWeight="=FontWeight.Semibold", Height="=32", Size="=16"),
+                      FillPortions="=1", FontWeight="=FontWeight.Semibold", Size="=15"),
             _pilula("btnL4cTratamento", P, AlignInContainer="=AlignInContainer.Center"),
-        ], vertical=False, FillPortions="=0", Height="=36", LayoutGap="=12", Visible="=" + TEM),
+        ], vertical=False, FillPortions="=0", Height="=Max(36, lblL4cNumero.Height + 4)", LayoutAlignItems="=LayoutAlignItems.Center",
+           LayoutGap="=12", Visible="=" + TEM),
         _etiqueta("lblL4cAguarda",
                   '"A aguardar o fluxo DAC2627_Pedido_Classificar · consulta " & (locL4cTentativas + 1) & " de 20, a cada 3 s."',
                   Color="=nfAmbar", Fill="=nfAmbarFundo", FontWeight="=FontWeight.Semibold", Visible="=locL4cAguardar",
@@ -248,7 +249,7 @@ def _estado() -> dict:
     ]
     vis = lambda c, h: f"If({c}.Visible, 10 + {h}, 0)"
     altura = " + ".join(["40 + lblL4cEstadoTitulo.Height", vis("lblL4cSemPedido", "lblL4cSemPedido.Height"),
-                         vis("conL4cResumo", "36"), vis("lblL4cAguarda", "lblL4cAguarda.Height"),
+                         vis("conL4cResumo", "conL4cResumo.Height"), vis("lblL4cAguarda", "lblL4cAguarda.Height"),
                          vis("lblL4cDetalhes", "lblL4cDetalhes.Height"), vis("lblL4cDecisao", "lblL4cDecisao.Height"),
                          vis("conL4cAcoes", "conL4cAcoes.Height")])
     return _cartao("conL4cEstado", filhos, AlignInContainer=ALINHAR, FillPortions=f"=If({PEQ}, 0, 1)",
