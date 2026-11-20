@@ -1,4 +1,5 @@
-// Ficha 04 · Melhoramento — cria na solução DAC2627 as referências de ligação e os três fluxos.
+// Ficha 04 · Melhoramento — cria na solução DAC2627 as referências de ligação e os fluxos Classificar e Reprocessar.
+// O terceiro fluxo (Notificar) é criado por dataverse/revisao_fluxos.js, que se corre depois deste.
 // Correr num separador aberto em https://org0f43a370.crm4.dynamics.com (sessão do utilizador).
 const API = '/api/data/v9.2/';
 const H = { 'Content-Type': 'application/json; charset=utf-8', 'OData-MaxVersion': '4.0', 'OData-Version': '4.0', Accept: 'application/json', 'MSCRM.SolutionUniqueName': 'DAC2627', Prefer: 'return=representation' };
@@ -31,7 +32,6 @@ const T = 774300000; // prefixo das opções do editor DAC CC MB
 const TR = { porProcessar: T, automatico: T + 1, revisao: T + 2, erro: T + 3 };
 const DEC = { aguarda: T, aprovado: T + 1, rejeitado: T + 2 };
 const LIMITE = 'Limite de revisão dos pedidos (dac_LimiteRevisao)';
-const APROVADOR = 'Email do aprovador dos pedidos (dac_AprovadorEmail)';
 const baseParams = { $connections: { defaultValue: {}, type: 'Object' }, $authentication: { defaultValue: {}, type: 'SecureObject' } };
 const RUN = "@{workflow()?['run']?['name']}";
 const atualizar = (idExpr, campos, runAfter = {}) => ({
@@ -140,69 +140,13 @@ const reprocessar = def({},
   },
 );
 
-// 4 · Fluxo automatizado: aprovação humana dos pedidos em Revisão
-const AID = "@triggerOutputs()?['body/dac_pedidoid']";
-const decidir = (valor, rotulo) => atualizar(AID, {
-  dac_decisao: valor, dac_datadecisao: '@utcNow()',
-  dac_comentariodecisao: `${rotulo} por email por @{parameters('${APROVADOR}')}.`,
-});
-const aprovar = def(
-  { [APROVADOR]: { defaultValue: '', type: 'String', metadata: { schemaName: 'dac_AprovadorEmail', description: 'Quem aprova os pedidos em Revisão' } } },
-  {
-    Quando_um_pedido_passa_a_revisao: {
-      type: 'OpenApiConnectionWebhook',
-      inputs: { host: host('dv', 'SubscribeWebhookTrigger'), parameters: { 'subscriptionRequest/message': 3, 'subscriptionRequest/entityname': 'dac_pedido', 'subscriptionRequest/scope': 4, 'subscriptionRequest/filteringattributes': 'dac_tratamento', 'subscriptionRequest/filterexpression': `dac_tratamento eq ${TR.revisao}` }, authentication: AUTH },
-    },
-  },
-  {
-    Ler_requerente: { runAfter: {}, type: 'OpenApiConnection', inputs: { host: host('dv', 'GetItem'), parameters: { entityName: 'systemusers', recordId: "@triggerOutputs()?['body/_createdby_value']", $select: 'internalemailaddress,fullname' }, authentication: AUTH } },
-    // O conector Aprovações (shared_approvals) está bloqueado pela política de dados do tenant
-    // («Advanced Connector Policy», BlockedConnector): a decisão é um email com opções do Office 365 Outlook.
-    Pedir_aprovacao: {
-      runAfter: { Ler_requerente: ['Succeeded'] }, type: 'OpenApiConnectionWebhook',
-      inputs: {
-        host: host('ol', 'SendMailWithOptions'),
-        parameters: {
-          'optionsEmailSubscription/Message/To': `@parameters('${APROVADOR}')`,
-          'optionsEmailSubscription/Message/Subject': "Aprovação: pedido @{triggerOutputs()?['body/dac_numeropedido']} em revisão (@{triggerOutputs()?['body/dac_valor']} €)",
-          'optionsEmailSubscription/Message/Options': 'Aprovar, Rejeitar',
-          'optionsEmailSubscription/Message/HeaderText': 'Ficha 04 · Melhoramento · decisão sobre um pedido em Revisão',
-          'optionsEmailSubscription/Message/SelectionText': 'Escolha uma opção',
-          'optionsEmailSubscription/Message/Body': "Pedido: @{triggerOutputs()?['body/dac_numeropedido']}\nValor: @{triggerOutputs()?['body/dac_valor']} €\nDescrição: @{triggerOutputs()?['body/dac_descricao']}\nMotivo: @{triggerOutputs()?['body/dac_observacoesprocessamento']}",
-          'optionsEmailSubscription/Message/Importance': 'Normal',
-          'optionsEmailSubscription/Message/UseOnlyHTMLMessage': false,
-          'optionsEmailSubscription/Message/HideHTMLMessage': false,
-          'optionsEmailSubscription/Message/ShowHTMLConfirmationDialog': false,
-        },
-        authentication: AUTH,
-      },
-    },
-    Aprovado: {
-      runAfter: { Pedir_aprovacao: ['Succeeded'] }, type: 'If',
-      expression: { equals: ["@outputs('Pedir_aprovacao')?['body/SelectedOption']", 'Aprovar'] },
-      actions: { Gravar_aprovado: decidir(DEC.aprovado, 'Aprovado') },
-      else: { actions: { Gravar_rejeitado: decidir(DEC.rejeitado, 'Rejeitado') } },
-    },
-    Notificar_requerente: {
-      runAfter: { Aprovado: ['Succeeded'] }, type: 'OpenApiConnection',
-      inputs: {
-        host: host('ol', 'SendEmailV2'),
-        parameters: {
-          'emailMessage/To': "@outputs('Ler_requerente')?['body/internalemailaddress']",
-          'emailMessage/Subject': "Pedido @{triggerOutputs()?['body/dac_numeropedido']}: @{if(equals(outputs('Pedir_aprovacao')?['body/SelectedOption'],'Aprovar'),'aprovado','rejeitado')}",
-          'emailMessage/Body': "<p>O pedido <b>@{triggerOutputs()?['body/dac_numeropedido']}</b> foi @{if(equals(outputs('Pedir_aprovacao')?['body/SelectedOption'],'Aprovar'),'aprovado','rejeitado')}.</p><p>Pode consultar o estado na APP DAC2627, Ficha 04 · Melhoramento.</p>",
-        },
-        authentication: AUTH,
-      },
-    },
-  },
-);
+// 4 · O fluxo de decisão humana (DAC2627_Pedido_Aprovar na v1.5.0) passou a DAC2627_Pedido_Notificar na v1.6.0
+//     e é criado por dataverse/revisao_fluxos.js. A variável dac_AprovadorEmail foi retirada a 20/11/2026.
 
 // 5 · Criar (ou atualizar) os fluxos
 const FLUXOS = [
   { nome: 'DAC2627_Pedido_Classificar', desc: 'Ficha 04 · Melhoramento. Classifica o pedido quando é criado ou quando o Valor muda: Automático até ao limite, Revisão acima dele, Erro se faltar o valor ou se o processamento falhar.', refs: { ...ref('dv') }, def: classificar },
   { nome: 'DAC2627_Pedido_Reprocessar', desc: 'Ficha 04 · Melhoramento. Chamado pela Canvas app (Power Apps V2): repõe o pedido em Por processar e volta a escrever o Valor para disparar o fluxo Classificar.', refs: { ...ref('dv') }, def: reprocessar },
-  { nome: 'DAC2627_Pedido_Aprovar', desc: 'Ficha 04 · Melhoramento. Quando um pedido passa a Revisão, envia ao aprovador um email com as opções Aprovar e Rejeitar, grava a decisão no pedido e notifica quem o criou.', refs: { ...ref('dv'), ...ref('ol') }, def: aprovar },
 ];
 const ids = {};
 for (const f of FLUXOS) {

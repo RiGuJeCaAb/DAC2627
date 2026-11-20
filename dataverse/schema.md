@@ -63,7 +63,7 @@ Os pedidos que já existiam antes de 20/11/2026 ficam com Tratamento vazio («N�
 
 Obrigatória quer dizer obrigatória nas aplicações (`ApplicationRequired`). A Web API aceitou a 20/11/2026 um pedido sem Valor (PED-1182), e é para esse caso que o fluxo tem o ramo «Dados inválidos».
 
-Variáveis de ambiente da solução: `dac_LimiteRevisao` (decimal, 500), `dac_LigacaoApp` (texto, o endereço da app nos emails, v1.6.0) e `dac_AprovadorEmail` (texto, já sem uso desde a v1.6.0).
+Variáveis de ambiente da solução: `dac_LimiteRevisao` (decimal, 500) e `dac_LigacaoApp` (texto, o endereço da app nos emails, v1.6.0). A `dac_LigacaoApp` substitui a `dac_AprovadorEmail`, retirada a 20/11/2026 com o acordo do utilizador, porque deixou de ser usada e levava o email do dono em cada exportação.
 
 ### Colunas da Ficha 04 · Revisão (v1.6.0, 20/11/2026)
 
