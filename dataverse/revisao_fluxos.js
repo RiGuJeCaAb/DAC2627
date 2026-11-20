@@ -79,7 +79,8 @@ const responder = (valores, runAfter, seguro = false) => ({
     schema: { type: 'object', properties: Object.fromEntries(CAMPOS.map((c) => [c, { title: c, type: 'string', 'x-ms-dynamically-added': true }])) },
   },
 });
-const recusar = (msg, runAfter = {}) => ({ actions: { Responder: responder({ resultado: 'erro', mensagem: msg }, runAfter), Terminar: terminar({ Responder: ['Succeeded'] }) } });
+// os nomes das ações têm de ser únicos no fluxo inteiro, por isso cada recusa leva o nome do ramo
+const recusar = (msg, ramo) => ({ actions: { [`Responder_${ramo}`]: responder({ resultado: 'erro', mensagem: msg }, {}), [`Terminar_${ramo}`]: terminar({ [`Responder_${ramo}`]: ['Succeeded'] }) } });
 
 // Sessão: o testemunho devolvido pelo fluxo Entrar identifica quem chama. Os fluxos que alteram dados
 // leem o perfil daqui, nunca do que a app diz, porque o que vem da app pode ser forjado.
@@ -92,7 +93,7 @@ const lerSessao = (iToken) => dv('ListRecords', {
 const semSessao = {
   runAfter: { Ler_sessao: ['Succeeded'] }, type: 'If',
   expression: { equals: ["@length(outputs('Ler_sessao')?['body/value'])", 0] },
-  ...recusar('Sessão inválida ou expirada. Entrar de novo.'), else: { actions: {} },
+  ...recusar('Sessão inválida ou expirada. Entrar de novo.', 'sem_sessao'), else: { actions: {} },
 };
 const erroTecnico = (msg) => ({ Tratar_erro: { runAfter: { Tentar: ['Failed', 'TimedOut'] }, type: 'Scope', actions: { Responder_erro: responder({ resultado: 'erro', mensagem: msg }, {}) } } });
 
@@ -115,12 +116,12 @@ const entrar = def({}, gatilhoApp([['Email', 'Email do utilizador'], ['Password'
           { not: { equals: [`@${U}?['dac_ativo']`, true] } },
           { equals: [`@empty(${U}?['dac_passwordhash'])`, true] },
         ] },
-        ...recusar(INVALIDO), else: { actions: {} },
+        ...recusar(INVALIDO, 'inexistente'), else: { actions: {} },
       },
       Bloqueado: {
         runAfter: { Inexistente_ou_inativo: ['Succeeded'] }, type: 'If',
         expression: { greater: [`@ticks(coalesce(${U}?['dac_bloqueadoate'],'1900-01-01T00:00:00Z'))`, '@ticks(utcNow())'] },
-        ...recusar('Conta bloqueada por 5 tentativas falhadas. Tentar de novo dentro de 15 minutos.'), else: { actions: {} },
+        ...recusar('Conta bloqueada por 5 tentativas falhadas. Tentar de novo dentro de 15 minutos.', 'bloqueado'), else: { actions: {} },
       },
       Verificar: {
         runAfter: { Bloqueado: ['Succeeded'] }, type: 'OpenApiConnection', runtimeConfiguration: SEGURO,
@@ -149,7 +150,7 @@ const entrar = def({}, gatilhoApp([['Email', 'Email do utilizador'], ['Password'
               expression: { greaterOrEquals: ["@outputs('Contar_falhas')", 5] },
               actions: {
                 Bloquear: atualizarUtilizador(`@${U}?['dac_utilizadorid']`, { dac_tentativasfalhadas: 0, dac_bloqueadoate: '@addMinutes(utcNow(),15)' }),
-                Responder_bloqueado: responder({ resultado: 'erro', mensagem: 'Conta bloqueada por 5 tentativas falhadas. Tentar de novo dentro de 15 minutos.' }, { Bloquear: ['Succeeded'] }),
+                Responder_quinta_falha: responder({ resultado: 'erro', mensagem: 'Conta bloqueada por 5 tentativas falhadas. Tentar de novo dentro de 15 minutos.' }, { Bloquear: ['Succeeded'] }),
               },
               else: {
                 actions: {
@@ -184,7 +185,7 @@ const definirPassword = def({}, gatilhoApp([
       Tamanho_invalido: {
         runAfter: { Alvo: ['Succeeded'] }, type: 'If',
         expression: { or: [{ less: [`@length(coalesce(${ENTRADA(2)},''))`, 8] }, { greater: [`@length(coalesce(${ENTRADA(2)},''))`, 128] }] },
-        ...recusar('A nova password tem de ter entre 8 e 128 caracteres.'), else: { actions: {} },
+        ...recusar('A nova password tem de ter entre 8 e 128 caracteres.', 'tamanho'), else: { actions: {} },
       },
       E_o_proprio: {
         runAfter: { Tamanho_invalido: ['Succeeded'] }, type: 'If',
@@ -197,7 +198,7 @@ const definirPassword = def({}, gatilhoApp([
           Atual_errada: {
             runAfter: { Verificar_atual: ['Succeeded'] }, type: 'If',
             expression: { not: { equals: ["@body('Verificar_atual')?['valido']", true] } },
-            ...recusar('A password atual não está certa.'), else: { actions: {} },
+            ...recusar('A password atual não está certa.', 'atual_errada'), else: { actions: {} },
           },
         },
         else: {
@@ -205,7 +206,7 @@ const definirPassword = def({}, gatilhoApp([
             Nao_e_admin: {
               runAfter: {}, type: 'If',
               expression: { not: { equals: [`@${SESSAO}?['dac_perfil']`, PERFIL.admin] } },
-              ...recusar('Só um Admin define a password de outro utilizador.'), else: { actions: {} },
+              ...recusar('Só um Admin define a password de outro utilizador.', 'nao_admin'), else: { actions: {} },
             },
           },
         },
@@ -252,13 +253,13 @@ const decidirPedido = def({}, gatilhoApp([
         runAfter: { Ler_pedido: ['Succeeded'] }, type: 'Switch',
         expression: `@if(equals(${PERF},${PERFIL.cliente}),'cliente',if(not(equals(${P}?['dac_tratamento'],${TR_REVISAO})),'nao_revisao',if(or(equals(${P}?['dac_decisao'],${DEC.aprovado}),equals(${P}?['dac_decisao'],${DEC.rejeitado})),'ja_decidido',if(not(contains(createArray('propor_aprovar','propor_rejeitar','aprovar','rejeitar'),${ACAO})),'acao',if(and(startsWith(${ACAO},'propor'),not(equals(${PERF},${PERFIL.gestor}))),'so_gestor',if(and(not(startsWith(${ACAO},'propor')),not(equals(${PERF},${PERFIL.admin}))),'so_admin',if(and(endsWith(${ACAO},'rejeitar'),empty(${COMENT})),'comentario','ok')))))))`,
         cases: {
-          cliente: { case: 'cliente', ...recusar('O perfil Cliente regista pedidos mas não decide.') },
-          nao_revisao: { case: 'nao_revisao', ...recusar('Só os pedidos em Revisão são decididos.') },
-          ja_decidido: { case: 'ja_decidido', ...recusar('Este pedido já tem decisão final.') },
-          acao: { case: 'acao', ...recusar('Ação desconhecida.') },
-          so_gestor: { case: 'so_gestor', ...recusar('A proposta é do Gestor. O Admin decide diretamente com Aprovar ou Rejeitar.') },
-          so_admin: { case: 'so_admin', ...recusar('A decisão final é do Admin. O Gestor propõe.') },
-          comentario: { case: 'comentario', ...recusar('Para rejeitar é preciso escrever a justificação.') },
+          cliente: { case: 'cliente', ...recusar('O perfil Cliente regista pedidos mas não decide.', 'cliente') },
+          nao_revisao: { case: 'nao_revisao', ...recusar('Só os pedidos em Revisão são decididos.', 'nao_revisao') },
+          ja_decidido: { case: 'ja_decidido', ...recusar('Este pedido já tem decisão final.', 'ja_decidido') },
+          acao: { case: 'acao', ...recusar('Ação desconhecida.', 'acao') },
+          so_gestor: { case: 'so_gestor', ...recusar('A proposta é do Gestor. O Admin decide diretamente com Aprovar ou Rejeitar.', 'so_gestor') },
+          so_admin: { case: 'so_admin', ...recusar('A decisão final é do Admin. O Gestor propõe.', 'so_admin') },
+          comentario: { case: 'comentario', ...recusar('Para rejeitar é preciso escrever a justificação.', 'comentario') },
         },
         default: { actions: {} },
       },
@@ -297,13 +298,16 @@ const emailsDe = (nome, perfil, runAfter) => ({
   [`Ler_${nome}`]: dv('ListRecords', { entityName: 'dac_utilizadors', $select: 'dac_email', $filter: `dac_perfil eq ${perfil} and dac_ativo eq true` }, runAfter),
   [`Emails_${nome}`]: { runAfter: { [`Ler_${nome}`]: ['Succeeded'] }, type: 'Select', inputs: { from: `@outputs('Ler_${nome}')?['body/value']`, select: "@item()?['dac_email']" } },
 });
-const enviar = (para, assunto, corpo, runAfter) => ({
+const enviar = (nome, para, assunto, corpo, runAfter) => ({
   runAfter, type: 'If', expression: { greater: [`@length(${para})`, 0] },
-  actions: { Enviar: { runAfter: {}, type: 'OpenApiConnection', inputs: { host: host('ol', 'SendEmailV2'), parameters: { 'emailMessage/To': `@join(${para},';')`, 'emailMessage/Subject': assunto, 'emailMessage/Body': corpo }, authentication: AUTH } } },
+  actions: { [`Enviar_${nome}`]: { runAfter: {}, type: 'OpenApiConnection', inputs: { host: host('ol', 'SendEmailV2'), parameters: { 'emailMessage/To': `@join(${para},';')`, 'emailMessage/Subject': assunto, 'emailMessage/Body': corpo }, authentication: AUTH } } },
   else: { actions: {} },
 });
 const LIGACAO = `<p><a href="@{parameters('${APP}')}">Abrir a APP DAC2627</a> › Ficha 04 · Revisão.</p>`;
 const RESUMO = `<p>Pedido <b>@{${N}?['dac_numeropedido']}</b>, valor @{${N}?['dac_valor']} €.<br>@{${N}?['dac_observacoesprocessamento']}</p>`;
+const FINAL = `@{if(equals(${N}?['dac_decisao'],${DEC.aprovado}),'aprovado','rejeitado')}`;
+const ASSUNTO_FINAL = `Pedido @{${N}?['dac_numeropedido']}: ${FINAL}`;
+const CORPO_FINAL = `<p>O pedido <b>@{${N}?['dac_numeropedido']}</b> foi ${FINAL}.</p><p>@{${N}?['dac_comentariodecisao']}</p>${LIGACAO}`;
 const notificar = def(
   { [APP]: { defaultValue: LIGACAO_APP, type: 'String', metadata: { schemaName: 'dac_LigacaoApp', description: 'Endereço da app nos emails' } } },
   {
@@ -320,21 +324,21 @@ const notificar = def(
           case: String(DEC.aguarda),
           actions: {
             ...emailsDe('gestores', PERFIL.gestor, {}),
-            Avisar_gestores: enviar("body('Emails_gestores')", `Revisão: pedido @{${N}?['dac_numeropedido']} aguarda proposta`, `${RESUMO}<p>Um Gestor deve propor a decisão (aprovar ou rejeitar).</p>${LIGACAO}`, { Emails_gestores: ['Succeeded'] }),
+            Avisar_gestores: enviar('gestores', "body('Emails_gestores')", `Revisão: pedido @{${N}?['dac_numeropedido']} aguarda proposta`, `${RESUMO}<p>Um Gestor deve propor a decisão (aprovar ou rejeitar).</p>${LIGACAO}`, { Emails_gestores: ['Succeeded'] }),
           },
         },
         Proposta_aprovar: {
           case: String(DEC.proporAprovar),
           actions: {
-            ...emailsDe('admins', PERFIL.admin, {}),
-            Avisar_admins: enviar("body('Emails_admins')", `Revisão: proposta de aprovação do pedido @{${N}?['dac_numeropedido']}`, `${RESUMO}<p>Proposta do Gestor: <b>aprovar</b>. @{${N}?['dac_comentarioproposta']}</p><p>A decisão final é do Admin.</p>${LIGACAO}`, { Emails_admins: ['Succeeded'] }),
+            ...emailsDe('admins_aprovar', PERFIL.admin, {}),
+            Avisar_admins_aprovar: enviar('admins_aprovar', "body('Emails_admins_aprovar')", `Revisão: proposta de aprovação do pedido @{${N}?['dac_numeropedido']}`, `${RESUMO}<p>Proposta do Gestor: <b>aprovar</b>. @{${N}?['dac_comentarioproposta']}</p><p>A decisão final é do Admin.</p>${LIGACAO}`, { Emails_admins_aprovar: ['Succeeded'] }),
           },
         },
         Proposta_rejeitar: {
           case: String(DEC.proporRejeitar),
           actions: {
-            ...emailsDe('admins', PERFIL.admin, {}),
-            Avisar_admins: enviar("body('Emails_admins')", `Revisão: proposta de rejeição do pedido @{${N}?['dac_numeropedido']}`, `${RESUMO}<p>Proposta do Gestor: <b>rejeitar</b>. @{${N}?['dac_comentarioproposta']}</p><p>A decisão final é do Admin.</p>${LIGACAO}`, { Emails_admins: ['Succeeded'] }),
+            ...emailsDe('admins_rejeitar', PERFIL.admin, {}),
+            Avisar_admins_rejeitar: enviar('admins_rejeitar', "body('Emails_admins_rejeitar')", `Revisão: proposta de rejeição do pedido @{${N}?['dac_numeropedido']}`, `${RESUMO}<p>Proposta do Gestor: <b>rejeitar</b>. @{${N}?['dac_comentarioproposta']}</p><p>A decisão final é do Admin.</p>${LIGACAO}`, { Emails_admins_rejeitar: ['Succeeded'] }),
           },
         },
       },
@@ -345,12 +349,19 @@ const notificar = def(
             expression: { or: [{ equals: [`@${N}?['dac_decisao']`, DEC.aprovado] }, { equals: [`@${N}?['dac_decisao']`, DEC.rejeitado] }] },
             actions: {
               Tem_registo: {
+                // cada ramo envia o seu email: referir a saída de uma ação saltada faz falhar a execução
                 runAfter: {}, type: 'If', expression: { equals: [`@empty(${N}?['_dac_registadopor_value'])`, false] },
-                actions: { Ler_registo: dv('GetItem', { entityName: 'dac_utilizadors', recordId: `@${N}?['_dac_registadopor_value']`, $select: 'dac_email' }) },
-                else: { actions: { Ler_criador: dv('GetItem', { entityName: 'systemusers', recordId: `@${N}?['_createdby_value']`, $select: 'internalemailaddress' }) } },
+                actions: {
+                  Ler_registo: dv('GetItem', { entityName: 'dac_utilizadors', recordId: `@${N}?['_dac_registadopor_value']`, $select: 'dac_email' }),
+                  Avisar_registo: enviar('registo', "createArray(outputs('Ler_registo')?['body/dac_email'])", ASSUNTO_FINAL, CORPO_FINAL, { Ler_registo: ['Succeeded'] }),
+                },
+                else: {
+                  actions: {
+                    Ler_criador: dv('GetItem', { entityName: 'systemusers', recordId: `@${N}?['_createdby_value']`, $select: 'internalemailaddress' }),
+                    Avisar_criador: enviar('criador', "createArray(outputs('Ler_criador')?['body/internalemailaddress'])", ASSUNTO_FINAL, CORPO_FINAL, { Ler_criador: ['Succeeded'] }),
+                  },
+                },
               },
-              Destinatario: { runAfter: { Tem_registo: ['Succeeded'] }, type: 'Compose', inputs: "@createArray(coalesce(outputs('Ler_registo')?['body/dac_email'],outputs('Ler_criador')?['body/internalemailaddress']))" },
-              Avisar_requerente: enviar("outputs('Destinatario')", `Pedido @{${N}?['dac_numeropedido']}: @{if(equals(${N}?['dac_decisao'],${DEC.aprovado}),'aprovado','rejeitado')}`, `<p>O pedido <b>@{${N}?['dac_numeropedido']}</b> foi @{if(equals(${N}?['dac_decisao'],${DEC.aprovado}),'aprovado','rejeitado')}.</p><p>@{${N}?['dac_comentariodecisao']}</p>${LIGACAO}`, { Destinatario: ['Succeeded'] }),
             },
             else: { actions: {} },
           },
