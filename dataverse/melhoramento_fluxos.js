@@ -14,7 +14,6 @@ async function post(p, b) {
 // 1 · Referências de ligação (apontam para ligações já existentes do utilizador)
 const REFS = {
   dv: { nome: 'dac_DAC2627Dataverse', mostra: 'DAC2627 · Dataverse', api: 'shared_commondataserviceforapps', ligacao: 'shared-commondataser-b4a77cc8-a523-4f0f-9049-c8a3ef85ac81' },
-  ap: { nome: 'dac_DAC2627Aprovacoes', mostra: 'DAC2627 · Aprovações', api: 'shared_approvals', ligacao: 'shared-approvals-af0fec63-7a98-4d28-8eed-d495881194b2' },
   ol: { nome: 'dac_DAC2627Outlook', mostra: 'DAC2627 · Office 365 Outlook', api: 'shared_office365', ligacao: 'shared-office365-68f89ed7-5d2d-4894-9b08-189a454f66d2' },
 };
 for (const r of Object.values(REFS)) {
@@ -145,7 +144,7 @@ const reprocessar = def({},
 const AID = "@triggerOutputs()?['body/dac_pedidoid']";
 const decidir = (valor, rotulo) => atualizar(AID, {
   dac_decisao: valor, dac_datadecisao: '@utcNow()',
-  dac_comentariodecisao: "@{first(outputs('Pedir_aprovacao')?['body/responses'])?['comments']}",
+  dac_comentariodecisao: `${rotulo} por email por @{parameters('${APROVADOR}')}.`,
 });
 const aprovar = def(
   { [APROVADOR]: { defaultValue: '', type: 'String', metadata: { schemaName: 'dac_AprovadorEmail', description: 'Quem aprova os pedidos em Revisão' } } },
@@ -157,26 +156,32 @@ const aprovar = def(
   },
   {
     Ler_requerente: { runAfter: {}, type: 'OpenApiConnection', inputs: { host: host('dv', 'GetItem'), parameters: { entityName: 'systemusers', recordId: "@triggerOutputs()?['body/_createdby_value']", $select: 'internalemailaddress,fullname' }, authentication: AUTH } },
+    // O conector Aprovações (shared_approvals) está bloqueado pela política de dados do tenant
+    // («Advanced Connector Policy», BlockedConnector): a decisão é um email com opções do Office 365 Outlook.
     Pedir_aprovacao: {
       runAfter: { Ler_requerente: ['Succeeded'] }, type: 'OpenApiConnectionWebhook',
       inputs: {
-        host: host('ap', 'StartAndWaitForAnApproval'),
+        host: host('ol', 'SendMailWithOptions'),
         parameters: {
-          approvalType: 'Basic',
-          'WebhookApprovalCreationInput/title': "Pedido @{triggerOutputs()?['body/dac_numeropedido']} em revisão (@{triggerOutputs()?['body/dac_valor']} €)",
-          'WebhookApprovalCreationInput/assignedTo': `@parameters('${APROVADOR}')`,
-          'WebhookApprovalCreationInput/details': "**Pedido:** @{triggerOutputs()?['body/dac_numeropedido']}\n\n**Valor:** @{triggerOutputs()?['body/dac_valor']} €\n\n**Descrição:** @{triggerOutputs()?['body/dac_descricao']}\n\n**Motivo:** @{triggerOutputs()?['body/dac_observacoesprocessamento']}",
-          'WebhookApprovalCreationInput/enableNotifications': true,
-          'WebhookApprovalCreationInput/enableReassignment': true,
+          'optionsEmailSubscription/Message/To': `@parameters('${APROVADOR}')`,
+          'optionsEmailSubscription/Message/Subject': "Aprovação: pedido @{triggerOutputs()?['body/dac_numeropedido']} em revisão (@{triggerOutputs()?['body/dac_valor']} €)",
+          'optionsEmailSubscription/Message/Options': 'Aprovar, Rejeitar',
+          'optionsEmailSubscription/Message/HeaderText': 'Ficha 04 · Melhoramento · decisão sobre um pedido em Revisão',
+          'optionsEmailSubscription/Message/SelectionText': 'Escolha uma opção',
+          'optionsEmailSubscription/Message/Body': "Pedido: @{triggerOutputs()?['body/dac_numeropedido']}\nValor: @{triggerOutputs()?['body/dac_valor']} €\nDescrição: @{triggerOutputs()?['body/dac_descricao']}\nMotivo: @{triggerOutputs()?['body/dac_observacoesprocessamento']}",
+          'optionsEmailSubscription/Message/Importance': 'Normal',
+          'optionsEmailSubscription/Message/UseOnlyHTMLMessage': false,
+          'optionsEmailSubscription/Message/HideHTMLMessage': false,
+          'optionsEmailSubscription/Message/ShowHTMLConfirmationDialog': false,
         },
         authentication: AUTH,
       },
     },
     Aprovado: {
       runAfter: { Pedir_aprovacao: ['Succeeded'] }, type: 'If',
-      expression: { equals: ["@outputs('Pedir_aprovacao')?['body/outcome']", 'Approve'] },
-      actions: { Gravar_aprovado: decidir(DEC.aprovado) },
-      else: { actions: { Gravar_rejeitado: decidir(DEC.rejeitado) } },
+      expression: { equals: ["@outputs('Pedir_aprovacao')?['body/SelectedOption']", 'Aprovar'] },
+      actions: { Gravar_aprovado: decidir(DEC.aprovado, 'Aprovado') },
+      else: { actions: { Gravar_rejeitado: decidir(DEC.rejeitado, 'Rejeitado') } },
     },
     Notificar_requerente: {
       runAfter: { Aprovado: ['Succeeded'] }, type: 'OpenApiConnection',
@@ -184,8 +189,8 @@ const aprovar = def(
         host: host('ol', 'SendEmailV2'),
         parameters: {
           'emailMessage/To': "@outputs('Ler_requerente')?['body/internalemailaddress']",
-          'emailMessage/Subject': "Pedido @{triggerOutputs()?['body/dac_numeropedido']}: @{if(equals(outputs('Pedir_aprovacao')?['body/outcome'],'Approve'),'aprovado','rejeitado')}",
-          'emailMessage/Body': "<p>O pedido <b>@{triggerOutputs()?['body/dac_numeropedido']}</b> foi @{if(equals(outputs('Pedir_aprovacao')?['body/outcome'],'Approve'),'aprovado','rejeitado')}.</p><p>Comentário: @{first(outputs('Pedir_aprovacao')?['body/responses'])?['comments']}</p><p>Pode consultar o estado na APP DAC2627, Ficha 04 · Melhoramento.</p>",
+          'emailMessage/Subject': "Pedido @{triggerOutputs()?['body/dac_numeropedido']}: @{if(equals(outputs('Pedir_aprovacao')?['body/SelectedOption'],'Aprovar'),'aprovado','rejeitado')}",
+          'emailMessage/Body': "<p>O pedido <b>@{triggerOutputs()?['body/dac_numeropedido']}</b> foi @{if(equals(outputs('Pedir_aprovacao')?['body/SelectedOption'],'Aprovar'),'aprovado','rejeitado')}.</p><p>Pode consultar o estado na APP DAC2627, Ficha 04 · Melhoramento.</p>",
         },
         authentication: AUTH,
       },
@@ -195,9 +200,9 @@ const aprovar = def(
 
 // 5 · Criar (ou atualizar) os fluxos
 const FLUXOS = [
-  { nome: 'DAC2627 · Pedido · Classificar', desc: 'Ficha 04 · Melhoramento. Classifica o pedido quando é criado ou quando o Valor muda: Automático até ao limite, Revisão acima dele, Erro se faltar o valor ou se o processamento falhar.', refs: { ...ref('dv') }, def: classificar },
-  { nome: 'DAC2627 · Pedido · Reprocessar', desc: 'Ficha 04 · Melhoramento. Chamado pela Canvas app (Power Apps V2): repõe o pedido em Por processar e volta a escrever o Valor para disparar o fluxo Classificar.', refs: { ...ref('dv') }, def: reprocessar },
-  { nome: 'DAC2627 · Pedido · Aprovar', desc: 'Ficha 04 · Melhoramento. Quando um pedido passa a Revisão, pede a aprovação, grava a decisão no pedido e notifica quem o criou.', refs: { ...ref('dv'), ...ref('ap'), ...ref('ol') }, def: aprovar },
+  { nome: 'DAC2627_Pedido_Classificar', desc: 'Ficha 04 · Melhoramento. Classifica o pedido quando é criado ou quando o Valor muda: Automático até ao limite, Revisão acima dele, Erro se faltar o valor ou se o processamento falhar.', refs: { ...ref('dv') }, def: classificar },
+  { nome: 'DAC2627_Pedido_Reprocessar', desc: 'Ficha 04 · Melhoramento. Chamado pela Canvas app (Power Apps V2): repõe o pedido em Por processar e volta a escrever o Valor para disparar o fluxo Classificar.', refs: { ...ref('dv') }, def: reprocessar },
+  { nome: 'DAC2627_Pedido_Aprovar', desc: 'Ficha 04 · Melhoramento. Quando um pedido passa a Revisão, envia ao aprovador um email com as opções Aprovar e Rejeitar, grava a decisão no pedido e notifica quem o criou.', refs: { ...ref('dv'), ...ref('ol') }, def: aprovar },
 ];
 const ids = {};
 for (const f of FLUXOS) {
