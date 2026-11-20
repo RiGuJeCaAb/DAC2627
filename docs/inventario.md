@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-11 ecrãs e 473 controlos.
+13 ecrãs e 588 controlos.
 
 ## Navegação
 
@@ -12,6 +12,7 @@ flowchart LR
   scrInicio --> scrL2Servicos
   scrInicio --> scrL3Lista
   scrInicio --> scrL4Complemento
+  scrInicio --> scrL4Entrar
   scrInicio --> scrL4Melhoramento
   scrInicio --> scrL4Pedidos
   scrL1BoasVindas --> scrInicio
@@ -29,8 +30,13 @@ flowchart LR
   scrL3Publicacao --> scrInicio
   scrL3Publicacao --> scrL3Detalhe
   scrL4Complemento --> scrInicio
+  scrL4Entrar --> scrInicio
+  scrL4Entrar --> scrL4Revisao
   scrL4Melhoramento --> scrInicio
   scrL4Pedidos --> scrInicio
+  scrL4Revisao --> scrInicio
+  scrL4Revisao --> scrL4Entrar
+  scrL4Revisao --> scrL4Pedidos
 ```
 
 ## Resumo por ecrã
@@ -48,6 +54,8 @@ flowchart LR
 | `scrL4Pedidos` | 103 | Label 44, Button 15, GroupContainer 13, TypedDataCard 9 | `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista` | — |
 | `scrL4Complemento` | 91 | Label 75, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
 | `scrL4Melhoramento` | 55 | Label 20, GroupContainer 12, Button 12, Icon 3 | `locL4cAguardar`, `locL4cFiltro`, `locL4cMsg`, `locL4cMsgTipo`, `locL4cPedido`, `locL4cTentativas`, `locL4cTimer`, `locL4cValorTeste` | — |
+| `scrL4Entrar` | 22 | Label 9, GroupContainer 6, Icon 3, TextInput 2 | `gblL4dSessao`, `locL4dAEntrar`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer` | — |
+| `scrL4Revisao` | 93 | Label 33, Button 20, GroupContainer 19, TextInput 9 | `gblL4dSessao`, `locL4dFiltro`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dNovoPedido`, `locL4dPedido`, `locL4dTimer`, `locL4dUtil`, `locL4dVista` | — |
 
 ## scrInicio
 
@@ -575,4 +583,129 @@ conL4cMensagem  [GroupContainer/AutoLayout]
   icoL4cFecharMsg  [Icon]
 tmrL4cMensagem  [Timer]
 tmrL4cEstado  [Timer]
+```
+
+## scrL4Entrar
+
+```
+conEcraL4dE  [GroupContainer/AutoLayout]
+  conCabL4dE  [GroupContainer/AutoLayout]
+    icoInicioL4dE  [Icon]
+    lblCabL4dE  [Label]
+  conConteudoL4dE  [GroupContainer/AutoLayout]
+    lblL4dTitulo  [Label]
+    lblL4dIntro  [Label]
+    conL4dEntrar  [GroupContainer/AutoLayout]
+      lblL4dEntrarTitulo  [Label]
+      lblL4dEmailRot  [Label]
+      txtL4dEmail  [TextInput]
+      lblL4dPasswordRot  [Label]
+      txtL4dPassword  [TextInput]
+      btnL4dEntrar  [Button]
+    conL4dComo  [GroupContainer/AutoLayout]
+      lblL4dComoTitulo  [Label]
+      lblL4dComo  [Label]
+conL4dEMensagem  [GroupContainer/AutoLayout]
+  icoL4dEMsgIcone  [Icon]
+  lblL4dEMensagem  [Label]
+  icoL4dEFecharMsg  [Icon]
+tmrL4dEMensagem  [Timer]
+```
+
+## scrL4Revisao
+
+```
+conEcraL4dR  [GroupContainer/AutoLayout]
+  conCabL4dR  [GroupContainer/AutoLayout]
+    icoInicioL4dR  [Icon]
+    lblCabL4dR  [Label]
+    lblL4dQuem  [Label]
+    btnL4dSair  [Button]
+  conConteudoL4dR  [GroupContainer/AutoLayout]
+    lblL4dRevTitulo  [Label]
+    lblL4dRevIntro  [Label]
+    conL4dSeparadores  [GroupContainer/AutoLayout]
+      btnL4dSepRevisao  [Button]
+      btnL4dSepRegistar  [Button]
+      btnL4dSepUtilizadores  [Button]
+      btnL4dSepPassword  [Button]
+      btnL4dFicha04  [Button]
+    conL4dVistaRevisao  [GroupContainer/AutoLayout]
+      conL4dLista  [GroupContainer/AutoLayout]
+        conL4dFiltros  [GroupContainer/AutoLayout]
+          btnL4dFiltroPorDecidir  [Button]
+          btnL4dFiltroDecididos  [Button]
+        lblL4dListaVazia  [Label]
+        conL4dListaCartao  [GroupContainer/AutoLayout]
+          galL4dPedidos  [Gallery/Vertical]
+            lblL4dGNumero  [Label]
+            lblL4dGValor  [Label]
+            btnL4dGDecisao  [Button]
+            recL4dGSeparador  [Rectangle]
+      conL4dDetalhe  [GroupContainer/AutoLayout]
+        lblL4dDetTitulo  [Label]
+        lblL4dDetDados  [Label]
+        lblL4dDetProposta  [Label]
+        lblL4dDetDecisao  [Label]
+        lblL4dDetEspera  [Label]
+        lblL4dSoLeitura  [Label]
+        lblL4dComentarioRot  [Label]
+        txtL4dComentario  [TextInput]
+        conL4dAcoesGestor  [GroupContainer/AutoLayout]
+          btnL4dProporAprovar  [Button]
+          btnL4dProporRejeitar  [Button]
+        conL4dAcoesAdmin  [GroupContainer/AutoLayout]
+          btnL4dAprovar  [Button]
+          btnL4dRejeitar  [Button]
+    conL4dVistaRegistar  [GroupContainer/AutoLayout]
+      lblL4dRegTitulo  [Label]
+      lblL4dRegCliente  [Label]
+      lblL4dRegClienteRot  [Label]
+      cmbL4dCliente  [ComboBox]
+      lblL4dRegValorRot  [Label]
+      txtL4dValor  [TextInput]
+      lblL4dRegDescRot  [Label]
+      txtL4dDescricao  [TextInput]
+      btnL4dRegistar  [Button]
+      lblL4dRegNota  [Label]
+    conL4dVistaUtilizadores  [GroupContainer/AutoLayout]
+      conL4dUtilLista  [GroupContainer/AutoLayout]
+        btnL4dUtilNovo  [Button]
+        conL4dUtilCartao  [GroupContainer/AutoLayout]
+          galL4dUtilizadores  [Gallery/Vertical]
+            lblL4dGUtilNome  [Label]
+            lblL4dGUtilEmail  [Label]
+            btnL4dGUtilEstado  [Button]
+            recL4dGUtilSeparador  [Rectangle]
+      conL4dUtilForm  [GroupContainer/AutoLayout]
+        lblL4dUtilTitulo  [Label]
+        lblL4dUtilNomeRot  [Label]
+        txtL4dUtilNome  [TextInput]
+        lblL4dUtilEmailRot  [Label]
+        txtL4dUtilEmail  [TextInput]
+        lblL4dUtilPerfilRot  [Label]
+        cmbL4dUtilPerfil  [ComboBox]
+        lblL4dUtilClienteRot  [Label]
+        cmbL4dUtilCliente  [ComboBox]
+        chkL4dUtilAtivo  [CheckBox]
+        conL4dUtilAcoes  [GroupContainer/AutoLayout]
+          btnL4dUtilGuardar  [Button]
+          btnL4dUtilDesbloquear  [Button]
+        lblL4dUtilPassRot  [Label]
+        txtL4dUtilPassword  [TextInput]
+        btnL4dUtilDefinir  [Button]
+    conL4dVistaPassword  [GroupContainer/AutoLayout]
+      lblL4dPassTitulo  [Label]
+      lblL4dPassAtualRot  [Label]
+      txtL4dPassAtual  [TextInput]
+      lblL4dPassNovaRot  [Label]
+      txtL4dPassNova  [TextInput]
+      lblL4dPassConfirmaRot  [Label]
+      txtL4dPassConfirma  [TextInput]
+      btnL4dPassMudar  [Button]
+conL4dRMensagem  [GroupContainer/AutoLayout]
+  icoL4dRMsgIcone  [Icon]
+  lblL4dRMensagem  [Label]
+  icoL4dRFecharMsg  [Icon]
+tmrL4dRMensagem  [Timer]
 ```

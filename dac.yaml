@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.5.0
+versao: 1.6.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -17,6 +17,8 @@ ecras:
   - scrL4Pedidos
   - scrL4Complemento
   - scrL4Melhoramento
+  - scrL4Entrar
+  - scrL4Revisao
 
 # Fontes de dados que a app usa. Os .yaml dos ecrãs referem-nas pelo nome mas não as trazem:
 # têm de estar no painel Dados antes de colar (build/colar/ORDEM.md, passo 1).
@@ -41,6 +43,19 @@ fontes:
   - nome: DAC2627_Pedido_Reprocessar
     tipo: Fluxo Power Automate
     nota: Painel Power Automate › Adicionar fluxo › DAC2627_Pedido_Reprocessar (fluxo instantâneo da solução DAC2627, gatilho Power Apps V2). Antes, em Dados, Atualizar a tabela Pedidos para aparecerem as colunas novas.
+  - nome: Utilizadores
+    tipo: Tabela Dataverse
+    conjunto: dac_utilizadors
+    nota: Tabela Utilizador (dac_utilizador) da Ficha 04 · Revisão. Adicionar em Dados e Atualizar a tabela Pedidos, que ganhou as colunas Registado por, Proposta por, Decidido por, Comentário da proposta e Data da proposta.
+  - nome: DAC2627_Utilizador_Entrar
+    tipo: Fluxo Power Automate
+    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Utilizador_Entrar (gatilho Power Apps V2, entradas Email e Password).
+  - nome: DAC2627_Utilizador_DefinirPassword
+    tipo: Fluxo Power Automate
+    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Utilizador_DefinirPassword (entradas Token, UtilizadorId, NovaPassword e PasswordAtual).
+  - nome: DAC2627_Pedido_Decidir
+    tipo: Fluxo Power Automate
+    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Pedido_Decidir (entradas Token, PedidoId, Acao e Comentario).
 
 lint:
   # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis
@@ -48,6 +63,7 @@ lint:
     - Cloud Service
     - Clientes
     - Pedidos
+    - Utilizadores
   # Escala tipográfica (DAC501)
   tamanhos_letra: [11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 36, 40]
   # Cada exceção tem de dizer porquê. Uma exceção sem motivo é um erro (DAC900).
@@ -73,3 +89,9 @@ lint:
     - regra: DAC302
       controlo: btnL4cGTratamento
       motivo: Pílula decorativa com o tratamento do pedido; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL4dGDecisao
+      motivo: Pílula decorativa com a decisão do pedido; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL4dGUtilEstado
+      motivo: Pílula decorativa com o estado do utilizador; o foco vai para a linha da galeria.

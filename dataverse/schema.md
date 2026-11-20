@@ -63,10 +63,49 @@ Os pedidos que já existiam antes de 20/11/2026 ficam com Tratamento vazio («N�
 
 Obrigatória quer dizer obrigatória nas aplicações (`ApplicationRequired`). A Web API aceitou a 20/11/2026 um pedido sem Valor (PED-1182), e é para esse caso que o fluxo tem o ramo «Dados inválidos».
 
-Variáveis de ambiente da solução: `dac_LimiteRevisao` (decimal, 500) e `dac_AprovadorEmail` (texto, o email do dono da solução).
+Variáveis de ambiente da solução: `dac_LimiteRevisao` (decimal, 500), `dac_LigacaoApp` (texto, o endereço da app nos emails, v1.6.0) e `dac_AprovadorEmail` (texto, já sem uso desde a v1.6.0).
+
+### Colunas da Ficha 04 · Revisão (v1.6.0, 20/11/2026)
+
+Criadas por `dataverse/revisao_modelo.js`. Registado por é escrito pela app ao registar um pedido no `scrL4Revisao`. As restantes são escritas só pelo fluxo `DAC2627_Pedido_Decidir`.
+
+| Coluna (nome a mostrar) | Nome lógico | Tipo | Notas |
+|---|---|---|---|
+| Registado por | `dac_registadopor` | Pesquisa para Utilizador | relação `dac_Utilizador_Pedido_Registado` |
+| Proposta por | `dac_propostapor` | Pesquisa para Utilizador | relação `dac_Utilizador_Pedido_Proposta`, o Gestor |
+| Decidido por | `dac_decididopor` | Pesquisa para Utilizador | relação `dac_Utilizador_Pedido_Decisao`, o Admin |
+| Comentário da proposta | `dac_comentarioproposta` | Texto (várias linhas) | 2000 caracteres |
+| Data da proposta | `dac_dataproposta` | Data e hora | |
+
+A Decisão ganhou duas opções: 774300003 «Proposta: aprovar» e 774300004 «Proposta: rejeitar». As três relações removem a ligação quando o utilizador é apagado.
 
 Vistas públicas usadas no `Filter` da app: «Pedidos Pendentes» e «Pedidos Concluídos», com Estado igual a Ativo, o valor da escolha e DataPedido por ordem descendente.
 
 ## Relação
 
 `dac_Cliente_Pedido`: 1:N de Cliente para Pedido, com Eliminar em **Restringir**. Um cliente com pedidos não pode ser apagado, nem na app nem fora dela.
+
+# Tabela Dataverse da Ficha 04 · Revisão: Utilizador
+
+Nome lógico `dac_utilizador` (conjunto `dac_utilizadors`, no Studio `Utilizadores`), na solução DAC2627, criada a 20/11/2026 por `dataverse/revisao_modelo.js`. A password nunca é guardada: só o hash PBKDF2 e o salt.
+
+| Coluna (nome a mostrar) | Nome lógico | Tipo | Notas |
+|---|---|---|---|
+| Nome (coluna principal) | `dac_nome` | Texto (uma linha) | obrigatória, 100 caracteres |
+| Email | `dac_email` | Texto (uma linha), formato email | obrigatória, única pela chave alternativa `dac_chave_email` |
+| Perfil | `dac_perfil` | Escolha local | 774300000 Admin · 774300001 Gestor · 774300002 Cliente (omissão), obrigatória |
+| Hash da password | `dac_passwordhash` | Texto (uma linha) | **segurança de coluna**, Base64 |
+| Salt da password | `dac_passwordsalt` | Texto (uma linha) | **segurança de coluna**, 16 bytes em Base64 |
+| Iterações | `dac_iteracoes` | Número inteiro | 600 000 |
+| Algoritmo | `dac_algoritmo` | Texto (uma linha) | PBKDF2-SHA256 |
+| Ativo | `dac_ativo` | Sim/Não | Sim por omissão |
+| Tentativas falhadas | `dac_tentativasfalhadas` | Número inteiro | 5 seguidas bloqueiam 15 minutos |
+| Bloqueado até | `dac_bloqueadoate` | Data e hora | |
+| Último acesso | `dac_ultimoacesso` | Data e hora | |
+| Testemunho de sessão | `dac_sessaotoken` | Texto (uma linha) | **segurança de coluna**, 64 carateres hexadecimais |
+| Sessão expira | `dac_sessaoexpira` | Data e hora | 8 horas depois da entrada |
+| Cliente | `dac_cliente` | Pesquisa para Cliente | relação `dac_Cliente_Utilizador`, só no perfil Cliente |
+
+Segurança de coluna: sem um perfil de segurança de campos, só o administrador do sistema lê o hash, o salt e o testemunho. Os fluxos correm com a ligação do dono da solução e leem-nos, a app nunca os pede.
+
+Utilizadores de demonstração criados a 20/11/2026: Admin Demo, Gestor Demo e Cliente Demo (este associado a «Vinhos do Varosa, Lda»), com emails do dono da solução com o sufixo +admin, +gestor e +cliente. As passwords foram entregues ao utilizador num ficheiro à parte e não estão no repositório.

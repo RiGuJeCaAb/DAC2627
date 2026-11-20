@@ -252,3 +252,20 @@ def test_colar_le_app_com_tabulador(tmp_path, capsys):
     app.write_text(t[:i] + "\t" + t[i:], encoding="utf-8")
     assert cli.main(["--raiz", str(raiz), "colar", "--destino", str(tmp_path / "out")]) == 0
     assert "AVISO App.pa.yaml" in capsys.readouterr().out
+
+
+def test_migracao_m008_idempotente_e_revisao(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m008_v1_6_ficha04_revisao as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    ctl = {c.nome: c for c in yamlio.controlos(yamlio.ler(raiz / "src" / "screens" / "scrL4Revisao.pa.yaml"))}
+    itens = str(ctl["galL4dPedidos"].prop("Items"))
+    # quatro Filter delegáveis escolhidos por fora, nenhum If dentro de um Filter
+    assert itens.count("Filter(Pedidos") == 4 and "Filter(Pedidos, If(" not in itens
+    ent = (raiz / "src" / "screens" / "scrL4Entrar.pa.yaml").read_text(encoding="utf-8")
+    # a password vai só para o fluxo: nunca para uma variável
+    assert "txtL4dPassword.Text" in ent and "Set(gblL4dSessao, {token: r.token" in ent
+    assert not any("Password" in linha and "Set(" in linha and "txtL4dPassword" in linha for linha in ent.splitlines())

@@ -93,7 +93,7 @@ Screens:
                         FocusedBorderThickness: =2
                         Size: =14
                         Text: |-
-                          ="Lab 4 com o processamento da aula 7. A app grava o pedido no Dataverse e não fica à espera: o fluxo DAC2627_Pedido_Classificar trata-o em segundo plano. Até ao limite de revisão (variável de ambiente, 500 €) o pedido fica Automático, acima dele fica em Revisão e o fluxo DAC2627_Pedido_Aprovar pede uma decisão humana por email, e sem valor ou com uma falha técnica fica em Erro. Em todos os casos o fluxo regista a data, a justificação e o identificador da execução, para se encontrar a execução no histórico do Power Automate."
+                          ="Lab 4 com o processamento da aula 7. A app grava o pedido no Dataverse e não fica à espera: o fluxo DAC2627_Pedido_Classificar trata-o em segundo plano. Até ao limite de revisão (variável de ambiente, 500 €) o pedido fica Automático, acima dele fica em Revisão e o fluxo DAC2627_Pedido_Notificar avisa os Gestores por email, e sem valor ou com uma falha técnica fica em Erro. A proposta e a decisão fazem-se no ecrã Ficha 04 · Revisão, com perfis. Em todos os casos o fluxo regista a data, a justificação e o identificador da execução, para se encontrar a execução no histórico do Power Automate."
                   - conL4cTopo:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
@@ -493,7 +493,7 @@ Screens:
                                     PaddingTop: =12
                                     Size: =14
                                     Text: |-
-                                      ="Revisão humana: " & If(IsBlank(locL4cPedido.Decisao), "—", Text(locL4cPedido.Decisao)) & If(IsBlank(locL4cPedido.DataDecisao), "", " em " & Text(locL4cPedido.DataDecisao, "dd/mm/yyyy hh:mm")) & If(IsBlank(locL4cPedido.ComentarioDecisao), "", Char(10) & locL4cPedido.ComentarioDecisao) & If(locL4cPedido.Decisao = 'Decisao (Pedidos)'.'Aguarda decisão', Char(10) & "O aprovador recebeu um email com as opções Aprovar e Rejeitar. Use Atualizar estado depois de ele responder.", "")
+                                      ="Revisão humana: " & If(IsBlank(locL4cPedido.Decisao), "—", Text(locL4cPedido.Decisao)) & If(IsBlank(locL4cPedido.DataDecisao), "", " em " & Text(locL4cPedido.DataDecisao, "dd/mm/yyyy hh:mm")) & If(IsBlank(locL4cPedido.ComentarioDecisao), "", Char(10) & locL4cPedido.ComentarioDecisao) & If(locL4cPedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4cPedido.Decisao = 'Decisao (Pedidos)'.Rejeitado, "", Char(10) & "Os Gestores foram avisados por email. A proposta e a decisão fazem-se no ecrã Ficha 04 · Revisão (sétimo cartão do início).")
                                     Visible: =!IsBlank(locL4cPedido) && (locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Revisão || !IsBlank(locL4cPedido.Decisao))
                               - conL4cAcoes:
                                   Control: GroupContainer@1.5.0
