@@ -37,25 +37,27 @@ fontes:
     tipo: Tabela Dataverse
     conjunto: dac_pedidos
     nota: Tabela Pedido, nome lógico dac_pedido.
+    # uma coluna de cada versão: se a definição da tabela na app não as tiver, o ORDEM.md pede Atualizar
+    colunas: [dac_tratamento, dac_registadopor]
   - nome: JSONPlaceholderDAC
     tipo: Conector personalizado
     nota: Usar a ligação existente do conector da solução DAC2627 (não o Defaulttitle do Lab 3).
   - nome: DAC2627_Pedido_Reprocessar
     tipo: Fluxo Power Automate
-    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Pedido_Reprocessar (fluxo instantâneo da solução DAC2627, gatilho Power Apps V2). Antes, em Dados, Atualizar a tabela Pedidos para aparecerem as colunas novas.
+    nota: Fluxo instantâneo da Ficha 04 · Melhoramento (gatilho Power Apps V2, entrada PedidoId).
   - nome: Utilizadores
     tipo: Tabela Dataverse
     conjunto: dac_utilizadors
-    nota: Tabela Utilizador (dac_utilizador) da Ficha 04 · Revisão. Adicionar em Dados e Atualizar a tabela Pedidos, que ganhou as colunas Registado por, Proposta por, Decidido por, Comentário da proposta e Data da proposta.
+    nota: Tabela Utilizador (dac_utilizador) da Ficha 04 · Revisão. Na pesquisa aparece como Utilizadores.
   - nome: DAC2627_Utilizador_Entrar
     tipo: Fluxo Power Automate
-    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Utilizador_Entrar (gatilho Power Apps V2, entradas Email e Password).
+    nota: Ficha 04 · Revisão, entradas Email e Password.
   - nome: DAC2627_Utilizador_DefinirPassword
     tipo: Fluxo Power Automate
-    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Utilizador_DefinirPassword (entradas Token, UtilizadorId, NovaPassword e PasswordAtual).
+    nota: Ficha 04 · Revisão, entradas Token, UtilizadorId, NovaPassword e PasswordAtual.
   - nome: DAC2627_Pedido_Decidir
     tipo: Fluxo Power Automate
-    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Pedido_Decidir (entradas Token, PedidoId, Acao e Comentario).
+    nota: Ficha 04 · Revisão, entradas Token, PedidoId, Acao e Comentario.
 
 lint:
   # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis

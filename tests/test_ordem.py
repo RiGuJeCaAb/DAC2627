@@ -1,4 +1,6 @@
 """Guia de colagem (tools/dac/ordem.py): ordem dos ecrãs e fontes de dados."""
+import shutil
+
 from tools.dac import cli, ordem, projeto, yamlio
 from tools.dac.ordem import Fonte
 
@@ -81,7 +83,8 @@ def test_colar_escreve_ordem_md(tmp_path):
     assert cli.main(["colar", "--destino", str(tmp_path)]) == 0
     md = (tmp_path / "ORDEM.md").read_text(encoding="utf-8")
     assert "App.Formulas.pt.txt" in md and "Cloud Service" in md and "mcsft_cloudservice" in md
-    assert md.index("scrL3Lista.yaml") < md.index("scrL3Detalhe.yaml") < md.index("scrL3Publicacao.yaml")
+    # ecrãs iguais à exportação não entram na tabela de colagem, mas a ordem dos ficheiros mantém-se
+    assert md.index("`scrL3Lista`") < md.index("`scrL3Detalhe`") < md.index("`scrL3Publicacao`")
     todos = list(yamlio.ler(tmp_path / "TODOS_OS_ECRAS.yaml")["Screens"])
     assert todos.index("scrL3Lista") < todos.index("scrL3Publicacao")
 
@@ -135,3 +138,32 @@ def test_tabela_duplicada_com_o_mesmo_nome(tmp_path):
     g, fontes = _guia(raiz)
     problemas = ordem.verificar_fontes(g, fontes, raiz)
     assert len(problemas) == 1 and "mcsft_cloudservice1s" in problemas[0]
+
+
+def test_ordem_md_fluxos_no_painel_power_automate(tmp_path):
+    """Os fluxos não aparecem no painel Dados (20/11/2026): têm passo próprio, no painel Power Automate."""
+    assert cli.main(["colar", "--destino", str(tmp_path)]) == 0
+    md = (tmp_path / "ORDEM.md").read_text(encoding="utf-8")
+    dados = md[md.index("## 1 · Tabelas e conectores"):md.index("## 2 · Fluxos")]
+    fluxos = md[md.index("## 2 · Fluxos"):md.index("## 3 · App.Formulas")]
+    for f in projeto.config()["fontes"]:
+        if f["tipo"].startswith("Fluxo"):
+            assert f["nome"] in fluxos and f["nome"] not in dados, f["nome"]
+        else:
+            assert f["nome"] in dados and f["nome"] not in fluxos, f["nome"]
+
+
+def test_ordem_md_so_cola_o_que_mudou(tmp_path):
+    raiz = _copia(tmp_path)
+    shutil.copytree(projeto.RAIZ / "msapp" / "Src", raiz / "msapp" / "Src")
+    assert cli.main(["--raiz", str(raiz), "colar", "--destino", str(tmp_path / "c")]) == 0
+    md = (tmp_path / "c" / "ORDEM.md").read_text(encoding="utf-8")
+    tabela = md[md.index("## 4 · Ecrãs"):md.index("Não se colam")]
+    assert "scrL2Servicos.yaml" not in tabela          # igual à exportação
+    assert "`scrL4Revisao.yaml` | novo, só colar" in tabela
+
+
+def test_colunas_em_falta_pedem_atualizar():
+    f = Fonte("Pedidos", "Tabela Dataverse", colunas=["dac_valor", "dac_inexistente"])
+    assert ordem.colunas_em_falta(f, {"Pedidos": '{"dac_valor": 1}'}) == ["dac_inexistente"]
+    assert ordem.colunas_em_falta(f, {}) == []

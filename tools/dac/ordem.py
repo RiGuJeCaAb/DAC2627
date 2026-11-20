@@ -35,6 +35,11 @@ class Fonte:
     tipo: str = ""
     nota: str = ""
     conjunto: str = ""     # conjunto de entidades no Dataverse (vazio nos conectores)
+    colunas: list[str] = field(default_factory=list)  # colunas (nomes lógicos) que a tabela tem de ter na app
+
+    @property
+    def fluxo(self) -> bool:
+        return self.tipo.lower().startswith("fluxo")
 
 
 @dataclass
@@ -130,9 +135,27 @@ def fontes_na_exportacao(raiz: Path) -> dict[str, str] | None:
     for x in json.loads(ds.read_text(encoding="utf-8")).get("DataSources", []):
         if x.get("Type") == "NativeCDSDataSourceInfo":
             out[x["Name"]] = x.get("EntitySetName", "")
-        elif x.get("Type") == "ServiceInfo":
-            out[x["Name"]] = ""
+        elif x.get("Name") and x.get("Type") not in ("OptionSetInfo", "ViewInfo", "StaticDataSourceInfo"):
+            out.setdefault(x["Name"], "")   # conectores (ServiceInfo) e fluxos, qualquer que seja o tipo
     return out
+
+
+def definicoes_na_exportacao(raiz: Path) -> dict[str, str]:
+    """Texto da definição (TableDefinition) de cada tabela Dataverse da última exportação."""
+    ds = raiz / "msapp" / "References" / "DataSources.json"
+    if not ds.exists():
+        return {}
+    return {x["Name"]: str(x.get("TableDefinition", ""))
+            for x in json.loads(ds.read_text(encoding="utf-8")).get("DataSources", [])
+            if x.get("Type") == "NativeCDSDataSourceInfo"}
+
+
+def colunas_em_falta(f: Fonte, definicoes: dict[str, str]) -> list[str]:
+    """Colunas que a app usa e que a definição da tabela na app ainda não tem: pedem Atualizar no painel Dados."""
+    texto = definicoes.get(f.nome)
+    if texto is None:
+        return []
+    return [c for c in f.colunas if f'"{c}"' not in texto and c not in texto]
 
 
 def verificar_fontes(guia: "Guia", fontes: list[Fonte], raiz: Path) -> list[str]:
@@ -150,11 +173,15 @@ def verificar_fontes(guia: "Guia", fontes: list[Fonte], raiz: Path) -> list[str]
         if not usos:
             continue
         if f.nome not in na_app:
+            onde = "no painel Power Automate (Adicionar fluxo)" if f.fluxo else "no painel Dados (Adicionar dados)"
             problemas.append(f"'{f.nome}' é usada em {', '.join(usos)} mas não está na app exportada. "
-                             f"Adicione-a em Dados antes de colar.")
+                             f"Adicione-a {onde} antes de colar.")
         elif f.conjunto and na_app[f.nome] != f.conjunto:
             problemas.append(f"'{f.nome}' aponta para '{na_app[f.nome]}' e devia apontar para '{f.conjunto}'. "
                              f"Há tabelas com o mesmo nome a apresentar: confirme a tabela em Dados.")
+        elif faltam := colunas_em_falta(f, definicoes_na_exportacao(raiz)):
+            problemas.append(f"'{f.nome}' está na app sem as colunas {', '.join(faltam)}: "
+                             f"no painel Dados, «…» ao lado de {f.nome} › Atualizar.")
     return problemas
 
 
@@ -183,55 +210,95 @@ def calcular(docs: dict[str, dict], preferida: list[str], fontes: list[Fonte]) -
     return Guia(ordem, recebe, fontes_usadas(docs, fontes), avisos)
 
 
-def gerar_md(guia: Guia, fontes: list[Fonte], versao: str, pilulas: int, fora: set[str] | None = None) -> str:
-    fora = fora or set()
+def _passo_fontes(guia: Guia, fontes: list[Fonte], na_app: dict[str, str] | None,
+                  definicoes: dict[str, str]) -> list[str]:
+    """Passos 1 e 2: o que acrescentar ou atualizar, separado pelo painel onde se faz."""
+    usadas = [f for f in fontes if guia.fontes.get(f.nome)]
+    sem_exp = na_app is None
+    def estado(f: Fonte) -> tuple[str, str]:
+        if sem_exp:
+            return "?", "Confirmar que está na app; se não estiver, acrescentar."
+        if f.nome not in na_app:
+            return "**falta**", "Acrescentar."
+        if faltam := colunas_em_falta(f, definicoes):
+            return "**desatualizada**", f"Atualizar: faltam as colunas {', '.join(f'`{c}`' for c in faltam)}."
+        return "já está", "Nada."
+    L = ["## 1 · Tabelas e conectores (painel Dados)", "",
+         "No Studio, no trilho da esquerda, o ícone do cilindro abre o painel **Dados**. "
+         "Para **acrescentar**: **Adicionar dados**, escrever o nome na pesquisa e escolher a tabela "
+         "(num conector, escolher a ligação que já existe). Para **atualizar**: no painel Dados, «…» ao lado do nome › **Atualizar**.", "",
+         "| Fonte | Na app | O que fazer | Atenção |", "|---|---|---|---|"]
+    for f in (x for x in usadas if not x.fluxo):
+        e, o = estado(f)
+        L.append(f"| **{f.nome}** ({f.tipo}) | {e} | {o} | {f.nota} |")
+    L += ["", "- [ ] As linhas com «falta» ou «desatualizada» estão tratadas.", "",
+          "## 2 · Fluxos (painel Power Automate)", "",
+          "Os fluxos **não aparecem no painel Dados**. No trilho da esquerda do Studio, «…» (Mais) › **Power Automate** "
+          "(o ícone parecido com um robô é o dos Agentes, não serve). No painel, **Adicionar fluxo** e escolher o fluxo na lista. "
+          "A lista só mostra fluxos ativos com o gatilho Power Apps (V2) neste ambiente. Se um não aparecer, fechar e reabrir o Studio.", "",
+          "| Fluxo | Na app | O que fazer |", "|---|---|---|"]
+    fluxos = [x for x in usadas if x.fluxo]
+    for f in fluxos:
+        e, o = estado(f)
+        L.append(f"| **{f.nome}** | {e} | {o} |")
+    if not fluxos:
+        L.append("| — | — | A app não chama fluxos. |")
+    L += ["", "- [ ] Os fluxos que faltavam aparecem no painel Power Automate.", ""]
+    return L
+
+
+def gerar_md(guia: Guia, fontes: list[Fonte], versao: str, pilulas: int, fora: set[str] | None = None,
+             na_app: dict[str, str] | None = None, definicoes: dict[str, str] | None = None,
+             iguais: set[str] | None = None, novos: set[str] | None = None) -> str:
+    """ORDEM.md. na_app e definicoes vêm da última exportação; iguais são os ecrãs iguais a essa exportação,
+    que não precisam de ser colados (continuam na ordem, porque podem enviar variáveis a outros)."""
+    fora, iguais, novos, definicoes = fora or set(), iguais or set(), novos or set(), definicoes or {}
     L = [f"# Colar a v{versao} no Studio", "",
          "Gerado por `python -m tools.dac colar`. Siga os passos por esta ordem e marque cada um.", "",
          "## 0 · Antes de começar", "",
          "- [ ] Exportar a solução tal como está (**Soluções › DAC2627 › Exportar › Não gerida**), como cópia de segurança.",
-         "", "## 1 · Fontes de dados", "",
-         "No painel **Dados** (ícone do cilindro), confirme que estão todas. Se faltar alguma, **Adicionar dados**.", "",
-         "| Fonte | Tipo | Usada em | Atenção |", "|---|---|---|---|"]
-    for f in fontes:
-        usos = guia.fontes.get(f.nome, [])
-        if not usos:
-            continue
-        L.append(f"| **{f.nome}** | {f.tipo} | {', '.join(f'`{u}`' for u in usos)} | {f.nota} |")
-    L += ["", "- [ ] Todas as fontes da tabela estão no painel Dados, com estes nomes exatos.", "",
-          "## 2 · App.Formulas", "",
+         "- [ ] Abrir a app para editar: **Soluções › DAC2627 › Aplicações › DAC2627_RGJCA › Editar**.", ""]
+    L += _passo_fontes(guia, fontes, na_app, definicoes)
+    L += ["## 3 · App.Formulas", "",
           "- [ ] Na Vista de árvore, clicar em **App** (sem colar aí).",
           "- [ ] Na barra de fórmulas, escolher **Formulas**, clicar **dentro da caixa de texto**, Ctrl+A e colar o conteúdo de `App.Formulas.pt.txt`.",
           "", "Colado na Vista de árvore, o texto dá o erro `PA1001 ... YamlInvalidSyntax`: não estraga nada, mas não fica gravado.",
-          "", "## 3 · Ecrãs, por esta ordem", "",
-          "Para cada ecrã: **eliminar** o antigo (não renomear: renomear muda as fórmulas dos outros ecrãs para o nome novo),",
-          "abrir o `.yaml` no Bloco de Notas, Ctrl+A, Ctrl+C, clicar na Vista de árvore e Ctrl+V. Confirmar que o nome não ganhou `_1`.", "",
-          "| # | Ficheiro | Porquê nesta posição |", "|---|---|---|"]
+          "", "## 4 · Ecrãs, por esta ordem", "",
+          "Para cada ecrã da tabela: se já existe na app, **eliminar** o antigo (não renomear: renomear muda as fórmulas dos outros ecrãs para o nome novo). "
+          "Abrir o `.yaml` no Bloco de Notas, Ctrl+A, Ctrl+C, clicar na Vista de árvore e Ctrl+V. Confirmar que o nome não ganhou `_1`.", "",
+          "| # | Ficheiro | Na app | Porquê nesta posição |", "|---|---|---|---|"]
     colados: list[str] = []
-    for i, e in enumerate(guia.ordem, 1):
+    n = 0
+    for e in guia.ordem:
+        if e in iguais:
+            colados.append(e)
+            continue
         motivos = []
         for var, envia in sorted(guia.recebe.get(e, {}).items()):
             antes = sorted(envia & (set(colados) | fora))
             if antes:
-                motivos.append(f"recebe `{var}` de {', '.join(f'`{x}`' for x in antes)}, "
-                               + ("já colado" if len(antes) == 1 else "já colados"))
+                motivos.append(f"recebe `{var}` de {', '.join(f'`{x}`' for x in antes)}, já na app")
         usa = [f for f, us in guia.fontes.items() if e in us]
         if usa:
             motivos.append("precisa de " + ", ".join(f"**{f}**" for f in usa))
-        L.append(f"| {i} | `{e}.yaml` | {'; '.join(motivos) or '—'} |")
+        n += 1
+        L.append(f"| {n} | `{e}.yaml` | {'novo, só colar' if e in novos else 'eliminar o antigo e colar'} | {'; '.join(motivos) or '—'} |")
         colados.append(e)
+    if iguais:
+        L += ["", "Não se colam, porque estão iguais à última exportação: " + ", ".join(f"`{e}`" for e in guia.ordem if e in iguais) + "."]
     for a in guia.avisos:
         L += ["", f"> Aviso: {a}"]
-    L += ["", "- [ ] Os ecrãs foram colados todos, pela ordem da tabela, sem `_1` nos nomes.", "",
+    L += ["", "- [ ] Os ecrãs da tabela foram colados, por esta ordem, sem `_1` nos nomes.", "",
           "Entre eliminar e colar, os outros ecrãs podem mostrar erros de ligação (`Navigate` para um ecrã que ainda não existe). "
           "Desaparecem quando esse ecrã entra. Erros de **variável** (`loc...` não é válido) não desaparecem sozinhos: "
           "elimine e cole outra vez esse ecrã.", "",
-          "## 4 · Confirmar", "",
+          "## 5 · Confirmar", "",
           "- [ ] Painel de erros de fórmulas: **0 erros**.",
           "- [ ] **Verificador de aplicações**: sem erros. Os avisos de acessibilidade que ficam são todos de controlos "
           f"decorativos com `TabIndex = -1` ou `AccessibleLabel` vazio, incluindo as {pilulas} pílulas (ver `docs/alm.md`). "
           "Avisos de foco, rótulo ou tabulação num controlo **interativo** são para corrigir.",
           f"- [ ] **F5**: rodapé do ecrã inicial mostra `v{versao}`; testes da secção G2 do manual.",
-          "", "## 5 · Guardar e fechar o ciclo", "",
+          "", "## 6 · Guardar e fechar o ciclo", "",
           "- [ ] **Guardar** e **Publicar**. A exportação da solução leva a versão **publicada**: só guardado, a "
           "exportação sai igual à anterior (aconteceu com a 1.0.0.2, a 16/11/2026), e os alunos continuam a abrir a versão antiga.",
           "- [ ] Exportar a solução (não gerida) e, no repositório:", "",
