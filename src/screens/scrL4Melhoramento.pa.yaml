@@ -1,0 +1,861 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrL4Melhoramento:
+    Properties:
+      Fill: =nfFundo
+      OnVisible: |-
+        =UpdateContext({locL4cPedido: Blank(), locL4cAguardar: false, locL4cTentativas: 0, locL4cFiltro: "todos", locL4cValorTeste: "", locL4cMsg: "", locL4cMsgTipo: "", locL4cTimer: false});
+        Reset(cmbL4cCliente);
+        Reset(txtL4cValor);
+        Reset(txtL4cDescricao);
+        Reset(chkL4cSemValor)
+    Children:
+      - conEcraL4c:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Fill: =nfFundo
+            Height: =Parent.Height
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+          Children:
+            - conCabL4c:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  Fill: =nfAzul
+                  FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - icoInicioL4c:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Voltar ao início"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Home
+                        OnSelect: =Navigate(scrInicio, ScreenTransition.UnCover)
+                        TabIndex: =0
+                        Width: =44
+                  - lblCabL4c:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FillPortions: =1
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Semibold
+                        Height: =44
+                        Size: =16
+                        Text: ="Ficha 04 · Melhoramento"
+            - conConteudoL4c:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =12
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =If(scrL4Melhoramento.Size = ScreenSize.Small, 16, 24)
+                  PaddingLeft: =Max(If(scrL4Melhoramento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1100) / 2)
+                  PaddingRight: =Max(If(scrL4Melhoramento.Size = ScreenSize.Small, 16, 24), (Parent.Width - 1100) / 2)
+                  PaddingTop: =If(scrL4Melhoramento.Size = ScreenSize.Small, 16, 24)
+                Children:
+                  - lblL4cTitulo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTexto
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Bold
+                        Size: =If(scrL4Melhoramento.Size = ScreenSize.Small, 20, 24)
+                        Text: ="Processamento automático de pedidos"
+                  - lblL4cIntro:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        Size: =14
+                        Text: |-
+                          ="Lab 4 com o processamento da aula 7. A app grava o pedido no Dataverse e não fica à espera: o fluxo DAC2627_Pedido_Classificar trata-o em segundo plano. Até ao limite de revisão (variável de ambiente, 500 €) o pedido fica Automático, acima dele fica em Revisão e o fluxo DAC2627_Pedido_Aprovar pede uma decisão humana por email, e sem valor ou com uma falha técnica fica em Erro. Em todos os casos o fluxo regista a data, a justificação e o identificador da execução, para se encontrar a execução no histórico do Power Automate."
+                  - conL4cTopo:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(scrL4Melhoramento.Size = ScreenSize.Small, conL4cNovo.Height + conL4cEstado.Height + 16, Max(conL4cNovo.Height, conL4cEstado.Height)) + 2
+                        LayoutDirection: =If(scrL4Melhoramento.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        LayoutGap: =16
+                        PaddingBottom: =2
+                      Children:
+                        - conL4cNovo:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =If(scrL4Melhoramento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =Color.White
+                              FillPortions: =If(scrL4Melhoramento.Size = ScreenSize.Small, 0, 1)
+                              Height: =40 + 9 * 10 + lblL4cNovoTitulo.Height + lblL4cClienteRot.Height + 48 + lblL4cValorRot.Height + 48 + conL4cTestes.Height + lblL4cDescRot.Height + 80 + 32 + 44
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =10
+                              LayoutMinWidth: =300
+                              PaddingBottom: =20
+                              PaddingLeft: =20
+                              PaddingRight: =20
+                              PaddingTop: =20
+                              RadiusBottomLeft: =16
+                              RadiusBottomRight: =16
+                              RadiusTopLeft: =16
+                              RadiusTopRight: =16
+                            Children:
+                              - lblL4cNovoTitulo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfAzul
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    Size: =18
+                                    Text: ="1 · Registar um pedido"
+                              - lblL4cClienteRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Cliente"
+                              - cmbL4cCliente:
+                                  Control: Classic/ComboBox@2.4.0
+                                  Properties:
+                                    AccessibleLabel: ="Cliente do pedido"
+                                    BorderColor: =nfBorda
+                                    ChevronBackground: =nfAzul
+                                    ChevronFill: =Color.White
+                                    DefaultSelectedItems: =Blank()
+                                    DisplayFields: =["dac_nome"]
+                                    Height: =48
+                                    HoverFill: =nfAzulFundo
+                                    InputTextPlaceholder: ="Escolher o cliente"
+                                    Items: =Sort(Clientes, Nome)
+                                    PressedColor: =Color.White
+                                    PressedFill: =nfAzul
+                                    SearchFields: =["dac_nome"]
+                                    SelectMultiple: =false
+                                    SelectionColor: =Color.White
+                                    SelectionFill: =nfAzul
+                                    TabIndex: =0
+                                    Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                              - lblL4cValorRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Valor (€)"
+                              - txtL4cValor:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Valor do pedido em euros"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =locL4cValorTeste
+                                    DisplayMode: =If(chkL4cSemValor.Value, DisplayMode.Disabled, DisplayMode.Edit)
+                                    Format: =TextFormat.Number
+                                    Height: =48
+                                    HintText: |-
+                                      ="Ex.: 750"
+                                    HoverBorderColor: =nfAzul
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - conL4cTestes:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =If(scrL4Melhoramento.Size = ScreenSize.Small, 96, 44)
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    LayoutWrap: =true
+                                  Children:
+                                    - lblL4cTestesRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          AutoHeight: =false
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          Height: =44
+                                          Text: ="Valores de teste da aula:"
+                                          Width: =170
+                                    - btnL4cTeste100:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "100"}); Reset(txtL4cValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="100"
+                                          Width: =72
+                                    - btnL4cTeste500:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "500"}); Reset(txtL4cValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="500"
+                                          Width: =72
+                                    - btnL4cTeste750:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "750"}); Reset(txtL4cValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="750"
+                                          Width: =72
+                              - lblL4cDescRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Descrição"
+                              - txtL4cDescricao:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Descrição do pedido"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =""
+                                    Height: =80
+                                    HintText: |-
+                                      ="Ex.: Licenças de software anuais"
+                                    HoverBorderColor: =nfAzul
+                                    Mode: =TextMode.MultiLine
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - chkL4cSemValor:
+                                  Control: Classic/CheckBox@2.1.0
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    CheckboxBorderColor: =nfVermelho
+                                    CheckboxSize: =24
+                                    CheckmarkFill: =nfTexto
+                                    Color: =nfTextoSuave
+                                    Default: =false
+                                    Height: =32
+                                    HoverColor: =nfAzul
+                                    Size: =13
+                                    TabIndex: =0
+                                    Text: ="Simular dado inválido (gravar sem valor)"
+                              - btnL4cRegistar:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =nfAzul
+                                    Color: =Color.White
+                                    DisplayMode: =If(locL4cAguardar, DisplayMode.Disabled, DisplayMode.Edit)
+                                    Fill: =nfAzul
+                                    Height: =44
+                                    HoverColor: =Color.White
+                                    HoverFill: =nfAzul
+                                    OnSelect: |-
+                                      =If(
+                                          IsBlank(cmbL4cCliente.Selected) || IsBlank(Trim(txtL4cDescricao.Text)) || (!chkL4cSemValor.Value && IsBlank(txtL4cValor.Text)),
+                                          UpdateContext({locL4cMsgTipo: "erro", locL4cTimer: false, locL4cMsg: "Escolha o cliente e preencha o valor e a descrição."}),
+                                          IfError(
+                                              UpdateContext({locL4cPedido: Patch(Pedidos, Defaults(Pedidos), {
+                                                  Clientes: cmbL4cCliente.Selected,
+                                                  DataPedido: Today(),
+                                                  EstadoPedido: 'EstadoPedido (Pedidos)'.Pendente,
+                                                  Valor: If(chkL4cSemValor.Value, Blank(), Value(txtL4cValor.Text)),
+                                                  'Descrição': Trim(txtL4cDescricao.Text)
+                                              })}),
+                                              UpdateContext({locL4cMsgTipo: "erro", locL4cTimer: false, locL4cMsg: "Não foi possível registar o pedido. " & FirstError.Message}),
+                                              UpdateContext({locL4cAguardar: true, locL4cTentativas: 0, locL4cMsgTipo: "ok", locL4cTimer: true,
+                                                  locL4cMsg: "Pedido " & locL4cPedido.NumeroPedido & " registado. O fluxo está a classificá-lo."});
+                                              UpdateContext({locL4cValorTeste: ""});
+                                              Reset(txtL4cValor);
+                                              Reset(txtL4cDescricao);
+                                              Reset(chkL4cSemValor)
+                                          )
+                                      )
+                                    PressedColor: =Color.White
+                                    PressedFill: =nfAzul
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Size: =14
+                                    Text: ="Registar pedido"
+                                    Width: =If(scrL4Melhoramento.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 220)
+                        - conL4cEstado:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =If(scrL4Melhoramento.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =Color.White
+                              FillPortions: =If(scrL4Melhoramento.Size = ScreenSize.Small, 0, 1)
+                              Height: =40 + lblL4cEstadoTitulo.Height + If(lblL4cSemPedido.Visible, 10 + lblL4cSemPedido.Height, 0) + If(conL4cResumo.Visible, 10 + 36, 0) + If(lblL4cAguarda.Visible, 10 + lblL4cAguarda.Height, 0) + If(lblL4cDetalhes.Visible, 10 + lblL4cDetalhes.Height, 0) + If(lblL4cDecisao.Visible, 10 + lblL4cDecisao.Height, 0) + If(conL4cAcoes.Visible, 10 + conL4cAcoes.Height, 0)
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =10
+                              LayoutMinWidth: =300
+                              PaddingBottom: =20
+                              PaddingLeft: =20
+                              PaddingRight: =20
+                              PaddingTop: =20
+                              RadiusBottomLeft: =16
+                              RadiusBottomRight: =16
+                              RadiusTopLeft: =16
+                              RadiusTopRight: =16
+                            Children:
+                              - lblL4cEstadoTitulo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfAzul
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    Size: =18
+                                    Text: ="2 · Acompanhar o processamento"
+                              - lblL4cSemPedido:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    Size: =14
+                                    Text: ="Registe um pedido ou escolha um na lista de baixo para ver o estado do processamento."
+                                    Visible: =IsBlank(locL4cPedido)
+                              - conL4cResumo:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =36
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                    Visible: =!IsBlank(locL4cPedido)
+                                  Children:
+                                    - lblL4cNumero:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          AutoHeight: =false
+                                          Color: =nfTexto
+                                          FillPortions: =1
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =32
+                                          Size: =16
+                                          Text: =locL4cPedido.NumeroPedido & "  ·  " & locL4cPedido.Clientes.Nome
+                                    - btnL4cTratamento:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          BorderThickness: =0
+                                          Color: =If(IsBlank(locL4cPedido.Tratamento), nfTextoSuave, locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzul, locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeTexto, locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbar, nfVermelhoTexto)
+                                          DisabledColor: =Self.Color
+                                          DisabledFill: =Self.Fill
+                                          DisplayMode: =DisplayMode.View
+                                          Fill: =If(IsBlank(locL4cPedido.Tratamento), nfLinha, locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzulFundo, locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeFundo, locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbarFundo, nfVermelhoFundo)
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =26
+                                          HoverColor: =Self.Color
+                                          HoverFill: =Self.Fill
+                                          PressedFill: =Self.Fill
+                                          RadiusBottomLeft: =13
+                                          RadiusBottomRight: =13
+                                          RadiusTopLeft: =13
+                                          RadiusTopRight: =13
+                                          Size: =11
+                                          TabIndex: =-1
+                                          Text: =If(IsBlank(locL4cPedido.Tratamento), "Não processado", Text(locL4cPedido.Tratamento))
+                                          Width: =128
+                              - lblL4cAguarda:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfAmbar
+                                    Fill: =nfAmbarFundo
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    PaddingBottom: =12
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =12
+                                    Size: =14
+                                    Text: ="A aguardar o fluxo DAC2627_Pedido_Classificar · consulta " & (locL4cTentativas + 1) & " de 20, a cada 3 s."
+                                    Visible: =locL4cAguardar
+                              - lblL4cDetalhes:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTexto
+                                    Fill: =nfSuperficie
+                                    FocusedBorderThickness: =2
+                                    PaddingBottom: =12
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =12
+                                    Size: =14
+                                    Text: |-
+                                      ="Valor: " & If(IsBlank(locL4cPedido.Valor), "sem valor", Text(locL4cPedido.Valor, "[$-pt-PT]0,00") & " €") & "   ·   Processado: " & If(locL4cPedido.Processado, "Sim", "Não") & Char(10) & "Processado em: " & If(IsBlank(locL4cPedido.DataProcessamento), "—", Text(locL4cPedido.DataProcessamento, "dd/mm/yyyy hh:mm:ss")) & Char(10) & "Observações: " & Coalesce(locL4cPedido.ObservacoesProcessamento, "—") & Char(10) & "Execução do fluxo: " & Coalesce(locL4cPedido.IdExecucao, "—")
+                                    Visible: =!IsBlank(locL4cPedido)
+                              - lblL4cDecisao:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfAmbar
+                                    Fill: =nfAmbarFundo
+                                    FocusedBorderThickness: =2
+                                    PaddingBottom: =12
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =12
+                                    Size: =14
+                                    Text: |-
+                                      ="Revisão humana: " & If(IsBlank(locL4cPedido.Decisao), "—", Text(locL4cPedido.Decisao)) & If(IsBlank(locL4cPedido.DataDecisao), "", " em " & Text(locL4cPedido.DataDecisao, "dd/mm/yyyy hh:mm")) & If(IsBlank(locL4cPedido.ComentarioDecisao), "", Char(10) & locL4cPedido.ComentarioDecisao) & If(locL4cPedido.Decisao = 'Decisao (Pedidos)'.'Aguarda decisão', Char(10) & "O aprovador recebeu um email com as opções Aprovar e Rejeitar. Use Atualizar estado depois de ele responder.", "")
+                                    Visible: =!IsBlank(locL4cPedido) && (locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Revisão || !IsBlank(locL4cPedido.Decisao))
+                              - conL4cAcoes:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =If(scrL4Melhoramento.Size = ScreenSize.Small, 100, 44)
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                    LayoutWrap: =true
+                                    Visible: =!IsBlank(locL4cPedido)
+                                  Children:
+                                    - btnL4cAtualizar:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =nfAzul
+                                          DisplayMode: =If(!IsBlank(locL4cPedido), DisplayMode.Edit, DisplayMode.Disabled)
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =Refresh(Pedidos); UpdateContext({locL4cPedido: LookUp(Pedidos, Pedido = locL4cPedido.Pedido)})
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="Atualizar estado"
+                                          Width: =180
+                                    - btnL4cReprocessar:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =Color.White
+                                          DisplayMode: =If(!IsBlank(locL4cPedido) && !locL4cAguardar, DisplayMode.Edit, DisplayMode.Disabled)
+                                          Fill: =nfAzul
+                                          Height: =44
+                                          HoverColor: =Color.White
+                                          HoverFill: =nfAzul
+                                          OnSelect: |-
+                                            =With(
+                                                {r: IfError(
+                                                    DAC2627_Pedido_Reprocessar.Run(Text(locL4cPedido.Pedido)),
+                                                    {resultado: "erro", mensagem: "Não foi possível chamar o fluxo. " & FirstError.Message}
+                                                )},
+                                                If(r.resultado = "ok",
+                                                    UpdateContext({locL4cAguardar: true, locL4cTentativas: 0, locL4cMsgTipo: "ok", locL4cTimer: true, locL4cMsg: r.mensagem}),
+                                                    UpdateContext({locL4cMsgTipo: "erro", locL4cTimer: false, locL4cMsg: r.mensagem})
+                                                )
+                                            )
+                                          PressedColor: =Color.White
+                                          PressedFill: =nfAzul
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="Reprocessar"
+                                          Width: =160
+                  - lblL4cListaTitulo:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfAzul
+                        FocusedBorderThickness: =2
+                        FontWeight: =FontWeight.Bold
+                        PaddingTop: =8
+                        Size: =18
+                        Text: ="3 · Pedidos processados"
+                  - conL4cFiltros:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(scrL4Melhoramento.Size = ScreenSize.Small, 96, 44)
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =8
+                        LayoutWrap: =true
+                      Children:
+                        - btnL4cFiltroTodos:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =If(locL4cFiltro = "todos", Color.White, nfAzul)
+                              Fill: =If(locL4cFiltro = "todos", nfAzul, Color.White)
+                              Height: =44
+                              HoverColor: =If(locL4cFiltro = "todos", Color.White, nfAzul)
+                              HoverFill: =If(locL4cFiltro = "todos", nfAzul, nfAzulClaro)
+                              OnSelect: |-
+                                =UpdateContext({locL4cFiltro: "todos"})
+                              PressedColor: =If(locL4cFiltro = "todos", Color.White, nfAzul)
+                              PressedFill: =If(locL4cFiltro = "todos", nfAzul, nfAzulClaro)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =14
+                              Text: ="Todos"
+                              Width: =130
+                        - btnL4cFiltroAuto:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =If(locL4cFiltro = "auto", Color.White, nfAzul)
+                              Fill: =If(locL4cFiltro = "auto", nfAzul, Color.White)
+                              Height: =44
+                              HoverColor: =If(locL4cFiltro = "auto", Color.White, nfAzul)
+                              HoverFill: =If(locL4cFiltro = "auto", nfAzul, nfAzulClaro)
+                              OnSelect: |-
+                                =UpdateContext({locL4cFiltro: "auto"})
+                              PressedColor: =If(locL4cFiltro = "auto", Color.White, nfAzul)
+                              PressedFill: =If(locL4cFiltro = "auto", nfAzul, nfAzulClaro)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =14
+                              Text: ="Automático"
+                              Width: =130
+                        - btnL4cFiltroRevisao:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =If(locL4cFiltro = "revisao", Color.White, nfAzul)
+                              Fill: =If(locL4cFiltro = "revisao", nfAzul, Color.White)
+                              Height: =44
+                              HoverColor: =If(locL4cFiltro = "revisao", Color.White, nfAzul)
+                              HoverFill: =If(locL4cFiltro = "revisao", nfAzul, nfAzulClaro)
+                              OnSelect: |-
+                                =UpdateContext({locL4cFiltro: "revisao"})
+                              PressedColor: =If(locL4cFiltro = "revisao", Color.White, nfAzul)
+                              PressedFill: =If(locL4cFiltro = "revisao", nfAzul, nfAzulClaro)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =14
+                              Text: ="Revisão"
+                              Width: =130
+                        - btnL4cFiltroErro:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =If(locL4cFiltro = "erro", Color.White, nfAzul)
+                              Fill: =If(locL4cFiltro = "erro", nfAzul, Color.White)
+                              Height: =44
+                              HoverColor: =If(locL4cFiltro = "erro", Color.White, nfAzul)
+                              HoverFill: =If(locL4cFiltro = "erro", nfAzul, nfAzulClaro)
+                              OnSelect: |-
+                                =UpdateContext({locL4cFiltro: "erro"})
+                              PressedColor: =If(locL4cFiltro = "erro", Color.White, nfAzul)
+                              PressedFill: =If(locL4cFiltro = "erro", nfAzul, nfAzulClaro)
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =14
+                              Text: ="Erro"
+                              Width: =130
+                  - lblL4cListaVazia:
+                      Control: Label@2.5.1
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        AutoHeight: =true
+                        Color: =nfTextoSuave
+                        FocusedBorderThickness: =2
+                        Size: =14
+                        Text: ="Não há pedidos processados com este tratamento."
+                        Visible: =galL4cPedidos.AllItemsCount = 0
+                  - conL4cListaCartao:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        BorderColor: =nfLinha
+                        BorderThickness: =1
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =galL4cPedidos.Height + 2
+                        LayoutDirection: =LayoutDirection.Vertical
+                        PaddingBottom: =1
+                        PaddingLeft: =1
+                        PaddingRight: =1
+                        PaddingTop: =1
+                        RadiusBottomLeft: =12
+                        RadiusBottomRight: =12
+                        RadiusTopLeft: =12
+                        RadiusTopRight: =12
+                      Children:
+                        - galL4cPedidos:
+                            Control: Gallery@2.15.0
+                            Variant: Vertical
+                            Properties:
+                              AccessibleLabel: ="Pedidos processados"
+                              AlignInContainer: =AlignInContainer.Stretch
+                              FillPortions: =0
+                              Height: =Max(1, Self.AllItemsCount) * Self.TemplateHeight
+                              Items: |-
+                                =FirstN(Sort(Switch(locL4cFiltro,
+                                    "auto", Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Automático),
+                                    "revisao", Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão),
+                                    "erro", Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Erro),
+                                    Filter(Pedidos, Processado = true)
+                                ), DataProcessamento, SortOrder.Descending), 25)
+                              LayoutMinHeight: =0
+                              OnSelect: |-
+                                =UpdateContext({locL4cPedido: ThisItem, locL4cAguardar: false})
+                              TabIndex: =0
+                              TemplatePadding: =0
+                              TemplateSize: =70
+                            Children:
+                              - lblL4cGNumero:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTexto
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =28
+                                    OnSelect: =Select(Parent)
+                                    Size: =14
+                                    Text: =ThisItem.NumeroPedido & "  ·  " & ThisItem.Clientes.Nome
+                                    Width: =Parent.TemplateWidth - If(scrL4Melhoramento.Size = ScreenSize.Small, 160, 300)
+                                    Wrap: =false
+                                    X: =16
+                                    Y: =8
+                              - lblL4cGObs:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Color: =nfTextoSuave
+                                    Height: =24
+                                    OnSelect: =Select(Parent)
+                                    Size: =12
+                                    Text: =Coalesce(ThisItem.ObservacoesProcessamento, "")
+                                    Width: =Parent.TemplateWidth - 32
+                                    Wrap: =false
+                                    X: =16
+                                    Y: =38
+                              - lblL4cGValor:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    Align: =Align.Right
+                                    Color: =nfTexto
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =28
+                                    OnSelect: =Select(Parent)
+                                    Size: =14
+                                    Text: =If(IsBlank(ThisItem.Valor), "—", Text(ThisItem.Valor, "[$-pt-PT]0,00") & " €")
+                                    Visible: =scrL4Melhoramento.Size > ScreenSize.Small
+                                    Width: =130
+                                    X: =Parent.TemplateWidth - 284
+                                    Y: =8
+                              - btnL4cGTratamento:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderThickness: =0
+                                    Color: =If(IsBlank(ThisItem.Tratamento), nfTextoSuave, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzul, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeTexto, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbar, nfVermelhoTexto)
+                                    DisabledColor: =Self.Color
+                                    DisabledFill: =Self.Fill
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =If(IsBlank(ThisItem.Tratamento), nfLinha, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzulFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbarFundo, nfVermelhoFundo)
+                                    FontWeight: =FontWeight.Bold
+                                    Height: =26
+                                    HoverColor: =Self.Color
+                                    HoverFill: =Self.Fill
+                                    OnSelect: =Select(Parent)
+                                    PressedFill: =Self.Fill
+                                    RadiusBottomLeft: =13
+                                    RadiusBottomRight: =13
+                                    RadiusTopLeft: =13
+                                    RadiusTopRight: =13
+                                    Size: =11
+                                    TabIndex: =-1
+                                    Text: =If(IsBlank(ThisItem.Tratamento), "Não processado", Text(ThisItem.Tratamento))
+                                    Width: =128
+                                    X: =Parent.TemplateWidth - Self.Width - 16
+                                    Y: =9
+                              - recL4cGSeparador:
+                                  Control: Rectangle@2.3.0
+                                  Properties:
+                                    Fill: =nfLinha
+                                    Height: =1
+                                    Width: =Parent.TemplateWidth
+                                    Y: =Parent.TemplateHeight - 1
+      - conL4cMensagem:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Fill: =If(locL4cMsgTipo = "erro", nfVermelhoFundo, nfVerdeFundo)
+            Height: =56
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =12
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =!IsBlank(locL4cMsg)
+            Width: =Min(560, Parent.Width - 32)
+            X: =(Parent.Width - Self.Width) / 2
+            Y: =76
+          Children:
+            - icoL4cMsgIcone:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =If(locL4cMsgTipo = "erro", "Erro", "Sucesso")
+                  Color: =If(locL4cMsgTipo = "erro", nfVermelho, nfVerde)
+                  Height: =24
+                  Icon: =If(locL4cMsgTipo = "erro", Icon.Warning, Icon.Check)
+                  Width: =24
+            - lblL4cMensagem:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =If(locL4cMsgTipo = "erro", nfVermelhoTexto, nfVerdeTexto)
+                  FillPortions: =1
+                  FocusedBorderThickness: =2
+                  FontWeight: =FontWeight.Semibold
+                  Text: =locL4cMsg
+            - icoL4cFecharMsg:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: ="Fechar mensagem"
+                  Color: =nfTextoSuave
+                  Height: =44
+                  Icon: =Icon.Cancel
+                  OnSelect: |-
+                    =UpdateContext({locL4cMsg: "", locL4cTimer: false})
+                  TabIndex: =0
+                  Width: =44
+      - tmrL4cMensagem:
+          Control: Timer@2.1.0
+          Properties:
+            Duration: =4000
+            OnTimerEnd: |-
+              =UpdateContext({locL4cMsg: "", locL4cTimer: false})
+            Start: =locL4cTimer
+            Visible: =false
+      - tmrL4cEstado:
+          Control: Timer@2.1.0
+          Properties:
+            Duration: =3000
+            OnTimerEnd: |-
+              =Refresh(Pedidos);
+              UpdateContext({locL4cPedido: LookUp(Pedidos, Pedido = locL4cPedido.Pedido), locL4cTentativas: locL4cTentativas + 1});
+              If(
+                  locL4cPedido.Processado,
+                  UpdateContext({locL4cAguardar: false, locL4cMsgTipo: If(locL4cPedido.Tratamento = 'Tratamento (Pedidos)'.Erro, "erro", "ok"), locL4cTimer: true,
+                      locL4cMsg: "Pedido " & locL4cPedido.NumeroPedido & " processado: " & Text(locL4cPedido.Tratamento) & "."}),
+                  locL4cTentativas >= 20,
+                  UpdateContext({locL4cAguardar: false, locL4cMsgTipo: "erro", locL4cTimer: false,
+                      locL4cMsg: "O fluxo ainda não terminou ao fim de 60 s. Use Atualizar estado mais tarde."})
+              )
+            Repeat: =locL4cAguardar
+            Start: =locL4cAguardar
+            Visible: =false

@@ -43,6 +43,28 @@ Pesquisa rápida («Localização Rápida de Entidades Clientes Ativas»): procu
 | Valor | `dac_valor` | Moeda | sim | 2 casas decimais |
 | Descrição | `dac_descricao` | Texto (várias linhas) | sim | 2000 caracteres |
 
+### Colunas da Ficha 04 · Melhoramento (20/11/2026)
+
+Escritas pelos fluxos, nunca pela app. No formulário principal do Pedido estão nas secções «Processamento (escrito pelo fluxo)» e «Revisão humana (escrito pelo fluxo)», só de leitura. Rótulos em português (2070).
+
+| Coluna (nome a mostrar) | Nome lógico | Tipo | Opções / notas |
+|---|---|---|---|
+| Tratamento | `dac_tratamento` | Escolha local | 774300000 Por processar (omissão) · 774300001 Automático · 774300002 Revisão · 774300003 Erro |
+| Processado | `dac_processado` | Sim/Não | Não por omissão |
+| DataProcessamento | `dac_dataprocessamento` | Data e hora | comportamento Local do utilizador |
+| ObservacoesProcessamento | `dac_observacoesprocessamento` | Texto (várias linhas) | 2000 caracteres |
+| IdExecucao | `dac_idexecucao` | Texto (uma linha) | `workflow()?['run']?['name']`, 100 caracteres |
+| ValorProcessado | `dac_valorprocessado` | Moeda | valor que o fluxo classificou (idempotência) |
+| Decisao | `dac_decisao` | Escolha local | 774300000 Aguarda decisão · 774300001 Aprovado · 774300002 Rejeitado |
+| ComentarioDecisao | `dac_comentariodecisao` | Texto (várias linhas) | 2000 caracteres |
+| DataDecisao | `dac_datadecisao` | Data e hora | |
+
+Os pedidos que já existiam antes de 20/11/2026 ficam com Tratamento vazio («Não processado» na app): o fluxo só trata pedidos criados depois ou cujo Valor mude.
+
+Obrigatória quer dizer obrigatória nas aplicações (`ApplicationRequired`). A Web API aceitou a 20/11/2026 um pedido sem Valor (PED-1182), e é para esse caso que o fluxo tem o ramo «Dados inválidos».
+
+Variáveis de ambiente da solução: `dac_LimiteRevisao` (decimal, 500) e `dac_AprovadorEmail` (texto, o email do dono da solução).
+
 Vistas públicas usadas no `Filter` da app: «Pedidos Pendentes» e «Pedidos Concluídos», com Estado igual a Ativo, o valor da escolha e DataPedido por ordem descendente.
 
 ## Relação

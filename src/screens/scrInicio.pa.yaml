@@ -92,7 +92,9 @@ Screens:
                               {Num: 4, Ficha: "Ficha 04", Titulo: "Clientes e Pedidos",
                                Descricao: "Duas tabelas Dataverse com relação 1:N, pedidos por cliente e as vistas Pendentes e Concluídos.", Disponivel: true},
                               {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "Origens de dados",
-                               Descricao: "Ponto 8 do Lab 4: SharePoint, Dataverse e SQL, o que são, a favor e contra, e a comparação.", Disponivel: true}
+                               Descricao: "Ponto 8 do Lab 4: SharePoint, Dataverse e SQL, o que são, a favor e contra, e a comparação.", Disponivel: true},
+                              {Num: 6, Ficha: "Ficha 04 · Melhoramento", Titulo: "Processamento na cloud",
+                               Descricao: "Aula 7: o pedido é classificado por um fluxo Power Automate, com estado, erros, reprocessamento e aprovação.", Disponivel: true}
                           )
                         OnSelect: |-
                           =If(
@@ -103,7 +105,8 @@ Screens:
                                   2, Navigate(scrL2Servicos, ScreenTransition.Cover),
                                   3, Navigate(scrL3Lista, ScreenTransition.Cover),
                                   4, Navigate(scrL4Pedidos, ScreenTransition.Cover),
-                                  5, Navigate(scrL4Complemento, ScreenTransition.Cover)
+                                  5, Navigate(scrL4Complemento, ScreenTransition.Cover),
+                                  6, Navigate(scrL4Melhoramento, ScreenTransition.Cover)
                               )
                           )
                         TabIndex: =0

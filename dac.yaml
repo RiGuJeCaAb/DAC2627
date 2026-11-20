@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.3.0
+versao: 1.5.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -16,6 +16,7 @@ ecras:
   - scrL3Publicacao
   - scrL4Pedidos
   - scrL4Complemento
+  - scrL4Melhoramento
 
 # Fontes de dados que a app usa. Os .yaml dos ecrãs referem-nas pelo nome mas não as trazem:
 # têm de estar no painel Dados antes de colar (build/colar/ORDEM.md, passo 1).
@@ -37,6 +38,9 @@ fontes:
   - nome: JSONPlaceholderDAC
     tipo: Conector personalizado
     nota: Usar a ligação existente do conector da solução DAC2627 (não o Defaulttitle do Lab 3).
+  - nome: DAC2627_Pedido_Reprocessar
+    tipo: Fluxo Power Automate
+    nota: Painel Power Automate › Adicionar fluxo › DAC2627_Pedido_Reprocessar (fluxo instantâneo da solução DAC2627, gatilho Power Apps V2). Antes, em Dados, Atualizar a tabela Pedidos para aparecerem as colunas novas.
 
 lint:
   # Tabelas Dataverse: dentro de Filter/LookUp sobre estas, Text(), Len(), in, ... não são delegáveis
@@ -63,3 +67,9 @@ lint:
     - regra: DAC302
       controlo: btnL4PedEstado
       motivo: Pílula decorativa com o estado do pedido; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL4cTratamento
+      motivo: Pílula decorativa com o tratamento do pedido; a informação repete-se no texto dos detalhes.
+    - regra: DAC302
+      controlo: btnL4cGTratamento
+      motivo: Pílula decorativa com o tratamento do pedido; o foco vai para a linha da galeria.

@@ -99,7 +99,9 @@ def migrar_documento(doc: dict) -> None:
                 # só acrescenta o quinto cartão; os textos dele podem ter mudado depois (m004)
                 if "Num: 5" not in str(c.prop("Items")):
                     c.definir("Items", ITENS_INICIO)
-                c.definir("OnSelect", ONSELECT_INICIO)
+                # idem para a navegação: a m007 acrescenta o sexto cartão
+                if "scrL4Complemento" not in str(c.prop("OnSelect")):
+                    c.definir("OnSelect", ONSELECT_INICIO)
         return
     if "scrL2Servicos" in ecras:
         for c in yamlio.controlos(doc):

@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-10 ecrãs e 418 controlos.
+11 ecrãs e 473 controlos.
 
 ## Navegação
 
@@ -12,6 +12,7 @@ flowchart LR
   scrInicio --> scrL2Servicos
   scrInicio --> scrL3Lista
   scrInicio --> scrL4Complemento
+  scrInicio --> scrL4Melhoramento
   scrInicio --> scrL4Pedidos
   scrL1BoasVindas --> scrInicio
   scrL1BoasVindas --> scrL1Pedido
@@ -28,6 +29,7 @@ flowchart LR
   scrL3Publicacao --> scrInicio
   scrL3Publicacao --> scrL3Detalhe
   scrL4Complemento --> scrInicio
+  scrL4Melhoramento --> scrInicio
   scrL4Pedidos --> scrInicio
 ```
 
@@ -45,6 +47,7 @@ flowchart LR
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
 | `scrL4Pedidos` | 103 | Label 44, Button 15, GroupContainer 13, TypedDataCard 9 | `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista` | — |
 | `scrL4Complemento` | 91 | Label 75, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
+| `scrL4Melhoramento` | 55 | Label 20, GroupContainer 12, Button 12, Icon 3 | `locL4cAguardar`, `locL4cFiltro`, `locL4cMsg`, `locL4cMsgTipo`, `locL4cPedido`, `locL4cTentativas`, `locL4cTimer`, `locL4cValorTeste` | — |
 
 ## scrInicio
 
@@ -512,4 +515,64 @@ conEcraL4b  [GroupContainer/AutoLayout]
       lblL4bSql9  [Label]
     lblL4bConclusao  [Label]
     btnL4bVoltarTexto  [Button]
+```
+
+## scrL4Melhoramento
+
+```
+conEcraL4c  [GroupContainer/AutoLayout]
+  conCabL4c  [GroupContainer/AutoLayout]
+    icoInicioL4c  [Icon]
+    lblCabL4c  [Label]
+  conConteudoL4c  [GroupContainer/AutoLayout]
+    lblL4cTitulo  [Label]
+    lblL4cIntro  [Label]
+    conL4cTopo  [GroupContainer/AutoLayout]
+      conL4cNovo  [GroupContainer/AutoLayout]
+        lblL4cNovoTitulo  [Label]
+        lblL4cClienteRot  [Label]
+        cmbL4cCliente  [ComboBox]
+        lblL4cValorRot  [Label]
+        txtL4cValor  [TextInput]
+        conL4cTestes  [GroupContainer/AutoLayout]
+          lblL4cTestesRot  [Label]
+          btnL4cTeste100  [Button]
+          btnL4cTeste500  [Button]
+          btnL4cTeste750  [Button]
+        lblL4cDescRot  [Label]
+        txtL4cDescricao  [TextInput]
+        chkL4cSemValor  [CheckBox]
+        btnL4cRegistar  [Button]
+      conL4cEstado  [GroupContainer/AutoLayout]
+        lblL4cEstadoTitulo  [Label]
+        lblL4cSemPedido  [Label]
+        conL4cResumo  [GroupContainer/AutoLayout]
+          lblL4cNumero  [Label]
+          btnL4cTratamento  [Button]
+        lblL4cAguarda  [Label]
+        lblL4cDetalhes  [Label]
+        lblL4cDecisao  [Label]
+        conL4cAcoes  [GroupContainer/AutoLayout]
+          btnL4cAtualizar  [Button]
+          btnL4cReprocessar  [Button]
+    lblL4cListaTitulo  [Label]
+    conL4cFiltros  [GroupContainer/AutoLayout]
+      btnL4cFiltroTodos  [Button]
+      btnL4cFiltroAuto  [Button]
+      btnL4cFiltroRevisao  [Button]
+      btnL4cFiltroErro  [Button]
+    lblL4cListaVazia  [Label]
+    conL4cListaCartao  [GroupContainer/AutoLayout]
+      galL4cPedidos  [Gallery/Vertical]
+        lblL4cGNumero  [Label]
+        lblL4cGObs  [Label]
+        lblL4cGValor  [Label]
+        btnL4cGTratamento  [Button]
+        recL4cGSeparador  [Rectangle]
+conL4cMensagem  [GroupContainer/AutoLayout]
+  icoL4cMsgIcone  [Icon]
+  lblL4cMensagem  [Label]
+  icoL4cFecharMsg  [Icon]
+tmrL4cMensagem  [Timer]
+tmrL4cEstado  [Timer]
 ```
