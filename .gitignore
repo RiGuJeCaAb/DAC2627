@@ -6,3 +6,4 @@ build/
 
 *.zip
 !_export/*.zip
+azure/**/node_modules/

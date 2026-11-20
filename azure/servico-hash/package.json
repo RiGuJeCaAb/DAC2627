@@ -1,0 +1,11 @@
+{
+  "name": "dac2627-servico-hash",
+  "version": "1.0.0",
+  "description": "APP DAC2627 · hash PBKDF2-SHA256 das passwords da revisão de pedidos (Azure App Service, Node.js, sem dependências)",
+  "main": "server.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/pbkdf2.test.js test/servidor.test.js"
+  }
+}
