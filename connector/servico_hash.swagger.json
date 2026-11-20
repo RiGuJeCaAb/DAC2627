@@ -1,0 +1,155 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "DAC2627-ServicoHash",
+    "description": "Hash PBKDF2-SHA256 (600 000 iterações, salt de 16 bytes) e verificação de passwords para a revisão de pedidos da APP DAC2627. A password só passa pelo serviço, nunca fica guardada.",
+    "version": "1.0"
+  },
+  "host": "dac2627-hash-2060.azurewebsites.net",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-api-key"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "paths": {
+    "/hash": {
+      "post": {
+        "operationId": "GerarHash",
+        "summary": "Gerar hash",
+        "description": "Gera um salt aleatório e o hash PBKDF2-SHA256 da password.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "password"
+              ],
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "x-ms-summary": "Password",
+                  "description": "Entre 8 e 128 caracteres"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hash gerado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "algoritmo": {
+                  "type": "string",
+                  "x-ms-summary": "Algoritmo"
+                },
+                "iteracoes": {
+                  "type": "integer",
+                  "format": "int32",
+                  "x-ms-summary": "Iterações"
+                },
+                "salt": {
+                  "type": "string",
+                  "x-ms-summary": "Salt"
+                },
+                "hash": {
+                  "type": "string",
+                  "x-ms-summary": "Hash"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pedido inválido"
+          },
+          "401": {
+            "description": "Chave em falta ou inválida"
+          }
+        }
+      }
+    },
+    "/verificar": {
+      "post": {
+        "operationId": "VerificarPassword",
+        "summary": "Verificar password",
+        "description": "Recalcula o hash com o salt e as iterações guardados e compara em tempo constante.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "password",
+                "salt",
+                "hash",
+                "iteracoes"
+              ],
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "x-ms-summary": "Password"
+                },
+                "salt": {
+                  "type": "string",
+                  "x-ms-summary": "Salt"
+                },
+                "hash": {
+                  "type": "string",
+                  "x-ms-summary": "Hash"
+                },
+                "iteracoes": {
+                  "type": "integer",
+                  "format": "int32",
+                  "x-ms-summary": "Iterações"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "valido": {
+                  "type": "boolean",
+                  "x-ms-summary": "Válido"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pedido inválido"
+          },
+          "401": {
+            "description": "Chave em falta ou inválida"
+          }
+        }
+      }
+    }
+  }
+}
