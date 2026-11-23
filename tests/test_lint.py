@@ -159,3 +159,15 @@ def test_propriedades_da_exportacao_do_projeto():
     assert "LayoutOverflowY" in p["groupcontainer"] and "LayoutOverflow" not in p["groupcontainer"]
     assert {"OnSelect", "TemplateFill"} <= p["gallery"]
     assert "FillPortions" in p["label"]
+
+
+def test_navigate_no_onvisible_e_no_onstart():
+    # o Studio recusa Navigate no OnVisible de um ecrã (mesmo dentro de um If) e no App.OnStart
+    app = _app()
+    app["App"]["Properties"]["OnStart"] = "=Set(gblL1X, 1); Navigate(scrL1A)"
+    r = [(a.regra, a.onde) for a in lint.Analise({
+        "a": app,
+        "b": _ecra("scrL1A", [], {"OnVisible": "=If(IsBlank(gblL1X), Navigate(scrL1B, ScreenTransition.None))"}),
+        "c": _ecra("scrL1B", [], {"OnVisible": '=UpdateContext({locL1T: "Navigate(scrL1A)"})'}),
+    }).correr() if a.regra == "DAC406"]
+    assert r == [("DAC406", "App.OnStart"), ("DAC406", "scrL1A.OnVisible")]

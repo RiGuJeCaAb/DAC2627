@@ -583,8 +583,9 @@ def ecra_revisao() -> dict:
     ], 1100)
     raiz = _contentor("conEcraL4dR", [_cabecalho("L4dR", "Ficha 04 · Revisão", [quem, sair]), conteudo], Fill="=nfFundo",
                       Height="=Parent.Height", Width="=Parent.Width")
-    on_visible = (f"=If(IsBlank({SES}.token), Navigate({ENT}, ScreenTransition.None));\n"
-                  f'UpdateContext({{locL4dVista: "revisao", locL4dFiltro: "pordecidir", {P}: Blank(), {U}: Blank(), '
+    # Sem Navigate: o Studio recusa-o no OnVisible (DAC406). Só se chega aqui pelo scrL4Entrar, com sessão,
+    # e uma sessão caducada é recusada pelos fluxos, que leem o perfil no Dataverse.
+    on_visible = (f'=UpdateContext({{locL4dVista: "revisao", locL4dFiltro: "pordecidir", {P}: Blank(), {U}: Blank(), '
                   'locL4dMsg: "", locL4dMsgTipo: "", locL4dTimer: false});\n'
                   "Refresh(Pedidos)")
     return {"Screens": {REV: {"Properties": {"Fill": "=nfFundo", "OnVisible": on_visible},

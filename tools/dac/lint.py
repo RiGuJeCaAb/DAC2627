@@ -39,6 +39,7 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC403": (ERRO, "Referência a um controlo ou ecrã que não existe"),
     "DAC404": (AVISO, "Variável lida mas nunca definida"),
     "DAC405": (ERRO, "Propriedade que o Studio não conhece neste tipo de controlo"),
+    "DAC406": (ERRO, "Navigate no OnVisible de um ecrã ou no App.OnStart: o Studio não aceita"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
     "DAC503": (AVISO, "Sombra dentro de sombra"),
@@ -174,6 +175,7 @@ class Analise:
         self._acessibilidade()
         self._dados()
         self._propriedades()
+        self._navegacao()
         self._layout()
         self._excecoes()
         ordem = {ERRO: 0, AVISO: 1, INFO: 2}
@@ -358,6 +360,23 @@ class Analise:
                         nome = m.group(1)
                         if nome not in self.nomes:
                             self._add("DAC403", onde, f"'{nome}' não existe")
+
+    def _navegacao(self):
+        """DAC406: o Studio recusa Navigate no OnVisible de um ecrã, mesmo dentro de um If
+        («navegaria sempre automaticamente para fora do ecrã»), e no App.OnStart (usa-se App.StartScreen)."""
+        alvos = [("App.OnStart", (self.app.get("Properties") or {}).get("OnStart"))]
+        for d in self.docs.values():
+            for ecra, corpo in (d.get("Screens") or {}).items():
+                alvos.append((f"{ecra}.OnVisible", (corpo.get("Properties") or {}).get("OnVisible")))
+        for onde, fx in alvos:
+            if not fx:
+                continue
+            try:
+                cod = pafx.so_codigo(_fx(fx))
+            except pafx.ErroLexico:
+                continue
+            if re.search(r"\bNavigate\s*\(", cod):
+                self._add("DAC406", onde, "Navigate não é aceite aqui: navegar a partir do botão que abre o ecrã")
 
     # ----- DAC5xx -----
     # o YAML e a exportação nem sempre dão o mesmo nome ao tipo

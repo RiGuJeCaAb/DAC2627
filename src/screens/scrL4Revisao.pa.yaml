@@ -11,8 +11,7 @@ Screens:
     Properties:
       Fill: =nfFundo
       OnVisible: |-
-        =If(IsBlank(gblL4dSessao.token), Navigate(scrL4Entrar, ScreenTransition.None));
-        UpdateContext({locL4dVista: "revisao", locL4dFiltro: "pordecidir", locL4dPedido: Blank(), locL4dUtil: Blank(), locL4dMsg: "", locL4dMsgTipo: "", locL4dTimer: false});
+        =UpdateContext({locL4dVista: "revisao", locL4dFiltro: "pordecidir", locL4dPedido: Blank(), locL4dUtil: Blank(), locL4dMsg: "", locL4dMsgTipo: "", locL4dTimer: false});
         Refresh(Pedidos)
     Children:
       - conEcraL4dR:

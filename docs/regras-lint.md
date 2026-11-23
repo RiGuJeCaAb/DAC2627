@@ -19,6 +19,7 @@ Cada achado tem um código estável. Um **erro** faz falhar o CI; um **aviso** t
 | DAC403 | erro | Referência a um controlo ou ecrã com nome da convenção que não existe | Corrigir o nome (gralha ou controlo renomeado) |
 | DAC404 | aviso | Variável `loc*`, `gbl*` ou `col*` lida mas nunca definida (as `loc*` por ecrã, contando com o `Navigate`) | Definir a variável ou corrigir o nome |
 | DAC405 | erro | Propriedade que o Studio não conhece para o tipo de controlo, comparada com as que aparecem na exportação (`msapp/Controls`). Ex.: `LayoutOverflow` num contentor, quando o nome certo é `LayoutOverflowY`. O Studio recusa a colagem com `PA2108` | Corrigir o nome. Se for uma propriedade legítima que a exportação ainda não usa, colar no Studio para confirmar e registar a exceção em `dac.yaml` |
+| DAC406 | erro | `Navigate` no `OnVisible` de um ecrã, mesmo dentro de um `If`, ou no `App.OnStart`. O Studio recusa-o: «A navegação não pode ser utilizada aqui uma vez que esta navegaria sempre automaticamente para fora do ecrã» | Navegar a partir do botão que abre o ecrã. Para o primeiro ecrã, `App.StartScreen` |
 | DAC501 | info | `Size` fora da escala tipográfica de `dac.yaml` | Usar um tamanho da escala |
 | DAC502 | aviso | Etiqueta ou ícone dentro de galeria sem `OnSelect = Select(Parent)` | Acrescentar `OnSelect = Select(Parent)` |
 | DAC503 | aviso | Sombra dentro de sombra: contentor com sombra (ausente vale `Light`) dentro de outro com sombra | `DropShadow.None` no contentor de fora ou no de dentro |
