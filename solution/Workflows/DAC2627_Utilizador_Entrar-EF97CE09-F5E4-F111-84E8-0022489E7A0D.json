@@ -1,0 +1,702 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627dataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_dac-5Fdac2627-2Dservicohash-5F8e4ce826bfe060bc": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627servicohash"
+        },
+        "api": {
+          "name": "shared_dac-5Fdac2627-2Dservicohash-5F8e4ce826bfe060bc",
+          "logicalName": "dac_5Fdac2627-2Dservicohash"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "Email",
+                  "type": "string",
+                  "description": "Email do utilizador",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "title": "Password",
+                  "type": "string",
+                  "description": "Password (não fica guardada nem no histórico)",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1"
+              ]
+            }
+          },
+          "runtimeConfiguration": {
+            "secureData": {
+              "properties": [
+                "outputs"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Tentar": {
+          "actions": {
+            "Procurar": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dac_utilizadors",
+                  "$top": 1,
+                  "$select": "dac_utilizadorid,dac_nome,dac_perfil,dac_ativo,dac_passwordhash,dac_passwordsalt,dac_iteracoes,dac_tentativasfalhadas,dac_bloqueadoate,_dac_cliente_value",
+                  "$filter": "dac_email eq '@{replace(toLower(trim(triggerBody()?['text'])),'''','''''')}'"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "secureData": {
+                  "properties": [
+                    "inputs",
+                    "outputs"
+                  ]
+                }
+              }
+            },
+            "Inexistente_ou_inativo": {
+              "actions": {
+                "Responder_inexistente": {
+                  "runAfter": {},
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                      "resultado": "erro",
+                      "mensagem": "Email ou password incorretos.",
+                      "token": "",
+                      "nome": "",
+                      "perfil": "",
+                      "utilizadorid": "",
+                      "clienteid": ""
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "resultado": {
+                          "title": "resultado",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "mensagem": {
+                          "title": "mensagem",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "token": {
+                          "title": "token",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "nome": {
+                          "title": "nome",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "perfil": {
+                          "title": "perfil",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "utilizadorid": {
+                          "title": "utilizadorid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "clienteid": {
+                          "title": "clienteid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "Terminar_inexistente": {
+                  "runAfter": {
+                    "Responder_inexistente": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Terminate",
+                  "inputs": {
+                    "runStatus": "Succeeded"
+                  }
+                }
+              },
+              "runAfter": {
+                "Procurar": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {}
+              },
+              "expression": {
+                "or": [
+                  {
+                    "equals": [
+                      "@length(outputs('Procurar')?['body/value'])",
+                      0
+                    ]
+                  },
+                  {
+                    "not": {
+                      "equals": [
+                        "@first(outputs('Procurar')?['body/value'])?['dac_ativo']",
+                        true
+                      ]
+                    }
+                  },
+                  {
+                    "equals": [
+                      "@empty(first(outputs('Procurar')?['body/value'])?['dac_passwordhash'])",
+                      true
+                    ]
+                  }
+                ]
+              },
+              "type": "If"
+            },
+            "Bloqueado": {
+              "actions": {
+                "Responder_bloqueado": {
+                  "runAfter": {},
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                      "resultado": "erro",
+                      "mensagem": "Conta bloqueada por 5 tentativas falhadas. Tentar de novo dentro de 15 minutos.",
+                      "token": "",
+                      "nome": "",
+                      "perfil": "",
+                      "utilizadorid": "",
+                      "clienteid": ""
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "resultado": {
+                          "title": "resultado",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "mensagem": {
+                          "title": "mensagem",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "token": {
+                          "title": "token",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "nome": {
+                          "title": "nome",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "perfil": {
+                          "title": "perfil",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "utilizadorid": {
+                          "title": "utilizadorid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "clienteid": {
+                          "title": "clienteid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "Terminar_bloqueado": {
+                  "runAfter": {
+                    "Responder_bloqueado": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Terminate",
+                  "inputs": {
+                    "runStatus": "Succeeded"
+                  }
+                }
+              },
+              "runAfter": {
+                "Inexistente_ou_inativo": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {}
+              },
+              "expression": {
+                "greater": [
+                  "@ticks(coalesce(first(outputs('Procurar')?['body/value'])?['dac_bloqueadoate'],'1900-01-01T00:00:00Z'))",
+                  "@ticks(utcNow())"
+                ]
+              },
+              "type": "If"
+            },
+            "Verificar": {
+              "runAfter": {
+                "Bloqueado": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_dac-5Fdac2627-2Dservicohash-5F8e4ce826bfe060bc",
+                  "operationId": "VerificarPassword",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_dac-5Fdac2627-2Dservicohash-5F8e4ce826bfe060bc"
+                },
+                "parameters": {
+                  "body/password": "@triggerBody()?['text_1']",
+                  "body/salt": "@first(outputs('Procurar')?['body/value'])?['dac_passwordsalt']",
+                  "body/hash": "@first(outputs('Procurar')?['body/value'])?['dac_passwordhash']",
+                  "body/iteracoes": "@first(outputs('Procurar')?['body/value'])?['dac_iteracoes']"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "secureData": {
+                  "properties": [
+                    "inputs",
+                    "outputs"
+                  ]
+                }
+              }
+            },
+            "Password_certa": {
+              "actions": {
+                "Abrir_sessao": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateOnlyRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dac_utilizadors",
+                      "recordId": "@first(outputs('Procurar')?['body/value'])?['dac_utilizadorid']",
+                      "item/dac_tentativasfalhadas": 0,
+                      "item/dac_bloqueadoate": null,
+                      "item/dac_ultimoacesso": "@utcNow()",
+                      "item/dac_sessaotoken": "@replace(concat(guid(),guid()),'-','')",
+                      "item/dac_sessaoexpira": "@addHours(utcNow(),8)"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  },
+                  "runtimeConfiguration": {
+                    "secureData": {
+                      "properties": [
+                        "inputs",
+                        "outputs"
+                      ]
+                    }
+                  }
+                },
+                "Responder_ok": {
+                  "runAfter": {
+                    "Abrir_sessao": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                      "resultado": "ok",
+                      "mensagem": "Bem-vindo, @{first(outputs('Procurar')?['body/value'])?['dac_nome']}.",
+                      "token": "@{outputs('Abrir_sessao')?['body/dac_sessaotoken']}",
+                      "nome": "@{first(outputs('Procurar')?['body/value'])?['dac_nome']}",
+                      "perfil": "@{if(equals(first(outputs('Procurar')?['body/value'])?['dac_perfil'],774300000),'Admin',if(equals(first(outputs('Procurar')?['body/value'])?['dac_perfil'],774300001),'Gestor','Cliente'))}",
+                      "utilizadorid": "@{first(outputs('Procurar')?['body/value'])?['dac_utilizadorid']}",
+                      "clienteid": "@{coalesce(first(outputs('Procurar')?['body/value'])?['_dac_cliente_value'],'')}"
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "resultado": {
+                          "title": "resultado",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "mensagem": {
+                          "title": "mensagem",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "token": {
+                          "title": "token",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "nome": {
+                          "title": "nome",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "perfil": {
+                          "title": "perfil",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "utilizadorid": {
+                          "title": "utilizadorid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "clienteid": {
+                          "title": "clienteid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        }
+                      }
+                    }
+                  },
+                  "runtimeConfiguration": {
+                    "secureData": {
+                      "properties": [
+                        "inputs"
+                      ]
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Verificar": [
+                  "Succeeded"
+                ]
+              },
+              "else": {
+                "actions": {
+                  "Contar_falhas": {
+                    "runAfter": {},
+                    "type": "Compose",
+                    "inputs": "@add(coalesce(first(outputs('Procurar')?['body/value'])?['dac_tentativasfalhadas'],0),1)"
+                  },
+                  "Quinta_falha": {
+                    "actions": {
+                      "Bloquear": {
+                        "runAfter": {},
+                        "type": "OpenApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connectionName": "shared_commondataserviceforapps",
+                            "operationId": "UpdateOnlyRecord",
+                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                          },
+                          "parameters": {
+                            "entityName": "dac_utilizadors",
+                            "recordId": "@first(outputs('Procurar')?['body/value'])?['dac_utilizadorid']",
+                            "item/dac_tentativasfalhadas": 0,
+                            "item/dac_bloqueadoate": "@addMinutes(utcNow(),15)"
+                          },
+                          "authentication": "@parameters('$authentication')"
+                        }
+                      },
+                      "Responder_quinta_falha": {
+                        "runAfter": {
+                          "Bloquear": [
+                            "Succeeded"
+                          ]
+                        },
+                        "type": "Response",
+                        "kind": "PowerApp",
+                        "inputs": {
+                          "statusCode": 200,
+                          "body": {
+                            "resultado": "erro",
+                            "mensagem": "Conta bloqueada por 5 tentativas falhadas. Tentar de novo dentro de 15 minutos.",
+                            "token": "",
+                            "nome": "",
+                            "perfil": "",
+                            "utilizadorid": "",
+                            "clienteid": ""
+                          },
+                          "schema": {
+                            "type": "object",
+                            "properties": {
+                              "resultado": {
+                                "title": "resultado",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              },
+                              "mensagem": {
+                                "title": "mensagem",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              },
+                              "token": {
+                                "title": "token",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              },
+                              "nome": {
+                                "title": "nome",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              },
+                              "perfil": {
+                                "title": "perfil",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              },
+                              "utilizadorid": {
+                                "title": "utilizadorid",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              },
+                              "clienteid": {
+                                "title": "clienteid",
+                                "type": "string",
+                                "x-ms-dynamically-added": true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "runAfter": {
+                      "Contar_falhas": [
+                        "Succeeded"
+                      ]
+                    },
+                    "else": {
+                      "actions": {
+                        "Registar_falha": {
+                          "runAfter": {},
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps",
+                              "operationId": "UpdateOnlyRecord",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "dac_utilizadors",
+                              "recordId": "@first(outputs('Procurar')?['body/value'])?['dac_utilizadorid']",
+                              "item/dac_tentativasfalhadas": "@outputs('Contar_falhas')"
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        },
+                        "Responder_invalido": {
+                          "runAfter": {
+                            "Registar_falha": [
+                              "Succeeded"
+                            ]
+                          },
+                          "type": "Response",
+                          "kind": "PowerApp",
+                          "inputs": {
+                            "statusCode": 200,
+                            "body": {
+                              "resultado": "erro",
+                              "mensagem": "Email ou password incorretos.",
+                              "token": "",
+                              "nome": "",
+                              "perfil": "",
+                              "utilizadorid": "",
+                              "clienteid": ""
+                            },
+                            "schema": {
+                              "type": "object",
+                              "properties": {
+                                "resultado": {
+                                  "title": "resultado",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                },
+                                "mensagem": {
+                                  "title": "mensagem",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                },
+                                "token": {
+                                  "title": "token",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                },
+                                "nome": {
+                                  "title": "nome",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                },
+                                "perfil": {
+                                  "title": "perfil",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                },
+                                "utilizadorid": {
+                                  "title": "utilizadorid",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                },
+                                "clienteid": {
+                                  "title": "clienteid",
+                                  "type": "string",
+                                  "x-ms-dynamically-added": true
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "expression": {
+                      "greaterOrEquals": [
+                        "@outputs('Contar_falhas')",
+                        5
+                      ]
+                    },
+                    "type": "If"
+                  }
+                }
+              },
+              "expression": {
+                "equals": [
+                  "@body('Verificar')?['valido']",
+                  true
+                ]
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "type": "Scope"
+        },
+        "Tratar_erro": {
+          "actions": {
+            "Responder_erro": {
+              "runAfter": {},
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "resultado": "erro",
+                  "mensagem": "Não foi possível validar a entrada. Tentar de novo dentro de momentos.",
+                  "token": "",
+                  "nome": "",
+                  "perfil": "",
+                  "utilizadorid": "",
+                  "clienteid": ""
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resultado": {
+                      "title": "resultado",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "mensagem": {
+                      "title": "mensagem",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "token": {
+                      "title": "token",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "nome": {
+                      "title": "nome",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "perfil": {
+                      "title": "perfil",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "utilizadorid": {
+                      "title": "utilizadorid",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "clienteid": {
+                      "title": "clienteid",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "runAfter": {
+            "Tentar": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "type": "Scope"
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

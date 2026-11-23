@@ -1,0 +1,941 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627dataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "runtimeConfiguration": {
+            "secureData": {
+              "properties": [
+                "outputs"
+              ]
+            }
+          },
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "Token",
+                  "type": "string",
+                  "description": "Testemunho de sessão devolvido pelo fluxo Entrar",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_1": {
+                  "title": "PedidoId",
+                  "type": "string",
+                  "description": "GUID do pedido",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_2": {
+                  "title": "Acao",
+                  "type": "string",
+                  "description": "propor_aprovar, propor_rejeitar, aprovar ou rejeitar",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                },
+                "text_3": {
+                  "title": "Comentario",
+                  "type": "string",
+                  "description": "Justificação (obrigatória para rejeitar)",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text",
+                "text_1",
+                "text_2",
+                "text_3"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Tentar": {
+          "runAfter": {},
+          "type": "Scope",
+          "actions": {
+            "Ler_sessao": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dac_utilizadors",
+                  "$top": 1,
+                  "$select": "dac_utilizadorid,dac_nome,dac_email,dac_perfil,dac_passwordhash,dac_passwordsalt,dac_iteracoes",
+                  "$filter": "dac_sessaotoken eq '@{replace(triggerBody()?['text'],'''','''''')}' and dac_sessaoexpira gt @{utcNow()} and dac_ativo eq true"
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "runtimeConfiguration": {
+                "secureData": {
+                  "properties": [
+                    "inputs",
+                    "outputs"
+                  ]
+                }
+              }
+            },
+            "Sem_sessao": {
+              "runAfter": {
+                "Ler_sessao": [
+                  "Succeeded"
+                ]
+              },
+              "type": "If",
+              "expression": {
+                "equals": [
+                  "@length(outputs('Ler_sessao')?['body/value'])",
+                  0
+                ]
+              },
+              "actions": {
+                "Responder_sem_sessao": {
+                  "runAfter": {},
+                  "type": "Response",
+                  "kind": "PowerApp",
+                  "inputs": {
+                    "statusCode": 200,
+                    "body": {
+                      "resultado": "erro",
+                      "mensagem": "Sessão inválida ou expirada. Entrar de novo.",
+                      "token": "",
+                      "nome": "",
+                      "perfil": "",
+                      "utilizadorid": "",
+                      "clienteid": ""
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "resultado": {
+                          "title": "resultado",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "mensagem": {
+                          "title": "mensagem",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "token": {
+                          "title": "token",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "nome": {
+                          "title": "nome",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "perfil": {
+                          "title": "perfil",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "utilizadorid": {
+                          "title": "utilizadorid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        },
+                        "clienteid": {
+                          "title": "clienteid",
+                          "type": "string",
+                          "x-ms-dynamically-added": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "Terminar_sem_sessao": {
+                  "runAfter": {
+                    "Responder_sem_sessao": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Terminate",
+                  "inputs": {
+                    "runStatus": "Succeeded"
+                  }
+                }
+              },
+              "else": {
+                "actions": {}
+              }
+            },
+            "Ler_pedido": {
+              "runAfter": {
+                "Sem_sessao": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dac_pedidos",
+                  "recordId": "@triggerBody()?['text_1']",
+                  "$select": "dac_pedidoid,dac_numeropedido,dac_tratamento,dac_decisao"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Validar": {
+              "runAfter": {
+                "Ler_pedido": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Switch",
+              "expression": "@if(equals(first(outputs('Ler_sessao')?['body/value'])?['dac_perfil'],774300002),'cliente',if(not(equals(outputs('Ler_pedido')?['body']?['dac_tratamento'],774300002)),'nao_revisao',if(or(equals(outputs('Ler_pedido')?['body']?['dac_decisao'],774300001),equals(outputs('Ler_pedido')?['body']?['dac_decisao'],774300002)),'ja_decidido',if(not(contains(createArray('propor_aprovar','propor_rejeitar','aprovar','rejeitar'),toLower(trim(coalesce(triggerBody()?['text_2'],''))))),'acao',if(and(startsWith(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'propor'),not(equals(first(outputs('Ler_sessao')?['body/value'])?['dac_perfil'],774300001))),'so_gestor',if(and(not(startsWith(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'propor')),not(equals(first(outputs('Ler_sessao')?['body/value'])?['dac_perfil'],774300000))),'so_admin',if(and(endsWith(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'rejeitar'),empty(trim(coalesce(triggerBody()?['text_3'],'')))),'comentario','ok')))))))",
+              "cases": {
+                "cliente": {
+                  "case": "cliente",
+                  "actions": {
+                    "Responder_cliente": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "O perfil Cliente regista pedidos mas não decide.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_cliente": {
+                      "runAfter": {
+                        "Responder_cliente": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                },
+                "nao_revisao": {
+                  "case": "nao_revisao",
+                  "actions": {
+                    "Responder_nao_revisao": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "Só os pedidos em Revisão são decididos.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_nao_revisao": {
+                      "runAfter": {
+                        "Responder_nao_revisao": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                },
+                "ja_decidido": {
+                  "case": "ja_decidido",
+                  "actions": {
+                    "Responder_ja_decidido": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "Este pedido já tem decisão final.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_ja_decidido": {
+                      "runAfter": {
+                        "Responder_ja_decidido": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                },
+                "acao": {
+                  "case": "acao",
+                  "actions": {
+                    "Responder_acao": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "Ação desconhecida.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_acao": {
+                      "runAfter": {
+                        "Responder_acao": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                },
+                "so_gestor": {
+                  "case": "so_gestor",
+                  "actions": {
+                    "Responder_so_gestor": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "A proposta é do Gestor. O Admin decide diretamente com Aprovar ou Rejeitar.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_so_gestor": {
+                      "runAfter": {
+                        "Responder_so_gestor": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                },
+                "so_admin": {
+                  "case": "so_admin",
+                  "actions": {
+                    "Responder_so_admin": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "A decisão final é do Admin. O Gestor propõe.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_so_admin": {
+                      "runAfter": {
+                        "Responder_so_admin": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                },
+                "comentario": {
+                  "case": "comentario",
+                  "actions": {
+                    "Responder_comentario": {
+                      "runAfter": {},
+                      "type": "Response",
+                      "kind": "PowerApp",
+                      "inputs": {
+                        "statusCode": 200,
+                        "body": {
+                          "resultado": "erro",
+                          "mensagem": "Para rejeitar é preciso escrever a justificação.",
+                          "token": "",
+                          "nome": "",
+                          "perfil": "",
+                          "utilizadorid": "",
+                          "clienteid": ""
+                        },
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "resultado": {
+                              "title": "resultado",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "mensagem": {
+                              "title": "mensagem",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "token": {
+                              "title": "token",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "nome": {
+                              "title": "nome",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "perfil": {
+                              "title": "perfil",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "utilizadorid": {
+                              "title": "utilizadorid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            },
+                            "clienteid": {
+                              "title": "clienteid",
+                              "type": "string",
+                              "x-ms-dynamically-added": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Terminar_comentario": {
+                      "runAfter": {
+                        "Responder_comentario": [
+                          "Succeeded"
+                        ]
+                      },
+                      "type": "Terminate",
+                      "inputs": {
+                        "runStatus": "Succeeded"
+                      }
+                    }
+                  }
+                }
+              },
+              "default": {
+                "actions": {}
+              }
+            },
+            "E_proposta": {
+              "runAfter": {
+                "Validar": [
+                  "Succeeded"
+                ]
+              },
+              "type": "If",
+              "expression": {
+                "equals": [
+                  "@startsWith(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'propor')",
+                  true
+                ]
+              },
+              "actions": {
+                "Gravar_proposta": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateOnlyRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dac_pedidos",
+                      "recordId": "@outputs('Ler_pedido')?['body']?['dac_pedidoid']",
+                      "item/dac_decisao": "@if(equals(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'propor_aprovar'),774300003,774300004)",
+                      "item/dac_PropostaPor@odata.bind": "/dac_utilizadors(@{first(outputs('Ler_sessao')?['body/value'])?['dac_utilizadorid']})",
+                      "item/dac_comentarioproposta": "@{trim(coalesce(triggerBody()?['text_3'],''))}",
+                      "item/dac_dataproposta": "@utcNow()"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Gravar_decisao": {
+                    "runAfter": {},
+                    "type": "OpenApiConnection",
+                    "inputs": {
+                      "host": {
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationId": "UpdateOnlyRecord",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                      },
+                      "parameters": {
+                        "entityName": "dac_pedidos",
+                        "recordId": "@outputs('Ler_pedido')?['body']?['dac_pedidoid']",
+                        "item/dac_decisao": "@if(equals(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'aprovar'),774300001,774300002)",
+                        "item/dac_DecididoPor@odata.bind": "/dac_utilizadors(@{first(outputs('Ler_sessao')?['body/value'])?['dac_utilizadorid']})",
+                        "item/dac_comentariodecisao": "@{if(empty(trim(coalesce(triggerBody()?['text_3'],''))),'Sem comentário.',trim(coalesce(triggerBody()?['text_3'],'')))} (@{first(outputs('Ler_sessao')?['body/value'])?['dac_nome']}, Admin)",
+                        "item/dac_datadecisao": "@utcNow()"
+                      },
+                      "authentication": "@parameters('$authentication')"
+                    }
+                  }
+                }
+              }
+            },
+            "Responder_ok": {
+              "runAfter": {
+                "E_proposta": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "resultado": "ok",
+                  "mensagem": "Pedido @{outputs('Ler_pedido')?['body']?['dac_numeropedido']}: @{if(equals(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'aprovar'),'aprovado',if(equals(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'rejeitar'),'rejeitado',if(equals(toLower(trim(coalesce(triggerBody()?['text_2'],''))),'propor_aprovar'),'proposta de aprovação registada','proposta de rejeição registada')))}.",
+                  "token": "",
+                  "nome": "",
+                  "perfil": "",
+                  "utilizadorid": "",
+                  "clienteid": ""
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resultado": {
+                      "title": "resultado",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "mensagem": {
+                      "title": "mensagem",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "token": {
+                      "title": "token",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "nome": {
+                      "title": "nome",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "perfil": {
+                      "title": "perfil",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "utilizadorid": {
+                      "title": "utilizadorid",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "clienteid": {
+                      "title": "clienteid",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Tratar_erro": {
+          "runAfter": {
+            "Tentar": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "type": "Scope",
+          "actions": {
+            "Responder_erro": {
+              "runAfter": {},
+              "type": "Response",
+              "kind": "PowerApp",
+              "inputs": {
+                "statusCode": 200,
+                "body": {
+                  "resultado": "erro",
+                  "mensagem": "Não foi possível gravar a decisão. O pedido existe e ainda está em Revisão?",
+                  "token": "",
+                  "nome": "",
+                  "perfil": "",
+                  "utilizadorid": "",
+                  "clienteid": ""
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "resultado": {
+                      "title": "resultado",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "mensagem": {
+                      "title": "mensagem",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "token": {
+                      "title": "token",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "nome": {
+                      "title": "nome",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "perfil": {
+                      "title": "perfil",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "utilizadorid": {
+                      "title": "utilizadorid",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    },
+                    "clienteid": {
+                      "title": "clienteid",
+                      "type": "string",
+                      "x-ms-dynamically-added": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

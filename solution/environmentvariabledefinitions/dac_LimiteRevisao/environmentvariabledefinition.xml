@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="dac_LimiteRevisao">
+  <defaultvalue>500</defaultvalue>
+  <description default="Valor acima do qual um pedido vai para Revisão (Ficha 04 · Melhoramento). Estritamente superior.">
+    <label description="Valor acima do qual um pedido vai para Revisão (Ficha 04 · Melhoramento). Estritamente superior." languagecode="2070" />
+  </description>
+  <displayname default="Limite de revisão dos pedidos">
+    <label description="Limite de revisão dos pedidos" languagecode="2070" />
+  </displayname>
+  <introducedversion>1.0.0.6</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000001</type>
+</environmentvariabledefinition>

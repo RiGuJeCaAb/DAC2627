@@ -1,0 +1,14 @@
+<environmentvariabledefinition schemaname="dac_LigacaoApp">
+  <defaultvalue>https://apps.powerapps.com/play/e/94d3a652-b3a8-e2dd-9b54-025090fe6659/a/4d44e8f5-1133-45cf-891b-4df1004409d6?tenantId=eddfb62c-28e3-470f-86ca-3c1ee2fae35c</defaultvalue>
+  <description default="Endereço de reprodução da Canvas app, usado nos emails de notificação dos pedidos">
+    <label description="Endereço de reprodução da Canvas app, usado nos emails de notificação dos pedidos" languagecode="2070" />
+  </description>
+  <displayname default="Ligação à APP DAC2627">
+    <label description="Ligação à APP DAC2627" languagecode="2070" />
+  </displayname>
+  <introducedversion>1.0.0.6</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

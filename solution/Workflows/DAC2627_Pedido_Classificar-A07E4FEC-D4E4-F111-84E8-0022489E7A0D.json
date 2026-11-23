@@ -1,0 +1,248 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627dataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "Limite de revisão dos pedidos (dac_LimiteRevisao)": {
+          "defaultValue": 500,
+          "type": "Float",
+          "metadata": {
+            "schemaName": "dac_LimiteRevisao",
+            "description": "Valor acima do qual o pedido vai para Revisão"
+          }
+        }
+      },
+      "triggers": {
+        "Quando_um_pedido_e_criado_ou_o_valor_muda": {
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 4,
+              "subscriptionRequest/entityname": "dac_pedido",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filteringattributes": "dac_valor"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Ja_processado_com_este_valor": {
+          "runAfter": {},
+          "type": "If",
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/dac_processado']",
+                  true
+                ]
+              },
+              {
+                "equals": [
+                  "@triggerOutputs()?['body/dac_valorprocessado']",
+                  "@triggerOutputs()?['body/dac_valor']"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Terminar_nada_a_fazer": {
+              "runAfter": {},
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Succeeded"
+              }
+            }
+          },
+          "else": {
+            "actions": {}
+          }
+        },
+        "Tentar": {
+          "runAfter": {
+            "Ja_processado_com_este_valor": [
+              "Succeeded"
+            ]
+          },
+          "type": "Scope",
+          "actions": {
+            "Valor_em_falta": {
+              "runAfter": {},
+              "type": "If",
+              "expression": {
+                "equals": [
+                  "@triggerOutputs()?['body/dac_valor']",
+                  null
+                ]
+              },
+              "actions": {
+                "Marcar_dados_invalidos": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "UpdateOnlyRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dac_pedidos",
+                      "recordId": "@triggerOutputs()?['body/dac_pedidoid']",
+                      "item/dac_tratamento": 774300003,
+                      "item/dac_processado": true,
+                      "item/dac_dataprocessamento": "@utcNow()",
+                      "item/dac_idexecucao": "@{workflow()?['run']?['name']}",
+                      "item/dac_observacoesprocessamento": "Dados inválidos: o pedido não tem valor. Corrigir o Valor para o fluxo voltar a classificar."
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Valor_acima_do_limite": {
+                    "runAfter": {},
+                    "type": "If",
+                    "expression": {
+                      "greater": [
+                        "@float(triggerOutputs()?['body/dac_valor'])",
+                        "@parameters('Limite de revisão dos pedidos (dac_LimiteRevisao)')"
+                      ]
+                    },
+                    "actions": {
+                      "Marcar_revisao": {
+                        "runAfter": {},
+                        "type": "OpenApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connectionName": "shared_commondataserviceforapps",
+                            "operationId": "UpdateOnlyRecord",
+                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                          },
+                          "parameters": {
+                            "entityName": "dac_pedidos",
+                            "recordId": "@triggerOutputs()?['body/dac_pedidoid']",
+                            "item/dac_tratamento": 774300002,
+                            "item/dac_processado": true,
+                            "item/dac_dataprocessamento": "@utcNow()",
+                            "item/dac_idexecucao": "@{workflow()?['run']?['name']}",
+                            "item/dac_valorprocessado": "@triggerOutputs()?['body/dac_valor']",
+                            "item/dac_decisao": 774300000,
+                            "item/dac_observacoesprocessamento": "Revisão: o valor @{triggerOutputs()?['body/dac_valor']} é superior ao limite de @{parameters('Limite de revisão dos pedidos (dac_LimiteRevisao)')}. Aguarda decisão humana."
+                          },
+                          "authentication": "@parameters('$authentication')"
+                        }
+                      }
+                    },
+                    "else": {
+                      "actions": {
+                        "Marcar_automatico": {
+                          "runAfter": {},
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps",
+                              "operationId": "UpdateOnlyRecord",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "dac_pedidos",
+                              "recordId": "@triggerOutputs()?['body/dac_pedidoid']",
+                              "item/dac_tratamento": 774300001,
+                              "item/dac_processado": true,
+                              "item/dac_dataprocessamento": "@utcNow()",
+                              "item/dac_idexecucao": "@{workflow()?['run']?['name']}",
+                              "item/dac_valorprocessado": "@triggerOutputs()?['body/dac_valor']",
+                              "item/dac_observacoesprocessamento": "Automático: o valor @{triggerOutputs()?['body/dac_valor']} não é superior ao limite de @{parameters('Limite de revisão dos pedidos (dac_LimiteRevisao)')}."
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Tratar_erro": {
+          "runAfter": {
+            "Tentar": [
+              "Failed",
+              "TimedOut"
+            ]
+          },
+          "type": "Scope",
+          "actions": {
+            "Marcar_erro": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateOnlyRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dac_pedidos",
+                  "recordId": "@triggerOutputs()?['body/dac_pedidoid']",
+                  "item/dac_tratamento": 774300003,
+                  "item/dac_processado": true,
+                  "item/dac_dataprocessamento": "@utcNow()",
+                  "item/dac_idexecucao": "@{workflow()?['run']?['name']}",
+                  "item/dac_observacoesprocessamento": "Falha técnica no processamento (execução @{workflow()?['run']?['name']}). Consultar o histórico do fluxo e usar Reprocessar."
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Terminar_com_falha": {
+              "runAfter": {
+                "Marcar_erro": [
+                  "Succeeded",
+                  "Failed"
+                ]
+              },
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "ProcessamentoFalhou",
+                  "message": "O bloco Tentar falhou. O pedido ficou com Tratamento = Erro."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

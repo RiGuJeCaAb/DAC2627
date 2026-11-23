@@ -1,0 +1,169 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627dataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "PedidoId",
+                  "type": "string",
+                  "description": "GUID do pedido a reprocessar",
+                  "x-ms-content-hint": "TEXT",
+                  "x-ms-dynamically-added": true
+                }
+              },
+              "required": [
+                "text"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Validar_e_ler": {
+          "runAfter": {},
+          "type": "Scope",
+          "actions": {
+            "Ler_pedido": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "GetItem",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dac_pedidos",
+                  "recordId": "@triggerBody()['text']",
+                  "$select": "dac_pedidoid,dac_valor,dac_numeropedido"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Repor_e_voltar_a_disparar": {
+              "runAfter": {
+                "Ler_pedido": [
+                  "Succeeded"
+                ]
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "UpdateOnlyRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dac_pedidos",
+                  "recordId": "@outputs('Ler_pedido')?['body/dac_pedidoid']",
+                  "item/dac_tratamento": 774300000,
+                  "item/dac_processado": false,
+                  "item/dac_valorprocessado": null,
+                  "item/dac_decisao": null,
+                  "item/dac_observacoesprocessamento": "Reprocessamento pedido na app (execução @{workflow()?['run']?['name']}).",
+                  "item/dac_valor": "@outputs('Ler_pedido')?['body/dac_valor']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          }
+        },
+        "Responder_ok": {
+          "runAfter": {
+            "Validar_e_ler": [
+              "Succeeded"
+            ]
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "resultado": "ok",
+              "mensagem": "Pedido @{outputs('Ler_pedido')?['body/dac_numeropedido']} enviado para reprocessamento."
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resultado": {
+                  "title": "resultado",
+                  "type": "string",
+                  "x-ms-dynamically-added": true
+                },
+                "mensagem": {
+                  "title": "mensagem",
+                  "type": "string",
+                  "x-ms-dynamically-added": true
+                }
+              }
+            }
+          }
+        },
+        "Responder_erro": {
+          "runAfter": {
+            "Validar_e_ler": [
+              "Failed",
+              "TimedOut",
+              "Skipped"
+            ]
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "resultado": "erro",
+              "mensagem": "O pedido indicado não existe ou não pôde ser atualizado."
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resultado": {
+                  "title": "resultado",
+                  "type": "string",
+                  "x-ms-dynamically-added": true
+                },
+                "mensagem": {
+                  "title": "mensagem",
+                  "type": "string",
+                  "x-ms-dynamically-added": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}

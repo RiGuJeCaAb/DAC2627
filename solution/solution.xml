@@ -1,11 +1,11 @@
-<ImportExportXml version="9.2.26103.165" SolutionPackageVersion="9.2" languagecode="2070" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26103.165" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26103.00165">
+<ImportExportXml version="9.2.26104.157" SolutionPackageVersion="9.2" languagecode="2070" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26104.157" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26104.00157">
   <SolutionManifest>
     <UniqueName>DAC2627</UniqueName>
     <LocalizedNames>
       <LocalizedName description="DAC2627" languagecode="2070" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.6</Version>
+    <Version>1.0.0.8</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>daccc</UniqueName>
@@ -79,8 +79,16 @@
     <RootComponents>
       <RootComponent type="1" schemaName="dac_cliente" behavior="0" />
       <RootComponent type="1" schemaName="dac_pedido" behavior="0" />
+      <RootComponent type="1" schemaName="dac_utilizador" behavior="0" />
       <RootComponent type="1" schemaName="mcsft_cloudservice" behavior="0" />
+      <RootComponent type="29" id="{1a98ce09-f5e4-f111-84e8-0022489e7a0d}" behavior="0" />
+      <RootComponent type="29" id="{2898ce09-f5e4-f111-84e8-0022489e7a0d}" behavior="0" />
+      <RootComponent type="29" id="{a07e4fec-d4e4-f111-84e8-0022489e7a0d}" behavior="0" />
+      <RootComponent type="29" id="{b37e4fec-d4e4-f111-84e8-0022489e7a0d}" behavior="0" />
+      <RootComponent type="29" id="{c17e4fec-d4e4-f111-84e8-0022489e7a0d}" behavior="0" />
+      <RootComponent type="29" id="{ef97ce09-f5e4-f111-84e8-0022489e7a0d}" behavior="0" />
       <RootComponent type="300" schemaName="dac_dac2627rgjca_273fc" behavior="0" />
+      <RootComponent type="372" id="{b7f30a66-d52e-4405-b9d1-b82891ee6fe1}" schemaName="dac_5Fdac2627-2Dservicohash" behavior="0" />
       <RootComponent type="372" id="{2e951542-facf-43ab-bcb8-38c5df588bb7}" schemaName="dac_5Fjsonplaceholderdac" behavior="0" />
     </RootComponents>
     <MissingDependencies />

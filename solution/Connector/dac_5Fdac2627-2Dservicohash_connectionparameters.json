@@ -1,0 +1,1 @@
+{"api_key":{"type":"securestring","uiDefinition":{"displayName":"Chave da API","description":"The Chave da API for this api","tooltip":"Provide your Chave da API","constraints":{"tabIndex":2,"clearText":false,"required":"true"}}}}

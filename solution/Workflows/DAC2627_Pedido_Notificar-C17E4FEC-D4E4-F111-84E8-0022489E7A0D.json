@@ -1,0 +1,438 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627dataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_office365": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dac_dac2627outlook"
+        },
+        "api": {
+          "name": "shared_office365"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "Ligação à APP DAC2627 (dac_LigacaoApp)": {
+          "defaultValue": "https://apps.powerapps.com/play/e/94d3a652-b3a8-e2dd-9b54-025090fe6659/a/4d44e8f5-1133-45cf-891b-4df1004409d6?tenantId=eddfb62c-28e3-470f-86ca-3c1ee2fae35c",
+          "type": "String",
+          "metadata": {
+            "schemaName": "dac_LigacaoApp",
+            "description": "Endereço da app nos emails"
+          }
+        }
+      },
+      "triggers": {
+        "Quando_a_decisao_de_um_pedido_em_revisao_muda": {
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 3,
+              "subscriptionRequest/entityname": "dac_pedido",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filteringattributes": "dac_decisao",
+              "subscriptionRequest/filterexpression": "dac_tratamento eq 774300002"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Conforme_a_decisao": {
+          "runAfter": {},
+          "type": "Switch",
+          "expression": "@string(coalesce(triggerOutputs()?['body']?['dac_decisao'],-1))",
+          "cases": {
+            "Aguarda": {
+              "case": "774300000",
+              "actions": {
+                "Ler_gestores": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dac_utilizadors",
+                      "$select": "dac_email",
+                      "$filter": "dac_perfil eq 774300001 and dac_ativo eq true"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Emails_gestores": {
+                  "runAfter": {
+                    "Ler_gestores": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Select",
+                  "inputs": {
+                    "from": "@outputs('Ler_gestores')?['body/value']",
+                    "select": "@item()?['dac_email']"
+                  }
+                },
+                "Avisar_gestores": {
+                  "runAfter": {
+                    "Emails_gestores": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "If",
+                  "expression": {
+                    "greater": [
+                      "@length(body('Emails_gestores'))",
+                      0
+                    ]
+                  },
+                  "actions": {
+                    "Enviar_gestores": {
+                      "runAfter": {},
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_office365",
+                          "operationId": "SendEmailV2",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                        },
+                        "parameters": {
+                          "emailMessage/To": "@join(body('Emails_gestores'),';')",
+                          "emailMessage/Subject": "Revisão: pedido @{triggerOutputs()?['body']?['dac_numeropedido']} aguarda proposta",
+                          "emailMessage/Body": "<p>Pedido <b>@{triggerOutputs()?['body']?['dac_numeropedido']}</b>, valor @{triggerOutputs()?['body']?['dac_valor']} €.<br>@{triggerOutputs()?['body']?['dac_observacoesprocessamento']}</p><p>Um Gestor deve propor a decisão (aprovar ou rejeitar).</p><p><a href=\"@{parameters('Ligação à APP DAC2627 (dac_LigacaoApp)')}\">Abrir a APP DAC2627</a> › Ficha 04 · Revisão.</p>"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {}
+                  }
+                }
+              }
+            },
+            "Proposta_aprovar": {
+              "case": "774300003",
+              "actions": {
+                "Ler_admins_aprovar": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dac_utilizadors",
+                      "$select": "dac_email",
+                      "$filter": "dac_perfil eq 774300000 and dac_ativo eq true"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Emails_admins_aprovar": {
+                  "runAfter": {
+                    "Ler_admins_aprovar": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Select",
+                  "inputs": {
+                    "from": "@outputs('Ler_admins_aprovar')?['body/value']",
+                    "select": "@item()?['dac_email']"
+                  }
+                },
+                "Avisar_admins_aprovar": {
+                  "runAfter": {
+                    "Emails_admins_aprovar": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "If",
+                  "expression": {
+                    "greater": [
+                      "@length(body('Emails_admins_aprovar'))",
+                      0
+                    ]
+                  },
+                  "actions": {
+                    "Enviar_admins_aprovar": {
+                      "runAfter": {},
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_office365",
+                          "operationId": "SendEmailV2",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                        },
+                        "parameters": {
+                          "emailMessage/To": "@join(body('Emails_admins_aprovar'),';')",
+                          "emailMessage/Subject": "Revisão: proposta de aprovação do pedido @{triggerOutputs()?['body']?['dac_numeropedido']}",
+                          "emailMessage/Body": "<p>Pedido <b>@{triggerOutputs()?['body']?['dac_numeropedido']}</b>, valor @{triggerOutputs()?['body']?['dac_valor']} €.<br>@{triggerOutputs()?['body']?['dac_observacoesprocessamento']}</p><p>Proposta do Gestor: <b>aprovar</b>. @{triggerOutputs()?['body']?['dac_comentarioproposta']}</p><p>A decisão final é do Admin.</p><p><a href=\"@{parameters('Ligação à APP DAC2627 (dac_LigacaoApp)')}\">Abrir a APP DAC2627</a> › Ficha 04 · Revisão.</p>"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {}
+                  }
+                }
+              }
+            },
+            "Proposta_rejeitar": {
+              "case": "774300004",
+              "actions": {
+                "Ler_admins_rejeitar": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "ListRecords",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dac_utilizadors",
+                      "$select": "dac_email",
+                      "$filter": "dac_perfil eq 774300000 and dac_ativo eq true"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                },
+                "Emails_admins_rejeitar": {
+                  "runAfter": {
+                    "Ler_admins_rejeitar": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "Select",
+                  "inputs": {
+                    "from": "@outputs('Ler_admins_rejeitar')?['body/value']",
+                    "select": "@item()?['dac_email']"
+                  }
+                },
+                "Avisar_admins_rejeitar": {
+                  "runAfter": {
+                    "Emails_admins_rejeitar": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "If",
+                  "expression": {
+                    "greater": [
+                      "@length(body('Emails_admins_rejeitar'))",
+                      0
+                    ]
+                  },
+                  "actions": {
+                    "Enviar_admins_rejeitar": {
+                      "runAfter": {},
+                      "type": "OpenApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_office365",
+                          "operationId": "SendEmailV2",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                        },
+                        "parameters": {
+                          "emailMessage/To": "@join(body('Emails_admins_rejeitar'),';')",
+                          "emailMessage/Subject": "Revisão: proposta de rejeição do pedido @{triggerOutputs()?['body']?['dac_numeropedido']}",
+                          "emailMessage/Body": "<p>Pedido <b>@{triggerOutputs()?['body']?['dac_numeropedido']}</b>, valor @{triggerOutputs()?['body']?['dac_valor']} €.<br>@{triggerOutputs()?['body']?['dac_observacoesprocessamento']}</p><p>Proposta do Gestor: <b>rejeitar</b>. @{triggerOutputs()?['body']?['dac_comentarioproposta']}</p><p>A decisão final é do Admin.</p><p><a href=\"@{parameters('Ligação à APP DAC2627 (dac_LigacaoApp)')}\">Abrir a APP DAC2627</a> › Ficha 04 · Revisão.</p>"
+                        },
+                        "authentication": "@parameters('$authentication')"
+                      }
+                    }
+                  },
+                  "else": {
+                    "actions": {}
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Decisao_final": {
+                "runAfter": {},
+                "type": "If",
+                "expression": {
+                  "or": [
+                    {
+                      "equals": [
+                        "@triggerOutputs()?['body']?['dac_decisao']",
+                        774300001
+                      ]
+                    },
+                    {
+                      "equals": [
+                        "@triggerOutputs()?['body']?['dac_decisao']",
+                        774300002
+                      ]
+                    }
+                  ]
+                },
+                "actions": {
+                  "Tem_registo": {
+                    "runAfter": {},
+                    "type": "If",
+                    "expression": {
+                      "equals": [
+                        "@empty(triggerOutputs()?['body']?['_dac_registadopor_value'])",
+                        false
+                      ]
+                    },
+                    "actions": {
+                      "Ler_registo": {
+                        "runAfter": {},
+                        "type": "OpenApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connectionName": "shared_commondataserviceforapps",
+                            "operationId": "GetItem",
+                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                          },
+                          "parameters": {
+                            "entityName": "dac_utilizadors",
+                            "recordId": "@triggerOutputs()?['body']?['_dac_registadopor_value']",
+                            "$select": "dac_email"
+                          },
+                          "authentication": "@parameters('$authentication')"
+                        }
+                      },
+                      "Avisar_registo": {
+                        "runAfter": {
+                          "Ler_registo": [
+                            "Succeeded"
+                          ]
+                        },
+                        "type": "If",
+                        "expression": {
+                          "greater": [
+                            "@length(createArray(outputs('Ler_registo')?['body/dac_email']))",
+                            0
+                          ]
+                        },
+                        "actions": {
+                          "Enviar_registo": {
+                            "runAfter": {},
+                            "type": "OpenApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connectionName": "shared_office365",
+                                "operationId": "SendEmailV2",
+                                "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                              },
+                              "parameters": {
+                                "emailMessage/To": "@join(createArray(outputs('Ler_registo')?['body/dac_email']),';')",
+                                "emailMessage/Subject": "Pedido @{triggerOutputs()?['body']?['dac_numeropedido']}: @{if(equals(triggerOutputs()?['body']?['dac_decisao'],774300001),'aprovado','rejeitado')}",
+                                "emailMessage/Body": "<p>O pedido <b>@{triggerOutputs()?['body']?['dac_numeropedido']}</b> foi @{if(equals(triggerOutputs()?['body']?['dac_decisao'],774300001),'aprovado','rejeitado')}.</p><p>@{triggerOutputs()?['body']?['dac_comentariodecisao']}</p><p><a href=\"@{parameters('Ligação à APP DAC2627 (dac_LigacaoApp)')}\">Abrir a APP DAC2627</a> › Ficha 04 · Revisão.</p>"
+                              },
+                              "authentication": "@parameters('$authentication')"
+                            }
+                          }
+                        },
+                        "else": {
+                          "actions": {}
+                        }
+                      }
+                    },
+                    "else": {
+                      "actions": {
+                        "Ler_criador": {
+                          "runAfter": {},
+                          "type": "OpenApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps",
+                              "operationId": "GetItem",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "entityName": "systemusers",
+                              "recordId": "@triggerOutputs()?['body']?['_createdby_value']",
+                              "$select": "internalemailaddress"
+                            },
+                            "authentication": "@parameters('$authentication')"
+                          }
+                        },
+                        "Avisar_criador": {
+                          "runAfter": {
+                            "Ler_criador": [
+                              "Succeeded"
+                            ]
+                          },
+                          "type": "If",
+                          "expression": {
+                            "greater": [
+                              "@length(createArray(outputs('Ler_criador')?['body/internalemailaddress']))",
+                              0
+                            ]
+                          },
+                          "actions": {
+                            "Enviar_criador": {
+                              "runAfter": {},
+                              "type": "OpenApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connectionName": "shared_office365",
+                                  "operationId": "SendEmailV2",
+                                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_office365"
+                                },
+                                "parameters": {
+                                  "emailMessage/To": "@join(createArray(outputs('Ler_criador')?['body/internalemailaddress']),';')",
+                                  "emailMessage/Subject": "Pedido @{triggerOutputs()?['body']?['dac_numeropedido']}: @{if(equals(triggerOutputs()?['body']?['dac_decisao'],774300001),'aprovado','rejeitado')}",
+                                  "emailMessage/Body": "<p>O pedido <b>@{triggerOutputs()?['body']?['dac_numeropedido']}</b> foi @{if(equals(triggerOutputs()?['body']?['dac_decisao'],774300001),'aprovado','rejeitado')}.</p><p>@{triggerOutputs()?['body']?['dac_comentariodecisao']}</p><p><a href=\"@{parameters('Ligação à APP DAC2627 (dac_LigacaoApp)')}\">Abrir a APP DAC2627</a> › Ficha 04 · Revisão.</p>"
+                                },
+                                "authentication": "@parameters('$authentication')"
+                              }
+                            }
+                          },
+                          "else": {
+                            "actions": {}
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "else": {
+                  "actions": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}
