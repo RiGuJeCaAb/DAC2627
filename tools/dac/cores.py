@@ -64,5 +64,7 @@ PARES = [
     ("Color.White", "nfVermelho", "Botão de confirmar remoção"),
     ("nfAmbar", "nfAmbarFundo", "Faixas de aviso"),
     ("nfVerde", "Color.White", "Ícone de sucesso"),
+    ("Color.White", "nfVerde", "Botão Aprovar da Revisão"),
+    ("Color.White", "nfVerdeTexto", "Botão Aprovar com o rato por cima"),
     ("nfBorda", "Color.White", "Contorno das caixas de texto (mínimo 3:1)"),
 ]

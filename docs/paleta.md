@@ -53,4 +53,6 @@ AA exige 4,5:1 para texto normal e 3:1 para texto grande e contornos (WCAG 2.2, 
 | `Color.White` | `nfVermelho` | 7.26:1 | AAA | Botão de confirmar remoção |
 | `nfAmbar` | `nfAmbarFundo` | 4.96:1 | AA | Faixas de aviso |
 | `nfVerde` | `Color.White` | 5.00:1 | AA | Ícone de sucesso |
+| `Color.White` | `nfVerde` | 5.00:1 | AA | Botão Aprovar da Revisão |
+| `Color.White` | `nfVerdeTexto` | 7.66:1 | AAA | Botão Aprovar com o rato por cima |
 | `nfBorda` | `Color.White` | 3.58:1 | AA | Contorno das caixas de texto (mínimo 3:1) |

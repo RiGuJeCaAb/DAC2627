@@ -67,184 +67,283 @@ Screens:
                   LayoutGap: =12
                   LayoutOverflowY: =LayoutOverflow.Scroll
                   PaddingBottom: =If(scrL4Entrar.Size = ScreenSize.Small, 16, 24)
-                  PaddingLeft: =Max(If(scrL4Entrar.Size = ScreenSize.Small, 16, 24), (Parent.Width - 560) / 2)
-                  PaddingRight: =Max(If(scrL4Entrar.Size = ScreenSize.Small, 16, 24), (Parent.Width - 560) / 2)
+                  PaddingLeft: =Max(If(scrL4Entrar.Size = ScreenSize.Small, 16, 24), (Parent.Width - 960) / 2)
+                  PaddingRight: =Max(If(scrL4Entrar.Size = ScreenSize.Small, 16, 24), (Parent.Width - 960) / 2)
                   PaddingTop: =If(scrL4Entrar.Size = ScreenSize.Small, 16, 24)
                 Children:
-                  - lblL4dTitulo:
-                      Control: Label@2.5.1
-                      Properties:
-                        AlignInContainer: =AlignInContainer.Stretch
-                        AutoHeight: =true
-                        Color: =nfTexto
-                        FocusedBorderThickness: =2
-                        FontWeight: =FontWeight.Bold
-                        Size: =If(scrL4Entrar.Size = ScreenSize.Small, 20, 24)
-                        Text: ="Revisão de pedidos com perfis"
-                  - lblL4dIntro:
-                      Control: Label@2.5.1
-                      Properties:
-                        AlignInContainer: =AlignInContainer.Stretch
-                        AutoHeight: =true
-                        Color: =nfTextoSuave
-                        FocusedBorderThickness: =2
-                        Size: =14
-                        Text: ="A revisão dos pedidos acima do limite tem três perfis. O Cliente regista pedidos e acompanha os seus. O Gestor gere clientes e pedidos e propõe aprovar ou rejeitar. O Admin decide, valida as propostas do Gestor e gere os utilizadores."
-                  - conL4dEntrar:
+                  - conL4dEntrarCorpo:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
-                        BorderColor: =nfLinha
-                        BorderThickness: =1
                         DropShadow: =DropShadow.None
-                        Fill: =Color.White
                         FillPortions: =0
-                        Height: =40 + 5 * 10 + lblL4dEntrarTitulo.Height + lblL4dEmailRot.Height + 48 + lblL4dPasswordRot.Height + 48 + 44
-                        LayoutDirection: =LayoutDirection.Vertical
-                        LayoutGap: =10
-                        PaddingBottom: =20
-                        PaddingLeft: =20
-                        PaddingRight: =20
-                        PaddingTop: =20
-                        RadiusBottomLeft: =16
-                        RadiusBottomRight: =16
-                        RadiusTopLeft: =16
-                        RadiusTopRight: =16
+                        Height: =If(scrL4Entrar.Size = ScreenSize.Small, conL4dEntrar.Height + 24 + conL4dPerfis.Height, Max(conL4dEntrar.Height, conL4dPerfis.Height))
+                        LayoutDirection: =If(scrL4Entrar.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        LayoutGap: =40
                       Children:
-                        - lblL4dEntrarTitulo:
-                            Control: Label@2.5.1
+                        - conL4dEntrar:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
                             Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              AutoHeight: =true
-                              Color: =nfAzul
-                              FocusedBorderThickness: =2
-                              FontWeight: =FontWeight.Bold
-                              Size: =18
-                              Text: ="Entrar"
-                        - lblL4dEmailRot:
-                            Control: Label@2.5.1
+                              AlignInContainer: =AlignInContainer.Start
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =Color.White
+                              FillPortions: =0
+                              Height: =56 + 6 * 12 + lblL4dEntrarTitulo.Height + lblL4dEntrarSub.Height + lblL4dEmailRot.Height + 48 + lblL4dPasswordRot.Height + 48 + 44
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =12
+                              PaddingBottom: =28
+                              PaddingLeft: =28
+                              PaddingRight: =28
+                              PaddingTop: =28
+                              RadiusBottomLeft: =16
+                              RadiusBottomRight: =16
+                              RadiusTopLeft: =16
+                              RadiusTopRight: =16
+                              Width: =If(scrL4Entrar.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 420)
+                            Children:
+                              - lblL4dEntrarTitulo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTexto
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    Size: =22
+                                    Text: ="Entrar"
+                              - lblL4dEntrarSub:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    Size: =14
+                                    Text: ="Use o email e a password da sua conta."
+                              - lblL4dEmailRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Email"
+                              - txtL4dEmail:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Email"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =""
+                                    Height: =48
+                                    HintText: ="nome@exemplo.pt"
+                                    HoverBorderColor: =nfAzul
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - lblL4dPasswordRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Password"
+                              - txtL4dPassword:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Password"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =""
+                                    Height: =48
+                                    HintText: ="Password"
+                                    HoverBorderColor: =nfAzul
+                                    Mode: =TextMode.Password
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - btnL4dEntrar:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =nfAzul
+                                    Color: =Color.White
+                                    DisplayMode: =If(locL4dAEntrar, DisplayMode.Disabled, DisplayMode.Edit)
+                                    Fill: =nfAzul
+                                    Height: =44
+                                    HoverColor: =Color.White
+                                    HoverFill: =nfAzul
+                                    OnSelect: |-
+                                      =If(
+                                          IsBlank(Trim(txtL4dEmail.Text)) || IsBlank(txtL4dPassword.Text),
+                                          UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: "Escreva o email e a password."}),
+                                          UpdateContext({locL4dAEntrar: true});
+                                          With(
+                                              {r: IfError(DAC2627_Utilizador_Entrar.Run(Lower(Trim(txtL4dEmail.Text)), txtL4dPassword.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                              Reset(txtL4dPassword);
+                                              UpdateContext({locL4dAEntrar: false});
+                                              If(r.resultado = "ok",
+                                                  Set(gblL4dSessao, {token: r.token, nome: r.nome, perfil: r.perfil, utilizadorid: r.utilizadorid, clienteid: r.clienteid});
+                                                  Navigate(scrL4Revisao, ScreenTransition.Cover),
+                                                  UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: r.mensagem})
+                                              )
+                                          )
+                                      )
+                                    PressedColor: =Color.White
+                                    PressedFill: =nfAzul
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Size: =14
+                                    Text: =If(locL4dAEntrar, "A verificar…", "Entrar")
+                                    Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                        - conL4dPerfis:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
                             Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              AutoHeight: =true
-                              Color: =nfTextoSuave
-                              FocusedBorderThickness: =2
-                              FontWeight: =FontWeight.Semibold
-                              Text: ="Email"
-                        - txtL4dEmail:
-                            Control: Classic/TextInput@2.3.2
-                            Properties:
-                              AccessibleLabel: ="Email"
-                              AlignInContainer: =AlignInContainer.Stretch
-                              BorderColor: =nfBorda
-                              Default: =""
-                              Height: =48
-                              HintText: ="nome@exemplo.pt"
-                              HoverBorderColor: =nfAzul
-                              RadiusBottomLeft: =12
-                              RadiusBottomRight: =12
-                              RadiusTopLeft: =12
-                              RadiusTopRight: =12
-                              TabIndex: =0
-                        - lblL4dPasswordRot:
-                            Control: Label@2.5.1
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              AutoHeight: =true
-                              Color: =nfTextoSuave
-                              FocusedBorderThickness: =2
-                              FontWeight: =FontWeight.Semibold
-                              Text: ="Password"
-                        - txtL4dPassword:
-                            Control: Classic/TextInput@2.3.2
-                            Properties:
-                              AccessibleLabel: ="Password"
-                              AlignInContainer: =AlignInContainer.Stretch
-                              BorderColor: =nfBorda
-                              Default: =""
-                              Height: =48
-                              HintText: ="Password"
-                              HoverBorderColor: =nfAzul
-                              Mode: =TextMode.Password
-                              RadiusBottomLeft: =12
-                              RadiusBottomRight: =12
-                              RadiusTopLeft: =12
-                              RadiusTopRight: =12
-                              TabIndex: =0
-                        - btnL4dEntrar:
-                            Control: Classic/Button@2.2.0
-                            Properties:
-                              BorderColor: =nfAzul
-                              Color: =Color.White
-                              DisplayMode: =If(locL4dAEntrar, DisplayMode.Disabled, DisplayMode.Edit)
-                              Fill: =nfAzul
-                              Height: =44
-                              HoverColor: =Color.White
-                              HoverFill: =nfAzul
-                              OnSelect: |-
-                                =If(
-                                    IsBlank(Trim(txtL4dEmail.Text)) || IsBlank(txtL4dPassword.Text),
-                                    UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: "Escreva o email e a password."}),
-                                    UpdateContext({locL4dAEntrar: true});
-                                    With(
-                                        {r: IfError(DAC2627_Utilizador_Entrar.Run(Lower(Trim(txtL4dEmail.Text)), txtL4dPassword.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
-                                        Reset(txtL4dPassword);
-                                        UpdateContext({locL4dAEntrar: false});
-                                        If(r.resultado = "ok",
-                                            Set(gblL4dSessao, {token: r.token, nome: r.nome, perfil: r.perfil, utilizadorid: r.utilizadorid, clienteid: r.clienteid});
-                                            Navigate(scrL4Revisao, ScreenTransition.Cover),
-                                            UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: r.mensagem})
-                                        )
-                                    )
-                                )
-                              PressedColor: =Color.White
-                              PressedFill: =nfAzul
-                              RadiusBottomLeft: =12
-                              RadiusBottomRight: =12
-                              RadiusTopLeft: =12
-                              RadiusTopRight: =12
-                              Size: =14
-                              Text: =If(locL4dAEntrar, "A verificar…", "Entrar")
-                              Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
-                  - conL4dComo:
-                      Control: GroupContainer@1.5.0
-                      Variant: AutoLayout
-                      Properties:
-                        BorderColor: =nfLinha
-                        BorderThickness: =1
-                        DropShadow: =DropShadow.None
-                        Fill: =nfSuperficie
-                        FillPortions: =0
-                        Height: =40 + 10 + lblL4dComoTitulo.Height + lblL4dComo.Height
-                        LayoutDirection: =LayoutDirection.Vertical
-                        LayoutGap: =10
-                        PaddingBottom: =20
-                        PaddingLeft: =20
-                        PaddingRight: =20
-                        PaddingTop: =20
-                        RadiusBottomLeft: =16
-                        RadiusBottomRight: =16
-                        RadiusTopLeft: =16
-                        RadiusTopRight: =16
-                      Children:
-                        - lblL4dComoTitulo:
-                            Control: Label@2.5.1
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              AutoHeight: =true
-                              Color: =nfTexto
-                              FocusedBorderThickness: =2
-                              FontWeight: =FontWeight.Semibold
-                              Size: =15
-                              Text: ="Como funciona"
-                        - lblL4dComo:
-                            Control: Label@2.5.1
-                            Properties:
-                              AlignInContainer: =AlignInContainer.Stretch
-                              AutoHeight: =true
-                              Color: =nfTextoSuave
-                              FocusedBorderThickness: =2
-                              Text: |-
-                                ="A password não fica guardada em lado nenhum. O fluxo DAC2627_Utilizador_Entrar envia-a ao serviço de hash (Azure App Service), que recalcula o PBKDF2-SHA256 com o salt do utilizador (600 000 iterações) e compara o resultado em tempo constante. À quinta tentativa falhada a conta fica bloqueada 15 minutos. Esta entrada organiza a app: quem protege os dados no Dataverse são as funções de segurança."
+                              AlignInContainer: =AlignInContainer.Start
+                              DropShadow: =DropShadow.None
+                              FillPortions: =If(scrL4Entrar.Size = ScreenSize.Small, 0, 1)
+                              Height: =If(scrL4Entrar.Size = ScreenSize.Small, 0, 8) + 6 * 12 + lblL4dPerfisTitulo.Height + conL4dPerfilCliente.Height + conL4dPerfilGestor.Height + conL4dPerfilAdmin.Height + 1 + lblL4dComoTitulo.Height + lblL4dComo.Height
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =12
+                              PaddingTop: =If(scrL4Entrar.Size = ScreenSize.Small, 0, 8)
+                            Children:
+                              - lblL4dPerfisTitulo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTexto
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Size: =16
+                                    Text: ="Revisão de pedidos com três perfis"
+                              - conL4dPerfilCliente:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =Max(24, lblL4dPerfilCliente.Height)
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                  Children:
+                                    - lblL4dPerfilClienteRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =24
+                                          Text: ="Cliente"
+                                          Width: =72
+                                    - lblL4dPerfilCliente:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          AutoHeight: =true
+                                          Color: =nfTexto
+                                          FillPortions: =1
+                                          FocusedBorderThickness: =2
+                                          Size: =14
+                                          Text: ="Regista pedidos para a sua empresa e acompanha a decisão."
+                              - conL4dPerfilGestor:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =Max(24, lblL4dPerfilGestor.Height)
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                  Children:
+                                    - lblL4dPerfilGestorRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =24
+                                          Text: ="Gestor"
+                                          Width: =72
+                                    - lblL4dPerfilGestor:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          AutoHeight: =true
+                                          Color: =nfTexto
+                                          FillPortions: =1
+                                          FocusedBorderThickness: =2
+                                          Size: =14
+                                          Text: ="Gere clientes e pedidos e propõe aprovar ou rejeitar os que estão em revisão."
+                              - conL4dPerfilAdmin:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =Max(24, lblL4dPerfilAdmin.Height)
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                  Children:
+                                    - lblL4dPerfilAdminRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =24
+                                          Text: ="Admin"
+                                          Width: =72
+                                    - lblL4dPerfilAdmin:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Start
+                                          AutoHeight: =true
+                                          Color: =nfTexto
+                                          FillPortions: =1
+                                          FocusedBorderThickness: =2
+                                          Size: =14
+                                          Text: ="Decide os pedidos, valida as propostas dos Gestores e gere os utilizadores."
+                              - conL4dPerfisLinha:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    DropShadow: =DropShadow.None
+                                    Fill: =nfLinhaForte
+                                    FillPortions: =0
+                                    Height: =1
+                                    LayoutDirection: =LayoutDirection.Vertical
+                              - lblL4dComoTitulo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Como é verificada a password"
+                              - lblL4dComo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    Text: |-
+                                      ="A password não fica guardada em lado nenhum. O fluxo DAC2627_Utilizador_Entrar envia-a ao serviço de hash (Azure App Service), que recalcula o PBKDF2-SHA256 com o salt do utilizador (600 000 iterações) e compara o resultado em tempo constante. À quinta tentativa falhada a conta fica bloqueada 15 minutos. Esta entrada organiza a app: quem protege os dados no Dataverse são as funções de segurança."
       - conL4dEMensagem:
           Control: GroupContainer@1.5.0
           Variant: AutoLayout

@@ -97,3 +97,12 @@ lint:
     - regra: DAC302
       controlo: btnL4dGUtilEstado
       motivo: Pílula decorativa com o estado do utilizador; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL4dDetEstado
+      motivo: Pílula decorativa com a decisão do pedido no detalhe; a mesma informação está na linha da lista e nas caixas do detalhe.
+    - regra: DAC302
+      controlo: btnL4dIniciais
+      motivo: Pílula decorativa com as iniciais de quem entrou; o nome está ao lado.
+    - regra: DAC302
+      controlo: btnL4dPerfil
+      motivo: Pílula decorativa com o perfil de quem entrou; não tem ação.

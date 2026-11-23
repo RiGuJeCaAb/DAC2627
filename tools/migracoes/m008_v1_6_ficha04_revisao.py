@@ -8,13 +8,17 @@ O que faz:
   1. Cria src/screens/scrL4Entrar.pa.yaml: email e password. O botão Entrar chama o fluxo DAC2627_Utilizador_Entrar,
      que verifica a password no serviço de hash (Azure App Service, PBKDF2-SHA256) e devolve um testemunho de sessão.
      A app guarda o testemunho, o nome e o perfil em gblL4dSessao e apaga a password da caixa logo a seguir.
-  2. Cria src/screens/scrL4Revisao.pa.yaml, com quatro vistas (locL4dVista):
+  2. Cria src/screens/scrL4Revisao.pa.yaml: cabeçalho com as iniciais, o nome e o perfil de quem entrou, menu lateral
+     (uma fila de ícones no telemóvel), título da vista e, na revisão, o segmentado Por decidir / Decididos com as contagens.
+     Quatro vistas (locL4dVista):
      - «Pedidos em revisão»: o Gestor propõe aprovar ou rejeitar, o Admin decide, o Cliente acompanha os seus.
        Propostas e decisões passam pelo fluxo DAC2627_Pedido_Decidir, que lê o perfil da sessão e não da app.
      - «Registar pedido»: o Cliente regista para o seu cliente, o Gestor e o Admin para qualquer um. Fica em Registado por.
      - «Utilizadores» (só Admin): criar, editar, ativar, desbloquear e definir a password (fluxo DefinirPassword).
      - «A minha password»: mudar a própria, com a password atual.
-     O Gestor e o Admin têm ainda o atalho para a Ficha 04 (CRUD de clientes e pedidos).
+     O Gestor e o Admin têm ainda o atalho para a Ficha 04 (CRUD de clientes e pedidos), no fundo do menu.
+     A lista mostra os pedidos em linhas com uma barra da cor da decisão, e o detalhe organiza os dados em pares
+     rótulo/valor, com um estado vazio enquanto não há pedido escolhido. Sem «Olá»: quem entrou está no cabeçalho.
   3. scrInicio: sétimo cartão, «Ficha 04 · Revisão».
   4. scrL4Melhoramento: os textos deixam de falar do email com botões (o fluxo Aprovar passou a Notificar).
   5. App.Formulas: nfVersao passa a "1.6.0".
@@ -155,18 +159,37 @@ ENTRAR = (
     "    )\n"
     ")"
 )
-INTRO_ENT = ("A revisão dos pedidos acima do limite tem três perfis. O Cliente regista pedidos e acompanha os seus. "
-             "O Gestor gere clientes e pedidos e propõe aprovar ou rejeitar. O Admin decide, valida as propostas do "
-             "Gestor e gere os utilizadores.")
+PERFIS = (
+    ("Cliente", "Regista pedidos para a sua empresa e acompanha a decisão."),
+    ("Gestor", "Gere clientes e pedidos e propõe aprovar ou rejeitar os que estão em revisão."),
+    ("Admin", "Decide os pedidos, valida as propostas dos Gestores e gere os utilizadores."),
+)
 COMO = ("A password não fica guardada em lado nenhum. O fluxo DAC2627_Utilizador_Entrar envia-a ao serviço de hash "
         "(Azure App Service), que recalcula o PBKDF2-SHA256 com o salt do utilizador (600 000 iterações) e compara "
         "o resultado em tempo constante. À quinta tentativa falhada a conta fica bloqueada 15 minutos. "
         "Esta entrada organiza a app: quem protege os dados no Dataverse são as funções de segurança.")
 
 
+def _linha(nome: str, cor: str, **extra) -> dict:
+    """Separador de 1 px: um contentor vazio, porque a exportação ainda não tem retângulos dentro de contentores (DAC405)."""
+    return _contentor(nome, [], AlignInContainer="=AlignInContainer.Stretch", Fill="=" + cor, FillPortions="=0", Height="=1", **extra)
+
+
+def _linha_info(nome: str, rotulo: str, valor: str, largura: int = 96, **extra) -> dict:
+    """Par rótulo/valor numa linha: o rótulo com largura fixa e o valor a ocupar o resto, com AutoHeight."""
+    return _contentor(nome, [
+        _ctl("lbl" + nome[3:] + "Rot", "Label@2.5.1", {
+            "Color": "=nfTextoSuave", "FocusedBorderThickness": "=2", "FontWeight": "=FontWeight.Semibold", "Height": "=24",
+            "Size": "=13", "Text": "=" + _s(rotulo), "Width": f"={largura}"}),
+        _etiqueta("lbl" + nome[3:], valor, AlignInContainer="=AlignInContainer.Start", FillPortions="=1"),
+    ], vertical=False, FillPortions="=0", Height=f"=Max(24, lbl{nome[3:]}.Height)", LayoutGap="=12", **extra)
+
+
 def ecra_entrar() -> dict:
+    largura = f"=If({peq(ENT)}, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 420)"
     cartao = _cartao("conL4dEntrar", [
-        _etiqueta("lblL4dEntrarTitulo", _s("Entrar"), Color="=nfAzul", FontWeight="=FontWeight.Bold", Size="=18"),
+        _etiqueta("lblL4dEntrarTitulo", _s("Entrar"), FontWeight="=FontWeight.Bold", Size="=22"),
+        _etiqueta("lblL4dEntrarSub", _s("Use o email e a password da sua conta."), Color="=nfTextoSuave"),
         _rotulo("lblL4dEmailRot", "Email"),
         _entrada("txtL4dEmail", "Email", HintText='="nome@exemplo.pt"'),
         _rotulo("lblL4dPasswordRot", "Password"),
@@ -174,16 +197,26 @@ def ecra_entrar() -> dict:
         _botao("btnL4dEntrar", 'If(locL4dAEntrar, "A verificar…", "Entrar")', ENTRAR,
                DisplayMode="=If(locL4dAEntrar, DisplayMode.Disabled, DisplayMode.Edit)",
                Width="=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight"),
-    ], FillPortions="=0", Height="=40 + 5 * 10 + lblL4dEntrarTitulo.Height + lblL4dEmailRot.Height + 48 + lblL4dPasswordRot.Height + 48 + 44")
-    como = _cartao("conL4dComo", [
-        _etiqueta("lblL4dComoTitulo", _s("Como funciona"), FontWeight="=FontWeight.Semibold", Size="=15"),
+    ], AlignInContainer="=AlignInContainer.Start", FillPortions="=0", LayoutGap="=12", PaddingBottom="=28",
+       PaddingLeft="=28", PaddingRight="=28", PaddingTop="=28", Width=largura,
+       Height="=56 + 6 * 12 + lblL4dEntrarTitulo.Height + lblL4dEntrarSub.Height + lblL4dEmailRot.Height + 48"
+              " + lblL4dPasswordRot.Height + 48 + 44")
+    linhas = [_linha_info(f"conL4dPerfil{n}", n, _s(t), 72) for n, t in PERFIS]
+    perfis = _contentor("conL4dPerfis", [
+        _etiqueta("lblL4dPerfisTitulo", _s("Revisão de pedidos com três perfis"), FontWeight="=FontWeight.Semibold", Size="=16"),
+        *linhas,
+        _linha("conL4dPerfisLinha", "nfLinhaForte"),
+        _etiqueta("lblL4dComoTitulo", _s("Como é verificada a password"), Color="=nfTextoSuave",
+                  FontWeight="=FontWeight.Semibold", Size="=13"),
         _etiqueta("lblL4dComo", _s(COMO), Color="=nfTextoSuave", Size="=13"),
-    ], FillPortions="=0", Fill="=nfSuperficie", Height="=40 + 10 + lblL4dComoTitulo.Height + lblL4dComo.Height")
-    conteudo = _conteudo("L4dE", ENT, [
-        _etiqueta("lblL4dTitulo", _s("Revisão de pedidos com perfis"), FontWeight="=FontWeight.Bold", Size=f"=If({peq(ENT)}, 20, 24)"),
-        _etiqueta("lblL4dIntro", _s(INTRO_ENT), Color="=nfTextoSuave"),
-        cartao, como,
-    ], 560)
+    ], AlignInContainer="=AlignInContainer.Start", FillPortions=f"=If({peq(ENT)}, 0, 1)", LayoutGap="=12",
+       PaddingTop=f"=If({peq(ENT)}, 0, 8)",
+       Height="=" + " + ".join([f"If({peq(ENT)}, 0, 8)", "6 * 12", "lblL4dPerfisTitulo.Height"]
+                               + [f"conL4dPerfil{n}.Height" for n, _ in PERFIS] + ["1", "lblL4dComoTitulo.Height", "lblL4dComo.Height"]))
+    corpo = _contentor("conL4dEntrarCorpo", [cartao, perfis], vertical=False, FillPortions="=0",
+                       Height=f"=If({peq(ENT)}, conL4dEntrar.Height + 24 + conL4dPerfis.Height, Max(conL4dEntrar.Height, conL4dPerfis.Height))",
+                       LayoutDirection=f"=If({peq(ENT)}, LayoutDirection.Vertical, LayoutDirection.Horizontal)", LayoutGap="=40")
+    conteudo = _conteudo("L4dE", ENT, [corpo], 960)
     raiz = _contentor("conEcraL4dE", [_cabecalho("L4dE", "Ficha 04 · Revisão"), conteudo], Fill="=nfFundo",
                       Height="=Parent.Height", Width="=Parent.Width")
     on_visible = ('=UpdateContext({locL4dAEntrar: false, locL4dMsg: "", locL4dMsgTipo: "", locL4dTimer: false});\n'
@@ -193,16 +226,6 @@ def ecra_entrar() -> dict:
 
 
 # ======================================================================== 2 · scrL4Revisao
-def _separador(nome: str, chave: str, texto: str, visivel: str | None = None) -> dict:
-    ativo = f'locL4dVista = "{chave}"'
-    extra = {"Visible": "=" + visivel} if visivel else {}
-    return _botao(nome, _s(texto), f'UpdateContext({{locL4dVista: "{chave}"}})', primario=False,
-                  Color=f"=If({ativo}, Color.White, nfAzul)", Fill=f"=If({ativo}, nfAzul, Color.White)",
-                  HoverColor=f"=If({ativo}, Color.White, nfAzul)", HoverFill=f"=If({ativo}, nfAzul, nfAzulClaro)",
-                  PressedColor=f"=If({ativo}, Color.White, nfAzul)", PressedFill=f"=If({ativo}, nfAzul, nfAzulClaro)",
-                  Width="=180", **extra)
-
-
 def _decidir(acao: str) -> str:
     return (
         "With(\n"
@@ -237,6 +260,16 @@ def _itens_pedidos() -> str:
 
 ITENS_PED = _itens_pedidos()
 
+
+def _contar(final: bool) -> str:
+    """CountRows sobre o Dataverse com os mesmos filtros da galeria: AllItems só tem as linhas carregadas (DAC401)."""
+    decididos = f"(Decisao = {DEC}.Aprovado || Decisao = {DEC}.Rejeitado)"
+    por_decidir = f"Decisao <> {DEC}.Aprovado, Decisao <> {DEC}.Rejeitado"
+    estado = decididos if final else por_decidir
+    return (f'With({{c: GUID(Coalesce({SES}.clienteid, "00000000-0000-0000-0000-000000000000"))}}, '
+            f'If({PERF} = "Cliente", CountRows(Filter(Pedidos, Tratamento = {TR}.Revisão, ThisRecord.Clientes.Cliente = c, {estado})), '
+            f'CountRows(Filter(Pedidos, Tratamento = {TR}.Revisão, {estado}))))')
+
 DADOS = (
     f'"Valor: " & Text({P}.Valor, "[$-pt-PT]0,00") & " €   ·   Registado em " & Text({P}.DataPedido, "dd/mm/yyyy")'
     f' & If(IsBlank({P}.\'Registado por\'), "", " por " & {P}.\'Registado por\'.Nome)'
@@ -258,97 +291,123 @@ DECISAO = (
 def _galeria_pedidos() -> dict:
     texto, cor, fundo = _cores_decisao("ThisItem")
     filhos = [
+        _ctl("recL4dGEstado", "Rectangle@2.3.0", {"Fill": "=" + cor, "Height": "=Parent.TemplateHeight", "OnSelect": "=Select(Parent)",
+                                                  "Width": "=4"}),
         _ctl("lblL4dGNumero", "Label@2.5.1", {
-            "Color": "=nfTexto", "FontWeight": "=FontWeight.Semibold", "Height": "=28", "OnSelect": "=Select(Parent)", "Size": "=14",
-            "Text": '=ThisItem.NumeroPedido & "  ·  " & ThisItem.Clientes.Nome', "Width": "=Parent.TemplateWidth - 176",
-            "Wrap": "=false", "X": "=16", "Y": "=8"}),
-        _ctl("lblL4dGValor", "Label@2.5.1", {
+            "Color": "=nfTexto", "FontWeight": "=FontWeight.Semibold", "Height": "=26", "OnSelect": "=Select(Parent)", "Size": "=14",
+            "Text": "=ThisItem.NumeroPedido", "Width": "=Parent.TemplateWidth - 180", "Wrap": "=false", "X": "=20", "Y": "=10"}),
+        _ctl("lblL4dGCliente", "Label@2.5.1", {
             "Color": "=nfTextoSuave", "Height": "=24", "OnSelect": "=Select(Parent)", "Size": "=13",
-            "Text": '=Text(ThisItem.Valor, "[$-pt-PT]0,00") & " €  ·  " & Text(ThisItem.DataPedido, "dd/mm/yyyy")',
-            "Width": "=Parent.TemplateWidth - 32", "Wrap": "=false", "X": "=16", "Y": "=38"}),
-        _pilula("btnL4dGDecisao", texto, cor, fundo, OnSelect="=Select(Parent)", Width="=140",
-                X="=Parent.TemplateWidth - Self.Width - 16", Y="=9"),
-        _ctl("recL4dGSeparador", "Rectangle@2.3.0", {"Fill": "=nfLinha", "Height": "=1", "Width": "=Parent.TemplateWidth",
-                                                     "Y": "=Parent.TemplateHeight - 1"}),
+            "Text": '=ThisItem.Clientes.Nome & "  ·  " & Text(ThisItem.DataPedido, "dd/mm/yyyy")',
+            "Width": "=Parent.TemplateWidth - 180", "Wrap": "=false", "X": "=20", "Y": "=38"}),
+        _ctl("lblL4dGValor", "Label@2.5.1", {
+            "Align": "=Align.Right", "Color": "=nfTexto", "FontWeight": "=FontWeight.Semibold", "Height": "=26",
+            "OnSelect": "=Select(Parent)", "Size": "=14", "Text": '=Text(ThisItem.Valor, "[$-pt-PT]0,00") & " €"',
+            "Width": "=150", "Wrap": "=false", "X": "=Parent.TemplateWidth - Self.Width - 16", "Y": "=10"}),
+        _pilula("btnL4dGDecisao", texto, cor, fundo, Height="=24", OnSelect="=Select(Parent)", Width="=132",
+                X="=Parent.TemplateWidth - Self.Width - 16", Y="=40", **_raio(12)),
+        _ctl("recL4dGSeparador", "Rectangle@2.3.0", {"Fill": "=nfLinha", "Height": "=1", "OnSelect": "=Select(Parent)",
+                                                     "Width": "=Parent.TemplateWidth", "Y": "=Parent.TemplateHeight - 1"}),
     ]
     return _ctl("galL4dPedidos", "Gallery@2.15.0", {
         "AccessibleLabel": '="Pedidos em revisão"', "AlignInContainer": "=AlignInContainer.Stretch", "FillPortions": "=0",
-        "Height": "=Max(1, Self.AllItemsCount) * Self.TemplateHeight", "Items": ITENS_PED, "LayoutMinHeight": "=0",
+        "Height": "=Self.AllItemsCount * Self.TemplateHeight", "Items": ITENS_PED, "LayoutMinHeight": "=0",
         "OnSelect": f"=UpdateContext({{{P}: ThisItem}}); Reset(txtL4dComentario)", "TabIndex": "=0", "TemplatePadding": "=0",
-        "TemplateFill": f"=If(ThisItem.Pedido = {P}.Pedido, nfAzulFundo, Color.White)", "TemplateSize": "=70"}, filhos, "Vertical")
+        "TemplateFill": f"=If(ThisItem.Pedido = {P}.Pedido, nfAzulClaro, Color.White)", "TemplateSize": "=74",
+        "Visible": "=Self.AllItemsCount > 0"}, filhos, "Vertical")
 
 
-def _filtro(nome: str, chave: str, texto: str) -> dict:
+def _segmento(nome: str, chave: str, texto: str, final: bool, esquerda: bool) -> dict:
     ativo = f'locL4dFiltro = "{chave}"'
-    return _botao(nome, _s(texto), f'UpdateContext({{locL4dFiltro: "{chave}", {P}: Blank()}})', primario=False,
-                  Color=f"=If({ativo}, Color.White, nfAzul)", Fill=f"=If({ativo}, nfAzul, Color.White)",
-                  HoverColor=f"=If({ativo}, Color.White, nfAzul)", HoverFill=f"=If({ativo}, nfAzul, nfAzulClaro)",
-                  PressedColor=f"=If({ativo}, Color.White, nfAzul)", PressedFill=f"=If({ativo}, nfAzul, nfAzulClaro)",
-                  Width="=140")
+    r = {"RadiusTopLeft": "=12" if esquerda else "=0", "RadiusBottomLeft": "=12" if esquerda else "=0",
+         "RadiusTopRight": "=0" if esquerda else "=12", "RadiusBottomRight": "=0" if esquerda else "=12"}
+    return _botao(nome, f'"{texto}  ·  " & {_contar(final)}', f'UpdateContext({{locL4dFiltro: "{chave}", {P}: Blank()}})',
+                  primario=False, BorderThickness="=1", Color=f"=If({ativo}, Color.White, nfAzul)", Fill=f"=If({ativo}, nfAzul, Color.White)",
+                  FillPortions=f"=If({peq(REV)}, 1, 0)", HoverColor=f"=If({ativo}, Color.White, nfAzul)",
+                  HoverFill=f"=If({ativo}, nfAzul, nfAzulClaro)", PressedColor=f"=If({ativo}, Color.White, nfAzul)",
+                  PressedFill=f"=If({ativo}, nfAzul, nfAzulClaro)", Width="=160", **r)
+
+
+def _caixa(nome: str, texto: str, cor: str, fundo: str, visivel: str, **extra) -> dict:
+    return _etiqueta(nome, texto, Color="=" + cor, Fill="=" + fundo, PaddingBottom="=10", PaddingLeft="=14", PaddingRight="=14",
+                     PaddingTop="=10", Visible="=" + visivel, **extra)
 
 
 def _vista_revisao() -> dict:
-    lista = _contentor("conL4dLista", [
-        _contentor("conL4dFiltros", [_filtro("btnL4dFiltroPorDecidir", "pordecidir", "Por decidir"),
-                                     _filtro("btnL4dFiltroDecididos", "decididos", "Decididos")],
-                   vertical=False, FillPortions="=0", Height="=44", LayoutGap="=8"),
-        _etiqueta("lblL4dListaVazia", _s("Não há pedidos em revisão nesta lista."), Color="=nfTextoSuave",
+    lista = _contentor("conL4dListaCartao", [
+        _galeria_pedidos(),
+        _etiqueta("lblL4dListaVazia", f'If(locL4dFiltro = "decididos", "Ainda não há pedidos decididos.", '
+                                      '"Não há pedidos à espera de decisão.")',
+                  Color="=nfTextoSuave", PaddingBottom="=20", PaddingLeft="=20", PaddingRight="=20", PaddingTop="=20",
                   Visible="=galL4dPedidos.AllItemsCount = 0"),
-        _contentor("conL4dListaCartao", [_galeria_pedidos()], BorderColor="=nfLinha", BorderThickness="=1", Fill="=Color.White",
-                   FillPortions="=0", Height="=galL4dPedidos.Height + 2", PaddingBottom="=1", PaddingLeft="=1",
-                   PaddingRight="=1", PaddingTop="=1", **_raio(12)),
-    ], AlignInContainer=f"=If({peq(REV)}, AlignInContainer.Stretch, AlignInContainer.Start)", FillPortions=f"=If({peq(REV)}, 0, 1)",
-       Height="=44 + If(lblL4dListaVazia.Visible, 12 + lblL4dListaVazia.Height, 0) + 12 + conL4dListaCartao.Height",
-       LayoutGap="=12", LayoutMinWidth="=300")
+    ], AlignInContainer="=AlignInContainer.Start", BorderColor="=nfLinha", BorderThickness="=1", Fill="=Color.White",
+       FillPortions=f"=If({peq(REV)}, 0, 4)", Height="=If(lblL4dListaVazia.Visible, lblL4dListaVazia.Height, galL4dPedidos.Height) + 2",
+       LayoutMinWidth="=300", PaddingBottom="=1", PaddingLeft="=1", PaddingRight="=1", PaddingTop="=1", **_raio(12))
 
     tem = f"!IsBlank({P})"
     gestor_pode = f'{tem} && {PERF} = "Gestor" && !{FINAL}'
     admin_pode = f'{tem} && {PERF} = "Admin" && !{FINAL}'
-    caixa = {"PaddingBottom": "=12", "PaddingLeft": "=16", "PaddingRight": "=16", "PaddingTop": "=12"}
-    acoes = lambda nome, a, b: _contentor(nome, [a, b], vertical=False, FillPortions="=0", Height=f"=If({peq(REV)}, 100, 44)",
-                                          LayoutGap="=12", LayoutWrap="=true")
-    filhos = [
-        _etiqueta("lblL4dDetTitulo", f'If({tem}, {P}.NumeroPedido & "  ·  " & {P}.Clientes.Nome, "Escolha um pedido na lista")',
-                  Color="=nfAzul", FontWeight="=FontWeight.Bold", Size="=18"),
-        _etiqueta("lblL4dDetDados", DADOS, Fill="=nfSuperficie", Visible="=" + tem, **caixa),
-        _etiqueta("lblL4dDetProposta", PROPOSTA, Color="=nfAzul", Fill="=nfAzulFundo", Visible=f"={tem} && !IsBlank({P}.'Proposta por')",
-                  **caixa),
-        _etiqueta("lblL4dDetDecisao", DECISAO, Color=f"=If({P}.Decisao = {DEC}.Aprovado, nfVerdeTexto, nfVermelhoTexto)",
-                  Fill=f"=If({P}.Decisao = {DEC}.Aprovado, nfVerdeFundo, nfVermelhoFundo)", Visible=f"={tem} && {FINAL}", **caixa),
-        _etiqueta("lblL4dDetEspera", f'If({P}.Decisao = {DEC}.\'Aguarda decisão\', "Aguarda a proposta de um Gestor.", "Aguarda a decisão final do Admin.")',
-                  Color="=nfAmbar", Fill="=nfAmbarFundo", FontWeight="=FontWeight.Semibold", Visible=f"={tem} && !{FINAL}", **caixa),
-        _etiqueta("lblL4dSoLeitura", _s("O perfil Cliente acompanha os pedidos mas não decide."), Color="=nfTextoSuave",
-                  Visible=f'={tem} && {PERF} = "Cliente"'),
-        _rotulo("lblL4dComentarioRot", "Comentário (obrigatório para rejeitar)"),
-        _entrada("txtL4dComentario", "Comentário da proposta ou da decisão", Mode="=TextMode.MultiLine", Height="=80"),
-        acoes("conL4dAcoesGestor",
-              _botao("btnL4dProporAprovar", _s("Propor aprovar"), _decidir("propor_aprovar"), Width="=170"),
-              _botao("btnL4dProporRejeitar", _s("Propor rejeitar"), _decidir("propor_rejeitar"), primario=False, Width="=170")),
-        acoes("conL4dAcoesAdmin",
-              _botao("btnL4dAprovar", _s("Aprovar"), _decidir("aprovar"), Width="=150"),
-              _botao("btnL4dRejeitar", _s("Rejeitar"), _decidir("rejeitar"), primario=False, Width="=150")),
-    ]
-    # o rótulo e a caixa do comentário só aparecem a quem pode agir
     pode = f"({gestor_pode}) || ({admin_pode})"
+    texto, cor, fundo = _cores_decisao(P)
+    vermelho = {"BorderColor": "=nfVermelho", "Color": "=nfVermelho", "HoverColor": "=nfVermelho", "HoverFill": "=nfVermelhoFundo",
+                "PressedColor": "=nfVermelho", "PressedFill": "=nfVermelhoFundo"}
+    verde = {"BorderColor": "=nfVerde", "Fill": "=nfVerde", "HoverFill": "=nfVerdeTexto", "PressedFill": "=nfVerdeTexto"}
+    acoes = lambda nome, a, b, vis: _contentor(nome, [a, b], vertical=False, FillPortions="=0", Height="=44", LayoutGap="=12",
+                                                LayoutJustifyContent="=LayoutJustifyContent.End", Visible="=" + vis)
+    vazio = _contentor("conL4dDetVazio", [
+        _ctl("icoL4dDetVazio", "Classic/Icon@2.5.0", {"Color": "=nfBorda", "Height": "=40", "Icon": "=Icon.DocumentWithContent",
+                                                     "Width": "=40"}),
+        _etiqueta("lblL4dDetVazioTitulo", _s("Escolha um pedido"), Align="=Align.Center", FontWeight="=FontWeight.Semibold", Size="=16"),
+        _etiqueta("lblL4dDetVazioTexto", _s("O detalhe e as ações de decisão aparecem aqui."), Align="=Align.Center",
+                  Color="=nfTextoSuave", Size="=13"),
+    ], FillPortions="=0", Height="=24 + 40 + 8 + lblL4dDetVazioTitulo.Height + 4 + lblL4dDetVazioTexto.Height + 24",
+       LayoutAlignItems="=LayoutAlignItems.Center", LayoutGap="=6", PaddingBottom="=24", PaddingTop="=24", Visible="=" + "IsBlank(" + P + ")")
+    cab = _contentor("conL4dDetCab", [
+        _etiqueta("lblL4dDetTitulo", f"{P}.NumeroPedido", AlignInContainer="=AlignInContainer.Center", FillPortions="=1",
+                  FontWeight="=FontWeight.Bold", Size="=20"),
+        _pilula("btnL4dDetEstado", texto, cor, fundo, AlignInContainer="=AlignInContainer.Center", Width="=150"),
+    ], vertical=False, FillPortions="=0", Height="=Max(32, lblL4dDetTitulo.Height)", LayoutGap="=12", Visible="=" + tem)
+    filhos = [
+        vazio, cab,
+        _etiqueta("lblL4dDetCliente", f"{P}.Clientes.Nome", Color="=nfTextoSuave", Visible="=" + tem),
+        _linha("conL4dDetLinha", "nfLinha", Visible="=" + tem),
+        _linha_info("conL4dDetValor", "Valor", f'Text({P}.Valor, "[$-pt-PT]0,00") & " €"', Visible="=" + tem),
+        _linha_info("conL4dDetRegisto", "Registado", f'Text({P}.DataPedido, "dd/mm/yyyy")'
+                    f' & If(IsBlank({P}.\'Registado por\'), "", " por " & {P}.\'Registado por\'.Nome)', Visible="=" + tem),
+        _linha_info("conL4dDetDescricao", "Descrição", f"Coalesce({P}.'Descrição', \"—\")", Visible="=" + tem),
+        _linha_info("conL4dDetClassif", "Fluxo", f'Coalesce({P}.ObservacoesProcessamento, "—")', Visible="=" + tem),
+        _caixa("lblL4dDetProposta", PROPOSTA, "nfAzul", "nfAzulClaro", f"{tem} && !IsBlank({P}.'Proposta por')"),
+        _caixa("lblL4dDetDecisao", DECISAO, f"If({P}.Decisao = {DEC}.Aprovado, nfVerdeTexto, nfVermelhoTexto)",
+               f"If({P}.Decisao = {DEC}.Aprovado, nfVerdeFundo, nfVermelhoFundo)", f"{tem} && {FINAL}"),
+        _caixa("lblL4dDetEspera", f'If({P}.Decisao = {DEC}.\'Aguarda decisão\', "Aguarda a proposta de um Gestor.", "Aguarda a decisão final do Admin.")',
+               "nfAmbar", "nfAmbarFundo", f"{tem} && !{FINAL}", FontWeight="=FontWeight.Semibold"),
+        _etiqueta("lblL4dSoLeitura", _s("O perfil Cliente acompanha os pedidos mas não decide."), Color="=nfTextoSuave",
+                  Size="=13", Visible=f'={tem} && {PERF} = "Cliente"'),
+        _rotulo("lblL4dComentarioRot", "Comentário (obrigatório para rejeitar)"),
+        _entrada("txtL4dComentario", "Comentário da proposta ou da decisão", Mode="=TextMode.MultiLine", Height="=80",
+                 Visible="=" + pode),
+        acoes("conL4dAcoesGestor",
+              _botao("btnL4dProporRejeitar", _s("Propor rejeitar"), _decidir("propor_rejeitar"), primario=False, Width="=160", **vermelho),
+              _botao("btnL4dProporAprovar", _s("Propor aprovar"), _decidir("propor_aprovar"), Width="=160"), gestor_pode),
+        acoes("conL4dAcoesAdmin",
+              _botao("btnL4dRejeitar", _s("Rejeitar"), _decidir("rejeitar"), primario=False, Width="=130", **vermelho),
+              _botao("btnL4dAprovar", _s("Aprovar"), _decidir("aprovar"), Width="=130", **verde), admin_pode),
+    ]
     for f in filhos:
-        nome = next(iter(f))
-        if nome in ("lblL4dComentarioRot", "txtL4dComentario"):
-            f[nome]["Properties"]["Visible"] = "=" + pode
-    filhos[-2]["conL4dAcoesGestor"]["Properties"]["Visible"] = "=" + gestor_pode
-    filhos[-1]["conL4dAcoesAdmin"]["Properties"]["Visible"] = "=" + admin_pode
-    vis = [(f"{n}.Visible", f"{n}.Height") for n in ("lblL4dDetDados", "lblL4dDetProposta", "lblL4dDetDecisao", "lblL4dDetEspera",
-                                                    "lblL4dSoLeitura", "lblL4dComentarioRot")]
-    vis += [("txtL4dComentario.Visible", "80"), ("conL4dAcoesGestor.Visible", "conL4dAcoesGestor.Height"),
-            ("conL4dAcoesAdmin.Visible", "conL4dAcoesAdmin.Height")]
-    detalhe = _cartao("conL4dDetalhe", filhos, AlignInContainer=f"=If({peq(REV)}, AlignInContainer.Stretch, AlignInContainer.Start)",
-                      FillPortions=f"=If({peq(REV)}, 0, 1)", Height=_altura("40 + lblL4dDetTitulo.Height", vis), LayoutMinWidth="=300")
+        if "lblL4dComentarioRot" in f:
+            f["lblL4dComentarioRot"]["Properties"]["Visible"] = "=" + pode
+    alturas = {"txtL4dComentario": "80", "conL4dAcoesGestor": "44", "conL4dAcoesAdmin": "44", "conL4dDetLinha": "1"}
+    vis = [(f"{n}.Visible", alturas.get(n, f"{n}.Height")) for n in (next(iter(f)) for f in filhos)]
+    detalhe = _cartao("conL4dDetalhe", filhos, AlignInContainer="=AlignInContainer.Start",
+                      FillPortions=f"=If({peq(REV)}, 0, 5)", Height=_altura("30", vis), LayoutGap="=10", LayoutMinWidth="=320")
     return _contentor("conL4dVistaRevisao", [lista, detalhe], vertical=False, FillPortions="=0",
-                      Height=f"=If({peq(REV)}, conL4dLista.Height + conL4dDetalhe.Height + 16, Max(conL4dLista.Height, conL4dDetalhe.Height)) + 2",
+                      Height=f"=If({peq(REV)}, conL4dListaCartao.Height + conL4dDetalhe.Height + 16, Max(conL4dListaCartao.Height, conL4dDetalhe.Height)) + 2",
                       LayoutDirection=f"=If({peq(REV)}, LayoutDirection.Vertical, LayoutDirection.Horizontal)", LayoutGap="=16",
                       PaddingBottom="=2", Visible='=locL4dVista = "revisao"')
 
 
 # ---------------------------------------------------------------- Registar pedido
+FORM = f"=If({peq(REV)}, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 560)"
 REGISTAR = (
     "If(\n"
     f'    ({PERF} <> "Cliente" && IsBlank(cmbL4dCliente.Selected)) || IsBlank(txtL4dValor.Text) || IsBlank(Trim(txtL4dDescricao.Text)),\n'
@@ -375,7 +434,6 @@ REGISTAR = (
 def _vista_registar() -> dict:
     cliente_fixo = f'"Cliente: " & LookUp(Clientes, Cliente = GUID(Coalesce({SES}.clienteid, "00000000-0000-0000-0000-000000000000"))).Nome'
     filhos = [
-        _etiqueta("lblL4dRegTitulo", _s("Registar um pedido"), Color="=nfAzul", FontWeight="=FontWeight.Bold", Size="=18"),
         _etiqueta("lblL4dRegCliente", cliente_fixo, FontWeight="=FontWeight.Semibold", Visible=f'={PERF} = "Cliente"'),
         _rotulo("lblL4dRegClienteRot", "Cliente"),
         _ctl("cmbL4dCliente", "Classic/ComboBox@2.4.0", {
@@ -395,12 +453,12 @@ def _vista_registar() -> dict:
         _etiqueta("lblL4dRegNota", _s("O fluxo DAC2627_Pedido_Classificar trata o pedido em segundo plano. Acima de 500 € fica em "
                                       "Revisão e aparece na lista «Pedidos em revisão»."), Color="=nfTextoSuave", Size="=13"),
     ]
-    filhos[2]["lblL4dRegClienteRot"]["Properties"]["Visible"] = f'={PERF} <> "Cliente"'
+    filhos[1]["lblL4dRegClienteRot"]["Properties"]["Visible"] = f'={PERF} <> "Cliente"'
     vis = [("lblL4dRegCliente.Visible", "lblL4dRegCliente.Height"), ("lblL4dRegClienteRot.Visible", "lblL4dRegClienteRot.Height"),
            ("cmbL4dCliente.Visible", "48"), (None, "lblL4dRegValorRot.Height"), (None, "48"), (None, "lblL4dRegDescRot.Height"),
            (None, "80"), (None, "44"), (None, "lblL4dRegNota.Height")]
-    return _cartao("conL4dVistaRegistar", filhos, FillPortions="=0", Height=_altura("40 + lblL4dRegTitulo.Height", vis),
-                   Visible='=locL4dVista = "registar"')
+    return _cartao("conL4dVistaRegistar", filhos, AlignInContainer="=AlignInContainer.Start", FillPortions="=0",
+                   Height=_altura("30", vis), Visible='=locL4dVista = "registar"', Width=FORM)
 
 
 # ---------------------------------------------------------------- Utilizadores (Admin)
@@ -542,7 +600,6 @@ MUDAR = (
 
 def _vista_password() -> dict:
     filhos = [
-        _etiqueta("lblL4dPassTitulo", _s("Mudar a minha password"), Color="=nfAzul", FontWeight="=FontWeight.Bold", Size="=18"),
         _rotulo("lblL4dPassAtualRot", "Password atual"),
         _entrada("txtL4dPassAtual", "Password atual", password=True),
         _rotulo("lblL4dPassNovaRot", "Nova password (8 a 128 caracteres)"),
@@ -553,35 +610,107 @@ def _vista_password() -> dict:
     ]
     vis = [(None, "lblL4dPassAtualRot.Height"), (None, "48"), (None, "lblL4dPassNovaRot.Height"), (None, "48"),
            (None, "lblL4dPassConfirmaRot.Height"), (None, "48"), (None, "44")]
-    return _cartao("conL4dVistaPassword", filhos, FillPortions="=0", Height=_altura("40 + lblL4dPassTitulo.Height", vis),
-                   Visible='=locL4dVista = "password"')
+    return _cartao("conL4dVistaPassword", filhos, AlignInContainer="=AlignInContainer.Start", FillPortions="=0",
+                   Height=_altura("30", vis), Visible='=locL4dVista = "password"', Width=FORM)
+
+
+VISTAS = (
+    # chave, texto no menu, texto curto (telemóvel), ícone, só para
+    ("revisao", "Pedidos em revisão", "Revisão", "Icon.DocumentWithContent", None),
+    ("registar", "Novo pedido", "Novo", "Icon.Add", None),
+    ("utilizadores", "Utilizadores", "Utilizadores", "Icon.People", '"Admin"'),
+    ("password", "A minha password", "Password", "Icon.Lock", None),
+)
+TITULO_VISTA = ("Switch(locL4dVista, " + ", ".join(f'"{c}", {_s(t)}' for c, t, *_ in VISTAS[1:]) + f", {_s(VISTAS[0][1])})")
+INICIAIS = (f'With({{p: Split(Trim({SES}.nome), " ")}}, '
+            'Upper(Left(First(p).Value, 1) & If(CountRows(p) > 1, Left(Last(p).Value, 1), "")))')
+IR_FICHA04 = "Navigate(scrL4Pedidos, ScreenTransition.Cover)"
+
+
+def _menu_itens(compacto: bool) -> str:
+    regs = []
+    for chave, texto, curto, icone, so in VISTAS:
+        visivel = f"{PERF} = {so}" if so else "true"
+        conta = _contar(False) if chave == "revisao" else "0"
+        regs.append(f'{{Chave: "{chave}", Texto: {_s(curto if compacto else texto)}, Icone: {icone}, Contagem: {conta}, Visivel: {visivel}}}')
+    if compacto:
+        regs.append(f'{{Chave: "ficha04", Texto: "Ficha 04", Icone: Icon.ChevronRight, Contagem: 0, Visivel: {PERF} <> "Cliente"}}')
+    return "=Filter(\n    Table(\n        " + ",\n        ".join(regs) + "\n    ),\n    Visivel\n)"
+
+
+def _menu() -> dict:
+    sel = "ThisItem.Chave = locL4dVista"
+    ir = (f'If(ThisItem.Chave = "ficha04", {IR_FICHA04}, '
+          f'UpdateContext({{locL4dVista: ThisItem.Chave, {P}: Blank(), {U}: Blank()}}))')
+    vertical = _ctl("galL4dMenu", "Gallery@2.15.0", {
+        "AccessibleLabel": '="Menu da revisão"', "AlignInContainer": "=AlignInContainer.Stretch", "FillPortions": "=0",
+        "Height": "=Self.AllItemsCount * Self.TemplateHeight", "Items": _menu_itens(False), "LayoutMinHeight": "=0",
+        "OnSelect": "=" + ir, "TabIndex": "=0", "TemplatePadding": "=0", "TemplateFill": f"=If({sel}, nfAzulClaro, Color.White)",
+        "TemplateSize": "=48", "Visible": f"=!({peq(REV)})"}, [
+        _ctl("recL4dMSel", "Rectangle@2.3.0", {"Fill": "=nfAzul", "Height": "=Parent.TemplateHeight", "OnSelect": "=Select(Parent)",
+                                               "Visible": "=" + sel, "Width": "=4"}),
+        _ctl("icoL4dMIcone", "Classic/Icon@2.5.0", {"Color": f"=If({sel}, nfAzul, nfTextoSuave)", "Height": "=20", "Icon": "=ThisItem.Icone",
+                                                    "OnSelect": "=Select(Parent)", "Width": "=20", "X": "=20", "Y": "=14"}),
+        _ctl("lblL4dMTexto", "Label@2.5.1", {
+            "Color": f"=If({sel}, nfAzul, nfTexto)", "FontWeight": f"=If({sel}, FontWeight.Semibold, FontWeight.Normal)", "Height": "=48",
+            "OnSelect": "=Select(Parent)", "Size": "=14", "Text": "=ThisItem.Texto", "Width": "=Parent.TemplateWidth - 100",
+            "Wrap": "=false", "X": "=52"}),
+        _ctl("lblL4dMContagem", "Label@2.5.1", {
+            "Align": "=Align.Right", "Color": "=nfAzul", "FontWeight": "=FontWeight.Bold", "Height": "=48", "OnSelect": "=Select(Parent)",
+            "Size": "=13", "Text": '=If(ThisItem.Contagem > 0, Text(ThisItem.Contagem), "")', "Width": "=36",
+            "X": "=Parent.TemplateWidth - Self.Width - 12"}),
+    ], "Vertical")
+    compacto = _ctl("galL4dMenuCompacto", "Gallery@2.15.0", {
+        "AccessibleLabel": '="Menu da revisão"', "AlignInContainer": "=AlignInContainer.Stretch", "FillPortions": "=0",
+        "Height": "=60", "Items": _menu_itens(True), "OnSelect": "=" + ir, "TabIndex": "=0", "TemplatePadding": "=0",
+        "TemplateSize": "=Self.Width / Max(1, Self.AllItemsCount)", "Visible": "=" + peq(REV)}, [
+        _ctl("icoL4dMCIcone", "Classic/Icon@2.5.0", {"Color": f"=If({sel}, nfAzul, nfTextoSuave)", "Height": "=22", "Icon": "=ThisItem.Icone",
+                                                     "OnSelect": "=Select(Parent)", "Width": "=22", "X": "=(Parent.TemplateWidth - Self.Width) / 2",
+                                                     "Y": "=8"}),
+        _ctl("lblL4dMCTexto", "Label@2.5.1", {
+            "Align": "=Align.Center", "Color": f"=If({sel}, nfAzul, nfTextoSuave)", "FontWeight": f"=If({sel}, FontWeight.Semibold, FontWeight.Normal)",
+            "Height": "=22", "OnSelect": "=Select(Parent)", "Size": "=11", "Text": "=ThisItem.Texto", "Width": "=Parent.TemplateWidth",
+            "Wrap": "=false", "Y": "=32"}),
+        _ctl("recL4dMCSel", "Rectangle@2.3.0", {"Fill": "=nfAzul", "Height": "=3", "OnSelect": "=Select(Parent)", "Visible": "=" + sel,
+                                                "Width": "=Parent.TemplateWidth", "Y": "=Parent.TemplateHeight - 3"}),
+    ], "Horizontal")
+    ficha = _botao("btnL4dFicha04", _s("Ficha 04 · Clientes e pedidos"), IR_FICHA04, primario=False, AlignInContainer="=AlignInContainer.Stretch",
+                   BorderThickness="=1", Size="=13", Visible=f'={PERF} <> "Cliente" && !({peq(REV)})')
+    linha = _linha("conL4dMenuLinha", "nfLinha", Visible="=btnL4dFicha04.Visible")
+    return _contentor("conL4dMenu", [vertical, compacto, linha, ficha], AlignInContainer="=AlignInContainer.Stretch", Fill="=Color.White",
+                      FillPortions="=0", Height=f"=If({peq(REV)}, 60, Parent.Height)", LayoutGap="=12",
+                      PaddingBottom=f"=If({peq(REV)}, 0, 16)", PaddingLeft=f"=If({peq(REV)}, 0, 12)", PaddingRight=f"=If({peq(REV)}, 0, 12)",
+                      PaddingTop=f"=If({peq(REV)}, 0, 16)", Width=f"=If({peq(REV)}, Parent.Width, If({REV}.Size = ScreenSize.Medium, 220, 260))")
 
 
 def ecra_revisao() -> dict:
-    sair = _botao("btnL4dSair", _s("Sair"), f"Set({SES}, Blank()); Navigate({ENT}, ScreenTransition.UnCover)", primario=False,
-                  Width="=90", BorderColor="=Color.White")
+    iniciais = _pilula("btnL4dIniciais", INICIAIS, "nfAzul", "Color.White", Height="=36", Size="=13", Width="=36", **_raio(18))
     quem = _ctl("lblL4dQuem", "Label@2.5.1", {
-        "Align": "=Align.Right", "Color": "=Color.White", "FocusedBorderThickness": "=2", "Height": "=44", "Size": "=13",
-        "Text": f'={SES}.nome & "  ·  " & {PERF}', "Visible": f"={REV}.Size > ScreenSize.Small", "Width": "=260"})
-    separadores = _contentor("conL4dSeparadores", [
-        _separador("btnL4dSepRevisao", "revisao", "Pedidos em revisão"),
-        _separador("btnL4dSepRegistar", "registar", "Registar pedido"),
-        _separador("btnL4dSepUtilizadores", "utilizadores", "Utilizadores", f'{PERF} = "Admin"'),
-        _separador("btnL4dSepPassword", "password", "A minha password"),
-        _botao("btnL4dFicha04", _s("Clientes e pedidos (Ficha 04)"), "Navigate(scrL4Pedidos, ScreenTransition.Cover)",
-               primario=False, Width="=250", Visible=f'={PERF} <> "Cliente"'),
-    ], vertical=False, FillPortions="=0", Height=f"=If({peq(REV)}, 200, If({REV}.Size = ScreenSize.Medium, 100, 44))",
-       LayoutGap="=8", LayoutWrap="=true")
-    conteudo = _conteudo("L4dR", REV, [
-        _etiqueta("lblL4dRevTitulo", f'"Olá, " & {SES}.nome', FontWeight="=FontWeight.Bold", Size=f"=If({peq(REV)}, 20, 24)"),
-        _etiqueta("lblL4dRevIntro", f'Switch({PERF}, "Admin", "Perfil Admin: decide os pedidos em revisão, valida as propostas dos Gestores e gere os utilizadores.", '
-                                    f'"Gestor", "Perfil Gestor: propõe aprovar ou rejeitar os pedidos em revisão e gere clientes e pedidos na Ficha 04.", '
-                                    '"Perfil Cliente: regista pedidos e acompanha os seus. A decisão é do Admin, depois da proposta de um Gestor.")',
-                  Color="=nfTextoSuave"),
-        separadores,
-        _vista_revisao(), _vista_registar(), _vista_utilizadores(), _vista_password(),
-    ], 1100)
-    raiz = _contentor("conEcraL4dR", [_cabecalho("L4dR", "Ficha 04 · Revisão", [quem, sair]), conteudo], Fill="=nfFundo",
+        "Color": "=Color.White", "FocusedBorderThickness": "=2", "Height": "=44", "Size": "=14", "Text": f"={SES}.nome",
+        "Visible": f"={REV}.Size > ScreenSize.Small", "Width": "=Min(220, Len(Self.Text) * 9 + 8)", "Wrap": "=false"})
+    perfil = _pilula("btnL4dPerfil", PERF, "nfAzul", "nfAzulClaro", Width="=76")
+    sair = _botao("btnL4dSair", _s("Sair"), f"Set({SES}, Blank()); Navigate({ENT}, ScreenTransition.UnCover)", primario=False,
+                  BorderColor="=Color.White", BorderThickness="=1", Color="=Color.White", Fill="=Color.Transparent",
+                  HoverColor="=nfAzul", HoverFill="=Color.White", PressedColor="=nfAzul", PressedFill="=Color.White", Width="=80")
+    topo = _contentor("conL4dTopo", [
+        _etiqueta("lblL4dVistaTitulo", TITULO_VISTA, AlignInContainer="=AlignInContainer.Center", AutoHeight="=false",
+                  FillPortions="=1", FontWeight="=FontWeight.Bold", Height="=44", Size=f"=If({peq(REV)}, 18, 22)", Wrap="=false"),
+        _contentor("conL4dSegmentos", [
+            _segmento("btnL4dFiltroPorDecidir", "pordecidir", "Por decidir", False, True),
+            _segmento("btnL4dFiltroDecididos", "decididos", "Decididos", True, False),
+        ], vertical=False, AlignInContainer="=AlignInContainer.Stretch", FillPortions="=0", Height="=44",
+           Visible='=locL4dVista = "revisao"', Width=f"=If({peq(REV)}, Parent.Width, 320)"),
+    ], vertical=False, FillPortions="=0",
+       Height=f'=If({peq(REV)} && locL4dVista = "revisao", 44 + 12 + 44, 44)',
+       LayoutDirection=f"=If({peq(REV)}, LayoutDirection.Vertical, LayoutDirection.Horizontal)", LayoutGap="=12")
+    margem = f"If({peq(REV)}, 16, 32)"
+    principal = _contentor("conConteudoL4dR", [
+        topo, _vista_revisao(), _vista_registar(), _vista_utilizadores(), _vista_password(),
+    ], FillPortions="=1", LayoutGap="=16", LayoutOverflowY="=LayoutOverflow.Scroll", PaddingBottom="=" + margem,
+       PaddingLeft="=" + margem, PaddingRight=f"=Max({margem}, Parent.Width - conL4dMenu.Width - 1200)", PaddingTop=f"=If({peq(REV)}, 16, 24)")
+    corpo = _contentor("conCorpoL4dR", [_menu(), principal], vertical=False, FillPortions="=1",
+                       LayoutDirection=f"=If({peq(REV)}, LayoutDirection.Vertical, LayoutDirection.Horizontal)")
+    raiz = _contentor("conEcraL4dR", [_cabecalho("L4dR", "Ficha 04 · Revisão", [iniciais, quem, perfil, sair]), corpo], Fill="=nfFundo",
                       Height="=Parent.Height", Width="=Parent.Width")
     # Sem Navigate: o Studio recusa-o no OnVisible (DAC406). Só se chega aqui pelo scrL4Entrar, com sessão,
     # e uma sessão caducada é recusada pelos fluxos, que leem o perfil no Dataverse.
