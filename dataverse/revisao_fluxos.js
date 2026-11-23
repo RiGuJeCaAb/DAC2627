@@ -2,7 +2,7 @@
 // com a ligação à app e os fluxos Entrar, DefinirPassword, Decidir e Notificar (este último substitui o DAC2627_Pedido_Aprovar).
 // Correr num separador aberto em https://org0f43a370.crm4.dynamics.com. Antes: criar a ligação ao conector DAC2627-ServicoHash
 // (com a chave) e pôr o nome dela em LIGACAO_HASH. Idempotente: atualiza o que já existe.
-const LIGACAO_HASH = '0e7166e38df8420292b6917dc771161c'; // nome da ligação ao conector DAC2627-ServicoHash (make.powerautomate.com › Ligações)
+const LIGACAO_HASH = '452488533c354e748336b1561e4a08c7'; // nome da ligação ao conector DAC2627-ServicoHash (make.powerautomate.com › Ligações)
 const API = '/api/data/v9.2/';
 const H = { 'Content-Type': 'application/json; charset=utf-8', 'OData-MaxVersion': '4.0', 'OData-Version': '4.0', Accept: 'application/json', 'MSCRM.SolutionUniqueName': 'DAC2627', Prefer: 'return=representation' };
 const log = [];
@@ -15,7 +15,9 @@ async function post(p, b) {
 }
 
 // 1 · Referências de ligação
-const HASH_API = 'shared_dac-5fdac2627-2dservicohash-5f8e4ce826bfe060bc';
+// identificador do conector criado pelo portal, dentro da solução (23/11/2026). Atenção às maiúsculas: o conector criado
+// pela Web API tinha o mesmo identificador em minúsculas (-5f, -2d) e a exportação da solução não o reconhecia.
+const HASH_API = 'shared_dac-5Fdac2627-2Dservicohash-5F8e4ce826bfe060bc';
 const REFS = {
   dv: { nome: 'dac_DAC2627Dataverse', api: 'shared_commondataserviceforapps' },
   ol: { nome: 'dac_DAC2627Outlook', api: 'shared_office365' },
@@ -24,8 +26,13 @@ const REFS = {
 {
   const r = REFS.hs;
   const ex = await get(`connectionreferences?$select=connectionreferenceid&$filter=connectionreferencelogicalname eq '${r.nome.toLowerCase()}'`);
-  if (ex.value.length) log.push('ref existe ' + r.nome);
-  else {
+  if (ex.value.length) {
+    // a referência já existe: aponta-a para o conector e para a ligação atuais (podem ter mudado)
+    if (LIGACAO_HASH === 'PREENCHER') throw new Error('Falta o nome da ligação ao conector DAC2627-ServicoHash.');
+    const id = ex.value[0].connectionreferenceid;
+    const u = await fetch(API + `connectionreferences(${id})`, { method: 'PATCH', headers: H, body: JSON.stringify({ connectorid: '/providers/Microsoft.PowerApps/apis/' + r.api, connectionid: r.ligacao }) });
+    log.push('ref atualizada ' + r.nome + ' ' + u.status + (u.ok ? '' : ' ' + (await u.text()).slice(0, 300)));
+  } else {
     if (LIGACAO_HASH === 'PREENCHER') throw new Error('Falta o nome da ligação ao conector DAC2627-ServicoHash.');
     await post('connectionreferences', { connectionreferencelogicalname: r.nome.toLowerCase(), connectionreferencedisplayname: r.mostra, connectorid: '/providers/Microsoft.PowerApps/apis/' + r.api, connectionid: r.ligacao });
     log.push('ref criada ' + r.nome);
