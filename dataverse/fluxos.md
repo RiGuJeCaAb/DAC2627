@@ -30,6 +30,8 @@ Até à v1.5.0 chamava-se `DAC2627_Pedido_Aprovar` e pedia a decisão por email 
 
 Criados a 20/11/2026 por `dataverse/revisao_fluxos.js`. Os três primeiros têm o gatilho Power Apps (V2) e respondem à app com o mesmo esquema: `resultado` ("ok" ou "erro"), `mensagem`, `token`, `nome`, `perfil`, `utilizadorid` e `clienteid`. O gatilho e as ações que tocam em passwords, hashes ou testemunhos têm as entradas e saídas protegidas (*secure inputs/outputs*), e o histórico de execuções mostra-as ocultas.
 
+**Exportação da solução (23/11/2026).** A primeira exportação falhou com «Exporting connection reference dac_dac2627servicohash for a custom connector requires the custom connector to be added to a dataverse solution», com o conector já na solução. A referência de ligação, criada pela Web API, tinha vazia a pesquisa `customconnectorid` para o registo do conector, que o portal preenche e a exportação usa. O conector foi recriado pelo portal, dentro da solução (identificador `shared_dac-5Fdac2627-2Dservicohash-5F8e4ce826bfe060bc`, ligação nova criada pelo utilizador), e a pesquisa foi preenchida. Desde então o `revisao_fluxos.js` preenche-a sempre. A exportação de teste pela Web API passou (499 KB, seis fluxos, dois conectores).
+
 O serviço de hash é chamado pelo conector personalizado **DAC2627-ServicoHash** (`connector/servico_hash.swagger.json`, operações `GerarHash` e `VerificarPassword`), com a referência de ligação `dac_DAC2627ServicoHash`. A chave do serviço está na ligação, nunca no fluxo nem na solução.
 
 ## DAC2627_Utilizador_Entrar

@@ -25,16 +25,22 @@ const REFS = {
 };
 {
   const r = REFS.hs;
+  // A referência a um conector personalizado precisa da pesquisa CustomConnectorId para o registo do conector.
+  // O portal preenche-a; a Web API não, e sem ela a exportação da solução falha com «requires the custom connector
+  // to be added to a dataverse solution», mesmo com o conector na solução (23/11/2026).
+  const con = await get(`connectors?$select=connectorid&$filter=connectorinternalid eq '${r.api}'`);
+  if (!con.value.length) throw new Error('O conector ' + r.api + ' não existe: criar pelo portal, dentro da solução DAC2627.');
+  const ligarConector = { 'CustomConnectorId@odata.bind': `/connectors(${con.value[0].connectorid})` };
   const ex = await get(`connectionreferences?$select=connectionreferenceid&$filter=connectionreferencelogicalname eq '${r.nome.toLowerCase()}'`);
   if (ex.value.length) {
     // a referência já existe: aponta-a para o conector e para a ligação atuais (podem ter mudado)
     if (LIGACAO_HASH === 'PREENCHER') throw new Error('Falta o nome da ligação ao conector DAC2627-ServicoHash.');
     const id = ex.value[0].connectionreferenceid;
-    const u = await fetch(API + `connectionreferences(${id})`, { method: 'PATCH', headers: H, body: JSON.stringify({ connectorid: '/providers/Microsoft.PowerApps/apis/' + r.api, connectionid: r.ligacao }) });
+    const u = await fetch(API + `connectionreferences(${id})`, { method: 'PATCH', headers: H, body: JSON.stringify({ connectorid: '/providers/Microsoft.PowerApps/apis/' + r.api, connectionid: r.ligacao, ...ligarConector }) });
     log.push('ref atualizada ' + r.nome + ' ' + u.status + (u.ok ? '' : ' ' + (await u.text()).slice(0, 300)));
   } else {
     if (LIGACAO_HASH === 'PREENCHER') throw new Error('Falta o nome da ligação ao conector DAC2627-ServicoHash.');
-    await post('connectionreferences', { connectionreferencelogicalname: r.nome.toLowerCase(), connectionreferencedisplayname: r.mostra, connectorid: '/providers/Microsoft.PowerApps/apis/' + r.api, connectionid: r.ligacao });
+    await post('connectionreferences', { connectionreferencelogicalname: r.nome.toLowerCase(), connectionreferencedisplayname: r.mostra, connectorid: '/providers/Microsoft.PowerApps/apis/' + r.api, connectionid: r.ligacao, ...ligarConector });
     log.push('ref criada ' + r.nome);
   }
 }
