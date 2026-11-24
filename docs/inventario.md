@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-11 ecrãs e 556 controlos.
+11 ecrãs e 557 controlos.
 
 ## Navegação
 
@@ -39,7 +39,7 @@ flowchart LR
 
 | Ecrã | Controlos | Tipos mais usados | Variáveis | Dados |
 |---|---:|---|---|---|
-| `scrInicio` | 13 | Label 7, GroupContainer 4, Gallery 1, Button 1 | — | — |
+| `scrInicio` | 13 | Label 7, GroupContainer 4, Gallery 1, Button 1 | `gblL4Nivel` | — |
 | `scrL1BoasVindas` | 9 | GroupContainer 4, Label 3, Icon 1, Button 1 | — | — |
 | `scrL1Pedido` | 12 | GroupContainer 5, Label 3, Icon 2, TextInput 1 | `gblL1Nome`, `locAviso` | — |
 | `scrL1Saudacao` | 12 | GroupContainer 5, Label 3, Icon 2, Button 2 | `gblL1Nome` | — |
@@ -47,9 +47,9 @@ flowchart LR
 | `scrL3Lista` | 39 | Label 12, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
-| `scrL4Pedidos` | 208 | Label 84, Button 42, GroupContainer 36, TextInput 14 | `gblL4dSessao`, `locL4Acao`, `locL4Area`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Nivel`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista`, `locL4cAguardar`, `locL4cTentativas`, `locL4cValorTeste`, `locL4dUtil` | — |
+| `scrL4Pedidos` | 209 | Label 84, Button 42, GroupContainer 37, TextInput 14 | `gblL4Nivel`, `gblL4dSessao`, `locL4Acao`, `locL4Area`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista`, `locL4cAguardar`, `locL4cTentativas`, `locL4cValorTeste`, `locL4dUtil` | — |
 | `scrL4Complemento` | 91 | Label 75, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
-| `scrL4Entrar` | 33 | Label 15, GroupContainer 11, Icon 3, TextInput 2 | `gblL4dSessao`, `locL4dAEntrar`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer` | — |
+| `scrL4Entrar` | 33 | Label 15, GroupContainer 11, Icon 3, TextInput 2 | `gblL4Nivel`, `gblL4dSessao`, `locL4dAEntrar`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer` | — |
 
 ## scrInicio
 
@@ -414,52 +414,53 @@ conEcraL4  [GroupContainer/AutoLayout]
             ErrorMessage16  [Label]
             StarVisible16  [Label]
         conL4cDetalhe  [GroupContainer/AutoLayout]
-          conL4cDetCab  [GroupContainer/AutoLayout]
-            lblL4cDetCliente  [Label]
-            btnL4cTratamento  [Button]
-          conL4cDetLinha  [GroupContainer/AutoLayout]
-          conL4cDetData  [GroupContainer/AutoLayout]
-            lblL4cDetDataRot  [Label]
-            lblL4cDetData  [Label]
-          conL4cDetEstado  [GroupContainer/AutoLayout]
-            lblL4cDetEstadoRot  [Label]
-            lblL4cDetEstado  [Label]
-          conL4cDetValor  [GroupContainer/AutoLayout]
-            lblL4cDetValorRot  [Label]
-            lblL4cDetValor  [Label]
-          conL4cDetDescricao  [GroupContainer/AutoLayout]
-            lblL4cDetDescricaoRot  [Label]
-            lblL4cDetDescricao  [Label]
-          lblL4cProcTitulo  [Label]
-          lblL4cAguarda  [Label]
-          conL4cDetProcessado  [GroupContainer/AutoLayout]
-            lblL4cDetProcessadoRot  [Label]
-            lblL4cDetProcessado  [Label]
-          conL4cDetObs  [GroupContainer/AutoLayout]
-            lblL4cDetObsRot  [Label]
-            lblL4cDetObs  [Label]
-          conL4cDetExecucao  [GroupContainer/AutoLayout]
-            lblL4cDetExecucaoRot  [Label]
-            lblL4cDetExecucao  [Label]
-          conL4cAcoes  [GroupContainer/AutoLayout]
-            btnL4cAtualizar  [Button]
-            btnL4cReprocessar  [Button]
-          lblL4cProcNota  [Label]
-          conL4cDetLinhaRev  [GroupContainer/AutoLayout]
-          lblL4cRevTitulo  [Label]
-          lblL4cDecisao  [Label]
-          lblL4dDetProposta  [Label]
-          lblL4dDetDecisao  [Label]
-          lblL4dDetEspera  [Label]
-          lblL4dSoLeitura  [Label]
-          lblL4dComentarioRot  [Label]
-          txtL4dComentario  [TextInput]
-          conL4dAcoesGestor  [GroupContainer/AutoLayout]
-            btnL4dProporRejeitar  [Button]
-            btnL4dProporAprovar  [Button]
-          conL4dAcoesAdmin  [GroupContainer/AutoLayout]
-            btnL4dRejeitar  [Button]
-            btnL4dAprovar  [Button]
+          conL4cDetConteudo  [GroupContainer/AutoLayout]
+            conL4cDetCab  [GroupContainer/AutoLayout]
+              lblL4cDetCliente  [Label]
+              btnL4cTratamento  [Button]
+            conL4cDetLinha  [GroupContainer/AutoLayout]
+            conL4cDetData  [GroupContainer/AutoLayout]
+              lblL4cDetDataRot  [Label]
+              lblL4cDetData  [Label]
+            conL4cDetEstado  [GroupContainer/AutoLayout]
+              lblL4cDetEstadoRot  [Label]
+              lblL4cDetEstado  [Label]
+            conL4cDetValor  [GroupContainer/AutoLayout]
+              lblL4cDetValorRot  [Label]
+              lblL4cDetValor  [Label]
+            conL4cDetDescricao  [GroupContainer/AutoLayout]
+              lblL4cDetDescricaoRot  [Label]
+              lblL4cDetDescricao  [Label]
+            lblL4cProcTitulo  [Label]
+            lblL4cAguarda  [Label]
+            conL4cDetProcessado  [GroupContainer/AutoLayout]
+              lblL4cDetProcessadoRot  [Label]
+              lblL4cDetProcessado  [Label]
+            conL4cDetObs  [GroupContainer/AutoLayout]
+              lblL4cDetObsRot  [Label]
+              lblL4cDetObs  [Label]
+            conL4cDetExecucao  [GroupContainer/AutoLayout]
+              lblL4cDetExecucaoRot  [Label]
+              lblL4cDetExecucao  [Label]
+            conL4cAcoes  [GroupContainer/AutoLayout]
+              btnL4cAtualizar  [Button]
+              btnL4cReprocessar  [Button]
+            lblL4cProcNota  [Label]
+            conL4cDetLinhaRev  [GroupContainer/AutoLayout]
+            lblL4cRevTitulo  [Label]
+            lblL4cDecisao  [Label]
+            lblL4dDetProposta  [Label]
+            lblL4dDetDecisao  [Label]
+            lblL4dDetEspera  [Label]
+            lblL4dSoLeitura  [Label]
+            lblL4dComentarioRot  [Label]
+            txtL4dComentario  [TextInput]
+            conL4dAcoesGestor  [GroupContainer/AutoLayout]
+              btnL4dProporRejeitar  [Button]
+              btnL4dProporAprovar  [Button]
+            conL4dAcoesAdmin  [GroupContainer/AutoLayout]
+              btnL4dRejeitar  [Button]
+              btnL4dAprovar  [Button]
         conL4cTestes  [GroupContainer/AutoLayout]
           lblL4cTestesRot  [Label]
           btnL4cTeste100  [Button]

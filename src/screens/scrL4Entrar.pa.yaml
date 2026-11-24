@@ -193,7 +193,8 @@ Screens:
                                               UpdateContext({locL4dAEntrar: false});
                                               If(r.resultado = "ok",
                                                   Set(gblL4dSessao, {token: r.token, nome: r.nome, perfil: r.perfil, utilizadorid: r.utilizadorid, clienteid: r.clienteid});
-                                                  Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "revisao"}),
+                                                  Set(gblL4Nivel, "revisao");
+                                                  Navigate(scrL4Pedidos, ScreenTransition.Cover),
                                                   UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: r.mensagem})
                                               )
                                           )

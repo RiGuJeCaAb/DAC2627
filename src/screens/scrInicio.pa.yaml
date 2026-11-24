@@ -106,9 +106,9 @@ Screens:
                                   1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),
                                   2, Navigate(scrL2Servicos, ScreenTransition.Cover),
                                   3, Navigate(scrL3Lista, ScreenTransition.Cover),
-                                  4, Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "pedidos"}),
+                                  4, Set(gblL4Nivel, "pedidos"); Navigate(scrL4Pedidos, ScreenTransition.Cover),
                                   5, Navigate(scrL4Complemento, ScreenTransition.Cover),
-                                  6, Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "melhoramento"}),
+                                  6, Set(gblL4Nivel, "melhoramento"); Navigate(scrL4Pedidos, ScreenTransition.Cover),
                                   7, Navigate(scrL4Entrar, ScreenTransition.Cover)
                               )
                           )

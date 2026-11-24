@@ -9,8 +9,11 @@ Melhoramento (aula 7) é a mesma experiência com acrescentos, e a Revisão é t
 password e perfis. Até à v1.6.0 eram três ecrãs separados, ligados só pelas tabelas.
 
 O que faz:
-  1. scrL4Pedidos recebe o nível pela navegação, locL4Nivel = "pedidos", "melhoramento" ou "revisao"
-     (Navigate com registo, a partir do scrInicio e do scrL4Entrar). Em "pedidos" fica igual à v1.6.0.
+  1. scrL4Pedidos lê o nível na variável global gblL4Nivel = "pedidos", "melhoramento" ou "revisao", posta com Set
+     no scrInicio e no scrL4Entrar antes do Navigate. Em "pedidos" fica igual à v1.6.0. Não é uma variável de
+     contexto enviada pelo Navigate: colado o scrInicio com o scrL4Pedidos eliminado, essa variável ficava sem
+     ecrã, o TemplateSize da galL4Pedidos dava erro e o Studio pôs as etiquetas das linhas com altura 1 e sem Y
+     (primeira colagem, 24/11/2026). Uma global existe logo que o scrInicio é colado.
   2. Acrescentos do Melhoramento, prefixo L4c (visíveis em "melhoramento" e "revisao"): segunda fila de
      separadores (Automático, Revisão, Erro), pílula do tratamento e justificação em cada linha da lista,
      detalhe do pedido (conL4cDetalhe) com o processamento, Atualizar estado e Reprocessar, a consulta
@@ -47,7 +50,7 @@ SES = "gblL4dSessao"
 PERF = f"{SES}.perfil"
 P = "locL4Pedido"
 
-NIV = "locL4Nivel"
+NIV = "gblL4Nivel"
 M = f'({NIV} = "melhoramento" || {NIV} = "revisao")'     # acrescentos do Melhoramento (também na Revisão)
 R = f'{NIV} = "revisao"'                                  # acrescentos da Revisão
 CLI = f'({R} && {PERF} = "Cliente")'                      # perfil Cliente: só o seu cliente
@@ -274,7 +277,18 @@ def _detalhe() -> dict:
         B._caixa("lblL4cDecisao", NOTA_DECISAO, "nfAmbar", "nfAmbarFundo", f"!({R}) && {tem_rev}"),
         *_revisao_no_detalhe(),
     ]
-    return _contentor("conL4cDetalhe", filhos, LayoutGap="=10", LayoutOverflowY="=LayoutOverflow.Scroll",
+    # Altura do conteúdo calculada pelos filhos, dentro de um contentor que desloca. Com os filhos direto no contentor
+    # que desloca, o Studio encolhia as etiquetas de várias linhas até à altura mínima (primeira colagem, 24/11/2026).
+    fixas = {"conL4cDetCab": "36", "conL4cDetLinha": "1", "conL4cDetLinhaRev": "1", "txtL4dComentario": "80",
+             "conL4dAcoesGestor": "44", "conL4dAcoesAdmin": "44", "conL4cAcoes": f"If({PEQ}, 100, 44)"}
+    partes = []
+    for f in filhos:
+        nome, corpo = next(iter(f.items()))
+        h = fixas.get(nome, f"{nome}.Height")
+        partes.append(f"If({nome}.Visible, {h} + 10, 0)" if "Visible" in corpo.get("Properties", {}) else f"{h} + 10")
+    conteudo = _contentor("conL4cDetConteudo", filhos, AlignInContainer="=AlignInContainer.Stretch", FillPortions="=0",
+                          Height="=" + " + ".join(partes), LayoutGap="=10")
+    return _contentor("conL4cDetalhe", [conteudo], LayoutOverflowY="=LayoutOverflow.Scroll",
                       Visible=f'={M} && locL4Modo = "detalhe"')
 
 
@@ -467,8 +481,8 @@ CARTOES = {
         "A Ficha 04 com entrada por password (hash PBKDF2 no Azure) e perfis Admin, Gestor e Cliente, que decidem os pedidos em revisão."),
 }
 NAVEGAR = {
-    4: f'Navigate({ECRA}, ScreenTransition.Cover, {{{NIV}: "pedidos"}})',
-    6: f'Navigate({ECRA}, ScreenTransition.Cover, {{{NIV}: "melhoramento"}})',
+    4: f'Set({NIV}, "pedidos"); Navigate({ECRA}, ScreenTransition.Cover)',
+    6: f'Set({NIV}, "melhoramento"); Navigate({ECRA}, ScreenTransition.Cover)',
     7: f"Navigate({ENT}, ScreenTransition.Cover)",
 }
 
@@ -484,7 +498,7 @@ def migrar_inicio(doc: dict) -> None:
         ctl.definir("Items", itens)
         sel = str(ctl.prop("OnSelect"))
         for num, nav in NAVEGAR.items():
-            sel = re.sub(r"(\n\s*" + str(num) + r", )Navigate\([^\n]*?\)(?=,?\n)", lambda m, n=nav: m.group(1) + n, sel)
+            sel = re.sub(r"(\n\s*" + str(num) + r", )[^\n]*?(?=,?\n)", lambda m, n=nav: m.group(1) + n, sel)
         ctl.definir("OnSelect", sel)
 
 
@@ -493,7 +507,7 @@ def ecra_entrar() -> dict:
     for c in yamlio.controlos(d):
         if c.nome == "btnL4dEntrar":
             c.definir("OnSelect", str(c.prop("OnSelect")).replace(
-                "Navigate(scrL4Revisao, ScreenTransition.Cover)", f'Navigate({ECRA}, ScreenTransition.Cover, {{{NIV}: "revisao"}})'))
+                "Navigate(scrL4Revisao, ScreenTransition.Cover)", f'Set({NIV}, "revisao");\n            Navigate({ECRA}, ScreenTransition.Cover)'))
     return d
 
 

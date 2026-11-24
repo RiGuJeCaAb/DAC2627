@@ -265,14 +265,16 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
     assert not (ecras / "scrL4Melhoramento.pa.yaml").exists() and not (ecras / "scrL4Revisao.pa.yaml").exists()
     inicio = (ecras / "scrInicio.pa.yaml").read_text(encoding="utf-8")
-    assert '{locL4Nivel: "pedidos"}' in inicio and '{locL4Nivel: "melhoramento"}' in inicio
+    # o modo vai numa global, posta antes do Navigate: existe mesmo que o scrL4Pedidos ainda não esteja na app
+    assert 'Set(gblL4Nivel, "pedidos"); Navigate(scrL4Pedidos' in inicio
+    assert 'Set(gblL4Nivel, "melhoramento"); Navigate(scrL4Pedidos' in inicio
     ent = (ecras / "scrL4Entrar.pa.yaml").read_text(encoding="utf-8")
-    assert 'Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "revisao"})' in ent
+    assert 'Set(gblL4Nivel, "revisao");' in ent and "Navigate(scrL4Pedidos, ScreenTransition.Cover)" in ent
     # a password vai só para o fluxo: nunca para uma variável
     assert "Set(gblL4dSessao, {token: r.token" in ent
     assert not any("Set(" in linha and "txtL4dPassword" in linha for linha in ent.splitlines())
     ped = (ecras / "scrL4Pedidos.pa.yaml").read_text(encoding="utf-8")
-    for velho in ("scrL4Revisao", "scrL4Melhoramento", "locL4dPedido", "locL4dMsg", "locL4dTimer", "locL4dVista"):
+    for velho in ("scrL4Revisao", "scrL4Melhoramento", "locL4dPedido", "locL4dMsg", "locL4dTimer", "locL4dVista", "locL4Nivel"):
         assert velho not in ped, velho
     ctl = {c.nome: c for c in yamlio.controlos(yamlio.ler(ecras / "scrL4Pedidos.pa.yaml"))}
     itens = str(ctl["galL4Pedidos"].prop("Items"))
