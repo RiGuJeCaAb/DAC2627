@@ -92,7 +92,7 @@ Screens:
                         Size: =14
                         Text: =gblL4dSessao.nome
                         Visible: =gblL4Nivel = "revisao" && scrL4Pedidos.Size > ScreenSize.Small
-                        Width: =Min(220, Len(Self.Text) * 9 + 8)
+                        Width: =Min(260, Len(Self.Text) * 10 + 16)
                         Wrap: =false
                   - btnL4dPerfil:
                       Control: Classic/Button@2.2.0
@@ -591,7 +591,7 @@ Screens:
                                       )
                                     TabIndex: =0
                                     TemplatePadding: =0
-                                    TemplateSize: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 80) + If((gblL4Nivel = "melhoramento" || gblL4Nivel = "revisao"), 32, 0)
+                                    TemplateSize: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 80)
                                     Visible: =IsBlank(locL4Modo)
                                   Children:
                                     - lblL4PedNumero:
@@ -655,6 +655,7 @@ Screens:
                                           Size: =11
                                           TabIndex: =-1
                                           Text: =Text(ThisItem.EstadoPedido)
+                                          Visible: =!(gblL4Nivel = "melhoramento" || gblL4Nivel = "revisao")
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, 128, 140)
                                           X: =Parent.TemplateWidth - Self.Width - 16
                                           Y: =42
@@ -663,12 +664,12 @@ Screens:
                                         Properties:
                                           BorderThickness: =0
                                           Color: |-
-                                            =If(gblL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão && !IsBlank(ThisItem.Decisao), If(ThisItem.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeTexto, ThisItem.Decisao = 'Decisao (Pedidos)'.Rejeitado, nfVermelhoTexto, ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar' || ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', nfAzul, nfAmbar), If(IsBlank(ThisItem.Tratamento), nfTextoSuave, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzul, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeTexto, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbar, nfVermelhoTexto))
+                                            =If(gblL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, If(ThisItem.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeTexto, ThisItem.Decisao = 'Decisao (Pedidos)'.Rejeitado, nfVermelhoTexto, ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar' || ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', nfAzul, nfAmbar), If(IsBlank(ThisItem.Tratamento), nfTextoSuave, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzul, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeTexto, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbar, nfVermelhoTexto))
                                           DisabledColor: =Self.Color
                                           DisabledFill: =Self.Fill
                                           DisplayMode: =DisplayMode.View
                                           Fill: |-
-                                            =If(gblL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão && !IsBlank(ThisItem.Decisao), If(ThisItem.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeFundo, ThisItem.Decisao = 'Decisao (Pedidos)'.Rejeitado, nfVermelhoFundo, ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar' || ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', nfAzulFundo, nfAmbarFundo), If(IsBlank(ThisItem.Tratamento), nfLinha, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzulFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbarFundo, nfVermelhoFundo))
+                                            =If(gblL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, If(ThisItem.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeFundo, ThisItem.Decisao = 'Decisao (Pedidos)'.Rejeitado, nfVermelhoFundo, ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar' || ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', nfAzulFundo, nfAmbarFundo), If(IsBlank(ThisItem.Tratamento), nfLinha, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzulFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbarFundo, nfVermelhoFundo))
                                           FontWeight: =FontWeight.Bold
                                           Height: =26
                                           HoverColor: =Self.Color
@@ -681,24 +682,11 @@ Screens:
                                           RadiusTopRight: =13
                                           Size: =11
                                           TabIndex: =-1
-                                          Text: =If(gblL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão && !IsBlank(ThisItem.Decisao), If(IsBlank(ThisItem.Decisao), "Sem decisão", Text(ThisItem.Decisao)), If(IsBlank(ThisItem.Tratamento), "Não processado", Text(ThisItem.Tratamento)))
+                                          Text: =If(gblL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, If(IsBlank(ThisItem.Decisao), "Por decidir", Text(ThisItem.Decisao)), If(IsBlank(ThisItem.Tratamento), "Não processado", Text(ThisItem.Tratamento)))
                                           Visible: =(gblL4Nivel = "melhoramento" || gblL4Nivel = "revisao")
-                                          Width: =150
+                                          Width: =If(scrL4Pedidos.Size = ScreenSize.Small, 128, 140)
                                           X: =Parent.TemplateWidth - Self.Width - 16
-                                          Y: =If(scrL4Pedidos.Size = ScreenSize.Small, 89, 71)
-                                    - lblL4cGObs:
-                                        Control: Label@2.5.1
-                                        Properties:
-                                          Color: =nfTextoSuave
-                                          Height: =24
-                                          OnSelect: =Select(Parent)
-                                          Size: =12
-                                          Text: =Coalesce(ThisItem.ObservacoesProcessamento, If(IsBlank(ThisItem.Tratamento), "Ainda não processado pelo fluxo.", ""))
-                                          Visible: =(gblL4Nivel = "melhoramento" || gblL4Nivel = "revisao")
-                                          Width: =Parent.TemplateWidth - 32 - 158
-                                          Wrap: =false
-                                          X: =16
-                                          Y: =If(scrL4Pedidos.Size = ScreenSize.Small, 90, 72)
+                                          Y: =42
                                     - recL4PedSeparador:
                                         Control: Rectangle@2.3.0
                                         Properties:
@@ -1082,6 +1070,114 @@ Screens:
                                                 Width: =30
                                                 Wrap: =false
                                                 Y: =DataCardKey8.Y
+                              - conL4cTestes:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 44)
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    LayoutWrap: =true
+                                    Visible: =(gblL4Nivel = "melhoramento" || gblL4Nivel = "revisao") && locL4Modo = "pedido" && locL4Acao = "criar"
+                                  Children:
+                                    - lblL4cTestesRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          AutoHeight: =false
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          Height: =44
+                                          Text: ="Valor de teste:"
+                                          Width: =120
+                                          Wrap: =false
+                                    - btnL4cTeste100:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: ""}); UpdateContext({locL4cValorTeste: "100"})
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="100"
+                                          Width: =72
+                                    - btnL4cTeste500:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: ""}); UpdateContext({locL4cValorTeste: "500"})
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="500"
+                                          Width: =72
+                                    - btnL4cTeste750:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: ""}); UpdateContext({locL4cValorTeste: "750"})
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="750"
+                                          Width: =72
+                                    - btnL4cTesteSemvalor:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: ""}); UpdateContext({locL4cValorTeste: "sem"})
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="Sem valor"
+                                          Width: =120
                               - frmL4Pedido:
                                   Control: Form@2.4.4
                                   Variant: Classic
@@ -1108,7 +1204,7 @@ Screens:
                                           DataField: ="dac_Cliente"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, locL4Cliente, ThisItem.Clientes)
                                           DisplayMode: =DisplayMode.View
-                                          DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,dac_Cliente)
+                                          DisplayName: ="Cliente"
                                           Required: =true
                                           Update: =If(frmL4Pedido.Mode = FormMode.New, locL4Cliente, ThisItem.Clientes)
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
@@ -1216,7 +1312,7 @@ Screens:
                                           BorderColor: =nfBorda
                                           DataField: ="dac_datapedido"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, Today(), ThisItem.DataPedido)
-                                          DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,DataPedido)
+                                          DisplayName: ="Data do pedido"
                                           Required: =true
                                           Update: =dteL4PedData.SelectedDate
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
@@ -1303,7 +1399,7 @@ Screens:
                                           DataField: ="dac_estado"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, 'EstadoPedido (Pedidos)'.Pendente, ThisItem.EstadoPedido)
                                           DisplayMode: =If((gblL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente"), DisplayMode.View, Parent.DisplayMode)
-                                          DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,EstadoPedido)
+                                          DisplayName: ="Estado"
                                           Required: =true
                                           Update: =cmbL4PedEstado.Selected.Value
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
@@ -1395,7 +1491,7 @@ Screens:
                                           BorderColor: =nfBorda
                                           DataField: ="dac_valor"
                                           Default: =ThisItem.Valor
-                                          DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,Valor)
+                                          DisplayName: ="Valor (€)"
                                           Required: =false
                                           Update: =Value(txtL4PedValor.Text, "pt-PT")
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - 1, RoundDown(Parent.Width / 2, 0) - 1)
@@ -1484,7 +1580,7 @@ Screens:
                                           BorderColor: =nfBorda
                                           DataField: ="dac_descricao"
                                           Default: =ThisItem.Descrição
-                                          DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,Descrição)
+                                          DisplayName: ="Descrição"
                                           Required: =false
                                           Update: =txtL4PedDescricao.Text
                                           Width: =Parent.Width - 1
@@ -1582,7 +1678,7 @@ Screens:
                                           AlignInContainer: =AlignInContainer.Stretch
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          Height: =36 + 10 + 1 + 10 + conL4cDetData.Height + 10 + conL4cDetEstado.Height + 10 + conL4cDetValor.Height + 10 + conL4cDetDescricao.Height + 10 + lblL4cProcTitulo.Height + 10 + If(lblL4cAguarda.Visible, lblL4cAguarda.Height + 10, 0) + conL4cDetProcessado.Height + 10 + conL4cDetObs.Height + 10 + conL4cDetExecucao.Height + 10 + If(scrL4Pedidos.Size = ScreenSize.Small, 100, 44) + 10 + lblL4cProcNota.Height + 10 + If(conL4cDetLinhaRev.Visible, 1 + 10, 0) + If(lblL4cRevTitulo.Visible, lblL4cRevTitulo.Height + 10, 0) + If(lblL4cDecisao.Visible, lblL4cDecisao.Height + 10, 0) + If(lblL4dDetProposta.Visible, lblL4dDetProposta.Height + 10, 0) + If(lblL4dDetDecisao.Visible, lblL4dDetDecisao.Height + 10, 0) + If(lblL4dDetEspera.Visible, lblL4dDetEspera.Height + 10, 0) + If(lblL4dSoLeitura.Visible, lblL4dSoLeitura.Height + 10, 0) + If(lblL4dComentarioRot.Visible, lblL4dComentarioRot.Height + 10, 0) + If(txtL4dComentario.Visible, 80 + 10, 0) + If(conL4dAcoesGestor.Visible, 44 + 10, 0) + If(conL4dAcoesAdmin.Visible, 44 + 10, 0)
+                                          Height: =Max(36, lblL4cDetCliente.Height) + 10 + 1 + 10 + conL4cDetData.Height + 10 + conL4cDetEstado.Height + 10 + conL4cDetValor.Height + 10 + conL4cDetDescricao.Height + 10 + lblL4cProcTitulo.Height + 10 + If(lblL4cAguarda.Visible, lblL4cAguarda.Height + 10, 0) + conL4cDetProcessado.Height + 10 + conL4cDetObs.Height + 10 + conL4cDetExecucao.Height + 10 + If(scrL4Pedidos.Size = ScreenSize.Small, 100, 44) + 10 + lblL4cProcNota.Height + 10 + If(conL4cDetLinhaRev.Visible, 1 + 10, 0) + If(lblL4cRevTitulo.Visible, lblL4cRevTitulo.Height + 10, 0) + If(lblL4cDecisao.Visible, lblL4cDecisao.Height + 10, 0) + If(lblL4dDetProposta.Visible, lblL4dDetProposta.Height + 10, 0) + If(lblL4dDetDecisao.Visible, lblL4dDetDecisao.Height + 10, 0) + If(lblL4dDetEspera.Visible, lblL4dDetEspera.Height + 10, 0) + If(lblL4dSoLeitura.Visible, lblL4dSoLeitura.Height + 10, 0) + If(lblL4dComentarioRot.Visible, lblL4dComentarioRot.Height + 10, 0) + If(txtL4dComentario.Visible, 80 + 10, 0) + If(conL4dAcoesGestor.Visible, 44 + 10, 0) + If(conL4dAcoesAdmin.Visible, 44 + 10, 0)
                                           LayoutDirection: =LayoutDirection.Vertical
                                           LayoutGap: =10
                                         Children:
@@ -1592,7 +1688,7 @@ Screens:
                                               Properties:
                                                 DropShadow: =DropShadow.None
                                                 FillPortions: =0
-                                                Height: =36
+                                                Height: =Max(36, lblL4cDetCliente.Height)
                                                 LayoutAlignItems: =LayoutAlignItems.Center
                                                 LayoutDirection: =LayoutDirection.Horizontal
                                                 LayoutGap: =12
@@ -1601,15 +1697,13 @@ Screens:
                                                     Control: Label@2.5.1
                                                     Properties:
                                                       AlignInContainer: =AlignInContainer.Center
-                                                      AutoHeight: =false
+                                                      AutoHeight: =true
                                                       Color: =nfTexto
                                                       FillPortions: =1
                                                       FocusedBorderThickness: =2
                                                       FontWeight: =FontWeight.Semibold
-                                                      Height: =32
                                                       Size: =16
                                                       Text: =locL4Pedido.Clientes.Nome
-                                                      Wrap: =false
                                                 - btnL4cTratamento:
                                                     Control: Classic/Button@2.2.0
                                                     Properties:
@@ -2203,113 +2297,6 @@ Screens:
                                                       Size: =14
                                                       Text: ="Aprovar"
                                                       Width: =130
-                              - conL4cTestes:
-                                  Control: GroupContainer@1.5.0
-                                  Variant: AutoLayout
-                                  Properties:
-                                    DropShadow: =DropShadow.None
-                                    FillPortions: =0
-                                    Height: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 44)
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutGap: =8
-                                    LayoutWrap: =true
-                                    Visible: =(gblL4Nivel = "melhoramento" || gblL4Nivel = "revisao") && locL4Modo = "pedido" && locL4Acao = "criar"
-                                  Children:
-                                    - lblL4cTestesRot:
-                                        Control: Label@2.5.1
-                                        Properties:
-                                          AlignInContainer: =AlignInContainer.Center
-                                          AutoHeight: =false
-                                          Color: =nfTextoSuave
-                                          FocusedBorderThickness: =2
-                                          Height: =44
-                                          Text: ="Testes da aula:"
-                                          Width: =110
-                                    - btnL4cTeste100:
-                                        Control: Classic/Button@2.2.0
-                                        Properties:
-                                          BorderColor: =nfAzul
-                                          BorderThickness: =1
-                                          Color: =nfAzul
-                                          Fill: =Color.White
-                                          Height: =44
-                                          HoverColor: =nfAzul
-                                          HoverFill: =nfAzulClaro
-                                          OnSelect: |-
-                                            =UpdateContext({locL4cValorTeste: "100"}); Reset(txtL4PedValor)
-                                          PressedColor: =nfAzul
-                                          PressedFill: =nfAzulClaro
-                                          RadiusBottomLeft: =12
-                                          RadiusBottomRight: =12
-                                          RadiusTopLeft: =12
-                                          RadiusTopRight: =12
-                                          Size: =13
-                                          Text: ="100"
-                                          Width: =72
-                                    - btnL4cTeste500:
-                                        Control: Classic/Button@2.2.0
-                                        Properties:
-                                          BorderColor: =nfAzul
-                                          BorderThickness: =1
-                                          Color: =nfAzul
-                                          Fill: =Color.White
-                                          Height: =44
-                                          HoverColor: =nfAzul
-                                          HoverFill: =nfAzulClaro
-                                          OnSelect: |-
-                                            =UpdateContext({locL4cValorTeste: "500"}); Reset(txtL4PedValor)
-                                          PressedColor: =nfAzul
-                                          PressedFill: =nfAzulClaro
-                                          RadiusBottomLeft: =12
-                                          RadiusBottomRight: =12
-                                          RadiusTopLeft: =12
-                                          RadiusTopRight: =12
-                                          Size: =13
-                                          Text: ="500"
-                                          Width: =72
-                                    - btnL4cTeste750:
-                                        Control: Classic/Button@2.2.0
-                                        Properties:
-                                          BorderColor: =nfAzul
-                                          BorderThickness: =1
-                                          Color: =nfAzul
-                                          Fill: =Color.White
-                                          Height: =44
-                                          HoverColor: =nfAzul
-                                          HoverFill: =nfAzulClaro
-                                          OnSelect: |-
-                                            =UpdateContext({locL4cValorTeste: "750"}); Reset(txtL4PedValor)
-                                          PressedColor: =nfAzul
-                                          PressedFill: =nfAzulClaro
-                                          RadiusBottomLeft: =12
-                                          RadiusBottomRight: =12
-                                          RadiusTopLeft: =12
-                                          RadiusTopRight: =12
-                                          Size: =13
-                                          Text: ="750"
-                                          Width: =72
-                                    - btnL4cTesteSemvalor:
-                                        Control: Classic/Button@2.2.0
-                                        Properties:
-                                          BorderColor: =nfAzul
-                                          BorderThickness: =1
-                                          Color: =nfAzul
-                                          Fill: =Color.White
-                                          Height: =44
-                                          HoverColor: =nfAzul
-                                          HoverFill: =nfAzulClaro
-                                          OnSelect: |-
-                                            =UpdateContext({locL4cValorTeste: "sem"}); Reset(txtL4PedValor)
-                                          PressedColor: =nfAzul
-                                          PressedFill: =nfAzulClaro
-                                          RadiusBottomLeft: =12
-                                          RadiusBottomRight: =12
-                                          RadiusTopLeft: =12
-                                          RadiusTopRight: =12
-                                          Size: =13
-                                          Text: ="Sem valor"
-                                          Width: =120
                               - conL4Rodape:
                                   Control: GroupContainer@1.5.0
                                   Variant: AutoLayout

@@ -170,22 +170,20 @@ def _separadores_processamento() -> dict:
 
 
 def _linha_galeria() -> list:
-    """Terceira linha de cada pedido: a justificação do fluxo e a pílula do tratamento (na Revisão, a da decisão)."""
+    """Uma só pílula por linha, no lugar da do estado do Lab 4: o tratamento do fluxo e, na Revisão, num pedido em revisão,
+    a decisão. A justificação e os restantes dados do processamento ficam no detalhe (conL4cDetalhe), não na lista:
+    com uma terceira linha e duas pílulas, a linha sobrepunha-se e não se lia (24/11/2026, a pedido do utilizador)."""
     t_tr, c_tr, f_tr = _cores_tratamento("ThisItem")
-    t_de, c_de, f_de = B._cores_decisao("ThisItem")
-    dec = f"{R} && ThisItem.Tratamento = {TR}.Revisão && !IsBlank(ThisItem.Decisao)"
-    y = f"If({PEQ}, 90, 72)"
+    _, c_de, f_de = B._cores_decisao("ThisItem")
+    t_de = 'If(IsBlank(ThisItem.Decisao), "Por decidir", Text(ThisItem.Decisao))'
+    dec = f"{R} && ThisItem.Tratamento = {TR}.Revisão"
     return [
-        _ctl("lblL4cGObs", "Label@2.5.1", {
-            "Color": "=nfTextoSuave", "Height": "=24", "OnSelect": "=Select(Parent)", "Size": "=12",
-            "Text": '=Coalesce(ThisItem.ObservacoesProcessamento, If(IsBlank(ThisItem.Tratamento), "Ainda não processado pelo fluxo.", ""))',
-            "Visible": "=" + M, "Width": "=Parent.TemplateWidth - 32 - 158", "Wrap": "=false", "X": "=16", "Y": "=" + y}),
         _ctl("btnL4cGTratamento", "Classic/Button@2.2.0", {
             "BorderThickness": "=0", "Color": f"=If({dec}, {c_de}, {c_tr})", "DisabledColor": "=Self.Color", "DisabledFill": "=Self.Fill",
             "DisplayMode": "=DisplayMode.View", "Fill": f"=If({dec}, {f_de}, {f_tr})", "FontWeight": "=FontWeight.Bold", "Height": "=26",
             "HoverColor": "=Self.Color", "HoverFill": "=Self.Fill", "OnSelect": "=Select(Parent)", "PressedFill": "=Self.Fill",
-            "Size": "=11", "TabIndex": "=-1", "Text": f"=If({dec}, {t_de}, {t_tr})", "Visible": "=" + M, "Width": "=150",
-            "X": "=Parent.TemplateWidth - Self.Width - 16", "Y": f"=If({PEQ}, 89, 71)", **_raio(13)}),
+            "Size": "=11", "TabIndex": "=-1", "Text": f"=If({dec}, {t_de}, {t_tr})", "Visible": "=" + M,
+            "Width": f"=If({PEQ}, 128, 140)", "X": "=Parent.TemplateWidth - Self.Width - 16", "Y": "=42", **_raio(13)}),
     ]
 
 
@@ -244,10 +242,11 @@ def _revisao_no_detalhe() -> list:
 def _detalhe() -> dict:
     tem_rev = f"({EM_REVISAO} || !IsBlank({P}.Decisao))"
     cab = _contentor("conL4cDetCab", [
-        _etiqueta("lblL4cDetCliente", f"{P}.Clientes.Nome", AlignInContainer="=AlignInContainer.Center", AutoHeight="=false",
-                  FillPortions="=1", FontWeight="=FontWeight.Semibold", Height="=32", Size="=16", Wrap="=false"),
+        _etiqueta("lblL4cDetCliente", f"{P}.Clientes.Nome", AlignInContainer="=AlignInContainer.Center", FillPortions="=1",
+                  FontWeight="=FontWeight.Semibold", Size="=16"),
         _pilula_tratamento("btnL4cTratamento", P, AlignInContainer="=AlignInContainer.Center"),
-    ], vertical=False, FillPortions="=0", Height="=36", LayoutAlignItems="=LayoutAlignItems.Center", LayoutGap="=12")
+    ], vertical=False, FillPortions="=0", Height="=Max(36, lblL4cDetCliente.Height)", LayoutAlignItems="=LayoutAlignItems.Center",
+       LayoutGap="=12")
     filhos = [
         cab,
         B._linha("conL4cDetLinha", "nfLinha"),
@@ -279,7 +278,7 @@ def _detalhe() -> dict:
     ]
     # Altura do conteúdo calculada pelos filhos, dentro de um contentor que desloca. Com os filhos direto no contentor
     # que desloca, o Studio encolhia as etiquetas de várias linhas até à altura mínima (primeira colagem, 24/11/2026).
-    fixas = {"conL4cDetCab": "36", "conL4cDetLinha": "1", "conL4cDetLinhaRev": "1", "txtL4dComentario": "80",
+    fixas = {"conL4cDetCab": "Max(36, lblL4cDetCliente.Height)", "conL4cDetLinha": "1", "conL4cDetLinhaRev": "1", "txtL4dComentario": "80",
              "conL4dAcoesGestor": "44", "conL4dAcoesAdmin": "44", "conL4cAcoes": f"If({PEQ}, 100, 44)"}
     partes = []
     for f in filhos:
@@ -294,12 +293,15 @@ def _detalhe() -> dict:
 
 def _testes() -> dict:
     def teste(valor: str, texto: str, largura: int) -> dict:
+        # Sem Reset(txtL4PedValor): um controlo dentro de um formulário só se repõe a partir do próprio formulário
+        # (erro em execução, 24/11/2026). Limpar e voltar a pôr a variável muda o Default duas vezes, e a caixa segue-o.
         return _botao(f"btnL4cTeste{texto.replace(' ', '')}", _s(texto),
-                      f'UpdateContext({{locL4cValorTeste: "{valor}"}}); Reset(txtL4PedValor)', primario=False, BorderThickness="=1",
+                      f'UpdateContext({{locL4cValorTeste: ""}}); UpdateContext({{locL4cValorTeste: "{valor}"}})', primario=False,
+                      BorderThickness="=1",
                       Size="=13", Width=f"={largura}")
     return _contentor("conL4cTestes", [
-        _etiqueta("lblL4cTestesRot", _s("Testes da aula:"), AlignInContainer="=AlignInContainer.Center", AutoHeight="=false",
-                  Color="=nfTextoSuave", Height="=44", Size="=13", Width="=110"),
+        _etiqueta("lblL4cTestesRot", _s("Valor de teste:"), AlignInContainer="=AlignInContainer.Center", AutoHeight="=false",
+                  Color="=nfTextoSuave", Height="=44", Size="=13", Width="=120", Wrap="=false"),
         teste("100", "100", 72), teste("500", "500", 72), teste("750", "750", 72), teste("sem", "Sem valor", 120),
     ], vertical=False, FillPortions="=0", Height=f"=If({PEQ}, 96, 44)", LayoutAlignItems="=LayoutAlignItems.Center",
        LayoutGap="=8", LayoutWrap="=true", Visible=f'={M} && locL4Modo = "pedido" && locL4Acao = "criar"')
@@ -320,7 +322,7 @@ def _cabecalho_revisao() -> list:
                          Width="=36", **_raio(18))
     quem = _ctl("lblL4dQuem", "Label@2.5.1", {
         "Color": "=Color.White", "FocusedBorderThickness": "=2", "Height": "=44", "Size": "=14", "Text": f"={SES}.nome",
-        "Visible": f"={R} && {ECRA}.Size > ScreenSize.Small", "Width": "=Min(220, Len(Self.Text) * 9 + 8)", "Wrap": "=false"})
+        "Visible": f"={R} && {ECRA}.Size > ScreenSize.Small", "Width": "=Min(260, Len(Self.Text) * 10 + 16)", "Wrap": "=false"})
     perfil = B._pilula("btnL4dPerfil", PERF, "nfAzul", "nfAzulClaro", Visible=f"={R} && {ECRA}.Size > ScreenSize.Small", Width="=76")
 
     def icone(nome: str, icon: str, rotulo: str, area: str, visivel: str) -> dict:
@@ -401,9 +403,9 @@ PROPRIEDADES = {
     "lblL4PainelTitulo": {"Text": PAINEL_TITULO},
     "lblL4Resumo": {"Text": RESUMO},
     "galL4Pedidos": {"Items": ITENS, "OnSelect": SELECIONAR,
-                     "TemplateSize": f"=If({PEQ}, 96, 80) + If({M}, 32, 0)"},
+                     "TemplateSize": f"=If({PEQ}, 96, 80)"},
+    "btnL4PedEstado": {"Visible": f"=!{M}"},
     "frmL4Pedido": {"OnSuccess": CRIADO},
-    "Estado (dac_estado)_DataCard1": {"DisplayMode": f"=If({CLI}, DisplayMode.View, Parent.DisplayMode)"},
     "txtL4PedValor": {"Default": VALOR_DEFAULT},
     "btnL4RemoverCliente": {"Visible": f"=IsBlank(locL4Modo) && !IsBlank(locL4Cliente) && !{CLI}"},
     "btnL4EditarCliente": {"Visible": f"=IsBlank(locL4Modo) && !IsBlank(locL4Cliente) && !{CLI}"},
@@ -413,6 +415,12 @@ PROPRIEDADES = {
     "btnL4Cancelar": {"OnSelect": CANCELAR, "Visible": EM_FORMULARIO},
     "btnL4Guardar": {"Visible": EM_FORMULARIO},
     "conL4Mensagem": {"Height": "=Max(56, lblL4Mensagem.Height + 32)"},
+    # rótulos do formulário do pedido: os nomes de apresentação do Dataverse (Clientes, DataPedido, EstadoPedido)
+    "Cliente_DataCard1": {"DisplayName": '="Cliente"'},
+    "DataPedido_DataCard1": {"DisplayName": '="Data do pedido"'},
+    "Estado (dac_estado)_DataCard1": {"DisplayMode": f"=If({CLI}, DisplayMode.View, Parent.DisplayMode)", "DisplayName": '="Estado"'},
+    "Valor_DataCard1": {"DisplayName": '="Valor (€)"'},
+    "Descricao_DataCard1": {"DisplayName": '="Descrição"'},
     "lblL4Mensagem": {"AutoHeight": "=true"},
 }
 
@@ -456,7 +464,7 @@ def migrar_pedidos(doc: dict) -> None:
     painel = _filhos(doc, "conL4Painel")
     _por(painel, _separadores_processamento(), "conL4Separadores")
     _por(painel, _detalhe(), "frmL4Pedido")
-    _por(painel, _testes(), "conL4cDetalhe")
+    _por(painel, _testes(), "frmL4Cliente")    # por cima do formulário do pedido, junto ao título
     rodape = _filhos(doc, "conL4Rodape")
     _por(rodape, _rodape("btnL4cEditar", _s("Editar pedido"),
                          'UpdateContext({locL4Modo: "pedido", locL4Acao: "editar", locL4cAguardar: false, locL4cValorTeste: ""}); '
@@ -465,6 +473,7 @@ def migrar_pedidos(doc: dict) -> None:
                          'locL4Modo = "detalhe"'), no_inicio=True)
     # linha de cada pedido: justificação e tratamento
     linha = _filhos(doc, "galL4Pedidos")
+    linha[:] = [x for x in linha if "lblL4cGObs" not in x]    # terceira linha da primeira versão da v1.7.0
     for novo in _linha_galeria():
         _por(linha, novo, "btnL4PedEstado")
     # consulta ao estado depois de criar

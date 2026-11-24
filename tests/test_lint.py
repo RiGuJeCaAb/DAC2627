@@ -186,3 +186,19 @@ def test_combobox_fora_de_formulario_avisa_e_dentro_nao():
                               _c("drpL1Cliente", "Classic/DropDown@2.3.1", {"Items": "=Sort(Clientes, Nome)", "Items.Value": "=Nome"})]),
     }).correr() if a.regra == "DAC407"]
     assert sorted(r) == ["scrL1A.cmbL1Colecao", "scrL1A.cmbL1Tabela"]
+
+
+def test_reset_de_controlo_de_formulario_feito_de_fora():
+    caixa = {"txtL1Valor": {"Control": "Classic/TextInput@2.3.2", "Properties": {"AccessibleLabel": '="Valor"', "TabIndex": "=0"}}}
+    repor_dentro = {"btnL1Dentro": {"Control": "Classic/Button@2.2.0",
+                                    "Properties": {"OnSelect": "=Reset(txtL1Valor)", "TabIndex": "=0", "Text": '="A"'}}}
+    cartao = _c("Valor_DataCard1", "TypedDataCard@1.0.7", {}, [caixa, repor_dentro])
+    form = _c("frmL1Pedido", "Form@2.4.4", {"DataSource": "=Pedidos"}, [cartao])
+    fora = {"btnL1Fora": {"Control": "Classic/Button@2.2.0",
+                          "Properties": {"OnSelect": "=UpdateContext({locX: 1}); Reset(txtL1Valor)", "TabIndex": "=0", "Text": '="B"'}}}
+    livre = {"txtL1Livre": {"Control": "Classic/TextInput@2.3.2", "Properties": {"AccessibleLabel": '="Livre"', "TabIndex": "=0"}}}
+    repor_livre = {"btnL1Livre": {"Control": "Classic/Button@2.2.0",
+                                  "Properties": {"OnSelect": "=Reset(txtL1Livre)", "TabIndex": "=0", "Text": '="C"'}}}
+    r = [a.onde for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", [form, fora, livre, repor_livre])}).correr()
+         if a.regra == "DAC408"]
+    assert r == ["scrL1A.btnL1Fora.OnSelect"]

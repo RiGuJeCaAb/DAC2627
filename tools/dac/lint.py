@@ -41,6 +41,7 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC405": (ERRO, "Propriedade que o Studio não conhece neste tipo de controlo"),
     "DAC407": (AVISO, "Caixa de combinação clássica fora de formulário: a lista abre vazia depois de carregar a app"),
     "DAC406": (ERRO, "Navigate no OnVisible de um ecrã ou no App.OnStart: o Studio não aceita"),
+    "DAC408": (ERRO, "Reset de um controlo de formulário ou galeria feito de fora desse formulário ou galeria"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
     "DAC503": (AVISO, "Sombra dentro de sombra"),
@@ -178,6 +179,7 @@ class Analise:
         self._propriedades()
         self._navegacao()
         self._escolhas()
+        self._repor()
         self._layout()
         self._excecoes()
         ordem = {ERRO: 0, AVISO: 1, INFO: 2}
@@ -389,6 +391,35 @@ class Analise:
             if c.tipo == "ComboBox" and not c.dentro_de_formulario:
                 self._add("DAC407", f"{c.ecra}.{c.nome}",
                           "use Classic/DropDown com Items, Items.Value e AllowEmptySelection = true")
+
+    def _repor(self):
+        """DAC408: Reset(X) com X dentro de um formulário ou de uma galeria só é aceite a partir do mesmo formulário ou
+        galeria. Fora deles a app dá erro em execução («A função Reset só pode ser utilizada com um controlo
+        reinicializável»), sem aviso no Studio (botões de teste do valor da Ficha 04, 24/11/2026). Para mudar o valor,
+        mude o Default (por exemplo, por uma variável); para repor o formulário, ResetForm."""
+        por_nome = {c.nome: c for c in self.todos}
+
+        def contentor(c):
+            p = c.pai
+            while p is not None:
+                if p.tipo in ("Form", "Gallery"):
+                    return p.nome
+                p = p.pai
+            return None
+        for c in self.todos:
+            for prop, fx in (c.props or {}).items():
+                try:
+                    cod = pafx.so_codigo(_fx(fx))
+                except pafx.ErroLexico:
+                    continue
+                for alvo in re.findall(r"\bReset\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)", cod):
+                    x = por_nome.get(alvo)
+                    if x is None:
+                        continue
+                    dono = contentor(x)
+                    if dono and dono != c.nome and contentor(c) != dono:
+                        self._add("DAC408", f"{c.ecra}.{c.nome}.{prop}",
+                                  f"{alvo} está dentro de {dono}: mude o Default por uma variável ou use ResetForm({dono})")
 
     # ----- DAC5xx -----
     # o YAML e a exportação nem sempre dão o mesmo nome ao tipo

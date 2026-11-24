@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-11 ecrãs e 557 controlos.
+11 ecrãs e 556 controlos.
 
 ## Navegação
 
@@ -47,7 +47,7 @@ flowchart LR
 | `scrL3Lista` | 39 | Label 12, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
-| `scrL4Pedidos` | 209 | Label 84, Button 42, GroupContainer 37, TextInput 14 | `gblL4Nivel`, `gblL4dSessao`, `locL4Acao`, `locL4Area`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista`, `locL4cAguardar`, `locL4cTentativas`, `locL4cValorTeste`, `locL4dUtil` | — |
+| `scrL4Pedidos` | 208 | Label 83, Button 42, GroupContainer 37, TextInput 14 | `gblL4Nivel`, `gblL4dSessao`, `locL4Acao`, `locL4Area`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista`, `locL4cAguardar`, `locL4cTentativas`, `locL4cValorTeste`, `locL4dUtil` | — |
 | `scrL4Complemento` | 91 | Label 75, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
 | `scrL4Entrar` | 33 | Label 15, GroupContainer 11, Icon 3, TextInput 2 | `gblL4Nivel`, `gblL4dSessao`, `locL4dAEntrar`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer` | — |
 
@@ -363,7 +363,6 @@ conEcraL4  [GroupContainer/AutoLayout]
           lblL4PedValor  [Label]
           btnL4PedEstado  [Button]
           btnL4cGTratamento  [Button]
-          lblL4cGObs  [Label]
           recL4PedSeparador  [Rectangle]
         frmL4Cliente  [Form/Classic]
           Nome_DataCard1  [TypedDataCard/ClassicTextualEdit]
@@ -386,6 +385,12 @@ conEcraL4  [GroupContainer/AutoLayout]
             txtL4CliTelefone  [TextInput]
             ErrorMessage8  [Label]
             StarVisible8  [Label]
+        conL4cTestes  [GroupContainer/AutoLayout]
+          lblL4cTestesRot  [Label]
+          btnL4cTeste100  [Button]
+          btnL4cTeste500  [Button]
+          btnL4cTeste750  [Button]
+          btnL4cTesteSemvalor  [Button]
         frmL4Pedido  [Form/Classic]
           Cliente_DataCard1  [TypedDataCard/ClassicComboBoxEdit]
             DataCardKey22  [Label]
@@ -461,12 +466,6 @@ conEcraL4  [GroupContainer/AutoLayout]
             conL4dAcoesAdmin  [GroupContainer/AutoLayout]
               btnL4dRejeitar  [Button]
               btnL4dAprovar  [Button]
-        conL4cTestes  [GroupContainer/AutoLayout]
-          lblL4cTestesRot  [Label]
-          btnL4cTeste100  [Button]
-          btnL4cTeste500  [Button]
-          btnL4cTeste750  [Button]
-          btnL4cTesteSemvalor  [Button]
         conL4Rodape  [GroupContainer/AutoLayout]
           btnL4cVoltar  [Button]
           btnL4cEditar  [Button]
