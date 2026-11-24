@@ -1094,14 +1094,14 @@ Screens:
                                     ChevronBackground: =nfAzul
                                     ChevronFill: =Color.White
                                     DefaultSelectedItems: =Blank()
-                                    DisplayFields: =["dac_nome"]
+                                    DisplayFields: =["NomeCliente"]
                                     Height: =48
                                     HoverFill: =nfAzulFundo
                                     InputTextPlaceholder: ="Escolher o cliente"
-                                    Items: =Sort(Clientes, Nome)
+                                    Items: =AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)
                                     PressedColor: =Color.White
                                     PressedFill: =nfAzul
-                                    SearchFields: =["dac_nome"]
+                                    SearchFields: =["NomeCliente"]
                                     SelectMultiple: =false
                                     SelectionColor: =Color.White
                                     SelectionFill: =nfAzul
@@ -1175,7 +1175,7 @@ Screens:
                                           UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: "Preencha o cliente, o valor e a descrição."}),
                                           IfError(
                                               UpdateContext({locL4dNovoPedido: Patch(Pedidos, Defaults(Pedidos), {
-                                                  Clientes: If(gblL4dSessao.perfil = "Cliente", LookUp(Clientes, Cliente = GUID(gblL4dSessao.clienteid)), cmbL4dCliente.Selected),
+                                                  Clientes: If(gblL4dSessao.perfil = "Cliente", LookUp(Clientes, Cliente = GUID(gblL4dSessao.clienteid)), LookUp(Clientes, Cliente = cmbL4dCliente.Selected.Cliente)),
                                                   DataPedido: Today(),
                                                   EstadoPedido: 'EstadoPedido (Pedidos)'.Pendente,
                                                   Valor: Value(txtL4dValor.Text),
@@ -1469,15 +1469,15 @@ Screens:
                                           BorderColor: =nfBorda
                                           ChevronBackground: =nfAzul
                                           ChevronFill: =Color.White
-                                          DefaultSelectedItems: =If(IsBlank(locL4dUtil.Cliente), Blank(), [locL4dUtil.Cliente])
-                                          DisplayFields: =["dac_nome"]
+                                          DefaultSelectedItems: =If(IsBlank(locL4dUtil.Cliente), Blank(), AddColumns(Filter(Clientes, Cliente = locL4dUtil.Cliente.Cliente), NomeCliente, Nome))
+                                          DisplayFields: =["NomeCliente"]
                                           Height: =48
                                           HoverFill: =nfAzulFundo
                                           InputTextPlaceholder: ="Escolher o cliente"
-                                          Items: =Sort(Clientes, Nome)
+                                          Items: =AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)
                                           PressedColor: =Color.White
                                           PressedFill: =nfAzul
-                                          SearchFields: =["dac_nome"]
+                                          SearchFields: =["NomeCliente"]
                                           SelectMultiple: =false
                                           SelectionColor: =Color.White
                                           SelectionFill: =nfAzul
@@ -1528,7 +1528,7 @@ Screens:
                                                               Nome: Trim(txtL4dUtilNome.Text),
                                                               Email: Lower(Trim(txtL4dUtilEmail.Text)),
                                                               Perfil: cmbL4dUtilPerfil.Selected.Value,
-                                                              Cliente: If(cmbL4dUtilPerfil.Selected.Value = 'Perfil (Utilizadores)'.Cliente, cmbL4dUtilCliente.Selected, Blank()),
+                                                              Cliente: If(cmbL4dUtilPerfil.Selected.Value = 'Perfil (Utilizadores)'.Cliente, LookUp(Clientes, Cliente = cmbL4dUtilCliente.Selected.Cliente), Blank()),
                                                               Ativo: chkL4dUtilAtivo.Value
                                                           })}),
                                                           UpdateContext({locL4dMsgTipo: "erro", locL4dTimer: false, locL4dMsg: "Não foi possível guardar (o email já existe?). " & FirstError.Message}),

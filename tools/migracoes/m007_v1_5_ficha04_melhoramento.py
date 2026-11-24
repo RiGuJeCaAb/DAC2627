@@ -43,6 +43,13 @@ TEM = f"!IsBlank({P})"
 ALINHAR = f"=If({PEQ}, AlignInContainer.Stretch, AlignInContainer.Start)"
 
 
+
+# Caixa de escolha do cliente fora de formulário (24/11/2026). Com Items = Clientes ou Choices([@Pedidos].dac_Cliente)
+# e DisplayFields = ["dac_nome"], a lista abria com as linhas mas sem texto, na app publicada e no Studio.
+# Uma coluna acrescentada com AddColumns mostra o nome. O Sort e o filtro correm no Dataverse e o AddColumns
+# sobre o resultado, por isso a lista vê até ao limite de linhas da app (500 por omissão), que chega para os clientes.
+ITENS_CLIENTES = "AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)"
+
 def _ctl(nome: str, controlo: str, props: dict, filhos: list | None = None, variante: str | None = None) -> dict:
     corpo: dict = {"Control": controlo}
     if variante:
@@ -156,9 +163,9 @@ def _novo() -> dict:
         _ctl("cmbL4cCliente", "Classic/ComboBox@2.4.0", {
             "AccessibleLabel": '="Cliente do pedido"', "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight",
             "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White",
-            "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["dac_nome"]', "Height": "=48",
-            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Sort(Clientes, Nome)",
-            "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["dac_nome"]',
+            "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["NomeCliente"]', "Height": "=48",
+            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=" + ITENS_CLIENTES,
+            "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["NomeCliente"]',
             "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0"}),
         _rotulo("lblL4cValorRot", "Valor (€)"),
         _ctl("txtL4cValor", "Classic/TextInput@2.3.2", {

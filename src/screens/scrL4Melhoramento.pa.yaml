@@ -155,14 +155,14 @@ Screens:
                                     ChevronBackground: =nfAzul
                                     ChevronFill: =Color.White
                                     DefaultSelectedItems: =Blank()
-                                    DisplayFields: =["dac_nome"]
+                                    DisplayFields: =["NomeCliente"]
                                     Height: =48
                                     HoverFill: =nfAzulFundo
                                     InputTextPlaceholder: ="Escolher o cliente"
-                                    Items: =Sort(Clientes, Nome)
+                                    Items: =AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)
                                     PressedColor: =Color.White
                                     PressedFill: =nfAzul
-                                    SearchFields: =["dac_nome"]
+                                    SearchFields: =["NomeCliente"]
                                     SelectMultiple: =false
                                     SelectionColor: =Color.White
                                     SelectionFill: =nfAzul

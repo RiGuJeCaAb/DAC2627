@@ -173,13 +173,15 @@ def test_navigate_no_onvisible_e_no_onstart():
     assert r == [("DAC406", "App.OnStart"), ("DAC406", "scrL1A.OnVisible")]
 
 
-def test_choices_de_pesquisa_em_combobox_fora_de_formulario():
+def test_combobox_com_registos_do_dataverse_precisa_de_coluna_acrescentada():
     def cmb(nome, items):
         return {nome: {"Control": "Classic/ComboBox@2.4.0",
                        "Properties": {"AccessibleLabel": '="Cliente"', "Items": items, "TabIndex": "=0"}}}
-    r = [(a.regra, a.onde) for a in lint.Analise({
+    cfg = lint.Config(fontes_dataverse=["Cloud Service", "Clientes", "Pedidos"])
+    r = [a.onde for a in lint.Analise({
         "a": _app(),
-        "b": _ecra("scrL1A", [cmb("cmbL1Mau", "=Choices([@Pedidos].dac_Cliente)"), cmb("cmbL1Bom", "=Sort(Clientes, Nome)"),
+        "b": _ecra("scrL1A", [cmb("cmbL1Choices", "=Choices([@Pedidos].dac_Cliente)"), cmb("cmbL1Tabela", "=Sort(Clientes, Nome)"),
+                              cmb("cmbL1Bom", "=AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)"),
                               cmb("cmbL1Escolha", "=Choices('Estado (Pedidos)')")]),
-    }).correr() if a.regra == "DAC407"]
-    assert r == [("DAC407", "scrL1A.cmbL1Mau.Items")]
+    }, cfg).correr() if a.regra == "DAC407"]
+    assert r == ["scrL1A.cmbL1Choices.Items", "scrL1A.cmbL1Tabela.Items"]

@@ -34,6 +34,7 @@ from pathlib import Path
 
 from tools.dac import projeto, yamlio
 from tools.migracoes.m007_v1_5_ficha04_melhoramento import (
+    ITENS_CLIENTES,
     _botao, _cartao, _contentor, _ctl, _etiqueta, _raio, _rotulo, _s,
 )
 
@@ -414,7 +415,7 @@ REGISTAR = (
     f"    {_msg('erro', _s('Preencha o cliente, o valor e a descrição.'))},\n"
     "    IfError(\n"
     "        UpdateContext({locL4dNovoPedido: Patch(Pedidos, Defaults(Pedidos), {\n"
-    f'            Clientes: If({PERF} = "Cliente", LookUp(Clientes, Cliente = GUID({SES}.clienteid)), cmbL4dCliente.Selected),\n'
+    f'            Clientes: If({PERF} = "Cliente", LookUp(Clientes, Cliente = GUID({SES}.clienteid)), LookUp(Clientes, Cliente = cmbL4dCliente.Selected.Cliente)),\n'
     "            DataPedido: Today(),\n"
     "            EstadoPedido: 'EstadoPedido (Pedidos)'.Pendente,\n"
     "            Valor: Value(txtL4dValor.Text),\n"
@@ -439,9 +440,9 @@ def _vista_registar() -> dict:
         _ctl("cmbL4dCliente", "Classic/ComboBox@2.4.0", {
             "AccessibleLabel": '="Cliente do pedido"', "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight",
             "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White",
-            "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["dac_nome"]', "Height": "=48",
-            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Sort(Clientes, Nome)",
-            "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["dac_nome"]',
+            "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["NomeCliente"]', "Height": "=48",
+            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=" + ITENS_CLIENTES,
+            "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["NomeCliente"]',
             "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0",
             "Visible": f'={PERF} <> "Cliente"'}),
         _rotulo("lblL4dRegValorRot", "Valor (€)"),
@@ -475,7 +476,7 @@ GUARDAR_UTIL = (
     "            Nome: Trim(txtL4dUtilNome.Text),\n"
     "            Email: Lower(Trim(txtL4dUtilEmail.Text)),\n"
     "            Perfil: cmbL4dUtilPerfil.Selected.Value,\n"
-    f"            Cliente: If(cmbL4dUtilPerfil.Selected.Value = {PU}.Cliente, cmbL4dUtilCliente.Selected, Blank()),\n"
+    f"            Cliente: If(cmbL4dUtilPerfil.Selected.Value = {PU}.Cliente, LookUp(Clientes, Cliente = cmbL4dUtilCliente.Selected.Cliente), Blank()),\n"
     "            Ativo: chkL4dUtilAtivo.Value\n"
     "        })}),\n"
     f"        {_msg('erro', '\"Não foi possível guardar (o email já existe?). \" & FirstError.Message')},\n"
@@ -553,9 +554,9 @@ def _vista_utilizadores() -> dict:
         _rotulo("lblL4dUtilClienteRot", "Cliente associado"),
         _ctl("cmbL4dUtilCliente", "Classic/ComboBox@2.4.0", {
             **combo, "AccessibleLabel": '="Cliente associado ao utilizador"',
-            "DefaultSelectedItems": f"=If(IsBlank({U}.Cliente), Blank(), [{U}.Cliente])", "DisplayFields": '=["dac_nome"]',
-            "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Sort(Clientes, Nome)",
-            "SearchFields": '=["dac_nome"]', "Visible": "=" + e_cliente}),
+            "DefaultSelectedItems": f"=If(IsBlank({U}.Cliente), Blank(), AddColumns(Filter(Clientes, Cliente = {U}.Cliente.Cliente), NomeCliente, Nome))", "DisplayFields": '=["NomeCliente"]',
+            "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=" + ITENS_CLIENTES,
+            "SearchFields": '=["NomeCliente"]', "Visible": "=" + e_cliente}),
         _ctl("chkL4dUtilAtivo", "Classic/CheckBox@2.1.0", {
             "AlignInContainer": "=AlignInContainer.Stretch", "BorderColor": "=nfBorda", "CheckboxSize": "=24", "CheckmarkFill": "=nfTexto",
             "Color": "=nfTexto", "Default": f"=If(IsBlank({U}), true, {U}.Ativo)", "Height": "=44", "HoverColor": "=nfAzul", "Size": "=14",
