@@ -44,11 +44,6 @@ ALINHAR = f"=If({PEQ}, AlignInContainer.Stretch, AlignInContainer.Start)"
 
 
 
-# Caixa de escolha do cliente fora de formulário (24/11/2026). Com Items = Clientes ou Choices([@Pedidos].dac_Cliente)
-# e DisplayFields = ["dac_nome"], a lista abria com as linhas mas sem texto, na app publicada e no Studio.
-# Uma coluna acrescentada com AddColumns mostra o nome. O Sort e o filtro correm no Dataverse e o AddColumns
-# sobre o resultado, por isso a lista vê até ao limite de linhas da app (500 por omissão), que chega para os clientes.
-ITENS_CLIENTES = "AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)"
 
 def _ctl(nome: str, controlo: str, props: dict, filhos: list | None = None, variante: str | None = None) -> dict:
     corpo: dict = {"Control": controlo}
@@ -125,14 +120,33 @@ def _pilula(nome: str, alvo: str, **extra) -> dict:
     return _ctl(nome, "Classic/Button@2.2.0", p)
 
 
+# Escolha do cliente fora de formulário (24/11/2026). A caixa de combinação clássica (ComboBox) fora de um formulário
+# abria a lista vazia depois de carregar a app, na app publicada e no Studio, com qualquer origem: Choices([@Pedidos].dac_Cliente),
+# Sort(Clientes, Nome), AddColumns(...) e até uma coleção com os 30 nomes. Só funcionava na sessão em que a fórmula era editada.
+# A lista pendente clássica (DropDown), já usada nas Fichas 02 e 03, mostra os clientes depois de recarregar (testado no Studio).
+# O Sort corre no Dataverse e a lista vê até ao limite de linhas da app (500 por omissão), que chega para os clientes.
+CLIENTES = "Sort(Clientes, Nome)"
+
+
+def lista_pendente(nome: str, rotulo: str, itens: str, campo: str, **extra) -> dict:
+    """Lista pendente clássica que começa sem escolha (AllowEmptySelection), com o aspeto das caixas de texto."""
+    props = {"AccessibleLabel": "=" + _s(rotulo), "AllowEmptySelection": "=true", "BorderColor": "=nfBorda",
+             "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White", "Default": "=Blank()", "Height": "=48",
+             "HoverFill": "=nfAzulFundo", "Items": "=" + itens, "Items.Value": "=" + campo, "PressedColor": "=Color.White",
+             "PressedFill": "=nfAzul", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0",
+             "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight"}
+    props.update({k: v for k, v in extra.items()})
+    return _ctl(nome, "Classic/DropDown@2.3.1", props)
+
+
 # ---------------------------------------------------------------- 1 · Registar um pedido
 REGISTAR = (
     "If(\n"
-    "    IsBlank(cmbL4cCliente.Selected) || IsBlank(Trim(txtL4cDescricao.Text)) || (!chkL4cSemValor.Value && IsBlank(txtL4cValor.Text)),\n"
+    "    IsBlank(drpL4cCliente.Selected.Cliente) || IsBlank(Trim(txtL4cDescricao.Text)) || (!chkL4cSemValor.Value && IsBlank(txtL4cValor.Text)),\n"
     '    UpdateContext({locL4cMsgTipo: "erro", locL4cTimer: false, locL4cMsg: "Escolha o cliente e preencha o valor e a descrição."}),\n'
     "    IfError(\n"
     "        UpdateContext({locL4cPedido: Patch(Pedidos, Defaults(Pedidos), {\n"
-    "            Clientes: cmbL4cCliente.Selected,\n"
+    "            Clientes: LookUp(Clientes, Cliente = drpL4cCliente.Selected.Cliente),\n"
     "            DataPedido: Today(),\n"
     "            EstadoPedido: 'EstadoPedido (Pedidos)'.Pendente,\n"
     "            Valor: If(chkL4cSemValor.Value, Blank(), Value(txtL4cValor.Text)),\n"
@@ -160,13 +174,7 @@ def _novo() -> dict:
     filhos = [
         _etiqueta("lblL4cNovoTitulo", _s("1 · Registar um pedido"), Color="=nfAzul", FontWeight="=FontWeight.Bold", Size="=18"),
         _rotulo("lblL4cClienteRot", "Cliente"),
-        _ctl("cmbL4cCliente", "Classic/ComboBox@2.4.0", {
-            "AccessibleLabel": '="Cliente do pedido"', "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight",
-            "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White",
-            "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["NomeCliente"]', "Height": "=48",
-            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=" + ITENS_CLIENTES,
-            "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["NomeCliente"]',
-            "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0"}),
+        lista_pendente("drpL4cCliente", "Cliente do pedido", CLIENTES, "Nome"),
         _rotulo("lblL4cValorRot", "Valor (€)"),
         _ctl("txtL4cValor", "Classic/TextInput@2.3.2", {
             "AccessibleLabel": '="Valor do pedido em euros"', "AlignInContainer": "=AlignInContainer.Stretch",
@@ -342,7 +350,7 @@ INTRO = ("Lab 4 com o processamento da aula 7. A app grava o pedido no Dataverse
 
 ON_VISIBLE = ('=UpdateContext({locL4cPedido: Blank(), locL4cAguardar: false, locL4cTentativas: 0, locL4cFiltro: "todos", '
               'locL4cValorTeste: "", locL4cMsg: "", locL4cMsgTipo: "", locL4cTimer: false});\n'
-              "Reset(cmbL4cCliente);\nReset(txtL4cValor);\nReset(txtL4cDescricao);\nReset(chkL4cSemValor)")
+              "Reset(drpL4cCliente);\nReset(txtL4cValor);\nReset(txtL4cDescricao);\nReset(chkL4cSemValor)")
 
 SONDAR = (
     "=Refresh(Pedidos);\n"

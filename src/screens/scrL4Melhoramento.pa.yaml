@@ -12,7 +12,7 @@ Screens:
       Fill: =nfFundo
       OnVisible: |-
         =UpdateContext({locL4cPedido: Blank(), locL4cAguardar: false, locL4cTentativas: 0, locL4cFiltro: "todos", locL4cValorTeste: "", locL4cMsg: "", locL4cMsgTipo: "", locL4cTimer: false});
-        Reset(cmbL4cCliente);
+        Reset(drpL4cCliente);
         Reset(txtL4cValor);
         Reset(txtL4cDescricao);
         Reset(chkL4cSemValor)
@@ -147,23 +147,21 @@ Screens:
                                     FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Text: ="Cliente"
-                              - cmbL4cCliente:
-                                  Control: Classic/ComboBox@2.4.0
+                              - drpL4cCliente:
+                                  Control: Classic/DropDown@2.3.1
                                   Properties:
                                     AccessibleLabel: ="Cliente do pedido"
+                                    AllowEmptySelection: =true
                                     BorderColor: =nfBorda
                                     ChevronBackground: =nfAzul
                                     ChevronFill: =Color.White
-                                    DefaultSelectedItems: =Blank()
-                                    DisplayFields: =["NomeCliente"]
+                                    Default: =Blank()
                                     Height: =48
                                     HoverFill: =nfAzulFundo
-                                    InputTextPlaceholder: ="Escolher o cliente"
-                                    Items: =AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)
+                                    Items: =Sort(Clientes, Nome)
+                                    Items.Value: =Nome
                                     PressedColor: =Color.White
                                     PressedFill: =nfAzul
-                                    SearchFields: =["NomeCliente"]
-                                    SelectMultiple: =false
                                     SelectionColor: =Color.White
                                     SelectionFill: =nfAzul
                                     TabIndex: =0
@@ -330,11 +328,11 @@ Screens:
                                     HoverFill: =nfAzul
                                     OnSelect: |-
                                       =If(
-                                          IsBlank(cmbL4cCliente.Selected) || IsBlank(Trim(txtL4cDescricao.Text)) || (!chkL4cSemValor.Value && IsBlank(txtL4cValor.Text)),
+                                          IsBlank(drpL4cCliente.Selected.Cliente) || IsBlank(Trim(txtL4cDescricao.Text)) || (!chkL4cSemValor.Value && IsBlank(txtL4cValor.Text)),
                                           UpdateContext({locL4cMsgTipo: "erro", locL4cTimer: false, locL4cMsg: "Escolha o cliente e preencha o valor e a descrição."}),
                                           IfError(
                                               UpdateContext({locL4cPedido: Patch(Pedidos, Defaults(Pedidos), {
-                                                  Clientes: cmbL4cCliente.Selected,
+                                                  Clientes: LookUp(Clientes, Cliente = drpL4cCliente.Selected.Cliente),
                                                   DataPedido: Today(),
                                                   EstadoPedido: 'EstadoPedido (Pedidos)'.Pendente,
                                                   Valor: If(chkL4cSemValor.Value, Blank(), Value(txtL4cValor.Text)),

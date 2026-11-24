@@ -34,8 +34,8 @@ from pathlib import Path
 
 from tools.dac import projeto, yamlio
 from tools.migracoes.m007_v1_5_ficha04_melhoramento import (
-    ITENS_CLIENTES,
-    _botao, _cartao, _contentor, _ctl, _etiqueta, _raio, _rotulo, _s,
+    CLIENTES,
+    _botao, _cartao, _contentor, _ctl, _etiqueta, _raio, _rotulo, _s, lista_pendente,
 )
 
 VERSAO = "1.6.0"
@@ -411,11 +411,11 @@ def _vista_revisao() -> dict:
 FORM = f"=If({peq(REV)}, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 560)"
 REGISTAR = (
     "If(\n"
-    f'    ({PERF} <> "Cliente" && IsBlank(cmbL4dCliente.Selected)) || IsBlank(txtL4dValor.Text) || IsBlank(Trim(txtL4dDescricao.Text)),\n'
+    f'    ({PERF} <> "Cliente" && IsBlank(drpL4dCliente.Selected.Cliente)) || IsBlank(txtL4dValor.Text) || IsBlank(Trim(txtL4dDescricao.Text)),\n'
     f"    {_msg('erro', _s('Preencha o cliente, o valor e a descrição.'))},\n"
     "    IfError(\n"
     "        UpdateContext({locL4dNovoPedido: Patch(Pedidos, Defaults(Pedidos), {\n"
-    f'            Clientes: If({PERF} = "Cliente", LookUp(Clientes, Cliente = GUID({SES}.clienteid)), LookUp(Clientes, Cliente = cmbL4dCliente.Selected.Cliente)),\n'
+    f'            Clientes: If({PERF} = "Cliente", LookUp(Clientes, Cliente = GUID({SES}.clienteid)), LookUp(Clientes, Cliente = drpL4dCliente.Selected.Cliente)),\n'
     "            DataPedido: Today(),\n"
     "            EstadoPedido: 'EstadoPedido (Pedidos)'.Pendente,\n"
     "            Valor: Value(txtL4dValor.Text),\n"
@@ -426,7 +426,7 @@ REGISTAR = (
     f"        {_msg('ok', '\"Pedido \" & locL4dNovoPedido.NumeroPedido & \" registado. Acima do limite entra em Revisão e os Gestores são avisados por email.\"')};\n"
     "        Reset(txtL4dValor);\n"
     "        Reset(txtL4dDescricao);\n"
-    "        Reset(cmbL4dCliente)\n"
+    "        Reset(drpL4dCliente)\n"
     "    )\n"
     ")"
 )
@@ -437,14 +437,7 @@ def _vista_registar() -> dict:
     filhos = [
         _etiqueta("lblL4dRegCliente", cliente_fixo, FontWeight="=FontWeight.Semibold", Visible=f'={PERF} = "Cliente"'),
         _rotulo("lblL4dRegClienteRot", "Cliente"),
-        _ctl("cmbL4dCliente", "Classic/ComboBox@2.4.0", {
-            "AccessibleLabel": '="Cliente do pedido"', "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight",
-            "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White",
-            "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["NomeCliente"]', "Height": "=48",
-            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=" + ITENS_CLIENTES,
-            "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["NomeCliente"]',
-            "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0",
-            "Visible": f'={PERF} <> "Cliente"'}),
+        lista_pendente("drpL4dCliente", "Cliente do pedido", CLIENTES, "Nome", Visible=f'={PERF} <> "Cliente"'),
         _rotulo("lblL4dRegValorRot", "Valor (€)"),
         _entrada("txtL4dValor", "Valor do pedido em euros", Format="=TextFormat.Number", HintText='="Ex.: 750"'),
         _rotulo("lblL4dRegDescRot", "Descrição"),
@@ -456,7 +449,7 @@ def _vista_registar() -> dict:
     ]
     filhos[1]["lblL4dRegClienteRot"]["Properties"]["Visible"] = f'={PERF} <> "Cliente"'
     vis = [("lblL4dRegCliente.Visible", "lblL4dRegCliente.Height"), ("lblL4dRegClienteRot.Visible", "lblL4dRegClienteRot.Height"),
-           ("cmbL4dCliente.Visible", "48"), (None, "lblL4dRegValorRot.Height"), (None, "48"), (None, "lblL4dRegDescRot.Height"),
+           ("drpL4dCliente.Visible", "48"), (None, "lblL4dRegValorRot.Height"), (None, "48"), (None, "lblL4dRegDescRot.Height"),
            (None, "80"), (None, "44"), (None, "lblL4dRegNota.Height")]
     return _cartao("conL4dVistaRegistar", filhos, AlignInContainer="=AlignInContainer.Start", FillPortions="=0",
                    Height=_altura("30", vis), Visible='=locL4dVista = "registar"', Width=FORM)
@@ -467,16 +460,16 @@ ITER = "'Iterações'"
 GUARDADO = f'If(IsBlank({U}.{ITER}), "Utilizador guardado. Defina-lhe a password para poder entrar.", "Utilizador guardado.")'
 GUARDAR_UTIL = (
     "If(\n"
-    "    IsBlank(Trim(txtL4dUtilNome.Text)) || !IsMatch(Trim(txtL4dUtilEmail.Text), Match.Email) || IsBlank(cmbL4dUtilPerfil.Selected),\n"
+    "    IsBlank(Trim(txtL4dUtilNome.Text)) || !IsMatch(Trim(txtL4dUtilEmail.Text), Match.Email) || IsBlank(drpL4dUtilPerfil.Selected.Value),\n"
     f"    {_msg('erro', _s('Preencha o nome, um email válido e o perfil.'))},\n"
-    f"    cmbL4dUtilPerfil.Selected.Value = {PU}.Cliente && IsBlank(cmbL4dUtilCliente.Selected),\n"
+    f"    drpL4dUtilPerfil.Selected.Value = {PU}.Cliente && IsBlank(drpL4dUtilCliente.Selected.Cliente),\n"
     f"    {_msg('erro', _s('Um utilizador com o perfil Cliente tem de ter um cliente associado.'))},\n"
     "    IfError(\n"
     f"        UpdateContext({{{U}: Patch(Utilizadores, If(IsBlank({U}), Defaults(Utilizadores), {U}), {{\n"
     "            Nome: Trim(txtL4dUtilNome.Text),\n"
     "            Email: Lower(Trim(txtL4dUtilEmail.Text)),\n"
-    "            Perfil: cmbL4dUtilPerfil.Selected.Value,\n"
-    f"            Cliente: If(cmbL4dUtilPerfil.Selected.Value = {PU}.Cliente, LookUp(Clientes, Cliente = cmbL4dUtilCliente.Selected.Cliente), Blank()),\n"
+    "            Perfil: drpL4dUtilPerfil.Selected.Value,\n"
+    f"            Cliente: If(drpL4dUtilPerfil.Selected.Value = {PU}.Cliente, LookUp(Clientes, Cliente = drpL4dUtilCliente.Selected.Cliente), Blank()),\n"
     "            Ativo: chkL4dUtilAtivo.Value\n"
     "        })}),\n"
     f"        {_msg('erro', '\"Não foi possível guardar (o email já existe?). \" & FirstError.Message')},\n"
@@ -507,8 +500,8 @@ def _vista_utilizadores() -> dict:
     galeria = _ctl("galL4dUtilizadores", "Gallery@2.15.0", {
         "AccessibleLabel": '="Utilizadores"', "AlignInContainer": "=AlignInContainer.Stretch", "FillPortions": "=0",
         "Height": "=Max(1, Self.AllItemsCount) * Self.TemplateHeight", "Items": "=Sort(Utilizadores, Nome)", "LayoutMinHeight": "=0",
-        "OnSelect": f"=UpdateContext({{{U}: ThisItem}}); Reset(txtL4dUtilNome); Reset(txtL4dUtilEmail); Reset(cmbL4dUtilPerfil); "
-                    "Reset(cmbL4dUtilCliente); Reset(chkL4dUtilAtivo); Reset(txtL4dUtilPassword)",
+        "OnSelect": f"=UpdateContext({{{U}: ThisItem}}); Reset(txtL4dUtilNome); Reset(txtL4dUtilEmail); Reset(drpL4dUtilPerfil); "
+                    "Reset(drpL4dUtilCliente); Reset(chkL4dUtilAtivo); Reset(txtL4dUtilPassword)",
         "TabIndex": "=0", "TemplateFill": f"=If(ThisItem.Utilizador = {U}.Utilizador, nfAzulFundo, Color.White)",
         "TemplatePadding": "=0", "TemplateSize": "=70"}, [
         _ctl("lblL4dGUtilNome", "Label@2.5.1", {
@@ -523,8 +516,8 @@ def _vista_utilizadores() -> dict:
         _ctl("recL4dGUtilSeparador", "Rectangle@2.3.0", {"Fill": "=nfLinha", "Height": "=1", "Width": "=Parent.TemplateWidth",
                                                          "Y": "=Parent.TemplateHeight - 1"}),
     ], "Vertical")
-    novo = (f"UpdateContext({{{U}: Blank()}}); Reset(txtL4dUtilNome); Reset(txtL4dUtilEmail); Reset(cmbL4dUtilPerfil); "
-            "Reset(cmbL4dUtilCliente); Reset(chkL4dUtilAtivo); Reset(txtL4dUtilPassword)")
+    novo = (f"UpdateContext({{{U}: Blank()}}); Reset(txtL4dUtilNome); Reset(txtL4dUtilEmail); Reset(drpL4dUtilPerfil); "
+            "Reset(drpL4dUtilCliente); Reset(chkL4dUtilAtivo); Reset(txtL4dUtilPassword)")
     lista = _contentor("conL4dUtilLista", [
         _botao("btnL4dUtilNovo", _s("Novo utilizador"), novo, primario=False, Width="=180"),
         _contentor("conL4dUtilCartao", [galeria], BorderColor="=nfLinha", BorderThickness="=1", Fill="=Color.White",
@@ -533,11 +526,7 @@ def _vista_utilizadores() -> dict:
     ], AlignInContainer=f"=If({peq(REV)}, AlignInContainer.Stretch, AlignInContainer.Start)", FillPortions=f"=If({peq(REV)}, 0, 1)",
        Height="=44 + 12 + conL4dUtilCartao.Height", LayoutGap="=12", LayoutMinWidth="=300")
 
-    combo = {"Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight", "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul",
-             "ChevronFill": "=Color.White", "Height": "=48", "HoverFill": "=nfAzulFundo", "PressedColor": "=Color.White",
-             "PressedFill": "=nfAzul", "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul",
-             "TabIndex": "=0"}
-    e_cliente = f"cmbL4dUtilPerfil.Selected.Value = {PU}.Cliente"
+    e_cliente = f"drpL4dUtilPerfil.Selected.Value = {PU}.Cliente"
     desbloquear = (f"Patch(Utilizadores, {U}, {{'Tentativas falhadas': 0, {BLOQ}: Blank()}}); "
                    f"UpdateContext({{{U}: LookUp(Utilizadores, Utilizador = {U}.Utilizador)}}); " + _msg("ok", _s("Utilizador desbloqueado.")))
     filhos = [
@@ -547,16 +536,11 @@ def _vista_utilizadores() -> dict:
         _rotulo("lblL4dUtilEmailRot", "Email"),
         _entrada("txtL4dUtilEmail", "Email do utilizador", default=f"={U}.Email"),
         _rotulo("lblL4dUtilPerfilRot", "Perfil"),
-        _ctl("cmbL4dUtilPerfil", "Classic/ComboBox@2.4.0", {
-            **combo, "AccessibleLabel": '="Perfil do utilizador"', "DefaultSelectedItems": f"=If(IsBlank({U}), Blank(), [{U}.Perfil])",
-            "DisplayFields": '=["Value"]', "InputTextPlaceholder": '="Escolher o perfil"', "Items": f"=Choices({PU})",
-            "SearchFields": '=["Value"]'}),
+        lista_pendente("drpL4dUtilPerfil", "Perfil do utilizador", f"Choices({PU})", "Value",
+                       Default=f"=If(IsBlank({U}), Blank(), {U}.Perfil)"),
         _rotulo("lblL4dUtilClienteRot", "Cliente associado"),
-        _ctl("cmbL4dUtilCliente", "Classic/ComboBox@2.4.0", {
-            **combo, "AccessibleLabel": '="Cliente associado ao utilizador"',
-            "DefaultSelectedItems": f"=If(IsBlank({U}.Cliente), Blank(), AddColumns(Filter(Clientes, Cliente = {U}.Cliente.Cliente), NomeCliente, Nome))", "DisplayFields": '=["NomeCliente"]',
-            "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=" + ITENS_CLIENTES,
-            "SearchFields": '=["NomeCliente"]', "Visible": "=" + e_cliente}),
+        lista_pendente("drpL4dUtilCliente", "Cliente associado ao utilizador", CLIENTES, "Nome",
+                       Default=f"=If(IsBlank({U}.Cliente), Blank(), {U}.Cliente.Nome)", Visible="=" + e_cliente),
         _ctl("chkL4dUtilAtivo", "Classic/CheckBox@2.1.0", {
             "AlignInContainer": "=AlignInContainer.Stretch", "BorderColor": "=nfBorda", "CheckboxSize": "=24", "CheckmarkFill": "=nfTexto",
             "Color": "=nfTexto", "Default": f"=If(IsBlank({U}), true, {U}.Ativo)", "Height": "=44", "HoverColor": "=nfAzul", "Size": "=14",
@@ -574,7 +558,7 @@ def _vista_utilizadores() -> dict:
     filhos[7]["lblL4dUtilClienteRot"]["Properties"]["Visible"] = "=" + e_cliente
     vis = [(None, "lblL4dUtilNomeRot.Height"), (None, "48"), (None, "lblL4dUtilEmailRot.Height"), (None, "48"),
            (None, "lblL4dUtilPerfilRot.Height"), (None, "48"), ("lblL4dUtilClienteRot.Visible", "lblL4dUtilClienteRot.Height"),
-           ("cmbL4dUtilCliente.Visible", "48"), (None, "44"), (None, "44"), (None, "lblL4dUtilPassRot.Height"), (None, "48"), (None, "44")]
+           ("drpL4dUtilCliente.Visible", "48"), (None, "44"), (None, "44"), (None, "lblL4dUtilPassRot.Height"), (None, "48"), (None, "44")]
     form = _cartao("conL4dUtilForm", filhos, AlignInContainer=f"=If({peq(REV)}, AlignInContainer.Stretch, AlignInContainer.Start)",
                    FillPortions=f"=If({peq(REV)}, 0, 1)", Height=_altura("40 + lblL4dUtilTitulo.Height", vis), LayoutMinWidth="=300")
     return _contentor("conL4dVistaUtilizadores", [lista, form], vertical=False, FillPortions="=0",

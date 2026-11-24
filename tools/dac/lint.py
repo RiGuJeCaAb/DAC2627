@@ -39,7 +39,7 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC403": (ERRO, "Referência a um controlo ou ecrã que não existe"),
     "DAC404": (AVISO, "Variável lida mas nunca definida"),
     "DAC405": (ERRO, "Propriedade que o Studio não conhece neste tipo de controlo"),
-    "DAC407": (AVISO, "Caixa de escolha fora de formulário com registos do Dataverse sem coluna acrescentada para mostrar"),
+    "DAC407": (AVISO, "Caixa de combinação clássica fora de formulário: a lista abre vazia depois de carregar a app"),
     "DAC406": (ERRO, "Navigate no OnVisible de um ecrã ou no App.OnStart: o Studio não aceita"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
@@ -381,18 +381,14 @@ class Analise:
                 self._add("DAC406", onde, "Navigate não é aceite aqui: navegar a partir do botão que abre o ecrã")
 
     def _escolhas(self):
-        """DAC407: numa ComboBox fora de formulário com registos do Dataverse (a tabela ou Choices de uma pesquisa),
-        DisplayFields = ["dac_nome"] deixou as linhas sem texto, na app publicada e no Studio (24/11/2026).
-        Uma coluna acrescentada com AddColumns mostra o nome. Os nomes entre plicas ('Perfil (Utilizadores)') não contam."""
-        fontes = [f for f in self.cfg.fontes_dataverse]
+        """DAC407: a caixa de combinação clássica (ComboBox) fora de um formulário abriu a lista vazia depois de carregar
+        a app, na app publicada e no Studio, com qualquer Items (Choices de uma pesquisa, a tabela, AddColumns, uma coleção).
+        Só funcionava na sessão em que a fórmula era editada (24/11/2026). A lista pendente clássica (DropDown) funciona.
+        Nos cartões dos formulários a caixa é a que o Studio gera e funciona."""
         for c in self.todos:
-            if c.tipo != "ComboBox" or c.dentro_de_formulario:
-                continue
-            fx = re.sub(r"'[^']*'", "", _fx(c.prop("Items")))
-            dataverse = re.search(r"\bChoices\s*\(\s*\[@", fx) or any(re.search(rf"(?<![\w.]){re.escape(f)}(?![\w])", fx) for f in fontes if " " not in f)
-            if dataverse and "AddColumns(" not in fx:
-                self._add("DAC407", f"{c.ecra}.{c.nome}.Items",
-                          "use AddColumns(Sort(Clientes, Nome), NomeCliente, Nome) e DisplayFields = [\"NomeCliente\"]")
+            if c.tipo == "ComboBox" and not c.dentro_de_formulario:
+                self._add("DAC407", f"{c.ecra}.{c.nome}",
+                          "use Classic/DropDown com Items, Items.Value e AllowEmptySelection = true")
 
     # ----- DAC5xx -----
     # o YAML e a exportação nem sempre dão o mesmo nome ao tipo

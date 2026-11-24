@@ -173,15 +173,16 @@ def test_navigate_no_onvisible_e_no_onstart():
     assert r == [("DAC406", "App.OnStart"), ("DAC406", "scrL1A.OnVisible")]
 
 
-def test_combobox_com_registos_do_dataverse_precisa_de_coluna_acrescentada():
+def test_combobox_fora_de_formulario_avisa_e_dentro_nao():
     def cmb(nome, items):
         return {nome: {"Control": "Classic/ComboBox@2.4.0",
                        "Properties": {"AccessibleLabel": '="Cliente"', "Items": items, "TabIndex": "=0"}}}
-    cfg = lint.Config(fontes_dataverse=["Cloud Service", "Clientes", "Pedidos"])
+    cartao = _c("Cliente_DataCard1", "TypedDataCard@1.0.7", {}, [cmb("cmbL1FormCliente", "=Choices([@Pedidos].dac_Cliente)")])
+    form = _c("frmL1Pedido", "Form@2.4.4", {"DataSource": "=Pedidos"}, [cartao])
     r = [a.onde for a in lint.Analise({
         "a": _app(),
-        "b": _ecra("scrL1A", [cmb("cmbL1Choices", "=Choices([@Pedidos].dac_Cliente)"), cmb("cmbL1Tabela", "=Sort(Clientes, Nome)"),
-                              cmb("cmbL1Bom", "=AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)"),
-                              cmb("cmbL1Escolha", "=Choices('Estado (Pedidos)')")]),
-    }, cfg).correr() if a.regra == "DAC407"]
-    assert r == ["scrL1A.cmbL1Choices.Items", "scrL1A.cmbL1Tabela.Items"]
+        "b": _ecra("scrL1A", [cmb("cmbL1Tabela", "=AddColumns(Sort(Clientes, Nome), NomeCliente, Nome)"),
+                              cmb("cmbL1Colecao", "=colL1Clientes"), form,
+                              _c("drpL1Cliente", "Classic/DropDown@2.3.1", {"Items": "=Sort(Clientes, Nome)", "Items.Value": "=Nome"})]),
+    }).correr() if a.regra == "DAC407"]
+    assert sorted(r) == ["scrL1A.cmbL1Colecao", "scrL1A.cmbL1Tabela"]
