@@ -159,7 +159,7 @@ Screens:
                                     Height: =48
                                     HoverFill: =nfAzulFundo
                                     InputTextPlaceholder: ="Escolher o cliente"
-                                    Items: =Choices([@Pedidos].dac_Cliente)
+                                    Items: =Sort(Clientes, Nome)
                                     PressedColor: =Color.White
                                     PressedFill: =nfAzul
                                     SearchFields: =["dac_nome"]

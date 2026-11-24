@@ -39,6 +39,7 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC403": (ERRO, "Referência a um controlo ou ecrã que não existe"),
     "DAC404": (AVISO, "Variável lida mas nunca definida"),
     "DAC405": (ERRO, "Propriedade que o Studio não conhece neste tipo de controlo"),
+    "DAC407": (AVISO, "Caixa de escolha fora de formulário com Items = Choices de uma coluna de pesquisa"),
     "DAC406": (ERRO, "Navigate no OnVisible de um ecrã ou no App.OnStart: o Studio não aceita"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
@@ -176,6 +177,7 @@ class Analise:
         self._dados()
         self._propriedades()
         self._navegacao()
+        self._escolhas()
         self._layout()
         self._excecoes()
         ordem = {ERRO: 0, AVISO: 1, INFO: 2}
@@ -377,6 +379,15 @@ class Analise:
                 continue
             if re.search(r"\bNavigate\s*\(", cod):
                 self._add("DAC406", onde, "Navigate não é aceite aqui: navegar a partir do botão que abre o ecrã")
+
+    def _escolhas(self):
+        """DAC407: numa ComboBox fora de formulário, Choices([@Tabela].pesquisa) deixou a lista vazia na app publicada
+        (Ficha 04 · Melhoramento, 24/11/2026). A tabela relacionada diretamente (Sort(Clientes, Nome)) funciona."""
+        for c in self.todos:
+            if c.tipo != "ComboBox" or c.dentro_de_formulario:
+                continue
+            if re.search(r"\bChoices\s*\(\s*\[@[^\]]+\]\s*\.", _fx(c.prop("Items"))):
+                self._add("DAC407", f"{c.ecra}.{c.nome}.Items", "use a tabela relacionada, por exemplo Sort(Clientes, Nome)")
 
     # ----- DAC5xx -----
     # o YAML e a exportação nem sempre dão o mesmo nome ao tipo

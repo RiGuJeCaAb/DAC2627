@@ -171,3 +171,15 @@ def test_navigate_no_onvisible_e_no_onstart():
         "c": _ecra("scrL1B", [], {"OnVisible": '=UpdateContext({locL1T: "Navigate(scrL1A)"})'}),
     }).correr() if a.regra == "DAC406"]
     assert r == [("DAC406", "App.OnStart"), ("DAC406", "scrL1A.OnVisible")]
+
+
+def test_choices_de_pesquisa_em_combobox_fora_de_formulario():
+    def cmb(nome, items):
+        return {nome: {"Control": "Classic/ComboBox@2.4.0",
+                       "Properties": {"AccessibleLabel": '="Cliente"', "Items": items, "TabIndex": "=0"}}}
+    r = [(a.regra, a.onde) for a in lint.Analise({
+        "a": _app(),
+        "b": _ecra("scrL1A", [cmb("cmbL1Mau", "=Choices([@Pedidos].dac_Cliente)"), cmb("cmbL1Bom", "=Sort(Clientes, Nome)"),
+                              cmb("cmbL1Escolha", "=Choices('Estado (Pedidos)')")]),
+    }).correr() if a.regra == "DAC407"]
+    assert r == [("DAC407", "scrL1A.cmbL1Mau.Items")]

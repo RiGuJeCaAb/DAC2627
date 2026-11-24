@@ -440,7 +440,7 @@ def _vista_registar() -> dict:
             "AccessibleLabel": '="Cliente do pedido"', "Width": "=Parent.Width - Parent.PaddingLeft - Parent.PaddingRight",
             "BorderColor": "=nfBorda", "ChevronBackground": "=nfAzul", "ChevronFill": "=Color.White",
             "DefaultSelectedItems": "=Blank()", "DisplayFields": '=["dac_nome"]', "Height": "=48",
-            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Choices([@Pedidos].dac_Cliente)",
+            "HoverFill": "=nfAzulFundo", "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Sort(Clientes, Nome)",
             "PressedColor": "=Color.White", "PressedFill": "=nfAzul", "SearchFields": '=["dac_nome"]',
             "SelectMultiple": "=false", "SelectionColor": "=Color.White", "SelectionFill": "=nfAzul", "TabIndex": "=0",
             "Visible": f'={PERF} <> "Cliente"'}),
@@ -554,7 +554,7 @@ def _vista_utilizadores() -> dict:
         _ctl("cmbL4dUtilCliente", "Classic/ComboBox@2.4.0", {
             **combo, "AccessibleLabel": '="Cliente associado ao utilizador"',
             "DefaultSelectedItems": f"=If(IsBlank({U}.Cliente), Blank(), [{U}.Cliente])", "DisplayFields": '=["dac_nome"]',
-            "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Choices([@Utilizadores].dac_Cliente)",
+            "InputTextPlaceholder": '="Escolher o cliente"', "Items": "=Sort(Clientes, Nome)",
             "SearchFields": '=["dac_nome"]', "Visible": "=" + e_cliente}),
         _ctl("chkL4dUtilAtivo", "Classic/CheckBox@2.1.0", {
             "AlignInContainer": "=AlignInContainer.Stretch", "BorderColor": "=nfBorda", "CheckboxSize": "=24", "CheckmarkFill": "=nfTexto",
