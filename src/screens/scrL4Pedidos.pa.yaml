@@ -11,7 +11,8 @@ Screens:
     Properties:
       Fill: =nfFundo
       OnVisible: |-
-        =UpdateContext({locL4Vista: "todos", locL4Painel: false, locL4Cliente: Blank(), locL4Pedido: Blank(), locL4Modo: "", locL4Acao: "", locL4Confirmar: "", locL4UltimaConf: "", locL4Msg: "", locL4MsgTipo: "", locL4Timer: false}); ResetForm(frmL4Cliente); ResetForm(frmL4Pedido)
+        =UpdateContext({locL4Vista: "todos", locL4Painel: (locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente"), locL4Cliente: If((locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente"), LookUp(Clientes, Cliente = GUID(Coalesce(gblL4dSessao.clienteid, "00000000-0000-0000-0000-000000000000")))), locL4Pedido: Blank(), locL4Modo: "", locL4Acao: "", locL4Confirmar: "", locL4UltimaConf: "", locL4Msg: "", locL4MsgTipo: "", locL4Timer: false, locL4Area: "", locL4cAguardar: false, locL4cTentativas: 0, locL4cValorTeste: "", locL4dUtil: Blank()});
+        ResetForm(frmL4Cliente); ResetForm(frmL4Pedido)
     Children:
       - conEcraL4:
           Control: GroupContainer@1.5.0
@@ -33,9 +34,9 @@ Screens:
                   Height: =64
                   LayoutAlignItems: =LayoutAlignItems.Center
                   LayoutDirection: =LayoutDirection.Horizontal
-                  LayoutGap: =12
-                  PaddingLeft: =24
-                  PaddingRight: =24
+                  LayoutGap: =If(scrL4Pedidos.Size = ScreenSize.Small, 8, 12)
+                  PaddingLeft: =If(scrL4Pedidos.Size = ScreenSize.Small, 12, 24)
+                  PaddingRight: =If(scrL4Pedidos.Size = ScreenSize.Small, 12, 24)
                 Children:
                   - icoInicioL4:
                       Control: Classic/Icon@2.5.0
@@ -56,7 +57,119 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =44
                         Size: =16
-                        Text: ="Ficha 04 · Clientes e Pedidos"
+                        Text: =If(scrL4Pedidos.Size = ScreenSize.Small && locL4Nivel = "revisao", "Ficha 04", Switch(locL4Nivel, "melhoramento", "Ficha 04 · Melhoramento", "revisao", "Ficha 04 · Revisão", "Ficha 04 · Clientes e Pedidos"))
+                        Wrap: =false
+                  - btnL4dIniciais:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        BorderThickness: =0
+                        Color: =nfAzul
+                        DisabledColor: =Self.Color
+                        DisabledFill: =Self.Fill
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.White
+                        FontWeight: =FontWeight.Bold
+                        Height: =36
+                        HoverColor: =Self.Color
+                        HoverFill: =Self.Fill
+                        PressedFill: =Self.Fill
+                        RadiusBottomLeft: =18
+                        RadiusBottomRight: =18
+                        RadiusTopLeft: =18
+                        RadiusTopRight: =18
+                        Size: =13
+                        TabIndex: =-1
+                        Text: |-
+                          =With({p: Split(Trim(gblL4dSessao.nome), " ")}, Upper(Left(First(p).Value, 1) & If(CountRows(p) > 1, Left(Last(p).Value, 1), "")))
+                        Visible: =locL4Nivel = "revisao"
+                        Width: =36
+                  - lblL4dQuem:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =Color.White
+                        FocusedBorderThickness: =2
+                        Height: =44
+                        Size: =14
+                        Text: =gblL4dSessao.nome
+                        Visible: =locL4Nivel = "revisao" && scrL4Pedidos.Size > ScreenSize.Small
+                        Width: =Min(220, Len(Self.Text) * 9 + 8)
+                        Wrap: =false
+                  - btnL4dPerfil:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        BorderThickness: =0
+                        Color: =nfAzul
+                        DisabledColor: =Self.Color
+                        DisabledFill: =Self.Fill
+                        DisplayMode: =DisplayMode.View
+                        Fill: =nfAzulClaro
+                        FontWeight: =FontWeight.Bold
+                        Height: =26
+                        HoverColor: =Self.Color
+                        HoverFill: =Self.Fill
+                        PressedFill: =Self.Fill
+                        RadiusBottomLeft: =13
+                        RadiusBottomRight: =13
+                        RadiusTopLeft: =13
+                        RadiusTopRight: =13
+                        Size: =11
+                        TabIndex: =-1
+                        Text: =gblL4dSessao.perfil
+                        Visible: =locL4Nivel = "revisao" && scrL4Pedidos.Size > ScreenSize.Small
+                        Width: =76
+                  - icoL4dUtilizadores:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Gerir os utilizadores"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.People
+                        OnSelect: |-
+                          =UpdateContext({locL4Area: If(locL4Area = "utilizadores", "", "utilizadores"), locL4dUtil: Blank()})
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        TabIndex: =0
+                        Visible: =locL4Nivel = "revisao" && gblL4dSessao.perfil = "Admin"
+                        Width: =44
+                  - icoL4dPassword:
+                      Control: Classic/Icon@2.5.0
+                      Properties:
+                        AccessibleLabel: ="Mudar a minha password"
+                        Color: =Color.White
+                        Height: =44
+                        Icon: =Icon.Lock
+                        OnSelect: |-
+                          =UpdateContext({locL4Area: If(locL4Area = "password", "", "password"), locL4dUtil: Blank()})
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        TabIndex: =0
+                        Visible: =locL4Nivel = "revisao"
+                        Width: =44
+                  - btnL4dSair:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        BorderColor: =Color.White
+                        BorderThickness: =1
+                        Color: =Color.White
+                        Fill: =Color.Transparent
+                        Height: =44
+                        HoverColor: =nfAzul
+                        HoverFill: =Color.White
+                        OnSelect: =Set(gblL4dSessao, Blank()); Navigate(scrL4Entrar, ScreenTransition.UnCover)
+                        PressedColor: =nfAzul
+                        PressedFill: =Color.White
+                        RadiusBottomLeft: =12
+                        RadiusBottomRight: =12
+                        RadiusTopLeft: =12
+                        RadiusTopRight: =12
+                        Size: =14
+                        Text: ="Sair"
+                        Visible: =locL4Nivel = "revisao"
+                        Width: =If(scrL4Pedidos.Size = ScreenSize.Small, 64, 80)
             - conConteudoL4:
                 Control: GroupContainer@1.5.0
                 Variant: AutoLayout
@@ -64,6 +177,7 @@ Screens:
                   DropShadow: =DropShadow.None
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =16
+                  LayoutOverflowY: =If(IsBlank(locL4Area), LayoutOverflow.Hide, LayoutOverflow.Scroll)
                   PaddingBottom: =If(scrL4Pedidos.Size = ScreenSize.Small, 16, 24)
                   PaddingLeft: =If(scrL4Pedidos.Size = ScreenSize.Small, 16, 24)
                   PaddingRight: =If(scrL4Pedidos.Size = ScreenSize.Small, 16, 24)
@@ -80,7 +194,7 @@ Screens:
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =12
                         LayoutWrap: =true
-                        Visible: =!(scrL4Pedidos.Size = ScreenSize.Small && locL4Painel)
+                        Visible: =!(scrL4Pedidos.Size = ScreenSize.Small && locL4Painel) && IsBlank(locL4Area) && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
                       Children:
                         - txtL4Pesquisa:
                             Control: Classic/TextInput@2.3.2
@@ -130,6 +244,7 @@ Screens:
                         LayoutAlignItems: =LayoutAlignItems.Stretch
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =24
+                        Visible: =IsBlank(locL4Area)
                       Children:
                         - conL4Lista:
                             Control: GroupContainer@1.5.0
@@ -172,7 +287,7 @@ Screens:
                                   Properties:
                                     AccessibleLabel: ="Lista de clientes"
                                     DisplayMode: =If(IsBlank(locL4Modo), DisplayMode.Edit, DisplayMode.Disabled)
-                                    Items: =Sort(Filter(Clientes, StartsWith(Nome, txtL4Pesquisa.Text)), Nome)
+                                    Items: =If((locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente"), Filter(Clientes, Cliente = GUID(Coalesce(gblL4dSessao.clienteid, "00000000-0000-0000-0000-000000000000"))), Sort(Filter(Clientes, StartsWith(Nome, txtL4Pesquisa.Text)), Nome))
                                     OnSelect: |-
                                       =UpdateContext({locL4Cliente: galL4Clientes.Selected, locL4Painel: true})
                                     TabIndex: =0
@@ -266,7 +381,7 @@ Screens:
                                           RadiusTopLeft: =12
                                           RadiusTopRight: =12
                                           Text: ="‹ Clientes"
-                                          Visible: =scrL4Pedidos.Size = ScreenSize.Small && IsBlank(locL4Modo)
+                                          Visible: =scrL4Pedidos.Size = ScreenSize.Small && IsBlank(locL4Modo) && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
                                           Width: =116
                                     - lblL4PainelTitulo:
                                         Control: Label@2.5.1
@@ -277,7 +392,7 @@ Screens:
                                           FontWeight: =FontWeight.Bold
                                           Height: =44
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 18, 22)
-                                          Text: =Switch(locL4Modo, "cliente", If(locL4Acao = "criar", "Novo cliente", "Editar cliente"), "pedido", If(locL4Acao = "criar", "Novo pedido · " & locL4Cliente.Nome, "Pedido " & locL4Pedido.NumeroPedido), If(IsBlank(locL4Cliente), "Todos os clientes", locL4Cliente.Nome))
+                                          Text: =Switch(locL4Modo, "cliente", If(locL4Acao = "criar", "Novo cliente", "Editar cliente"), "pedido", If(locL4Acao = "criar", "Novo pedido · " & locL4Cliente.Nome, "Pedido " & locL4Pedido.NumeroPedido), "detalhe", "Pedido " & locL4Pedido.NumeroPedido, If(IsBlank(locL4Cliente), "Todos os clientes", locL4Cliente.Nome))
                                           Wrap: =false
                               - lblL4ClienteDados:
                                   Control: Label@2.5.1
@@ -356,6 +471,83 @@ Screens:
                                           Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
                                           Text: =If(scrL4Pedidos.Size >= ScreenSize.ExtraLarge, "Pedidos Concluídos (", "Concluídos (") & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído)), CountRows(Filter(Pedidos, EstadoPedido = 'EstadoPedido (Pedidos)'.Concluído && Clientes.Cliente = locL4Cliente.Cliente))) & ")"
                                           Width: =230
+                              - conL4cSeparadores:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =44
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    Visible: =(locL4Nivel = "melhoramento" || locL4Nivel = "revisao") && IsBlank(locL4Modo)
+                                  Children:
+                                    - btnL4cSepAuto:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =If(locL4Vista = "auto", Color.White, nfAzul)
+                                          Fill: =If(locL4Vista = "auto", nfAzul, Color.White)
+                                          FillPortions: =1
+                                          Height: =44
+                                          HoverColor: =If(locL4Vista = "auto", Color.White, nfAzul)
+                                          HoverFill: =If(locL4Vista = "auto", nfAzul, nfAzulClaro)
+                                          LayoutMinWidth: =0
+                                          OnSelect: |-
+                                            =UpdateContext({locL4Vista: "auto"})
+                                          PressedColor: =If(locL4Vista = "auto", Color.White, nfAzul)
+                                          PressedFill: =If(locL4Vista = "auto", nfAzul, nfAzulClaro)
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
+                                          Text: ="Automático (" & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Automático)), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Automático, Clientes.Cliente = locL4Cliente.Cliente))) & ")"
+                                          Width: =150
+                                    - btnL4cSepRevisao:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =If(locL4Vista = "revisao", Color.White, nfAzul)
+                                          Fill: =If(locL4Vista = "revisao", nfAzul, Color.White)
+                                          FillPortions: =1
+                                          Height: =44
+                                          HoverColor: =If(locL4Vista = "revisao", Color.White, nfAzul)
+                                          HoverFill: =If(locL4Vista = "revisao", nfAzul, nfAzulClaro)
+                                          LayoutMinWidth: =0
+                                          OnSelect: |-
+                                            =UpdateContext({locL4Vista: "revisao"})
+                                          PressedColor: =If(locL4Vista = "revisao", Color.White, nfAzul)
+                                          PressedFill: =If(locL4Vista = "revisao", nfAzul, nfAzulClaro)
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
+                                          Text: =If(locL4Nivel = "revisao", "Por decidir (" & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão, Decisao <> 'Decisao (Pedidos)'.Aprovado, Decisao <> 'Decisao (Pedidos)'.Rejeitado)), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão, Decisao <> 'Decisao (Pedidos)'.Aprovado, Decisao <> 'Decisao (Pedidos)'.Rejeitado, Clientes.Cliente = locL4Cliente.Cliente))) & ")", "Revisão (" & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão)), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão, Clientes.Cliente = locL4Cliente.Cliente))) & ")")
+                                          Width: =150
+                                    - btnL4cSepErro:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =If(locL4Vista = "erro", Color.White, nfAzul)
+                                          Fill: =If(locL4Vista = "erro", nfAzul, Color.White)
+                                          FillPortions: =1
+                                          Height: =44
+                                          HoverColor: =If(locL4Vista = "erro", Color.White, nfAzul)
+                                          HoverFill: =If(locL4Vista = "erro", nfAzul, nfAzulClaro)
+                                          LayoutMinWidth: =0
+                                          OnSelect: |-
+                                            =UpdateContext({locL4Vista: "erro"})
+                                          PressedColor: =If(locL4Vista = "erro", Color.White, nfAzul)
+                                          PressedFill: =If(locL4Vista = "erro", nfAzul, nfAzulClaro)
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =Switch(scrL4Pedidos.Size, ScreenSize.Small, 11, ScreenSize.Medium, 11, 13)
+                                          Text: ="Erro (" & If(IsBlank(locL4Cliente), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Erro)), CountRows(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Erro, Clientes.Cliente = locL4Cliente.Cliente))) & ")"
+                                          Width: =150
                               - lblL4Resumo:
                                   Control: Label@2.5.1
                                   Properties:
@@ -365,7 +557,7 @@ Screens:
                                     FocusedBorderThickness: =2
                                     FontWeight: =FontWeight.Semibold
                                     Height: =32
-                                    Text: =Switch(locL4Vista, "pendentes", "Vista do Dataverse «Pedidos Pendentes» · mais recentes primeiro", "concluidos", "Vista do Dataverse «Pedidos Concluídos» · mais recentes primeiro", "Todos os pedidos ativos · mais recentes primeiro")
+                                    Text: =Switch(locL4Vista, "pendentes", "Vista do Dataverse «Pedidos Pendentes» · mais recentes primeiro", "concluidos", "Vista do Dataverse «Pedidos Concluídos» · mais recentes primeiro", "auto", "Classificados Automático pelo fluxo · mais recentes primeiro", "revisao", If(locL4Nivel = "revisao", "Em revisão e ainda sem decisão final · mais recentes primeiro", "Classificados Revisão pelo fluxo · mais recentes primeiro"), "erro", "Classificados Erro pelo fluxo, sem valor ou com uma falha técnica · mais recentes primeiro", "Todos os pedidos ativos · mais recentes primeiro")
                                     Visible: =IsBlank(locL4Modo)
                               - lblL4SemPedidos:
                                   Control: Label@2.5.1
@@ -382,13 +574,24 @@ Screens:
                                   Variant: Vertical
                                   Properties:
                                     AccessibleLabel: ="Pedidos"
-                                    Items: =Switch(locL4Vista, "pendentes", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), "concluidos", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo && Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)))
+                                    Items: |-
+                                      =Switch(locL4Vista,
+                                          "pendentes", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Pendentes', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)),
+                                          "concluidos", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos'), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, 'Pedidos (Vistas)'.'Pedidos Concluídos', Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)),
+                                          "auto", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Automático), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Automático, Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)),
+                                          "revisao", If(locL4Nivel = "revisao", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão, Decisao <> 'Decisao (Pedidos)'.Aprovado, Decisao <> 'Decisao (Pedidos)'.Rejeitado), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão, Decisao <> 'Decisao (Pedidos)'.Aprovado, Decisao <> 'Decisao (Pedidos)'.Rejeitado, Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)), If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Revisão, Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending))),
+                                          "erro", If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Erro), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Tratamento = 'Tratamento (Pedidos)'.Erro, Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending)),
+                                          If(IsBlank(locL4Cliente), Sort(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo), DataPedido, SortOrder.Descending), Sort(Filter(Pedidos, Estado = 'Estado (Pedidos)'.Ativo && Clientes.Cliente = locL4Cliente.Cliente), DataPedido, SortOrder.Descending))
+                                      )
                                     LayoutMinHeight: =0
                                     OnSelect: |-
-                                      =UpdateContext({locL4Pedido: ThisItem, locL4Modo: "pedido", locL4Acao: "editar", locL4Msg: "", locL4Timer: false}); EditForm(frmL4Pedido)
+                                      =If((locL4Nivel = "melhoramento" || locL4Nivel = "revisao"),
+                                          UpdateContext({locL4Pedido: ThisItem, locL4Modo: "detalhe", locL4Acao: "", locL4cAguardar: false, locL4Msg: "", locL4Timer: false}); Reset(txtL4dComentario),
+                                          UpdateContext({locL4Pedido: ThisItem, locL4Modo: "pedido", locL4Acao: "editar", locL4Msg: "", locL4Timer: false}); EditForm(frmL4Pedido)
+                                      )
                                     TabIndex: =0
                                     TemplatePadding: =0
-                                    TemplateSize: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 80)
+                                    TemplateSize: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 80) + If((locL4Nivel = "melhoramento" || locL4Nivel = "revisao"), 32, 0)
                                     Visible: =IsBlank(locL4Modo)
                                   Children:
                                     - lblL4PedNumero:
@@ -455,6 +658,47 @@ Screens:
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, 128, 140)
                                           X: =Parent.TemplateWidth - Self.Width - 16
                                           Y: =42
+                                    - btnL4cGTratamento:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderThickness: =0
+                                          Color: |-
+                                            =If(locL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão && !IsBlank(ThisItem.Decisao), If(ThisItem.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeTexto, ThisItem.Decisao = 'Decisao (Pedidos)'.Rejeitado, nfVermelhoTexto, ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar' || ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', nfAzul, nfAmbar), If(IsBlank(ThisItem.Tratamento), nfTextoSuave, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzul, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeTexto, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbar, nfVermelhoTexto))
+                                          DisabledColor: =Self.Color
+                                          DisabledFill: =Self.Fill
+                                          DisplayMode: =DisplayMode.View
+                                          Fill: |-
+                                            =If(locL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão && !IsBlank(ThisItem.Decisao), If(ThisItem.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeFundo, ThisItem.Decisao = 'Decisao (Pedidos)'.Rejeitado, nfVermelhoFundo, ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar' || ThisItem.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', nfAzulFundo, nfAmbarFundo), If(IsBlank(ThisItem.Tratamento), nfLinha, ThisItem.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzulFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeFundo, ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbarFundo, nfVermelhoFundo))
+                                          FontWeight: =FontWeight.Bold
+                                          Height: =26
+                                          HoverColor: =Self.Color
+                                          HoverFill: =Self.Fill
+                                          OnSelect: =Select(Parent)
+                                          PressedFill: =Self.Fill
+                                          RadiusBottomLeft: =13
+                                          RadiusBottomRight: =13
+                                          RadiusTopLeft: =13
+                                          RadiusTopRight: =13
+                                          Size: =11
+                                          TabIndex: =-1
+                                          Text: =If(locL4Nivel = "revisao" && ThisItem.Tratamento = 'Tratamento (Pedidos)'.Revisão && !IsBlank(ThisItem.Decisao), If(IsBlank(ThisItem.Decisao), "Sem decisão", Text(ThisItem.Decisao)), If(IsBlank(ThisItem.Tratamento), "Não processado", Text(ThisItem.Tratamento)))
+                                          Visible: =(locL4Nivel = "melhoramento" || locL4Nivel = "revisao")
+                                          Width: =150
+                                          X: =Parent.TemplateWidth - Self.Width - 16
+                                          Y: =If(scrL4Pedidos.Size = ScreenSize.Small, 89, 71)
+                                    - lblL4cGObs:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          Color: =nfTextoSuave
+                                          Height: =24
+                                          OnSelect: =Select(Parent)
+                                          Size: =12
+                                          Text: =Coalesce(ThisItem.ObservacoesProcessamento, If(IsBlank(ThisItem.Tratamento), "Ainda não processado pelo fluxo.", ""))
+                                          Visible: =(locL4Nivel = "melhoramento" || locL4Nivel = "revisao")
+                                          Width: =Parent.TemplateWidth - 32 - 158
+                                          Wrap: =false
+                                          X: =16
+                                          Y: =If(scrL4Pedidos.Size = ScreenSize.Small, 90, 72)
                                     - recL4PedSeparador:
                                         Control: Rectangle@2.3.0
                                         Properties:
@@ -852,7 +1096,8 @@ Screens:
                                     OnFailure: |-
                                       =UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "Não foi possível guardar o pedido. " & frmL4Pedido.Error})
                                     OnSuccess: |-
-                                      =UpdateContext({locL4Pedido: frmL4Pedido.LastSubmit, locL4Modo: "", locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: If(locL4Acao = "criar", "Pedido " & frmL4Pedido.LastSubmit.NumeroPedido & " criado.", "Alterações ao pedido " & frmL4Pedido.LastSubmit.NumeroPedido & " guardadas.")})
+                                      =If(locL4Nivel = "revisao" && locL4Acao = "criar", Patch(Pedidos, frmL4Pedido.LastSubmit, {'Registado por': LookUp(Utilizadores, Utilizador = GUID(gblL4dSessao.utilizadorid))}));
+                                      UpdateContext({locL4Pedido: frmL4Pedido.LastSubmit, locL4Modo: If((locL4Nivel = "melhoramento" || locL4Nivel = "revisao"), "detalhe", ""), locL4cAguardar: (locL4Nivel = "melhoramento" || locL4Nivel = "revisao") && locL4Acao = "criar", locL4cTentativas: 0, locL4cValorTeste: "", locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: If(locL4Acao = "criar", "Pedido " & frmL4Pedido.LastSubmit.NumeroPedido & " criado." & If((locL4Nivel = "melhoramento" || locL4Nivel = "revisao"), " O fluxo está a classificá-lo.", ""), "Alterações ao pedido " & frmL4Pedido.LastSubmit.NumeroPedido & " guardadas.")})
                                     Visible: =locL4Modo = "pedido"
                                   Children:
                                     - Cliente_DataCard1:
@@ -1057,6 +1302,7 @@ Screens:
                                           BorderColor: =nfBorda
                                           DataField: ="dac_estado"
                                           Default: =If(frmL4Pedido.Mode = FormMode.New, 'EstadoPedido (Pedidos)'.Pendente, ThisItem.EstadoPedido)
+                                          DisplayMode: =If((locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente"), DisplayMode.View, Parent.DisplayMode)
                                           DisplayName: =DataSourceInfo([@Pedidos],DataSourceInfo.DisplayName,EstadoPedido)
                                           Required: =true
                                           Update: =cmbL4PedEstado.Selected.Value
@@ -1177,7 +1423,7 @@ Screens:
                                               Properties:
                                                 AccessibleLabel: =Parent.DisplayName
                                                 BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, nfVermelho)
-                                                Default: =If(IsBlank(Parent.Default), "", Text(Parent.Default, "[$-pt-PT]0,00"))
+                                                Default: =If(frmL4Pedido.Mode = FormMode.New && locL4cValorTeste = "sem", "", frmL4Pedido.Mode = FormMode.New && !IsBlank(locL4cValorTeste), locL4cValorTeste, IsBlank(Parent.Default), "", Text(Parent.Default, "[$-pt-PT]0,00"))
                                                 DelayOutput: =true
                                                 DisplayMode: =Parent.DisplayMode
                                                 Font: =Font.'Open Sans'
@@ -1320,6 +1566,740 @@ Screens:
                                                 Width: =30
                                                 Wrap: =false
                                                 Y: =DataCardKey16.Y
+                              - conL4cDetalhe:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =10
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    Visible: =(locL4Nivel = "melhoramento" || locL4Nivel = "revisao") && locL4Modo = "detalhe"
+                                  Children:
+                                    - conL4cDetCab:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =36
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetCliente:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                AutoHeight: =false
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =32
+                                                Size: =16
+                                                Text: =locL4Pedido.Clientes.Nome
+                                                Wrap: =false
+                                          - btnL4cTratamento:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Center
+                                                BorderThickness: =0
+                                                Color: =If(IsBlank(locL4Pedido.Tratamento), nfTextoSuave, locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzul, locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeTexto, locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbar, nfVermelhoTexto)
+                                                DisabledColor: =Self.Color
+                                                DisabledFill: =Self.Fill
+                                                DisplayMode: =DisplayMode.View
+                                                Fill: =If(IsBlank(locL4Pedido.Tratamento), nfLinha, locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.'Por processar', nfAzulFundo, locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Automático, nfVerdeFundo, locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão, nfAmbarFundo, nfVermelhoFundo)
+                                                FontWeight: =FontWeight.Bold
+                                                Height: =26
+                                                HoverColor: =Self.Color
+                                                HoverFill: =Self.Fill
+                                                PressedFill: =Self.Fill
+                                                RadiusBottomLeft: =13
+                                                RadiusBottomRight: =13
+                                                RadiusTopLeft: =13
+                                                RadiusTopRight: =13
+                                                Size: =11
+                                                TabIndex: =-1
+                                                Text: =If(IsBlank(locL4Pedido.Tratamento), "Não processado", Text(locL4Pedido.Tratamento))
+                                                Width: =128
+                                    - conL4cDetLinha:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          DropShadow: =DropShadow.None
+                                          Fill: =nfLinha
+                                          FillPortions: =0
+                                          Height: =1
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                    - conL4cDetData:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetData.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetDataRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Data"
+                                                Width: =104
+                                          - lblL4cDetData:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =Text(locL4Pedido.DataPedido, "dd/mm/yyyy") & If(IsBlank(locL4Pedido.'Registado por'), "", "  ·  registado por " & locL4Pedido.'Registado por'.Nome)
+                                    - conL4cDetEstado:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetEstado.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetEstadoRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Estado"
+                                                Width: =104
+                                          - lblL4cDetEstado:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =Text(locL4Pedido.EstadoPedido)
+                                    - conL4cDetValor:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetValor.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetValorRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Valor"
+                                                Width: =104
+                                          - lblL4cDetValor:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =If(IsBlank(locL4Pedido.Valor), "sem valor", Text(locL4Pedido.Valor, "[$-pt-PT]0,00") & " €")
+                                    - conL4cDetDescricao:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetDescricao.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetDescricaoRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Descrição"
+                                                Width: =104
+                                          - lblL4cDetDescricao:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =Coalesce(locL4Pedido.'Descrição', "—")
+                                    - lblL4cProcTitulo:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfAzul
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Bold
+                                          Size: =16
+                                          Text: ="Processamento automático"
+                                    - lblL4cAguarda:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfAmbar
+                                          Fill: =nfAmbarFundo
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          PaddingBottom: =10
+                                          PaddingLeft: =14
+                                          PaddingRight: =14
+                                          PaddingTop: =10
+                                          Size: =14
+                                          Text: ="A aguardar o fluxo DAC2627_Pedido_Classificar · consulta " & (locL4cTentativas + 1) & " de 20, a cada 3 s."
+                                          Visible: =locL4cAguardar
+                                    - conL4cDetProcessado:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetProcessado.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetProcessadoRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Processado"
+                                                Width: =104
+                                          - lblL4cDetProcessado:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =If(locL4Pedido.Processado, "Sim, em " & Text(locL4Pedido.DataProcessamento, "dd/mm/yyyy hh:mm:ss"), "Ainda não")
+                                    - conL4cDetObs:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetObs.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetObsRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Justificação"
+                                                Width: =104
+                                          - lblL4cDetObs:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =Coalesce(locL4Pedido.ObservacoesProcessamento, "—")
+                                    - conL4cDetExecucao:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =Max(24, lblL4cDetExecucao.Height)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                        Children:
+                                          - lblL4cDetExecucaoRot:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                FocusedBorderThickness: =2
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =24
+                                                Text: ="Execução"
+                                                Width: =104
+                                          - lblL4cDetExecucao:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                AlignInContainer: =AlignInContainer.Start
+                                                AutoHeight: =true
+                                                Color: =nfTexto
+                                                FillPortions: =1
+                                                FocusedBorderThickness: =2
+                                                Size: =14
+                                                Text: =Coalesce(locL4Pedido.IdExecucao, "—")
+                                    - conL4cAcoes:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =If(scrL4Pedidos.Size = ScreenSize.Small, 100, 44)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                          LayoutWrap: =true
+                                        Children:
+                                          - btnL4cAtualizar:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderColor: =nfAzul
+                                                Color: =nfAzul
+                                                Fill: =Color.White
+                                                Height: =44
+                                                HoverColor: =nfAzul
+                                                HoverFill: =nfAzulClaro
+                                                OnSelect: |-
+                                                  =Refresh(Pedidos); UpdateContext({locL4Pedido: LookUp(Pedidos, Pedido = locL4Pedido.Pedido)})
+                                                PressedColor: =nfAzul
+                                                PressedFill: =nfAzulClaro
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Size: =14
+                                                Text: ="Atualizar estado"
+                                                Width: =180
+                                          - btnL4cReprocessar:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderColor: =nfAzul
+                                                Color: =Color.White
+                                                DisplayMode: =If(locL4cAguardar, DisplayMode.Disabled, DisplayMode.Edit)
+                                                Fill: =nfAzul
+                                                Height: =44
+                                                HoverColor: =Color.White
+                                                HoverFill: =nfAzul
+                                                OnSelect: |-
+                                                  =With(
+                                                      {r: IfError(
+                                                          DAC2627_Pedido_Reprocessar.Run(Text(locL4Pedido.Pedido)),
+                                                          {resultado: "erro", mensagem: "Não foi possível chamar o fluxo. " & FirstError.Message}
+                                                      )},
+                                                      If(r.resultado = "ok",
+                                                          UpdateContext({locL4cAguardar: true, locL4cTentativas: 0, locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}),
+                                                          UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem})
+                                                      )
+                                                  )
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfAzul
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Size: =14
+                                                Text: ="Reprocessar"
+                                                Visible: =!(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
+                                                Width: =160
+                                    - lblL4cProcNota:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          Text: ="O fluxo DAC2627_Pedido_Classificar trata o pedido em segundo plano, sem a app ficar à espera. Até ao limite de revisão (variável de ambiente, 500 €) fica Automático, acima dele fica em Revisão e o fluxo DAC2627_Pedido_Notificar avisa os Gestores por email, e sem valor ou com uma falha técnica fica em Erro."
+                                    - conL4cDetLinhaRev:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          DropShadow: =DropShadow.None
+                                          Fill: =nfLinha
+                                          FillPortions: =0
+                                          Height: =1
+                                          LayoutDirection: =LayoutDirection.Vertical
+                                          Visible: =(locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão || !IsBlank(locL4Pedido.Decisao))
+                                    - lblL4cRevTitulo:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfAzul
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Bold
+                                          Size: =16
+                                          Text: ="Revisão humana"
+                                          Visible: =(locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão || !IsBlank(locL4Pedido.Decisao))
+                                    - lblL4cDecisao:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfAmbar
+                                          Fill: =nfAmbarFundo
+                                          FocusedBorderThickness: =2
+                                          PaddingBottom: =10
+                                          PaddingLeft: =14
+                                          PaddingRight: =14
+                                          PaddingTop: =10
+                                          Size: =14
+                                          Text: |-
+                                            ="Decisão: " & If(IsBlank(locL4Pedido.Decisao), "—", Text(locL4Pedido.Decisao)) & If(IsBlank(locL4Pedido.DataDecisao), "", " em " & Text(locL4Pedido.DataDecisao, "dd/mm/yyyy hh:mm")) & If(IsBlank(locL4Pedido.ComentarioDecisao), "", Char(10) & locL4Pedido.ComentarioDecisao) & If((locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado), "", Char(10) & "A proposta e a decisão fazem-se com perfis, na Ficha 04 · Revisão (sétimo cartão do início).")
+                                          Visible: =!(locL4Nivel = "revisao") && (locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão || !IsBlank(locL4Pedido.Decisao))
+                                    - lblL4dDetProposta:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfAzul
+                                          Fill: =nfAzulClaro
+                                          FocusedBorderThickness: =2
+                                          PaddingBottom: =10
+                                          PaddingLeft: =14
+                                          PaddingRight: =14
+                                          PaddingTop: =10
+                                          Size: =14
+                                          Text: |-
+                                            ="Proposta de " & locL4Pedido.'Proposta por'.Nome & " em " & Text(locL4Pedido.'Data da proposta', "dd/mm/yyyy hh:mm") & If(locL4Pedido.Decisao = 'Decisao (Pedidos)'.'Proposta: aprovar', ": aprovar", locL4Pedido.Decisao = 'Decisao (Pedidos)'.'Proposta: rejeitar', ": rejeitar", "") & If(IsBlank(locL4Pedido.'Comentário da proposta'), "", Char(10) & locL4Pedido.'Comentário da proposta')
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && (!IsBlank(locL4Pedido) && !IsBlank(locL4Pedido.'Proposta por'))
+                                    - lblL4dDetDecisao:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =If(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeTexto, nfVermelhoTexto)
+                                          Fill: =If(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado, nfVerdeFundo, nfVermelhoFundo)
+                                          FocusedBorderThickness: =2
+                                          PaddingBottom: =10
+                                          PaddingLeft: =14
+                                          PaddingRight: =14
+                                          PaddingTop: =10
+                                          Size: =14
+                                          Text: |-
+                                            ="Decisão final: " & Lower(Text(locL4Pedido.Decisao)) & If(IsBlank(locL4Pedido.'Decidido por'), "", " por " & locL4Pedido.'Decidido por'.Nome) & If(IsBlank(locL4Pedido.DataDecisao), "", " em " & Text(locL4Pedido.DataDecisao, "dd/mm/yyyy hh:mm")) & If(IsBlank(locL4Pedido.ComentarioDecisao), "", Char(10) & locL4Pedido.ComentarioDecisao)
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && (!IsBlank(locL4Pedido) && (locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado))
+                                    - lblL4dDetEspera:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfAmbar
+                                          Fill: =nfAmbarFundo
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          PaddingBottom: =10
+                                          PaddingLeft: =14
+                                          PaddingRight: =14
+                                          PaddingTop: =10
+                                          Size: =14
+                                          Text: =If(locL4Pedido.Decisao = 'Decisao (Pedidos)'.'Aguarda decisão', "Aguarda a proposta de um Gestor.", "Aguarda a decisão final do Admin.")
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && (!IsBlank(locL4Pedido) && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado))
+                                    - lblL4dSoLeitura:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          Text: ="O perfil Cliente acompanha os pedidos mas não decide."
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && (!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Cliente")
+                                    - lblL4dComentarioRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          AutoHeight: =true
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          FontWeight: =FontWeight.Semibold
+                                          Text: ="Comentário (obrigatório para rejeitar)"
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && ((!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Gestor" && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado)) || (!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Admin" && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado)))
+                                    - txtL4dComentario:
+                                        Control: Classic/TextInput@2.3.2
+                                        Properties:
+                                          AccessibleLabel: ="Comentário da proposta ou da decisão"
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          BorderColor: =nfBorda
+                                          Default: =""
+                                          Height: =80
+                                          HoverBorderColor: =nfAzul
+                                          Mode: =TextMode.MultiLine
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          TabIndex: =0
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && ((!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Gestor" && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado)) || (!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Admin" && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado)))
+                                    - conL4dAcoesGestor:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =44
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                          LayoutJustifyContent: =LayoutJustifyContent.End
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && (!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Gestor" && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado))
+                                        Children:
+                                          - btnL4dProporRejeitar:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderColor: =nfVermelho
+                                                Color: =nfVermelho
+                                                Fill: =Color.White
+                                                Height: =44
+                                                HoverColor: =nfVermelho
+                                                HoverFill: =nfVermelhoFundo
+                                                OnSelect: |-
+                                                  =With(
+                                                      {r: IfError(DAC2627_Pedido_Decidir.Run(gblL4dSessao.token, Text(locL4Pedido.Pedido), "propor_rejeitar", txtL4dComentario.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                                      If(r.resultado = "ok",
+                                                          Refresh(Pedidos);
+                                                          UpdateContext({locL4Pedido: LookUp(Pedidos, Pedido = locL4Pedido.Pedido)});
+                                                          Reset(txtL4dComentario);
+                                                          UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}),
+                                                          UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem})
+                                                      )
+                                                  )
+                                                PressedColor: =nfVermelho
+                                                PressedFill: =nfVermelhoFundo
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Size: =14
+                                                Text: ="Propor rejeitar"
+                                                Width: =160
+                                          - btnL4dProporAprovar:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderColor: =nfAzul
+                                                Color: =Color.White
+                                                Fill: =nfAzul
+                                                Height: =44
+                                                HoverColor: =Color.White
+                                                HoverFill: =nfAzul
+                                                OnSelect: |-
+                                                  =With(
+                                                      {r: IfError(DAC2627_Pedido_Decidir.Run(gblL4dSessao.token, Text(locL4Pedido.Pedido), "propor_aprovar", txtL4dComentario.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                                      If(r.resultado = "ok",
+                                                          Refresh(Pedidos);
+                                                          UpdateContext({locL4Pedido: LookUp(Pedidos, Pedido = locL4Pedido.Pedido)});
+                                                          Reset(txtL4dComentario);
+                                                          UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}),
+                                                          UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem})
+                                                      )
+                                                  )
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfAzul
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Size: =14
+                                                Text: ="Propor aprovar"
+                                                Width: =160
+                                    - conL4dAcoesAdmin:
+                                        Control: GroupContainer@1.5.0
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          Height: =44
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =12
+                                          LayoutJustifyContent: =LayoutJustifyContent.End
+                                          Visible: =locL4Nivel = "revisao" && locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Revisão && (!IsBlank(locL4Pedido) && gblL4dSessao.perfil = "Admin" && !(locL4Pedido.Decisao = 'Decisao (Pedidos)'.Aprovado || locL4Pedido.Decisao = 'Decisao (Pedidos)'.Rejeitado))
+                                        Children:
+                                          - btnL4dRejeitar:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderColor: =nfVermelho
+                                                Color: =nfVermelho
+                                                Fill: =Color.White
+                                                Height: =44
+                                                HoverColor: =nfVermelho
+                                                HoverFill: =nfVermelhoFundo
+                                                OnSelect: |-
+                                                  =With(
+                                                      {r: IfError(DAC2627_Pedido_Decidir.Run(gblL4dSessao.token, Text(locL4Pedido.Pedido), "rejeitar", txtL4dComentario.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                                      If(r.resultado = "ok",
+                                                          Refresh(Pedidos);
+                                                          UpdateContext({locL4Pedido: LookUp(Pedidos, Pedido = locL4Pedido.Pedido)});
+                                                          Reset(txtL4dComentario);
+                                                          UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}),
+                                                          UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem})
+                                                      )
+                                                  )
+                                                PressedColor: =nfVermelho
+                                                PressedFill: =nfVermelhoFundo
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Size: =14
+                                                Text: ="Rejeitar"
+                                                Width: =130
+                                          - btnL4dAprovar:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderColor: =nfVerde
+                                                Color: =Color.White
+                                                Fill: =nfVerde
+                                                Height: =44
+                                                HoverColor: =Color.White
+                                                HoverFill: =nfVerdeTexto
+                                                OnSelect: |-
+                                                  =With(
+                                                      {r: IfError(DAC2627_Pedido_Decidir.Run(gblL4dSessao.token, Text(locL4Pedido.Pedido), "aprovar", txtL4dComentario.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                                      If(r.resultado = "ok",
+                                                          Refresh(Pedidos);
+                                                          UpdateContext({locL4Pedido: LookUp(Pedidos, Pedido = locL4Pedido.Pedido)});
+                                                          Reset(txtL4dComentario);
+                                                          UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}),
+                                                          UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem})
+                                                      )
+                                                  )
+                                                PressedColor: =Color.White
+                                                PressedFill: =nfVerdeTexto
+                                                RadiusBottomLeft: =12
+                                                RadiusBottomRight: =12
+                                                RadiusTopLeft: =12
+                                                RadiusTopRight: =12
+                                                Size: =14
+                                                Text: ="Aprovar"
+                                                Width: =130
+                              - conL4cTestes:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =If(scrL4Pedidos.Size = ScreenSize.Small, 96, 44)
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =8
+                                    LayoutWrap: =true
+                                    Visible: =(locL4Nivel = "melhoramento" || locL4Nivel = "revisao") && locL4Modo = "pedido" && locL4Acao = "criar"
+                                  Children:
+                                    - lblL4cTestesRot:
+                                        Control: Label@2.5.1
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          AutoHeight: =false
+                                          Color: =nfTextoSuave
+                                          FocusedBorderThickness: =2
+                                          Height: =44
+                                          Text: ="Testes da aula:"
+                                          Width: =110
+                                    - btnL4cTeste100:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "100"}); Reset(txtL4PedValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="100"
+                                          Width: =72
+                                    - btnL4cTeste500:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "500"}); Reset(txtL4PedValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="500"
+                                          Width: =72
+                                    - btnL4cTeste750:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "750"}); Reset(txtL4PedValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="750"
+                                          Width: =72
+                                    - btnL4cTesteSemvalor:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =UpdateContext({locL4cValorTeste: "sem"}); Reset(txtL4PedValor)
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =13
+                                          Text: ="Sem valor"
+                                          Width: =120
                               - conL4Rodape:
                                   Control: GroupContainer@1.5.0
                                   Variant: AutoLayout
@@ -1332,6 +2312,44 @@ Screens:
                                     LayoutGap: =If(scrL4Pedidos.Size = ScreenSize.Small, 8, 12)
                                     LayoutJustifyContent: =LayoutJustifyContent.End
                                   Children:
+                                    - btnL4cVoltar:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          BorderThickness: =1
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          FillPortions: =If(scrL4Pedidos.Size = ScreenSize.Small, 1, 0)
+                                          Height: =44
+                                          LayoutMinWidth: =0
+                                          OnSelect: |-
+                                            =UpdateContext({locL4Modo: "", locL4cAguardar: false})
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
+                                          Text: ="‹ Pedidos"
+                                          Visible: =locL4Modo = "detalhe"
+                                          Width: =150
+                                    - btnL4cEditar:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          Color: =Color.White
+                                          Fill: =nfAzul
+                                          FillPortions: =If(scrL4Pedidos.Size = ScreenSize.Small, 1, 0)
+                                          Height: =44
+                                          LayoutMinWidth: =0
+                                          OnSelect: |-
+                                            =UpdateContext({locL4Modo: "pedido", locL4Acao: "editar", locL4cAguardar: false, locL4cValorTeste: ""}); EditForm(frmL4Pedido)
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
+                                          Text: ="Editar pedido"
+                                          Visible: =locL4Modo = "detalhe" && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
+                                          Width: =150
                                     - btnL4RemoverCliente:
                                         Control: Classic/Button@2.2.0
                                         Properties:
@@ -1350,7 +2368,7 @@ Screens:
                                           RadiusTopRight: =12
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
                                           Text: =If(scrL4Pedidos.Size = ScreenSize.Small, "Remover", "Remover cliente")
-                                          Visible: =IsBlank(locL4Modo) && !IsBlank(locL4Cliente)
+                                          Visible: =IsBlank(locL4Modo) && !IsBlank(locL4Cliente) && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
                                           Width: =150
                                     - btnL4EditarCliente:
                                         Control: Classic/Button@2.2.0
@@ -1371,7 +2389,7 @@ Screens:
                                           RadiusTopRight: =12
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
                                           Text: =If(scrL4Pedidos.Size = ScreenSize.Small, "Editar", "Editar cliente")
-                                          Visible: =IsBlank(locL4Modo) && !IsBlank(locL4Cliente)
+                                          Visible: =IsBlank(locL4Modo) && !IsBlank(locL4Cliente) && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
                                           Width: =150
                                     - btnL4NovoCliente:
                                         Control: Classic/Button@2.2.0
@@ -1392,7 +2410,7 @@ Screens:
                                           RadiusTopRight: =12
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
                                           Text: =If(scrL4Pedidos.Size = ScreenSize.Small, "+ Cliente", "+ Novo cliente")
-                                          Visible: =IsBlank(locL4Modo)
+                                          Visible: =IsBlank(locL4Modo) && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
                                           Width: =150
                                     - btnL4NovoPedido:
                                         Control: Classic/Button@2.2.0
@@ -1404,7 +2422,7 @@ Screens:
                                           LayoutMinWidth: =0
                                           OnSelect: |-
                                             =NewForm(frmL4Pedido);
-                                            UpdateContext({locL4Pedido: Blank(), locL4Modo: "pedido", locL4Acao: "criar", locL4Msg: "", locL4Timer: false})
+                                            UpdateContext({locL4Pedido: Blank(), locL4Modo: "pedido", locL4Acao: "criar", locL4cValorTeste: "", locL4cAguardar: false, locL4Msg: "", locL4Timer: false})
                                           RadiusBottomLeft: =12
                                           RadiusBottomRight: =12
                                           RadiusTopLeft: =12
@@ -1431,7 +2449,7 @@ Screens:
                                           RadiusTopRight: =12
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
                                           Text: =If(scrL4Pedidos.Size = ScreenSize.Small, "Remover", "Remover pedido")
-                                          Visible: =locL4Modo = "pedido" && locL4Acao = "editar"
+                                          Visible: =locL4Modo = "pedido" && locL4Acao = "editar" && !(locL4Nivel = "revisao" && gblL4dSessao.perfil = "Cliente")
                                           Width: =150
                                     - btnL4Cancelar:
                                         Control: Classic/Button@2.2.0
@@ -1446,14 +2464,14 @@ Screens:
                                           OnSelect: |-
                                             =ResetForm(frmL4Cliente);
                                             ResetForm(frmL4Pedido);
-                                            UpdateContext({locL4Modo: "", locL4Confirmar: ""})
+                                            UpdateContext({locL4Modo: If((locL4Nivel = "melhoramento" || locL4Nivel = "revisao") && locL4Modo = "pedido" && locL4Acao = "editar", "detalhe", ""), locL4Confirmar: "", locL4cValorTeste: ""})
                                           RadiusBottomLeft: =12
                                           RadiusBottomRight: =12
                                           RadiusTopLeft: =12
                                           RadiusTopRight: =12
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
                                           Text: ="Cancelar"
-                                          Visible: =!IsBlank(locL4Modo)
+                                          Visible: =locL4Modo = "cliente" || locL4Modo = "pedido"
                                           Width: =150
                                     - btnL4Guardar:
                                         Control: Classic/Button@2.2.0
@@ -1475,8 +2493,591 @@ Screens:
                                           RadiusTopRight: =12
                                           Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 11, 13)
                                           Text: ="Guardar"
-                                          Visible: =!IsBlank(locL4Modo)
+                                          Visible: =locL4Modo = "cliente" || locL4Modo = "pedido"
                                           Width: =150
+                  - conL4dAreaTopo:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =44
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =12
+                        Visible: =!IsBlank(locL4Area)
+                      Children:
+                        - lblL4dAreaTitulo:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Center
+                              AutoHeight: =false
+                              Color: =nfTexto
+                              FillPortions: =1
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Bold
+                              Height: =44
+                              Size: =If(scrL4Pedidos.Size = ScreenSize.Small, 18, 22)
+                              Text: =If(locL4Area = "utilizadores", "Utilizadores", "A minha password")
+                              Wrap: =false
+                        - btnL4dAreaVoltar:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              BorderThickness: =1
+                              Color: =nfAzul
+                              Fill: =Color.White
+                              Height: =44
+                              HoverColor: =nfAzul
+                              HoverFill: =nfAzulClaro
+                              OnSelect: |-
+                                =UpdateContext({locL4Area: "", locL4dUtil: Blank()})
+                              PressedColor: =nfAzul
+                              PressedFill: =nfAzulClaro
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =14
+                              Text: ="‹ Pedidos"
+                              Width: =130
+                  - conL4dVistaUtilizadores:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        Height: =If(scrL4Pedidos.Size = ScreenSize.Small, conL4dUtilLista.Height + conL4dUtilForm.Height + 16, Max(conL4dUtilLista.Height, conL4dUtilForm.Height)) + 2
+                        LayoutDirection: =If(scrL4Pedidos.Size = ScreenSize.Small, LayoutDirection.Vertical, LayoutDirection.Horizontal)
+                        LayoutGap: =16
+                        PaddingBottom: =2
+                        Visible: =locL4Nivel = "revisao" && locL4Area = "utilizadores" && gblL4dSessao.perfil = "Admin"
+                      Children:
+                        - conL4dUtilLista:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =If(scrL4Pedidos.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              DropShadow: =DropShadow.None
+                              FillPortions: =If(scrL4Pedidos.Size = ScreenSize.Small, 0, 1)
+                              Height: =44 + 12 + conL4dUtilCartao.Height
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =12
+                              LayoutMinWidth: =300
+                            Children:
+                              - btnL4dUtilNovo:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =nfAzul
+                                    Color: =nfAzul
+                                    Fill: =Color.White
+                                    Height: =44
+                                    HoverColor: =nfAzul
+                                    HoverFill: =nfAzulClaro
+                                    OnSelect: |-
+                                      =UpdateContext({locL4dUtil: Blank()}); Reset(txtL4dUtilNome); Reset(txtL4dUtilEmail); Reset(drpL4dUtilPerfil); Reset(drpL4dUtilCliente); Reset(chkL4dUtilAtivo); Reset(txtL4dUtilPassword)
+                                    PressedColor: =nfAzul
+                                    PressedFill: =nfAzulClaro
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Size: =14
+                                    Text: ="Novo utilizador"
+                                    Width: =180
+                              - conL4dUtilCartao:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    BorderColor: =nfLinha
+                                    BorderThickness: =1
+                                    DropShadow: =DropShadow.None
+                                    Fill: =Color.White
+                                    FillPortions: =0
+                                    Height: =galL4dUtilizadores.Height + 2
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    PaddingBottom: =1
+                                    PaddingLeft: =1
+                                    PaddingRight: =1
+                                    PaddingTop: =1
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                  Children:
+                                    - galL4dUtilizadores:
+                                        Control: Gallery@2.15.0
+                                        Variant: Vertical
+                                        Properties:
+                                          AccessibleLabel: ="Utilizadores"
+                                          AlignInContainer: =AlignInContainer.Stretch
+                                          FillPortions: =0
+                                          Height: =Max(1, Self.AllItemsCount) * Self.TemplateHeight
+                                          Items: =Sort(Utilizadores, Nome)
+                                          LayoutMinHeight: =0
+                                          OnSelect: |-
+                                            =UpdateContext({locL4dUtil: ThisItem}); Reset(txtL4dUtilNome); Reset(txtL4dUtilEmail); Reset(drpL4dUtilPerfil); Reset(drpL4dUtilCliente); Reset(chkL4dUtilAtivo); Reset(txtL4dUtilPassword)
+                                          TabIndex: =0
+                                          TemplateFill: =If(ThisItem.Utilizador = locL4dUtil.Utilizador, nfAzulFundo, Color.White)
+                                          TemplatePadding: =0
+                                          TemplateSize: =70
+                                        Children:
+                                          - lblL4dGUtilNome:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTexto
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =28
+                                                OnSelect: =Select(Parent)
+                                                Size: =14
+                                                Text: =ThisItem.Nome & "  ·  " & Text(ThisItem.Perfil)
+                                                Width: =Parent.TemplateWidth - 176
+                                                Wrap: =false
+                                                X: =16
+                                                Y: =8
+                                          - lblL4dGUtilEmail:
+                                              Control: Label@2.5.1
+                                              Properties:
+                                                Color: =nfTextoSuave
+                                                Height: =24
+                                                OnSelect: =Select(Parent)
+                                                Text: =ThisItem.Email
+                                                Width: =Parent.TemplateWidth - 32
+                                                Wrap: =false
+                                                X: =16
+                                                Y: =38
+                                          - btnL4dGUtilEstado:
+                                              Control: Classic/Button@2.2.0
+                                              Properties:
+                                                BorderThickness: =0
+                                                Color: =If(If(!ThisItem.Ativo, "Inativo", !IsBlank(ThisItem.'Bloqueado até') && ThisItem.'Bloqueado até' > Now(), "Bloqueado", IsBlank(ThisItem.'Iterações'), "Sem password", "Ativo") = "Ativo", nfVerdeTexto, nfAmbar)
+                                                DisabledColor: =Self.Color
+                                                DisabledFill: =Self.Fill
+                                                DisplayMode: =DisplayMode.View
+                                                Fill: =If(If(!ThisItem.Ativo, "Inativo", !IsBlank(ThisItem.'Bloqueado até') && ThisItem.'Bloqueado até' > Now(), "Bloqueado", IsBlank(ThisItem.'Iterações'), "Sem password", "Ativo") = "Ativo", nfVerdeFundo, nfAmbarFundo)
+                                                FontWeight: =FontWeight.Bold
+                                                Height: =26
+                                                HoverColor: =Self.Color
+                                                HoverFill: =Self.Fill
+                                                OnSelect: =Select(Parent)
+                                                PressedFill: =Self.Fill
+                                                RadiusBottomLeft: =13
+                                                RadiusBottomRight: =13
+                                                RadiusTopLeft: =13
+                                                RadiusTopRight: =13
+                                                Size: =11
+                                                TabIndex: =-1
+                                                Text: =If(!ThisItem.Ativo, "Inativo", !IsBlank(ThisItem.'Bloqueado até') && ThisItem.'Bloqueado até' > Now(), "Bloqueado", IsBlank(ThisItem.'Iterações'), "Sem password", "Ativo")
+                                                Width: =140
+                                                X: =Parent.TemplateWidth - Self.Width - 16
+                                                Y: =9
+                                          - recL4dGUtilSeparador:
+                                              Control: Rectangle@2.3.0
+                                              Properties:
+                                                Fill: =nfLinha
+                                                Height: =1
+                                                Width: =Parent.TemplateWidth
+                                                Y: =Parent.TemplateHeight - 1
+                        - conL4dUtilForm:
+                            Control: GroupContainer@1.5.0
+                            Variant: AutoLayout
+                            Properties:
+                              AlignInContainer: =If(scrL4Pedidos.Size = ScreenSize.Small, AlignInContainer.Stretch, AlignInContainer.Start)
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
+                              DropShadow: =DropShadow.None
+                              Fill: =Color.White
+                              FillPortions: =If(scrL4Pedidos.Size = ScreenSize.Small, 0, 1)
+                              Height: =40 + lblL4dUtilTitulo.Height + 10 + lblL4dUtilNomeRot.Height + 10 + 48 + 10 + lblL4dUtilEmailRot.Height + 10 + 48 + 10 + lblL4dUtilPerfilRot.Height + 10 + 48 + If(lblL4dUtilClienteRot.Visible, 10 + lblL4dUtilClienteRot.Height, 0) + If(drpL4dUtilCliente.Visible, 10 + 48, 0) + 10 + 44 + 10 + 44 + 10 + lblL4dUtilPassRot.Height + 10 + 48 + 10 + 44
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =10
+                              LayoutMinWidth: =300
+                              PaddingBottom: =20
+                              PaddingLeft: =20
+                              PaddingRight: =20
+                              PaddingTop: =20
+                              RadiusBottomLeft: =16
+                              RadiusBottomRight: =16
+                              RadiusTopLeft: =16
+                              RadiusTopRight: =16
+                            Children:
+                              - lblL4dUtilTitulo:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfAzul
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Bold
+                                    Size: =18
+                                    Text: =If(IsBlank(locL4dUtil), "Novo utilizador", locL4dUtil.Nome)
+                              - lblL4dUtilNomeRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Nome"
+                              - txtL4dUtilNome:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Nome do utilizador"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =locL4dUtil.Nome
+                                    Height: =48
+                                    HoverBorderColor: =nfAzul
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - lblL4dUtilEmailRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Email"
+                              - txtL4dUtilEmail:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Email do utilizador"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =locL4dUtil.Email
+                                    Height: =48
+                                    HoverBorderColor: =nfAzul
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - lblL4dUtilPerfilRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Perfil"
+                              - drpL4dUtilPerfil:
+                                  Control: Classic/DropDown@2.3.1
+                                  Properties:
+                                    AccessibleLabel: ="Perfil do utilizador"
+                                    AllowEmptySelection: =true
+                                    BorderColor: =nfBorda
+                                    ChevronBackground: =nfAzul
+                                    ChevronFill: =Color.White
+                                    Default: =If(IsBlank(locL4dUtil), Blank(), locL4dUtil.Perfil)
+                                    Height: =48
+                                    HoverFill: =nfAzulFundo
+                                    Items: =Choices('Perfil (Utilizadores)')
+                                    Items.Value: =Value
+                                    PressedColor: =Color.White
+                                    PressedFill: =nfAzul
+                                    SelectionColor: =Color.White
+                                    SelectionFill: =nfAzul
+                                    TabIndex: =0
+                                    Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                              - lblL4dUtilClienteRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Cliente associado"
+                                    Visible: =drpL4dUtilPerfil.Selected.Value = 'Perfil (Utilizadores)'.Cliente
+                              - drpL4dUtilCliente:
+                                  Control: Classic/DropDown@2.3.1
+                                  Properties:
+                                    AccessibleLabel: ="Cliente associado ao utilizador"
+                                    AllowEmptySelection: =true
+                                    BorderColor: =nfBorda
+                                    ChevronBackground: =nfAzul
+                                    ChevronFill: =Color.White
+                                    Default: =If(IsBlank(locL4dUtil.Cliente), Blank(), locL4dUtil.Cliente.Nome)
+                                    Height: =48
+                                    HoverFill: =nfAzulFundo
+                                    Items: =Sort(Clientes, Nome)
+                                    Items.Value: =Nome
+                                    PressedColor: =Color.White
+                                    PressedFill: =nfAzul
+                                    SelectionColor: =Color.White
+                                    SelectionFill: =nfAzul
+                                    TabIndex: =0
+                                    Visible: =drpL4dUtilPerfil.Selected.Value = 'Perfil (Utilizadores)'.Cliente
+                                    Width: =Parent.Width - Parent.PaddingLeft - Parent.PaddingRight
+                              - chkL4dUtilAtivo:
+                                  Control: Classic/CheckBox@2.1.0
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    CheckboxSize: =24
+                                    CheckmarkFill: =nfTexto
+                                    Color: =nfTexto
+                                    Default: =If(IsBlank(locL4dUtil), true, locL4dUtil.Ativo)
+                                    Height: =44
+                                    HoverColor: =nfAzul
+                                    Size: =14
+                                    TabIndex: =0
+                                    Text: ="Ativo (pode entrar)"
+                              - conL4dUtilAcoes:
+                                  Control: GroupContainer@1.5.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    Height: =44
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                  Children:
+                                    - btnL4dUtilGuardar:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =Color.White
+                                          Fill: =nfAzul
+                                          Height: =44
+                                          HoverColor: =Color.White
+                                          HoverFill: =nfAzul
+                                          OnSelect: |-
+                                            =If(
+                                                IsBlank(Trim(txtL4dUtilNome.Text)) || !IsMatch(Trim(txtL4dUtilEmail.Text), Match.Email) || IsBlank(drpL4dUtilPerfil.Selected.Value),
+                                                UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "Preencha o nome, um email válido e o perfil."}),
+                                                drpL4dUtilPerfil.Selected.Value = 'Perfil (Utilizadores)'.Cliente && IsBlank(drpL4dUtilCliente.Selected.Cliente),
+                                                UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "Um utilizador com o perfil Cliente tem de ter um cliente associado."}),
+                                                IfError(
+                                                    UpdateContext({locL4dUtil: Patch(Utilizadores, If(IsBlank(locL4dUtil), Defaults(Utilizadores), locL4dUtil), {
+                                                        Nome: Trim(txtL4dUtilNome.Text),
+                                                        Email: Lower(Trim(txtL4dUtilEmail.Text)),
+                                                        Perfil: drpL4dUtilPerfil.Selected.Value,
+                                                        Cliente: If(drpL4dUtilPerfil.Selected.Value = 'Perfil (Utilizadores)'.Cliente, LookUp(Clientes, Cliente = drpL4dUtilCliente.Selected.Cliente), Blank()),
+                                                        Ativo: chkL4dUtilAtivo.Value
+                                                    })}),
+                                                    UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "Não foi possível guardar (o email já existe?). " & FirstError.Message}),
+                                                    UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: If(IsBlank(locL4dUtil.'Iterações'), "Utilizador guardado. Defina-lhe a password para poder entrar.", "Utilizador guardado.")})
+                                                )
+                                            )
+                                          PressedColor: =Color.White
+                                          PressedFill: =nfAzul
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="Guardar"
+                                          Width: =150
+                                    - btnL4dUtilDesbloquear:
+                                        Control: Classic/Button@2.2.0
+                                        Properties:
+                                          BorderColor: =nfAzul
+                                          Color: =nfAzul
+                                          Fill: =Color.White
+                                          Height: =44
+                                          HoverColor: =nfAzul
+                                          HoverFill: =nfAzulClaro
+                                          OnSelect: |-
+                                            =Patch(Utilizadores, locL4dUtil, {'Tentativas falhadas': 0, 'Bloqueado até': Blank()}); UpdateContext({locL4dUtil: LookUp(Utilizadores, Utilizador = locL4dUtil.Utilizador)}); UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: "Utilizador desbloqueado."})
+                                          PressedColor: =nfAzul
+                                          PressedFill: =nfAzulClaro
+                                          RadiusBottomLeft: =12
+                                          RadiusBottomRight: =12
+                                          RadiusTopLeft: =12
+                                          RadiusTopRight: =12
+                                          Size: =14
+                                          Text: ="Desbloquear"
+                                          Visible: =!IsBlank(locL4dUtil.'Bloqueado até') && locL4dUtil.'Bloqueado até' > Now()
+                                          Width: =160
+                              - lblL4dUtilPassRot:
+                                  Control: Label@2.5.1
+                                  Properties:
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    AutoHeight: =true
+                                    Color: =nfTextoSuave
+                                    FocusedBorderThickness: =2
+                                    FontWeight: =FontWeight.Semibold
+                                    Text: ="Definir a password (mínimo 8 caracteres)"
+                              - txtL4dUtilPassword:
+                                  Control: Classic/TextInput@2.3.2
+                                  Properties:
+                                    AccessibleLabel: ="Nova password do utilizador"
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    BorderColor: =nfBorda
+                                    Default: =""
+                                    Height: =48
+                                    HintText: ="Nova password"
+                                    HoverBorderColor: =nfAzul
+                                    Mode: =TextMode.Password
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    TabIndex: =0
+                              - btnL4dUtilDefinir:
+                                  Control: Classic/Button@2.2.0
+                                  Properties:
+                                    BorderColor: =nfAzul
+                                    Color: =nfAzul
+                                    DisplayMode: =If(IsBlank(locL4dUtil) || Len(txtL4dUtilPassword.Text) < 8, DisplayMode.Disabled, DisplayMode.Edit)
+                                    Fill: =Color.White
+                                    Height: =44
+                                    HoverColor: =nfAzul
+                                    HoverFill: =nfAzulClaro
+                                    OnSelect: |-
+                                      =If(
+                                          IsBlank(locL4dUtil),
+                                          UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "Guarde primeiro o utilizador."}),
+                                          With(
+                                              {r: IfError(DAC2627_Utilizador_DefinirPassword.Run(gblL4dSessao.token, Text(locL4dUtil.Utilizador), txtL4dUtilPassword.Text, ""), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                              Reset(txtL4dUtilPassword);
+                                              If(r.resultado = "ok",
+                                                  Refresh(Utilizadores); UpdateContext({locL4dUtil: LookUp(Utilizadores, Utilizador = locL4dUtil.Utilizador)}); UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}),
+                                                  UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem})
+                                              )
+                                          )
+                                      )
+                                    PressedColor: =nfAzul
+                                    PressedFill: =nfAzulClaro
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
+                                    Size: =14
+                                    Text: ="Definir password"
+                                    Width: =200
+                  - conL4dVistaPassword:
+                      Control: GroupContainer@1.5.0
+                      Variant: AutoLayout
+                      Properties:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =nfLinha
+                        BorderThickness: =1
+                        DropShadow: =DropShadow.None
+                        Fill: =Color.White
+                        FillPortions: =0
+                        Height: =30 + 10 + lblL4dPassAtualRot.Height + 10 + 48 + 10 + lblL4dPassNovaRot.Height + 10 + 48 + 10 + lblL4dPassConfirmaRot.Height + 10 + 48 + 10 + 44
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        PaddingBottom: =20
+                        PaddingLeft: =20
+                        PaddingRight: =20
+                        PaddingTop: =20
+                        RadiusBottomLeft: =16
+                        RadiusBottomRight: =16
+                        RadiusTopLeft: =16
+                        RadiusTopRight: =16
+                        Visible: =locL4Nivel = "revisao" && locL4Area = "password"
+                        Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 560)
+                      Children:
+                        - lblL4dPassAtualRot:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              AutoHeight: =true
+                              Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Text: ="Password atual"
+                        - txtL4dPassAtual:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              AccessibleLabel: ="Password atual"
+                              AlignInContainer: =AlignInContainer.Stretch
+                              BorderColor: =nfBorda
+                              Default: =""
+                              Height: =48
+                              HoverBorderColor: =nfAzul
+                              Mode: =TextMode.Password
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              TabIndex: =0
+                        - lblL4dPassNovaRot:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              AutoHeight: =true
+                              Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Text: ="Nova password (8 a 128 caracteres)"
+                        - txtL4dPassNova:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              AccessibleLabel: ="Nova password"
+                              AlignInContainer: =AlignInContainer.Stretch
+                              BorderColor: =nfBorda
+                              Default: =""
+                              Height: =48
+                              HoverBorderColor: =nfAzul
+                              Mode: =TextMode.Password
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              TabIndex: =0
+                        - lblL4dPassConfirmaRot:
+                            Control: Label@2.5.1
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Stretch
+                              AutoHeight: =true
+                              Color: =nfTextoSuave
+                              FocusedBorderThickness: =2
+                              FontWeight: =FontWeight.Semibold
+                              Text: ="Confirmar a nova password"
+                        - txtL4dPassConfirma:
+                            Control: Classic/TextInput@2.3.2
+                            Properties:
+                              AccessibleLabel: ="Confirmar a nova password"
+                              AlignInContainer: =AlignInContainer.Stretch
+                              BorderColor: =nfBorda
+                              Default: =""
+                              Height: =48
+                              HoverBorderColor: =nfAzul
+                              Mode: =TextMode.Password
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              TabIndex: =0
+                        - btnL4dPassMudar:
+                            Control: Classic/Button@2.2.0
+                            Properties:
+                              BorderColor: =nfAzul
+                              Color: =Color.White
+                              Fill: =nfAzul
+                              Height: =44
+                              HoverColor: =Color.White
+                              HoverFill: =nfAzul
+                              OnSelect: |-
+                                =If(
+                                    Len(txtL4dPassNova.Text) < 8 || Len(txtL4dPassNova.Text) > 128,
+                                    UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "A nova password tem de ter entre 8 e 128 caracteres."}),
+                                    txtL4dPassNova.Text <> txtL4dPassConfirma.Text,
+                                    UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: "A confirmação não é igual à nova password."}),
+                                    With(
+                                        {r: IfError(DAC2627_Utilizador_DefinirPassword.Run(gblL4dSessao.token, "", txtL4dPassNova.Text, txtL4dPassAtual.Text), {resultado: "erro", mensagem: "Não foi possível contactar o fluxo. " & FirstError.Message, token: "", nome: "", perfil: "", utilizadorid: "", clienteid: ""})},
+                                        Reset(txtL4dPassAtual); Reset(txtL4dPassNova); Reset(txtL4dPassConfirma);
+                                        If(r.resultado = "ok", UpdateContext({locL4MsgTipo: "ok", locL4Timer: true, locL4Msg: r.mensagem}), UpdateContext({locL4MsgTipo: "erro", locL4Timer: false, locL4Msg: r.mensagem}))
+                                    )
+                                )
+                              PressedColor: =Color.White
+                              PressedFill: =nfAzul
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
+                              Size: =14
+                              Text: ="Mudar password"
+                              Width: =If(scrL4Pedidos.Size = ScreenSize.Small, Parent.Width - Parent.PaddingLeft - Parent.PaddingRight, 220)
       - recL4Veu:
           Control: Rectangle@2.3.0
           Properties:
@@ -1616,7 +3217,7 @@ Screens:
           Properties:
             DropShadow: =DropShadow.Regular
             Fill: =If(locL4MsgTipo = "erro", nfVermelhoFundo, nfVerdeFundo)
-            Height: =56
+            Height: =Max(56, lblL4Mensagem.Height + 32)
             LayoutAlignItems: =LayoutAlignItems.Center
             LayoutDirection: =LayoutDirection.Horizontal
             LayoutGap: =12
@@ -1644,6 +3245,7 @@ Screens:
             - lblL4Mensagem:
                 Control: Label@2.5.1
                 Properties:
+                  AutoHeight: =true
                   Color: =If(locL4MsgTipo = "erro", nfVermelhoTexto, nfVerdeTexto)
                   FillPortions: =1
                   FocusedBorderThickness: =2
@@ -1667,4 +3269,22 @@ Screens:
             OnTimerEnd: |-
               =UpdateContext({locL4Msg: "", locL4Timer: false})
             Start: =locL4Timer
+            Visible: =false
+      - tmrL4cEstado:
+          Control: Timer@2.1.0
+          Properties:
+            Duration: =3000
+            OnTimerEnd: |-
+              =Refresh(Pedidos);
+              UpdateContext({locL4Pedido: LookUp(Pedidos, Pedido = locL4Pedido.Pedido), locL4cTentativas: locL4cTentativas + 1});
+              If(
+                  locL4Pedido.Processado,
+                  UpdateContext({locL4cAguardar: false, locL4MsgTipo: If(locL4Pedido.Tratamento = 'Tratamento (Pedidos)'.Erro, "erro", "ok"), locL4Timer: true,
+                      locL4Msg: "Pedido " & locL4Pedido.NumeroPedido & " processado: " & Text(locL4Pedido.Tratamento) & "."}),
+                  locL4cTentativas >= 20,
+                  UpdateContext({locL4cAguardar: false, locL4MsgTipo: "erro", locL4Timer: false,
+                      locL4Msg: "O fluxo ainda não terminou ao fim de 60 s. Use Atualizar estado mais tarde."})
+              )
+            Repeat: =locL4cAguardar
+            Start: =locL4cAguardar
             Visible: =false

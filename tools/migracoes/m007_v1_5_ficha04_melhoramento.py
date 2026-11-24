@@ -1,5 +1,8 @@
 """Migração 007 · v1.5.0 · Ficha 04 · Melhoramento: o Lab 4 com o processamento na cloud da aula 7.
 
+Retirada na v1.7.0: o ecrã passou a modo do scrL4Pedidos (m009), que reutiliza as peças deste módulo.
+O main() já não escreve nada. O texto abaixo descreve o que fazia na v1.5.0.
+
 Corre sobre src/ depois da m005 e é idempotente: correr de novo não muda nada.
 
     python -m tools.migracoes.m007_v1_5_ficha04_melhoramento
@@ -445,23 +448,8 @@ def migrar_documento(doc: dict) -> None:
 
 
 def main(raiz: Path = projeto.RAIZ) -> int:
-    mudados = 0
-    for f in projeto.ficheiros_src(raiz):
-        antes = f.read_text(encoding="utf-8")
-        d = yamlio.ler(f)
-        migrar_documento(d)
-        depois = yamlio.escrever_texto(d)
-        if depois != antes:
-            f.write_text(depois, encoding="utf-8")
-            mudados += 1
-            print("migrado:", f.relative_to(raiz))
-    novo = raiz / "src" / "screens" / f"{ECRA}.pa.yaml"
-    texto = yamlio.escrever_texto(ecra())
-    if not novo.exists() or novo.read_text(encoding="utf-8") != texto:
-        novo.write_text(texto, encoding="utf-8")
-        mudados += 1
-        print("escrito:", novo.relative_to(raiz))
-    print(f"m007: {mudados} ficheiro(s) alterado(s)")
+    """Retirada na v1.7.0: o scrL4Melhoramento passou a modo do scrL4Pedidos (m009), que reutiliza as peças deste módulo."""
+    print("m007: retirada na v1.7.0, corra a m009. Nada a fazer.")
     return 0
 
 

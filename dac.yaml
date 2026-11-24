@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.6.0
+versao: 1.7.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -16,8 +16,12 @@ ecras:
   - scrL3Publicacao
   - scrL4Pedidos
   - scrL4Complemento
-  - scrL4Melhoramento
   - scrL4Entrar
+
+# Ecrãs que saíram da app: o ORDEM.md pede para os eliminar, se ainda lá estiverem.
+# Na v1.7.0 o Melhoramento e a Revisão passaram a modos do scrL4Pedidos (m009).
+retirados:
+  - scrL4Melhoramento
   - scrL4Revisao
 
 # Fontes de dados que a app usa. Os .yaml dos ecrãs referem-nas pelo nome mas não as trazem:
@@ -87,19 +91,13 @@ lint:
       motivo: Pílula decorativa com o estado do pedido; o foco vai para a linha da galeria.
     - regra: DAC302
       controlo: btnL4cTratamento
-      motivo: Pílula decorativa com o tratamento do pedido; a informação repete-se no texto dos detalhes.
+      motivo: Pílula decorativa com o tratamento do pedido no detalhe; a justificação do fluxo está nas linhas por baixo.
     - regra: DAC302
       controlo: btnL4cGTratamento
-      motivo: Pílula decorativa com o tratamento do pedido; o foco vai para a linha da galeria.
-    - regra: DAC302
-      controlo: btnL4dGDecisao
-      motivo: Pílula decorativa com a decisão do pedido; o foco vai para a linha da galeria.
+      motivo: Pílula decorativa com o tratamento do pedido (na Revisão, a decisão); o foco vai para a linha da galeria.
     - regra: DAC302
       controlo: btnL4dGUtilEstado
       motivo: Pílula decorativa com o estado do utilizador; o foco vai para a linha da galeria.
-    - regra: DAC302
-      controlo: btnL4dDetEstado
-      motivo: Pílula decorativa com a decisão do pedido no detalhe; a mesma informação está na linha da lista e nas caixas do detalhe.
     - regra: DAC302
       controlo: btnL4dIniciais
       motivo: Pílula decorativa com as iniciais de quem entrou; o nome está ao lado.

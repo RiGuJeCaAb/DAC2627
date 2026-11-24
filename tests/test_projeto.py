@@ -254,18 +254,32 @@ def test_colar_le_app_com_tabulador(tmp_path, capsys):
     assert "AVISO App.pa.yaml" in capsys.readouterr().out
 
 
-def test_migracao_m008_idempotente_e_revisao(tmp_path):
+def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     raiz = tmp_path / "p"
     shutil.copytree(projeto.RAIZ / "src", raiz / "src")
-    from tools.migracoes import m008_v1_6_ficha04_revisao as m
+    from tools.migracoes import m009_v1_7_ficha04_tres_modos as m
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     m.main(raiz)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
-    ctl = {c.nome: c for c in yamlio.controlos(yamlio.ler(raiz / "src" / "screens" / "scrL4Revisao.pa.yaml"))}
-    itens = str(ctl["galL4dPedidos"].prop("Items"))
-    # quatro Filter delegáveis escolhidos por fora, nenhum If dentro de um Filter
-    assert itens.count("Filter(Pedidos") == 4 and "Filter(Pedidos, If(" not in itens
-    ent = (raiz / "src" / "screens" / "scrL4Entrar.pa.yaml").read_text(encoding="utf-8")
+    ecras = raiz / "src" / "screens"
+    # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
+    assert not (ecras / "scrL4Melhoramento.pa.yaml").exists() and not (ecras / "scrL4Revisao.pa.yaml").exists()
+    inicio = (ecras / "scrInicio.pa.yaml").read_text(encoding="utf-8")
+    assert '{locL4Nivel: "pedidos"}' in inicio and '{locL4Nivel: "melhoramento"}' in inicio
+    ent = (ecras / "scrL4Entrar.pa.yaml").read_text(encoding="utf-8")
+    assert 'Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "revisao"})' in ent
     # a password vai só para o fluxo: nunca para uma variável
-    assert "txtL4dPassword.Text" in ent and "Set(gblL4dSessao, {token: r.token" in ent
-    assert not any("Password" in linha and "Set(" in linha and "txtL4dPassword" in linha for linha in ent.splitlines())
+    assert "Set(gblL4dSessao, {token: r.token" in ent
+    assert not any("Set(" in linha and "txtL4dPassword" in linha for linha in ent.splitlines())
+    ped = (ecras / "scrL4Pedidos.pa.yaml").read_text(encoding="utf-8")
+    for velho in ("scrL4Revisao", "scrL4Melhoramento", "locL4dPedido", "locL4dMsg", "locL4dTimer", "locL4dVista"):
+        assert velho not in ped, velho
+    ctl = {c.nome: c for c in yamlio.controlos(yamlio.ler(ecras / "scrL4Pedidos.pa.yaml"))}
+    itens = str(ctl["galL4Pedidos"].prop("Items"))
+    # vistas escolhidas por fora: cada uma com dois Filter delegáveis, nenhum If dentro de um Filter
+    assert itens.count("Filter(Pedidos") == 14 and "Filter(Pedidos, If(" not in itens
+    # no modo da Ficha 04 a linha continua a abrir o formulário, como no Lab 4
+    assert m.SELECIONAR_LAB4 in str(ctl["galL4Pedidos"].prop("OnSelect"))
+    for nome in ("conL4cDetalhe", "conL4cSeparadores", "conL4cTestes", "tmrL4cEstado", "btnL4dSair",
+                 "conL4dVistaUtilizadores", "conL4dVistaPassword", "btnL4dAprovar", "btnL4dProporAprovar"):
+        assert nome in ctl, nome

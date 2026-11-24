@@ -262,7 +262,8 @@ def cmd_colar(a) -> int:
             iguais.add(e)
     (destino / "ORDEM.md").write_text(
         ordem_mod.gerar_md(guia, fontes, m.group(1) if m else str(cfg.get("versao", "")), pilulas, fora,
-                           na_app=na_app, definicoes=definicoes, iguais=iguais, novos=novos),
+                           na_app=na_app, definicoes=definicoes, iguais=iguais, novos=novos,
+                           retirados=list(cfg.get("retirados") or [])),
         encoding="utf-8")
     _p(f"colar: {len(guia.ordem)} ecrã(s) em {destino.relative_to(raiz) if destino.is_relative_to(raiz) else destino}")
     _p("  Siga ORDEM.md: fontes de dados, App.Formulas na barra de fórmulas, ecrãs por esta ordem:")

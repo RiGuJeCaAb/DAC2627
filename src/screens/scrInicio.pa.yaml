@@ -94,9 +94,9 @@ Screens:
                               {Num: 5, Ficha: "Ficha 04 · Complemento", Titulo: "Origens de dados",
                                Descricao: "Ponto 8 do Lab 4: SharePoint, Dataverse e SQL, o que são, a favor e contra, e a comparação.", Disponivel: true},
                               {Num: 6, Ficha: "Ficha 04 · Melhoramento", Titulo: "Processamento na cloud",
-                               Descricao: "Aula 7: o pedido é classificado por um fluxo Power Automate, com estado, erros, reprocessamento e aprovação.", Disponivel: true},
+                               Descricao: "A Ficha 04 com o processamento da aula 7: cada pedido é classificado por um fluxo Power Automate, com estado, erros e reprocessamento.", Disponivel: true},
                               {Num: 7, Ficha: "Ficha 04 · Revisão", Titulo: "Revisão com perfis",
-                               Descricao: "Entrada com password guardada em hash PBKDF2 (serviço no Azure) e perfis Admin, Gestor e Cliente para decidir os pedidos em revisão.", Disponivel: true}
+                               Descricao: "A Ficha 04 com entrada por password (hash PBKDF2 no Azure) e perfis Admin, Gestor e Cliente, que decidem os pedidos em revisão.", Disponivel: true}
                           )
                         OnSelect: |-
                           =If(
@@ -106,9 +106,9 @@ Screens:
                                   1, Navigate(scrL1BoasVindas, ScreenTransition.Cover),
                                   2, Navigate(scrL2Servicos, ScreenTransition.Cover),
                                   3, Navigate(scrL3Lista, ScreenTransition.Cover),
-                                  4, Navigate(scrL4Pedidos, ScreenTransition.Cover),
+                                  4, Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "pedidos"}),
                                   5, Navigate(scrL4Complemento, ScreenTransition.Cover),
-                                  6, Navigate(scrL4Melhoramento, ScreenTransition.Cover),
+                                  6, Navigate(scrL4Pedidos, ScreenTransition.Cover, {locL4Nivel: "melhoramento"}),
                                   7, Navigate(scrL4Entrar, ScreenTransition.Cover)
                               )
                           )

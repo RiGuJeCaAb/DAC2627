@@ -249,9 +249,11 @@ def _passo_fontes(guia: Guia, fontes: list[Fonte], na_app: dict[str, str] | None
 
 def gerar_md(guia: Guia, fontes: list[Fonte], versao: str, pilulas: int, fora: set[str] | None = None,
              na_app: dict[str, str] | None = None, definicoes: dict[str, str] | None = None,
-             iguais: set[str] | None = None, novos: set[str] | None = None) -> str:
+             iguais: set[str] | None = None, novos: set[str] | None = None,
+             retirados: list[str] | None = None) -> str:
     """ORDEM.md. na_app e definicoes vêm da última exportação; iguais são os ecrãs iguais a essa exportação,
-    que não precisam de ser colados (continuam na ordem, porque podem enviar variáveis a outros)."""
+    que não precisam de ser colados (continuam na ordem, porque podem enviar variáveis a outros).
+    retirados são ecrãs que saíram da app (dac.yaml › retirados): eliminam-se antes de colar."""
     fora, iguais, novos, definicoes = fora or set(), iguais or set(), novos or set(), definicoes or {}
     L = [f"# Colar a v{versao} no Studio", "",
          "Gerado por `python -m tools.dac colar`. Siga os passos por esta ordem e marque cada um.", "",
@@ -266,7 +268,12 @@ def gerar_md(guia: Guia, fontes: list[Fonte], versao: str, pilulas: int, fora: s
           "", "## 4 · Ecrãs, por esta ordem", "",
           "Para cada ecrã da tabela: se já existe na app, **eliminar** o antigo (não renomear: renomear muda as fórmulas dos outros ecrãs para o nome novo). "
           "Abrir o `.yaml` no Bloco de Notas, Ctrl+A, Ctrl+C, clicar na Vista de árvore e Ctrl+V. Confirmar que o nome não ganhou `_1`.", "",
-          "| # | Ficheiro | Na app | Porquê nesta posição |", "|---|---|---|---|"]
+          ]
+    if retirados:
+        L += ["- [ ] Antes de colar, **eliminar** da app, se ainda lá estiverem, os ecrãs que saíram: "
+              + ", ".join(f"`{e}`" for e in retirados) + ". O conteúdo deles passou para outros ecrãs desta versão "
+              "(ver `CHANGELOG.md`).", ""]
+    L += ["| # | Ficheiro | Na app | Porquê nesta posição |", "|---|---|---|---|"]
     colados: list[str] = []
     n = 0
     for e in guia.ordem:

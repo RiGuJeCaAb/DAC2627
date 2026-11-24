@@ -1,5 +1,8 @@
 """Migração 008 · v1.6.0 · Ficha 04 · Revisão: entrada com password (hash PBKDF2) e perfis Admin, Gestor e Cliente.
 
+Retirada na v1.7.0: a Revisão passou a modo do scrL4Pedidos e o scrL4Entrar é gerado pela m009, que reutiliza
+as peças deste módulo. O main() já não escreve nada. O texto abaixo descreve o que fazia na v1.6.0.
+
 Corre sobre src/ depois da m007 e é idempotente: correr de novo não muda nada.
 
     python -m tools.migracoes.m008_v1_6_ficha04_revisao
@@ -755,24 +758,8 @@ def migrar_documento(doc: dict) -> None:
 
 
 def main(raiz: Path = projeto.RAIZ) -> int:
-    mudados = 0
-    for f in projeto.ficheiros_src(raiz):
-        antes = f.read_text(encoding="utf-8")
-        d = yamlio.ler(f)
-        migrar_documento(d)
-        depois = yamlio.escrever_texto(d)
-        if depois != antes:
-            f.write_text(depois, encoding="utf-8")
-            mudados += 1
-            print("migrado:", f.relative_to(raiz))
-    for nome, gerar in ((ENT, ecra_entrar), (REV, ecra_revisao)):
-        novo = raiz / "src" / "screens" / f"{nome}.pa.yaml"
-        texto = yamlio.escrever_texto(gerar())
-        if not novo.exists() or novo.read_text(encoding="utf-8") != texto:
-            novo.write_text(texto, encoding="utf-8")
-            mudados += 1
-            print("escrito:", novo.relative_to(raiz))
-    print(f"m008: {mudados} ficheiro(s) alterado(s)")
+    """Retirada na v1.7.0: o scrL4Revisao (o scrL4Entrar é gerado pela m009) passou a modo do scrL4Pedidos (m009), que reutiliza as peças deste módulo."""
+    print("m008: retirada na v1.7.0, corra a m009. Nada a fazer.")
     return 0
 
 

@@ -160,7 +160,9 @@ def test_ordem_md_so_cola_o_que_mudou(tmp_path):
     md = (tmp_path / "c" / "ORDEM.md").read_text(encoding="utf-8")
     tabela = md[md.index("## 4 · Ecrãs"):md.index("Não se colam")]
     assert "scrL2Servicos.yaml" not in tabela          # igual à exportação
-    assert "`scrL4Revisao.yaml` | novo, só colar" in tabela
+    assert "`scrL4Entrar.yaml` | novo, só colar" in tabela
+    # os ecrãs que saíram da app (dac.yaml › retirados) eliminam-se antes de colar
+    assert "`scrL4Melhoramento`, `scrL4Revisao`" in md[md.index("## 4 · Ecrãs"):]
 
 
 def test_colunas_em_falta_pedem_atualizar():
