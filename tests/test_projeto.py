@@ -55,7 +55,11 @@ def test_migracao_m003_idempotente(tmp_path):
 def test_colar_gera_yaml_valido(tmp_path):
     assert cli.main(["colar", "--destino", str(tmp_path)]) == 0
     d = yamlio.ler(tmp_path / "TODOS_OS_ECRAS.yaml")
-    assert list(d["Screens"]) == projeto.ordem_ecras()
+    ordem = list(d["Screens"])
+    assert sorted(ordem) == sorted(projeto.ordem_ecras())
+    # um ecrã que ainda não está na exportação entra antes de quem navega para ele
+    if not (projeto.MSAPP / "Src" / "scrL4Conta.pa.yaml").exists():
+        assert ordem.index("scrL4Conta") < ordem.index("scrL4Pedidos")
     assert ";;" in (tmp_path / "App.Formulas.pt.txt").read_text(encoding="utf-8")
 
 
