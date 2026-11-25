@@ -259,10 +259,12 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     shutil.copytree(projeto.RAIZ / "src", raiz / "src")
     from tools.migracoes import m009_v1_7_ficha04_tres_modos as m
     from tools.migracoes import m010_v1_8_ficha04_visual as m10
+    from tools.migracoes import m011_v1_9_caixas_na_app as m11
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
-    # a m009 gera os três modos e a m010 dá-lhes o aspeto: a cadeia das duas é que tem de ser idempotente
+    # a m009 gera os três modos (e o scrL4Entrar) e a m010 e a m011 dão-lhes o aspeto: a cadeia é que tem de ser idempotente
     m.main(raiz)
     m10.main(raiz)
+    m11.main(raiz)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     ecras = raiz / "src" / "screens"
     # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
@@ -317,3 +319,27 @@ def test_migracao_m010_caixas_na_ficha04(tmp_path):
         assert str(ctl[nome].prop("OnSelect")) == "=Select(Parent)", nome
     # painéis com a sombra por omissão: sem DropShadow escrito
     assert ctl["conL4Painel"].prop("DropShadow") is None and ctl["conL4Lista"].prop("DropShadow") is None
+
+
+def test_migracao_m011_caixas_na_app(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m011_v1_9_caixas_na_app as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    ctl = {}
+    for f in projeto.ficheiros_src(raiz):
+        ctl.update({c.nome: c for c in yamlio.controlos(yamlio.ler(f))})
+    # cartões com contorno e a sombra por omissão
+    for ecra, nomes in m.CARTOES.items():
+        for nome in nomes:
+            assert str(ctl[nome].prop("BorderColor")) == "=nfLinha" and ctl[nome].prop("DropShadow") is None, nome
+    # listas em cartões: o fundo passa o toque à linha e as linhas de separação saem
+    for nome in ("recL2ItemCartao", "recL2ItemBarra", "recL3ItemCartao", "recL3PubCartao"):
+        assert str(ctl[nome].prop("OnSelect")) == "=Select(Parent)", nome
+    for velho in ("recL2Separador", "recL3Separador", "recL3PubSeparador"):
+        assert velho not in ctl, velho
+    # bandas e calha
+    assert str(ctl["conL2PainelTopo"].prop("Fill")) == "=nfAzulClaro" and str(ctl["conL3bTopo"].prop("Fill")) == "=nfAzulClaro"
+    assert str(ctl["conL3Separadores"].prop("Fill")) == "=nfSuperficie"

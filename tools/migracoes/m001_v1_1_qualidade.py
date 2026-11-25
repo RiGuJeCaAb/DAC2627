@@ -114,9 +114,9 @@ DECORATIVOS = ("Rectangle",)  # e os chevrons dentro de galerias
 
 # Cartões com sombra (DropShadow.Light, o valor por omissão). conL4bTabela é da v1.2.0: entra aqui para a
 # m001 não lhe tirar a sombra quando corre sobre uma exportação, que já não traz o Light escrito. O mesmo para
-# conL4Lista e conL4Painel, cartões desde a v1.8.0 (m010).
+# conL4Lista e conL4Painel, cartões desde a v1.8.0 (m010), e conL4dEntrar, desde a v1.9.0 (m011).
 CARTOES = {"conL1aCartao", "conL1bCartao", "conL1cCartao", "conL2Lista", "conL2Painel", "conL3bCartao", "conL3cCartao",
-           "conL4bTabela", "conL4Lista", "conL4Painel"}
+           "conL4bTabela", "conL4Lista", "conL4Painel", "conL4dEntrar"}
 
 FORMULAS_NOVAS = {
     ("lblL3TituloPubs", "Text"):

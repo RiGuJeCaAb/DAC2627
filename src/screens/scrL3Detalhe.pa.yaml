@@ -92,6 +92,8 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
+                        BorderColor: =nfLinha
+                        BorderThickness: =1
                         Fill: =Color.White
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =20
@@ -112,21 +114,30 @@ Screens:
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
+                              Fill: =nfAzulClaro
                               FillPortions: =0
-                              Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
+                              Height: =If(scrL3Detalhe.Size = ScreenSize.Small, 112, 100)
                               LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =20
-                              LayoutMinHeight: =If(scrL3Detalhe.Size = ScreenSize.Small, 100, 88)
+                              LayoutMinHeight: =If(scrL3Detalhe.Size = ScreenSize.Small, 112, 100)
+                              PaddingBottom: =6
+                              PaddingLeft: =If(scrL3Detalhe.Size = ScreenSize.Small, 12, 16)
+                              PaddingRight: =If(scrL3Detalhe.Size = ScreenSize.Small, 12, 16)
+                              PaddingTop: =6
+                              RadiusBottomLeft: =12
+                              RadiusBottomRight: =12
+                              RadiusTopLeft: =12
+                              RadiusTopRight: =12
                             Children:
                               - btnL3bIniciais:
                                   Control: Classic/Button@2.2.0
                                   Properties:
                                     BorderThickness: =0
-                                    Color: =nfAzul
+                                    Color: =Color.White
                                     DisabledColor: =Self.Color
                                     DisabledFill: =Self.Fill
-                                    Fill: =nfAzulClaro
+                                    Fill: =nfAzul
                                     Font: =Font.'Open Sans'
                                     FontWeight: =FontWeight.Bold
                                     Height: =64

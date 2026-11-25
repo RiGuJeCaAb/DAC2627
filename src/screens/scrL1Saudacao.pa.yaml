@@ -73,6 +73,8 @@ Screens:
                       Control: GroupContainer@1.5.0
                       Variant: AutoLayout
                       Properties:
+                        BorderColor: =nfLinha
+                        BorderThickness: =1
                         Fill: =Color.White
                         FillPortions: =0
                         Height: =If(scrL1Saudacao.Size = ScreenSize.Small, 480, 420)

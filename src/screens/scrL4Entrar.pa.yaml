@@ -88,7 +88,6 @@ Screens:
                               AlignInContainer: =AlignInContainer.Start
                               BorderColor: =nfLinha
                               BorderThickness: =1
-                              DropShadow: =DropShadow.None
                               Fill: =Color.White
                               FillPortions: =0
                               Height: =56 + 6 * 12 + lblL4dEntrarTitulo.Height + lblL4dEntrarSub.Height + lblL4dEmailRot.Height + 48 + lblL4dPasswordRot.Height + 48 + 44

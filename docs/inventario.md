@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-11 ecrãs e 567 controlos.
+11 ecrãs e 568 controlos.
 
 ## Navegação
 
@@ -43,7 +43,7 @@ flowchart LR
 | `scrL1BoasVindas` | 9 | GroupContainer 4, Label 3, Icon 1, Button 1 | — | — |
 | `scrL1Pedido` | 12 | GroupContainer 5, Label 3, Icon 2, TextInput 1 | `gblL1Nome`, `locAviso` | — |
 | `scrL1Saudacao` | 12 | GroupContainer 5, Label 3, Icon 2, Button 2 | `gblL1Nome` | — |
-| `scrL2Servicos` | 89 | Label 40, GroupContainer 20, Button 9, TypedDataCard 5 | `locAcao`, `locMsg`, `locMsgTipo`, `locSel`, `locTentou`, `locTimer`, `locUltimaAcao` | Dataverse · Cloud Service |
+| `scrL2Servicos` | 90 | Label 40, GroupContainer 20, Button 9, TypedDataCard 5 | `locAcao`, `locMsg`, `locMsgTipo`, `locSel`, `locTentou`, `locTimer`, `locUltimaAcao` | Dataverse · Cloud Service |
 | `scrL3Lista` | 39 | Label 12, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
@@ -134,10 +134,11 @@ conEcraL2  [GroupContainer/AutoLayout]
       conL2Lista  [GroupContainer/AutoLayout]
         lblL2Vazio  [Label]
         galL2Servicos  [Gallery/Vertical]
+          recL2ItemCartao  [Rectangle]
+          recL2ItemBarra  [Rectangle]
           lblL2ItemTitulo  [Label]
           lblL2ItemFornecedor  [Label]
           btnL2ItemModelo  [Button]
-          recL2Separador  [Rectangle]
       conL2Painel  [GroupContainer/AutoLayout]
         conL2PainelTopo  [GroupContainer/AutoLayout]
           btnL2VoltarLista  [Button]
@@ -241,18 +242,18 @@ conEcraL3a  [GroupContainer/AutoLayout]
     lblL3ACarregar  [Label]
     lblL3SemResultados  [Label]
     galL3Utilizadores  [Gallery/Vertical]
+      recL3ItemCartao  [Rectangle]
       btnL3Iniciais  [Button]
       lblL3ItemNome  [Label]
       lblL3ItemEmail  [Label]
       lblL3ItemEmpresa  [Label]
       icoL3Abrir  [Icon]
-      recL3Separador  [Rectangle]
     galL3Publicacoes  [Gallery/Vertical]
+      recL3PubCartao  [Rectangle]
       lblL3PubItemTitulo  [Label]
       lblL3PubItemAutor  [Label]
       lblL3PubItemResumo  [Label]
       icoL3PubAbrir  [Icon]
-      recL3PubSeparador  [Rectangle]
 ```
 
 ## scrL3Detalhe

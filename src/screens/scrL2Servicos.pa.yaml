@@ -146,9 +146,15 @@ Screens:
                             Control: GroupContainer@1.5.0
                             Variant: AutoLayout
                             Properties:
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
                               Fill: =Color.White
                               FillPortions: =If(scrL2Servicos.Size = ScreenSize.Medium, 1, 2)
                               LayoutDirection: =LayoutDirection.Vertical
+                              PaddingBottom: =8
+                              PaddingLeft: =1
+                              PaddingRight: =1
+                              PaddingTop: =1
                               RadiusBottomLeft: =12
                               RadiusBottomRight: =12
                               RadiusTopLeft: =12
@@ -173,14 +179,33 @@ Screens:
                                   Properties:
                                     AccessibleLabel: ="Lista de serviços cloud"
                                     DisplayMode: =If(frmL2Servico.Mode = FormMode.View, DisplayMode.Edit, DisplayMode.Disabled)
+                                    Fill: =nfSuperficie
                                     Items: =If(drpL2Modelo.Selected.Value = "Todos", Sort(Filter('Cloud Service', StartsWith('Service Title', txtL2Pesquisa.Text)), 'Service Title'), Sort(Filter('Cloud Service', StartsWith('Service Title', txtL2Pesquisa.Text) && 'Service Model' = LookUp(Choices('Cloud Service'.'Service Model'), Text(Value) = drpL2Modelo.Selected.Value).Value), 'Service Title'))
                                     OnSelect: |-
                                       =UpdateContext({locSel: galL2Servicos.Selected, locTentou: false})
                                     TabIndex: =0
-                                    TemplateFill: =If(ThisItem.'Cloud Service' = locSel.'Cloud Service', nfAzulClaro, Color.White)
+                                    TemplateFill: =Color.Transparent
                                     TemplatePadding: =0
-                                    TemplateSize: =72
+                                    TemplateSize: =80
                                   Children:
+                                    - recL2ItemCartao:
+                                        Control: Rectangle@2.3.0
+                                        Properties:
+                                          BorderColor: =nfLinha
+                                          BorderThickness: =1
+                                          Fill: =If(ThisItem.'Cloud Service' = locSel.'Cloud Service', nfAzulClaro, Color.White)
+                                          Height: =Parent.TemplateHeight - 8
+                                          OnSelect: =Select(Parent)
+                                          Width: =Parent.TemplateWidth
+                                          Y: =4
+                                    - recL2ItemBarra:
+                                        Control: Rectangle@2.3.0
+                                        Properties:
+                                          Fill: =Switch(Text(ThisItem.'Service Model'), "IaaS", nfAzul, "PaaS", nfVerde, nfLaranja)
+                                          Height: =Parent.TemplateHeight - 8
+                                          OnSelect: =Select(Parent)
+                                          Width: =4
+                                          Y: =4
                                     - lblL2ItemTitulo:
                                         Control: Label@2.5.1
                                         Properties:
@@ -193,7 +218,7 @@ Screens:
                                           Width: =Parent.TemplateWidth - 120
                                           Wrap: =false
                                           X: =20
-                                          Y: =12
+                                          Y: =16
                                     - lblL2ItemFornecedor:
                                         Control: Label@2.5.1
                                         Properties:
@@ -204,7 +229,7 @@ Screens:
                                           Text: =ThisItem.Provider
                                           Width: =Parent.TemplateWidth - 120
                                           X: =20
-                                          Y: =40
+                                          Y: =44
                                     - btnL2ItemModelo:
                                         Control: Classic/Button@2.2.0
                                         Properties:
@@ -233,18 +258,13 @@ Screens:
                                           Text: =Text(ThisItem.'Service Model')
                                           Width: =64
                                           X: =Parent.TemplateWidth - 90
-                                          Y: =22
-                                    - recL2Separador:
-                                        Control: Rectangle@2.3.0
-                                        Properties:
-                                          Fill: =nfLinha
-                                          Height: =1
-                                          Width: =Parent.TemplateWidth
-                                          Y: =Parent.TemplateHeight - 1
+                                          Y: =26
                         - conL2Painel:
                             Control: GroupContainer@1.5.0
                             Variant: AutoLayout
                             Properties:
+                              BorderColor: =nfLinha
+                              BorderThickness: =1
                               Fill: =Color.White
                               FillPortions: =If(scrL2Servicos.Size = ScreenSize.Medium, 1, 3)
                               LayoutDirection: =LayoutDirection.Vertical
@@ -266,11 +286,20 @@ Screens:
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
+                                    Fill: =nfAzulClaro
                                     FillPortions: =0
-                                    Height: =48
+                                    Height: =64
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutDirection: =LayoutDirection.Horizontal
                                     LayoutGap: =12
+                                    PaddingBottom: =10
+                                    PaddingLeft: =If(scrL2Servicos.Size = ScreenSize.Small, 12, 16)
+                                    PaddingRight: =If(scrL2Servicos.Size = ScreenSize.Small, 12, 16)
+                                    PaddingTop: =10
+                                    RadiusBottomLeft: =12
+                                    RadiusBottomRight: =12
+                                    RadiusTopLeft: =12
+                                    RadiusTopRight: =12
                                   Children:
                                     - btnL2VoltarLista:
                                         Control: Classic/Button@2.2.0
@@ -291,7 +320,7 @@ Screens:
                                     - lblL2PainelTitulo:
                                         Control: Label@2.5.1
                                         Properties:
-                                          Color: =nfTexto
+                                          Color: =nfAzul
                                           FillPortions: =1
                                           FocusedBorderThickness: =2
                                           FontWeight: =FontWeight.Bold

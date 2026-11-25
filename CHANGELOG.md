@@ -2,6 +2,13 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
+## [1.9.0] · 25/11/2026 · por colar
+
+- **As caixas da Ficha 04 na app toda** (pedido do utilizador a 25/11/2026, depois de validar a v1.8.0). Gerado pela `m011`, que usa as peças da `m010` e corre depois dela (a cadeia `m009` → `m010` → `m011` é idempotente, com teste). Os cartões das Fichas 01, 02 e 03 e o cartão de entrada da Revisão ganham contorno `nfLinha`, por cima da sombra por omissão que já tinham (o de entrada passa a tê-la).
+- Ficha 02: o topo do painel passa à banda `nfAzulClaro` com o título a azul. Os serviços aparecem em cartões numa área `nfSuperficie`, com uma barra à esquerda da cor do modelo de serviço (IaaS azul, PaaS verde, SaaS laranja, as cores das pílulas) e o escolhido a azul-claro. Sai a linha de separação `recL2Separador`.
+- Ficha 03: os separadores Utilizadores e Publicações passam à calha `nfSuperficie`, com o ativo cheio. Utilizadores e publicações aparecem em cartões sobre o fundo do ecrã e saem as linhas `recL3Separador` e `recL3PubSeparador`. No Detalhe, as iniciais e o nome ficam numa banda `nfAzulClaro`, com as iniciais a branco sobre azul.
+- Fica de fora o `scrL4Complemento`, que é texto do ponto 8 e cuja tabela já tem linhas alternadas. A `m001` passa a contar o `conL4dEntrar` como cartão. Dois testes do `test_ordem` juntam-se aos três que só passam com uma exportação nova, porque contam com os ecrãs das Fichas 02 e 03 iguais à exportação.
+
 ## [1.8.0] · 25/11/2026 · por colar
 
 - **Ficha 04 com caixas** (pedido do utilizador a 25/11/2026: os quadros estavam «tudo branco, sem grandes boxs a separar as coisas»). Proposta mostrada e aprovada no mesmo dia, para os três modos do `scrL4Pedidos`, gerada pela `m010`, que corre depois da `m009` (a cadeia das duas é idempotente, com teste). A lista de clientes e o painel da direita passam a cartões, com contorno `nfLinha` e a sombra por omissão do contentor sobre o fundo `nfFundo`. Na lista de clientes, cada linha tem as iniciais num círculo e a escolhida tem uma barra azul à esquerda.

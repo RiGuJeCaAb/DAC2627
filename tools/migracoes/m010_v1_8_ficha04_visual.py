@@ -147,9 +147,12 @@ CORES_PROC = {   # separador: (cor do texto parado, cor cheia quando ativo)
 }
 
 
-def _separador(item: dict, texto: str, cheio: str, pairado: str) -> None:
-    chave = re.search(r'locL4Vista: "([a-z]+)"', str(_props(item)["OnSelect"])).group(1)
-    ativo = f'locL4Vista = "{chave}"'
+def _separador(item: dict, texto: str, cheio: str, pairado: str, ativo: str | None = None) -> None:
+    """Separador dentro da calha: parado sem fundo, com a cor do texto; ativo cheio, com texto branco.
+    Sem ativo, lê a vista do OnSelect (UpdateContext({locXxxVista: "chave"}))."""
+    if ativo is None:
+        var, chave = re.search(r'(loc\w+Vista): "([a-z]+)"', str(_props(item)["OnSelect"])).groups()
+        ativo = f'{var} = "{chave}"'
     _definir(item, BorderThickness="=0", Color=f"=If({ativo}, Color.White, {texto})", FontWeight=f"=If({ativo}, FontWeight.Semibold, FontWeight.Normal)",
              Fill=f"=If({ativo}, {cheio}, Color.Transparent)", Height="=44",
              HoverColor=f"=If({ativo}, Color.White, {texto})", HoverFill=f"=If({ativo}, {cheio}, {pairado})",
