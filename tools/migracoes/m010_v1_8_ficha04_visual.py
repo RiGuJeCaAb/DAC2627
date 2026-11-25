@@ -211,7 +211,8 @@ FEITO = ("nfAzul", "Color.White")
 
 
 def _passo(nome: str, texto: str, fundo: str, cor: str, contorno: str) -> dict:
-    return B._pilula(nome, texto, cor, fundo, BorderColor="=nfLinhaForte", BorderThickness=f"=If({contorno}, 1, 0)",
+    espessura = "=0" if contorno == "false" else f"=If({contorno}, 1, 0)"
+    return B._pilula(nome, texto, cor, fundo, BorderColor="=nfLinhaForte", BorderThickness=espessura,
                      FontWeight="=FontWeight.Semibold", Height="=28", PaddingLeft="=4", PaddingRight="=4",
                      Width=f"=If({PEQ}, 84, 120)", **_raio(14))
 

@@ -193,19 +193,83 @@ def cmd_pt(a) -> int:
     if tabs:
         print(f"AVISO {a.alvo}: tabulador nas linhas {', '.join(map(str, tabs))}; aqui aparece como espaço",
               file=sys.stderr)
-    saida = []
+    alvos = set(a.controlo or [])
+    if alvos and a.descendentes:
+        for c in yamlio.controlos(d):
+            if c.nome in alvos or (c.pai is not None and c.pai.nome in alvos):
+                alvos.add(c.nome)
+    linhas_por: dict[str, list[tuple[str, str]]] = {}
+    ordem: list[str] = []
     for onde, prop, fx in yamlio.formulas(d):
-        if a.controlo and onde not in a.controlo:
+        if alvos and onde not in alvos:
             continue
         if a.propriedade and prop not in a.propriedade:
             continue
         if not a.tudo and onde != "App" and prop in _PROPS_TRIVIAIS:
             continue
-        conv = fx if a.invariante else pafx.para_pt(fx)
-        linhas = conv.split("\n")
-        saida.append(f"{onde}.{prop} = {linhas[0]}" + "".join("\n" + ln for ln in linhas[1:]))
-    texto = "\n".join(saida)
+        if onde not in linhas_por:
+            linhas_por[onde] = []
+            ordem.append(onde)
+        linhas_por[onde].append((prop, fx if a.invariante else pafx.para_pt(fx)))
+    blocos = []
+    for onde in ordem:
+        props = linhas_por[onde]
+        if a.compacto:
+            props = _compactar(props)
+        bloco = []
+        for prop, conv in props:
+            linhas = conv.split("\n")
+            bloco.append(f"{onde}.{prop} = {linhas[0]}" + "".join("\n" + ln for ln in linhas[1:]))
+        blocos.append("\n".join(bloco))
+    texto = ("\n\n" if a.compacto else "\n").join(blocos)
     _p(f"```\n{texto}\n```" if a.md else texto)
+    return 0
+
+
+_GRUPOS = (("Radius", ("TopLeft", "TopRight", "BottomLeft", "BottomRight")),
+           ("Padding", ("Top", "Bottom", "Left", "Right")))
+
+
+def _compactar(props: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    """Junta numa linha as quatro Radius* ou as quatro Padding* quando têm o mesmo valor (como o manual as escreve),
+    e tira o DropShadow.None dos contentores interiores, que o manual dá como regra geral (A8)."""
+    d = dict(props)
+    fora = set()
+    juntas: dict[str, tuple[str, str]] = {}
+    for base, lados in _GRUPOS:
+        nomes = [base + l for l in lados]
+        valores = {d.get(n) for n in nomes}
+        if len(valores) == 1 and None not in valores:
+            fora.update(nomes)
+            juntas[nomes[0]] = (f"{base}TopLeft/TopRight/BottomLeft/BottomRight" if base == "Radius"
+                                else "PaddingTop/Bottom/Left/Right", valores.pop())
+    if d.get("DropShadow") == "DropShadow.None":
+        fora.add("DropShadow")
+    saida = []
+    for prop, v in props:
+        if prop in juntas:
+            saida.append(juntas[prop])
+        elif prop not in fora:
+            saida.append((prop, v))
+    return saida
+
+
+def cmd_arvore(a) -> int:
+    """Árvore dos controlos de um ecrã (ou de um controlo), com o tipo, como o manual pede para os inserir."""
+    d, _ = yamlio.ler_tolerante(_ficheiro_de(Path(a.raiz), a.alvo))
+    raiz = a.controlo
+
+    def andar(lista, nivel, dentro):
+        for it in lista or []:
+            for nome, corpo in it.items():
+                mostra = dentro or raiz is None or nome == raiz
+                if mostra:
+                    tipo = corpo.get("Control", "")
+                    var = corpo.get("Variant")
+                    _p("  " * nivel + f"{nome}  ({tipo}{' · ' + var if var else ''})")
+                andar(corpo.get("Children"), nivel + (1 if mostra else 0), mostra)
+    for ecra, corpo in d["Screens"].items():
+        andar(corpo.get("Children"), 0, False)
     return 0
 
 
@@ -489,7 +553,14 @@ def main(argv=None) -> int:
     s.add_argument("--tudo", action="store_true", help="inclui propriedades triviais (bordas, hover, ...)")
     s.add_argument("--invariante", action="store_true", help="mantém , e ; (formato dos ficheiros)")
     s.add_argument("--md", action="store_true", help="envolve num bloco de código Markdown")
+    s.add_argument("--descendentes", action="store_true", help="com --controlo, inclui os controlos lá dentro")
+    s.add_argument("--compacto", action="store_true", help="junta Radius e Padding iguais e separa por controlo")
     s.set_defaults(f=cmd_pt)
+
+    s = sub.add_parser("arvore", help="árvore dos controlos de um ecrã, com o tipo")
+    s.add_argument("alvo", help="nome do ecrã")
+    s.add_argument("--controlo", help="só este controlo e o que está dentro")
+    s.set_defaults(f=cmd_arvore)
 
     s = sub.add_parser("colar", help="gera os blocos para colar no Studio")
     s.add_argument("ecras", nargs="*")

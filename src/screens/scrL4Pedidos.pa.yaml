@@ -2025,7 +2025,7 @@ Screens:
                                                           Control: Classic/Button@2.2.0
                                                           Properties:
                                                             BorderColor: =nfLinhaForte
-                                                            BorderThickness: =If(false, 1, 0)
+                                                            BorderThickness: =0
                                                             Color: =Color.White
                                                             DisabledColor: =Self.Color
                                                             DisabledFill: =Self.Fill
