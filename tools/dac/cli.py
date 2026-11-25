@@ -298,7 +298,8 @@ def cmd_colar(a) -> int:
     pedidos = a.ecras or projeto.ordem_ecras(raiz)
     for e in pedidos:
         _ficheiro_de(raiz, e)  # falha cedo se o ecrã não existir
-    guia = ordem_mod.calcular(docs, pedidos, fontes)
+    exportados = {f.name.split(".")[0] for f in (raiz / "msapp" / "Src").glob("scr*.pa.yaml")}
+    guia = ordem_mod.calcular(docs, pedidos, fontes, novos=set(pedidos) - exportados if exportados else None)
     todos: dict = {"Screens": {}}
     for e in guia.ordem:
         d, tabs = yamlio.ler_tolerante(_ficheiro_de(raiz, e))

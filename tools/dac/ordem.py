@@ -13,6 +13,9 @@ Studio não volta a verificar quando o scrL3Lista chega depois (aconteceu a 10/1
 Basta UM dos ecrãs que enviam a variável estar colado antes. É isso que resolve ciclos como
 scrL3Detalhe ⇄ scrL3Publicacao: o scrL3Lista envia as duas variáveis e entra primeiro.
 
+Um ecrã novo (que ainda não está na app) entra antes dos ecrãs que navegam para ele, quando as variáveis
+o permitem: assim o Navigate já encontra o ecrã ao ser colado (scrL4Conta antes do scrL4Pedidos, v1.10.0).
+
 Fontes de dados
 ---------------
 Os .yaml dos ecrãs usam os nomes das fontes ('Cloud Service', Clientes, JSONPlaceholderDAC...)
@@ -110,6 +113,23 @@ def variaveis_recebidas(docs: dict[str, dict]) -> dict[str, dict[str, set[str]]]
     return {k: dict(v) for k, v in recebe.items()}
 
 
+def destinos(docs: dict[str, dict]) -> dict[str, set[str]]:
+    """Ecrã -> ecrãs para onde navega."""
+    out: dict[str, set[str]] = defaultdict(set)
+    for d in docs.values():
+        for ecra, corpo in (d.get("Screens") or {}).items():
+            fxs = [str(v) for v in (corpo.get("Properties") or {}).values()]
+            fxs += [str(v) for c in yamlio.controlos({"Screens": {ecra: corpo}})
+                    for v in (c.corpo.get("Properties") or {}).values()]
+            for fx in fxs:
+                try:
+                    cod = pafx.so_codigo(fx.lstrip("="))
+                except pafx.ErroLexico:
+                    continue
+                out[ecra].update(m.group(1) for m in _NAV.finditer(cod) if m.group(1) != ecra)
+    return dict(out)
+
+
 def fontes_usadas(docs: dict[str, dict], fontes: list[Fonte]) -> dict[str, list[str]]:
     usos: dict[str, list[str]] = {f.nome: [] for f in fontes}
     for d in docs.values():
@@ -185,7 +205,7 @@ def verificar_fontes(guia: "Guia", fontes: list[Fonte], raiz: Path) -> list[str]
     return problemas
 
 
-def calcular(docs: dict[str, dict], preferida: list[str], fontes: list[Fonte]) -> Guia:
+def calcular(docs: dict[str, dict], preferida: list[str], fontes: list[Fonte], novos: set[str] | None = None) -> Guia:
     """Ordem de colagem: a ordem preferida (dac.yaml), adiada só o necessário.
 
     Um ecrã pode entrar quando, para cada variável que recebe, pelo menos um ecrã que a envia
@@ -198,9 +218,19 @@ def calcular(docs: dict[str, dict], preferida: list[str], fontes: list[Fonte]) -
     falta = [e for e in preferida]
     ordem: list[str] = []
     avisos: list[str] = []
+    nav = destinos(docs) if novos else {}
+    novos = set(novos or ()) & set(preferida)
+
+    def variaveis_ok(e: str) -> bool:
+        return all(envia & (set(ordem) | fora) for envia in recebe.get(e, {}).values())
+
+    def destinos_ok(e: str) -> bool:
+        return all(t in ordem for t in nav.get(e, ()) if t in novos)
+
     while falta:
-        pronto = next((e for e in falta
-                       if all(envia & (set(ordem) | fora) for envia in recebe.get(e, {}).values())), None)
+        pronto = next((e for e in falta if variaveis_ok(e) and destinos_ok(e)), None)
+        if pronto is None:
+            pronto = next((e for e in falta if variaveis_ok(e)), None)
         if pronto is None:
             pronto = falta[0]
             vars_ = ", ".join(sorted(v for v, envia in recebe[pronto].items() if not envia & (set(ordem) | fora)))

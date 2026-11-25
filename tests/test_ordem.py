@@ -55,6 +55,19 @@ def test_ecras_nao_colados_contam_como_presentes():
     assert g.ordem == ["scrPub"] and not g.avisos
 
 
+def test_ecra_novo_entra_antes_de_quem_navega_para_ele():
+    # v1.10.0: o scrL4Conta é novo e o scrL4Pedidos navega para ele; o scrL4Conta volta ao scrL4Pedidos
+    docs = _docs(_ecra("scrPed", 'Set(gblArea, "x"); Navigate(scrConta, ScreenTransition.Cover)'),
+                 _ecra("scrConta", "Navigate(scrPed, ScreenTransition.UnCover)"))
+    assert ordem.calcular(docs, ["scrPed", "scrConta"], [], novos={"scrConta"}).ordem == ["scrConta", "scrPed"]
+    # sem ecrãs novos, fica a ordem preferida
+    assert ordem.calcular(docs, ["scrPed", "scrConta"], []).ordem == ["scrPed", "scrConta"]
+    # as variáveis de contexto ganham: quem recebe espera por quem envia, mesmo sendo novo
+    docs = _docs(_ecra("scrPed", 'Navigate(scrConta, ScreenTransition.Cover, {locX: 1})'),
+                 _ecra("scrConta", "Navigate(scrPed, ScreenTransition.UnCover)"))
+    assert ordem.calcular(docs, ["scrPed", "scrConta"], [], novos={"scrConta"}).ordem == ["scrPed", "scrConta"]
+
+
 def test_fontes_usadas():
     docs = _docs(_ecra("scrA", items="Filter('Cloud Service', true)"),
                  _ecra("scrB", items='ClearCollect(colX, Conector.Listar()); "Cloud Service em texto"'))
