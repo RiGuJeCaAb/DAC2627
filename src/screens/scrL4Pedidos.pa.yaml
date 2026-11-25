@@ -629,7 +629,7 @@ Screens:
                                           Height: =28
                                           OnSelect: =Select(Parent)
                                           Size: =14
-                                          Text: =Text(ThisItem.Valor, "[$-pt-PT]0,00") & " €"
+                                          Text: =If(IsBlank(ThisItem.Valor), "sem valor", Text(ThisItem.Valor, "[$-pt-PT]0,00") & " €")
                                           Width: =If(scrL4Pedidos.Size = ScreenSize.Small, 100, 140)
                                           X: =Parent.TemplateWidth - If(scrL4Pedidos.Size = ScreenSize.Small, 112, 156)
                                           Y: =10

@@ -405,6 +405,8 @@ PROPRIEDADES = {
     "galL4Pedidos": {"Items": ITENS, "OnSelect": SELECIONAR,
                      "TemplateSize": f"=If({PEQ}, 96, 80)"},
     "btnL4PedEstado": {"Visible": f"=!{M}"},
+    # pedido sem valor (o teste «Sem valor» da aula 7): mostrava só « €»
+    "lblL4PedValor": {"Text": '=If(IsBlank(ThisItem.Valor), "sem valor", Text(ThisItem.Valor, "[$-pt-PT]0,00") & " €")'},
     "frmL4Pedido": {"OnSuccess": CRIADO},
     "txtL4PedValor": {"Default": VALOR_DEFAULT},
     "btnL4RemoverCliente": {"Visible": f"=IsBlank(locL4Modo) && !IsBlank(locL4Cliente) && !{CLI}"},
