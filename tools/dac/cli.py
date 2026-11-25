@@ -400,6 +400,22 @@ def cmd_inventario(a) -> int:
     return 0
 
 
+def cmd_legenda(a) -> int:
+    """Anexo do Manual: legenda de ecrãs, controlos, variáveis, fórmulas com nome, funções e fontes (docs/legenda.md)."""
+    from tools.dac import legenda
+    raiz = Path(a.raiz)
+    texto = legenda.gerar(raiz)
+    destino = raiz / "docs" / "legenda.md"
+    if a.verificar:
+        if not destino.exists() or destino.read_text(encoding="utf-8") != texto:
+            _p("legenda: docs/legenda.md está desatualizado (corra 'dac legenda')")
+            return 1
+        return 0
+    destino.write_text(texto, encoding="utf-8")
+    _p(f"legenda: {destino.relative_to(raiz)}")
+    return 0
+
+
 # ---------------------------------------------------------------- paleta
 
 def cmd_paleta(a) -> int:
@@ -571,6 +587,10 @@ def main(argv=None) -> int:
     s = sub.add_parser("inventario", help="gera docs/inventario.md")
     s.add_argument("--verificar", action="store_true")
     s.set_defaults(f=cmd_inventario)
+
+    s = sub.add_parser("legenda", help="gera docs/legenda.md, o anexo do Manual com todos os elementos")
+    s.add_argument("--verificar", action="store_true")
+    s.set_defaults(f=cmd_legenda)
 
     s = sub.add_parser("paleta", help="gera docs/paleta.md e verifica contraste")
     s.add_argument("--verificar", action="store_true")

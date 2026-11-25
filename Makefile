@@ -12,6 +12,7 @@ verificar:           ## tudo o que o CI corre
 	$(PY) -m tools.dac lint --estrito
 	$(PY) -m tools.dac paleta --verificar
 	$(PY) -m tools.dac inventario --verificar
+	$(PY) -m tools.dac legenda --verificar
 	$(PY) -m pytest
 
 lint:
@@ -20,8 +21,9 @@ lint:
 colar:               ## blocos para colar no Studio em build/colar/
 	$(PY) -m tools.dac colar
 
-docs:                ## regenera docs/inventario.md e docs/paleta.md
+docs:                ## regenera docs/inventario.md, docs/legenda.md e docs/paleta.md
 	$(PY) -m tools.dac inventario
+	$(PY) -m tools.dac legenda
 	$(PY) -m tools.dac paleta
 
 testes:
