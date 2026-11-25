@@ -413,6 +413,11 @@ def cmd_legenda(a) -> int:
         return 0
     destino.write_text(texto, encoding="utf-8")
     _p(f"legenda: {destino.relative_to(raiz)}")
+    if a.html:
+        from tools.dac.legenda_html import gerar_html
+        Path(a.html).parent.mkdir(parents=True, exist_ok=True)
+        Path(a.html).write_text(gerar_html(texto), encoding="utf-8")
+        _p(f"legenda: página HTML em {a.html}")
     return 0
 
 
@@ -590,6 +595,7 @@ def main(argv=None) -> int:
 
     s = sub.add_parser("legenda", help="gera docs/legenda.md, o anexo do Manual com todos os elementos")
     s.add_argument("--verificar", action="store_true")
+    s.add_argument("--html", help="escreve também a página HTML com pesquisa neste ficheiro (ex.: build/legenda/index.html)")
     s.set_defaults(f=cmd_legenda)
 
     s = sub.add_parser("paleta", help="gera docs/paleta.md e verifica contraste")

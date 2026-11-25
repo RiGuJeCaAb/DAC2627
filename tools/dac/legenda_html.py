@@ -1,0 +1,27 @@
+"""Página HTML do anexo (docs/legenda.md), com pesquisa, para publicar como artifact. `dac legenda --html <ficheiro>`."""
+from __future__ import annotations
+
+import html
+import re
+
+CABECA = '<!DOCTYPE html>\n<html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">\n<title>Anexo · Legenda da APP DAC2627</title>\n<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">\n<style>\n/* VOICE: documento de referência, calmo, para consultar\n   IDEA: a folha de legenda de uma planta de obra, tabelas bem riscadas\n   PICTURE: a própria tabela, com pesquisa por cima\n   COLOUR and TYPE: pedra, preto e tijolo; Schibsted Grotesk\n   LAYOUT: título curto, faixa de secções, pesquisa e tabelas a toda a largura */\n:root{color-scheme:light dark;--bg:light-dark(#e7e4df,#171513);--panel:light-dark(#fff,#211e1b);--ink:light-dark(#141210,#ece8e2);--soft:light-dark(#5a554f,#b3ada5);--rule:light-dark(#d4cfc8,#3a352f);--acc:light-dark(#b0301a,#ef6a4f)}\n:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}\n*{box-sizing:border-box;min-width:0}\nbody{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Schibsted Grotesk",system-ui,sans-serif;overflow-x:clip}\nheader{padding:clamp(28px,4vw,56px) max(5vw,16px) 12px;max-width:1240px;margin:auto}\nh1{font-size:clamp(30px,4vw,46px);line-height:1.05;margin:0 0 12px;text-wrap:balance}\nh1 span{color:var(--acc)}\nmain{max-width:1240px;margin:auto;padding:0 max(5vw,16px) 64px}\nmain>p{max-width:72ch;color:var(--soft)}\nnav{display:flex;gap:6px;overflow-x:auto;padding:10px max(5vw,16px);background:var(--bg);border-block:1px solid var(--rule)}\nnav a{flex:none;color:var(--ink);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:8px;background:var(--panel);border:1px solid var(--rule)}\nnav a:hover{border-color:var(--acc)}\n@media(min-width:900px){nav{position:sticky;top:0;z-index:2}}\n.procura{display:flex;gap:12px;align-items:center;margin:20px 0 4px;flex-wrap:wrap}\n.procura input{font:inherit;font-size:16px;padding:10px 14px;border-radius:10px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);width:min(420px,100%);min-height:44px}\n.procura input:focus{outline:2px solid var(--acc);outline-offset:1px}\n.procura span{color:var(--soft);font-size:14px}\nh2{font-size:24px;margin:40px 0 10px;padding-top:6px;border-top:3px solid var(--ink)}\n.scroll{overflow-x:auto;background:var(--panel);border:1px solid var(--rule);border-radius:10px}\ntable{border-collapse:collapse;width:100%;font-size:14px}\nth{text-align:left;font-weight:600;background:light-dark(#f3f1ed,#29251f);position:sticky;top:0}\nth,td{padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top}\ntr:last-child td{border-bottom:0}\ntd:first-child code{font-weight:600}\ncode{font-family:ui-monospace,Consolas,monospace;font-size:13px;overflow-wrap:anywhere}\ntd[align=right],th[align=right]{text-align:right}\n.oculta{display:none}\nhtml{scroll-padding-top:72px}\n.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}\n@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 12px;padding-inline-start:8.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--soft)}.stack td:empty{display:none}.stack tr{border-bottom:1px solid var(--rule)}}\n</style></head><body>\n<header><h1>Anexo · Legenda da <span>APP DAC2627</span></h1></header>\n'
+MEIO = '\n<main>\n<div class="procura"><label for="q" class="sr">Procurar</label><input id="q" type="search" placeholder="Procurar um controlo, variável ou função" autocomplete="off"><span id="n"></span></div>\n'
+FIM = "</main>\n<script>{\nfor(const t of document.querySelectorAll('table')){const h=[...t.rows[0].cells].map(c=>c.textContent);for(const r of [...t.rows].slice(1))[...r.cells].forEach((c,i)=>c.dataset.l=h[i]||'')}\nconst q=document.getElementById('q'),n=document.getElementById('n'),rows=[...document.querySelectorAll('tbody tr')];\nq.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();let k=0;for(const r of rows){const ok=!v||r.textContent.toLowerCase().includes(v);r.classList.toggle('oculta',!ok);if(ok)k++}n.textContent=v?k+' linhas':''});\n}</script>\n</body></html>"
+_ACENTOS = str.maketrans("çõãéáíóúêâà", "coaeaiouea a".replace(" ", ""))
+
+
+def gerar_html(texto_md: str) -> str:
+    import markdown
+    corpo = markdown.markdown(texto_md, extensions=["tables"])
+    seccoes = []
+
+    def h2(m):
+        t = html.unescape(re.sub("<[^>]+>", "", m.group(1)))
+        i = re.sub(r"[^a-z0-9]+", "-", t.lower().translate(_ACENTOS)).strip("-")
+        seccoes.append((i, t))
+        return f'<h2 id="{i}">{m.group(1)}</h2>'
+    corpo = re.sub(r"<h2>(.*?)</h2>", h2, corpo)
+    corpo = corpo.replace("<table>", '<div class="scroll"><table class="stack">').replace("</table>", "</table></div>")
+    corpo = re.sub(r"<h1>.*?</h1>", "", corpo, count=1)
+    nav = "".join(f'<a href="#{i}">{html.escape(t)}</a>' for i, t in seccoes)
+    return CABECA + '<nav aria-label="Secções">' + nav + "</nav>" + MEIO + corpo + "\n" + FIM
