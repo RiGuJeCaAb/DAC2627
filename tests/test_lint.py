@@ -202,3 +202,30 @@ def test_reset_de_controlo_de_formulario_feito_de_fora():
     r = [a.onde for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", [form, fora, livre, repor_livre])}).correr()
          if a.regra == "DAC408"]
     assert r == ["scrL1A.btnL1Fora.OnSelect"]
+
+
+def test_caixa_de_pesquisa_sem_delayoutput():
+    def caixa(nome, props=None):
+        return {nome: {"Control": "Classic/TextInput@2.3.2",
+                       "Properties": {"AccessibleLabel": '="Pesquisa"', "TabIndex": "=0", **(props or {})}}}
+    gal = _c("galL1Lista", "Gallery@2.15.0", {"Items": '=Filter(Pedidos, StartsWith(Nome, txtL1Pesquisa.Text))',
+                                              "AccessibleLabel": '="Lista"', "TabIndex": "=0"})
+    botao = {"btnL1Ok": {"Control": "Classic/Button@2.2.0",
+                         "Properties": {"OnSelect": '=Patch(Pedidos, Defaults(Pedidos), {Nome: txtL1Nome.Text})',
+                                        "TabIndex": "=0", "Text": '="Ok"'}}}
+    lbl = _c("lblL1Conta", "Label@2.5.1", {"Text": '=CountRows(Filter(Pedidos, Nome = txtL1Atrasada.Text))',
+                                           "FocusedBorderThickness": "=2"})
+    r = [a.onde for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", [
+        caixa("txtL1Pesquisa"), caixa("txtL1Nome"), caixa("txtL1Atrasada", {"DelayOutput": "=true"}), gal, botao, lbl,
+    ])}).correr() if a.regra == "DAC409"]
+    # a pesquisa filtra a galeria; o nome só é lido num OnSelect; a terceira já tem DelayOutput
+    assert r == ["scrL1A.txtL1Pesquisa"]
+
+
+def test_retangulo_em_galeria_sem_select_parent():
+    gal = _c("galL1Lista", "Gallery@2.15.0", {"Items": "=Pedidos", "AccessibleLabel": '="Lista"', "TabIndex": "=0"}, [
+        _c("recL1Sep", "Rectangle@2.3.0", {}),
+        _c("recL1Fundo", "Rectangle@2.3.0", {"OnSelect": "=Select(Parent)"}),
+    ])
+    r = [a.controlo for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", [gal])}).correr() if a.regra == "DAC502"]
+    assert r == ["recL1Sep"]

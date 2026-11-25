@@ -260,11 +260,14 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     from tools.migracoes import m009_v1_7_ficha04_tres_modos as m
     from tools.migracoes import m010_v1_8_ficha04_visual as m10
     from tools.migracoes import m011_v1_9_caixas_na_app as m11
+    from tools.migracoes import m012_v1_9_1_verificador as m12
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
-    # a m009 gera os três modos (e o scrL4Entrar) e a m010 e a m011 dão-lhes o aspeto: a cadeia é que tem de ser idempotente
+    # a m009 gera os três modos (e o scrL4Entrar), a m010 e a m011 dão-lhes o aspeto e a m012 acerta o que o
+    # Verificador apontou: a cadeia é que tem de ser idempotente
     m.main(raiz)
     m10.main(raiz)
     m11.main(raiz)
+    m12.main(raiz)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     ecras = raiz / "src" / "screens"
     # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
@@ -343,3 +346,33 @@ def test_migracao_m011_caixas_na_app(tmp_path):
     # bandas e calha
     assert str(ctl["conL2PainelTopo"].prop("Fill")) == "=nfAzulClaro" and str(ctl["conL3bTopo"].prop("Fill")) == "=nfAzulClaro"
     assert str(ctl["conL3Separadores"].prop("Fill")) == "=nfSuperficie"
+
+
+def test_migracao_m012_verificador(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m012_v1_9_1_verificador as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    ctl = {}
+    for f in projeto.ficheiros_src(raiz):
+        ctl.update({c.nome: c for c in yamlio.controlos(yamlio.ler(f))})
+    for (ecra, nome), props in m.PROPRIEDADES.items():
+        assert ctl[nome].ecra == ecra
+        for k, v in props.items():
+            assert str(ctl[nome].prop(k)) == v, (nome, k)
+
+
+def test_verificador_reproduz_a_exportacao():
+    from tools.dac import verificador
+    previstos = verificador.prever(projeto.MSAPP / "Src")
+    reais = verificador.ler_sarif(projeto.MSAPP / "AppCheckerResult.sarif")
+    assert sorted(previstos) == sorted(reais)
+
+
+def test_verificador_so_avisa_decorativos_e_veus():
+    # o que fica no Verificador é de propósito: decorativos com TabIndex -1, as pílulas com exceção DAC302 e os véus
+    from tools.dac import verificador
+    rotulos = sorted(n for r, _, n in verificador.prever(projeto.SRC / "screens") if r == verificador.ROTULO)
+    assert rotulos == ["recL2Veu", "recL4Veu"]

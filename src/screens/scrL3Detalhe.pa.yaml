@@ -417,5 +417,6 @@ Screens:
                                         Properties:
                                           Fill: =nfLinha
                                           Height: =1
+                                          OnSelect: =Select(Parent)
                                           Width: =Parent.TemplateWidth
                                           Y: =Parent.TemplateHeight - 1

@@ -2,7 +2,13 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
-## [1.9.0] · 25/11/2026 · por colar
+## [1.9.1] · 25/11/2026 · por levar ao Studio (à mão, seis propriedades)
+
+- **Verificador de aplicações depois de colar a v1.9.0:** 275 avisos de Acessibilidade e 3 de Desempenho. Um `dac verificador` novo prevê os de Acessibilidade a partir do repositório, com as duas regras deduzidas do `AppCheckerResult.sarif` da exportação (um teste exige que reproduza a exportação controlo a controlo). Sobre a v1.9.0 dá exatamente 275: 270 de tabulação e 5 de `AccessibleLabel`. Os 3 de Desempenho são da regra `app-use-delayoutput-text-input`, a única que a v1.9.0 cumpre três vezes (as três caixas de pesquisa).
+- Gerado pela `m012`, que corre depois da `m011` (a cadeia `m009` → `m012` é idempotente, com teste). As caixas de pesquisa `txtL2Pesquisa`, `txtL3Pesquisa` e `txtL4Pesquisa` passam a `DelayOutput = true`: a galeria e a contagem filtram meio segundo depois da última tecla, em vez de a cada tecla. As três linhas de separação que ficaram em galerias (`recL3PubsUtilSep`, `recL4CliSeparador`, `recL4dGUtilSeparador`) passam o toque à linha com `OnSelect = Select(Parent)`.
+- Lint: regra nova DAC409 (caixa de texto que filtra dados sem `DelayOutput = true`) e a DAC502 passa a incluir retângulos. Fica o Verificador com 269 avisos de Acessibilidade, todos de propósito: 267 de tabulação em etiquetas, ícones e retângulos decorativos e nas 14 pílulas, e 2 de `AccessibleLabel` nos véus dos diálogos de confirmação (`recL2Veu`, `recL4Veu`). Desempenho a zero.
+
+## [1.9.0] · 25/11/2026 · colada
 
 - **Anexo do Manual** (pedido do utilizador): `python -m tools.dac legenda` gera `docs/legenda.md`, com os 11 ecrãs, os 568 controlos (o que é cada um, dentro de quê e em que secção do Manual é construído), as variáveis (onde se definem e onde aparecem), as fórmulas com nome, as funções Power Fx usadas e as fontes de dados. As descrições saem das fórmulas, por isso o anexo acompanha o código. Entra no `make docs` e no `make verificar`. O `dac pt` ganha `--compacto` e `--descendentes`, e há um `dac arvore`, para os blocos do Manual saírem do repositório.
 - Manual ABC e Aulas 4 a 6 reescritos para os três modos e as caixas: F10 e F11.5 do Manual como modos do `scrL4Pedidos`, o aspeto em caixas na F4, na D10, na E8 e no fim da C4, os rótulos do formulário do pedido na F5, e os exercícios do ecrã nas Aulas 5 e 6.

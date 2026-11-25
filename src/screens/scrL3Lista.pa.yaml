@@ -156,6 +156,7 @@ Screens:
                             Properties:
                               AccessibleLabel: =Self.HintText
                               Default: =""
+                              DelayOutput: =true
                               FillPortions: =1
                               Height: =48
                               HintText: |-

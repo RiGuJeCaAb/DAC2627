@@ -201,6 +201,7 @@ Screens:
                             Properties:
                               AccessibleLabel: ="Pesquisar clientes pelo início do nome"
                               Default: =""
+                              DelayOutput: =true
                               FillPortions: =1
                               Height: =48
                               HintText: ="Pesquisar cliente pelo início do nome"
@@ -374,6 +375,7 @@ Screens:
                                         Properties:
                                           Fill: =nfLinha
                                           Height: =1
+                                          OnSelect: =Select(Parent)
                                           Width: =Parent.TemplateWidth
                                           Y: =Parent.TemplateHeight - 1
                         - conL4Painel:
@@ -2946,6 +2948,7 @@ Screens:
                                               Properties:
                                                 Fill: =nfLinha
                                                 Height: =1
+                                                OnSelect: =Select(Parent)
                                                 Width: =Parent.TemplateWidth
                                                 Y: =Parent.TemplateHeight - 1
                         - conL4dUtilForm:

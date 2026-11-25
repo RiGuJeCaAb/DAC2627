@@ -400,6 +400,27 @@ def cmd_inventario(a) -> int:
     return 0
 
 
+def cmd_verificador(a) -> int:
+    from tools.dac import verificador
+    pasta = projeto.MSAPP / "Src" if a.exportacao else projeto.SRC / "screens"
+    previstos = verificador.prever(pasta)
+    print(verificador.resumo(previstos))
+    if a.exportacao:
+        reais = verificador.ler_sarif(projeto.MSAPP / "AppCheckerResult.sarif")
+        falta = sorted(set(reais) - set(previstos))
+        sobra = sorted(set(previstos) - set(reais))
+        print(f"Exportação: {len(reais)} aviso(s) no AppCheckerResult.sarif")
+        for x in falta:
+            print("  na exportação e não previsto:", *x)
+        for x in sobra:
+            print("  previsto e não na exportação:", *x)
+        return 1 if falta or sobra else 0
+    if a.lista:
+        for regra, ecra, nome in previstos:
+            print(f"{regra}\t{ecra}\t{nome}")
+    return 0
+
+
 def cmd_legenda(a) -> int:
     """Anexo do Manual: legenda de ecrãs, controlos, variáveis, fórmulas com nome, funções e fontes (docs/legenda.md)."""
     from tools.dac import legenda
@@ -597,6 +618,11 @@ def main(argv=None) -> int:
     s.add_argument("--verificar", action="store_true")
     s.add_argument("--html", help="escreve também a página HTML com pesquisa neste ficheiro (ex.: build/legenda/index.html)")
     s.set_defaults(f=cmd_legenda)
+
+    s = sub.add_parser("verificador", help="prevê os avisos de Acessibilidade do Verificador do Studio")
+    s.add_argument("--exportacao", action="store_true", help="prevê sobre msapp/Src e compara com o AppCheckerResult.sarif")
+    s.add_argument("--lista", action="store_true", help="lista os controlos, um por linha")
+    s.set_defaults(f=cmd_verificador)
 
     s = sub.add_parser("paleta", help="gera docs/paleta.md e verifica contraste")
     s.add_argument("--verificar", action="store_true")

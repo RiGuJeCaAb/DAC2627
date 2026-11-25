@@ -42,8 +42,9 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC407": (AVISO, "Caixa de combinação clássica fora de formulário: a lista abre vazia depois de carregar a app"),
     "DAC406": (ERRO, "Navigate no OnVisible de um ecrã ou no App.OnStart: o Studio não aceita"),
     "DAC408": (ERRO, "Reset de um controlo de formulário ou galeria feito de fora desse formulário ou galeria"),
+    "DAC409": (AVISO, "Caixa de texto que filtra dados sem DelayOutput = true"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
-    "DAC502": (AVISO, "Etiqueta ou ícone dentro de galeria sem OnSelect = Select(Parent)"),
+    "DAC502": (AVISO, "Etiqueta, ícone ou retângulo dentro de galeria sem OnSelect = Select(Parent)"),
     "DAC503": (AVISO, "Sombra dentro de sombra"),
     "DAC504": (AVISO, "Valor por omissão escrito no código: o Studio apaga-o ao guardar"),
     "DAC900": (ERRO, "Exceção em dac.yaml sem motivo"),
@@ -180,6 +181,7 @@ class Analise:
         self._navegacao()
         self._escolhas()
         self._repor()
+        self._atraso()
         self._layout()
         self._excecoes()
         ordem = {ERRO: 0, AVISO: 1, INFO: 2}
@@ -421,6 +423,32 @@ class Analise:
                         self._add("DAC408", f"{c.ecra}.{c.nome}.{prop}",
                                   f"{alvo} está dentro de {dono}: mude o Default por uma variável ou use ResetForm({dono})")
 
+    def _atraso(self):
+        """DAC409: uma caixa de texto lida numa fórmula de dados (Items, Text...) com Filter, Search, LookUp ou uma
+        contagem refaz a consulta a cada tecla. O Verificador marca-a em Desempenho (regra app-use-delayoutput-text-input)
+        e a Microsoft recomenda DelayOutput = true, que espera meio segundo depois da última tecla
+        ([Otimização de código](https://learn.microsoft.com/power-apps/guidance/coding-guidelines/code-optimization)).
+        As fórmulas de comportamento (On*) não contam: só correm quando o utilizador carrega num botão."""
+        consulta = re.compile(r"\b(Filter|Search|LookUp|CountRows|CountIf)\s*\(")
+        caixas = [c for c in self.todos if c.tipo == "TextInput" and _fx(c.prop("DelayOutput")).strip() != "true"]
+        if not caixas:
+            return
+        dados = []
+        for c in self.todos:
+            for prop, fx in (c.props or {}).items():
+                if prop.startswith("On"):
+                    continue
+                try:
+                    cod = pafx.so_codigo(_fx(fx))
+                except pafx.ErroLexico:
+                    continue
+                if consulta.search(cod):
+                    dados.append(cod)
+        for cx in caixas:
+            ref = re.compile(r"\b" + re.escape(cx.nome) + r"\.(Text|Value)\b")
+            if any(ref.search(cod) for cod in dados):
+                self._add("DAC409", f"{cx.ecra}.{cx.nome}", "defina DelayOutput = true")
+
     # ----- DAC5xx -----
     # o YAML e a exportação nem sempre dão o mesmo nome ao tipo
     TIPO_MODELO = {"textinput": "text"}
@@ -452,7 +480,7 @@ class Analise:
                 for n in re.findall(r"(?<![\w.])(\d+)(?![\w.])", _fx(tam)):
                     if int(n) not in escala:
                         self._add("DAC501", f"{onde}.Size", f"{n} não está em {sorted(escala)}")
-            if c.dentro_de_galeria and c.tipo in ("Label", "Icon") and _fx(c.prop("OnSelect")).strip() != "Select(Parent)" and not _onselect_acao(c):
+            if c.dentro_de_galeria and c.tipo in ("Label", "Icon", "Rectangle") and _fx(c.prop("OnSelect")).strip() != "Select(Parent)" and not _onselect_acao(c):
                 self._add("DAC502", onde, "acrescente OnSelect = Select(Parent)")
             for k, v in (c.corpo.get("Properties") or {}).items():
                 if yamlio_omissao(c.tipo, k) == str(v):

@@ -89,6 +89,7 @@ Screens:
                             Properties:
                               AccessibleLabel: ="Pesquisar serviços pelo início do nome"
                               Default: =""
+                              DelayOutput: =true
                               DisplayMode: =If(frmL2Servico.Mode = FormMode.View, DisplayMode.Edit, DisplayMode.Disabled)
                               FillPortions: =1
                               Height: =48
