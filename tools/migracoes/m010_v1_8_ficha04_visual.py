@@ -88,7 +88,7 @@ def _paineis(doc: dict) -> None:
 # ======================================================================== 2 · clientes
 SEL_CLI = "!IsBlank(locL4Cliente) && ThisItem.Cliente = locL4Cliente.Cliente"
 INICIAIS_CLI = ('With({p: Filter(Split(Trim(ThisItem.Nome), " "), Len(Value) > 3)}, '
-                'Upper(If(CountRows(p) > 1, Left(First(p).Value, 1) & Left(Last(FirstN(p, 2)).Value, 1), Left(ThisItem.Nome, 2))))')
+                'Upper(If(CountRows(p) > 1, Left(First(p).Value, 1) & Left(Index(p, 2).Value, 1), Left(ThisItem.Nome, 2))))')
 
 
 def _clientes(doc: dict) -> None:

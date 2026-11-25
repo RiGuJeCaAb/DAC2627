@@ -16,7 +16,7 @@ from tools.dac import pafx, projeto, yamlio
 FICHA = {"scrInicio": "Início", "scrL1BoasVindas": "Ficha 01", "scrL1Pedido": "Ficha 01", "scrL1Saudacao": "Ficha 01",
          "scrL2Servicos": "Ficha 02", "scrL3Lista": "Ficha 03", "scrL3Detalhe": "Ficha 03", "scrL3Publicacao": "Ficha 03",
          "scrL4Pedidos": "Ficha 04 (três modos)", "scrL4Complemento": "Ficha 04 · Complemento",
-         "scrL4Entrar": "Ficha 04 · Revisão (entrada)"}
+         "scrL4Entrar": "Ficha 04 · Revisão (entrada)", "scrL4Conta": "Ficha 04 · Revisão (conta)"}
 TIPO = {"GroupContainer": "Contentor", "Label": "Etiqueta", "Button": "Botão", "TextInput": "Caixa de texto",
         "Icon": "Ícone", "Rectangle": "Retângulo", "Gallery": "Galeria", "DropDown": "Lista pendente",
         "ComboBox": "Caixa de combinação", "Form": "Formulário", "Timer": "Temporizador", "CheckBox": "Caixa de verificação",
@@ -53,7 +53,7 @@ FUNC_RE = re.compile(r"\b([A-Z][A-Za-z]+)\s*\(")
 
 SECCAO_ECRA = {"scrInicio": "B", "scrL1BoasVindas": "C2", "scrL1Pedido": "C3", "scrL1Saudacao": "C4", "scrL2Servicos": "D",
                "scrL3Lista": "E5, E6", "scrL3Detalhe": "E7", "scrL3Publicacao": "E7", "scrL4Pedidos": "F2 a F7",
-               "scrL4Complemento": "F8", "scrL4Entrar": "F11.5"}
+               "scrL4Complemento": "F8", "scrL4Entrar": "F11.5", "scrL4Conta": "F11.5"}
 
 
 def _seccao(nome: str, ecra: str) -> str:

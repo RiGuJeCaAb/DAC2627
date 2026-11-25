@@ -6,7 +6,7 @@ import zipfile
 
 import pytest
 
-from tools.dac import cli, cores, projeto, yamlio
+from tools.dac import cli, cores, lint, projeto, yamlio
 
 
 def test_ida_e_volta_byte_a_byte():
@@ -261,6 +261,7 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     from tools.migracoes import m010_v1_8_ficha04_visual as m10
     from tools.migracoes import m011_v1_9_caixas_na_app as m11
     from tools.migracoes import m012_v1_9_1_verificador as m12
+    from tools.migracoes import m013_v1_10_ecra_conta as m13
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     # a m009 gera os três modos (e o scrL4Entrar), a m010 e a m011 dão-lhes o aspeto e a m012 acerta o que o
     # Verificador apontou: a cadeia é que tem de ser idempotente
@@ -268,6 +269,7 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     m10.main(raiz)
     m11.main(raiz)
     m12.main(raiz)
+    m13.main(raiz)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     ecras = raiz / "src" / "screens"
     # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
@@ -291,8 +293,12 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     # no modo da Ficha 04 a linha continua a abrir o formulário, como no Lab 4
     assert m.SELECIONAR_LAB4 in str(ctl["galL4Pedidos"].prop("OnSelect"))
     for nome in ("conL4cDetalhe", "conL4cSeparadores", "conL4cTestes", "tmrL4cEstado", "btnL4dSair",
-                 "conL4dVistaUtilizadores", "conL4dVistaPassword", "btnL4dAprovar", "btnL4dProporAprovar"):
+                 "btnL4dAprovar", "btnL4dProporAprovar"):
         assert nome in ctl, nome
+    # desde a v1.10.0 (m013) a gestão da conta está no scrL4Conta
+    conta = {c.nome for c in yamlio.controlos(yamlio.ler(ecras / "scrL4Conta.pa.yaml"))}
+    for nome in ("conL4dVistaUtilizadores", "conL4dVistaPassword"):
+        assert nome not in ctl and nome in conta, nome
 
 
 def test_migracao_m010_caixas_na_ficha04(tmp_path):
@@ -376,3 +382,25 @@ def test_verificador_so_avisa_decorativos_e_veus():
     from tools.dac import verificador
     rotulos = sorted(n for r, _, n in verificador.prever(projeto.SRC / "screens") if r == verificador.ROTULO)
     assert rotulos == ["recL2Veu", "recL4Veu"]
+
+
+def test_migracao_m013_ecra_conta(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m013_v1_10_ecra_conta as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    ecras = raiz / "src" / "screens"
+    ped = (ecras / "scrL4Pedidos.pa.yaml").read_text(encoding="utf-8")
+    assert "locL4Area" not in ped and "conL4dVista" not in ped
+    # a área vai numa global posta antes do Navigate, como o gblL4Nivel
+    assert 'Set(gblL4dArea, "utilizadores"); Navigate(scrL4Conta' in ped
+    assert 'Set(gblL4dArea, "password"); Navigate(scrL4Conta' in ped
+    conta = (ecras / "scrL4Conta.pa.yaml").read_text(encoding="utf-8")
+    assert "Navigate(scrL4Pedidos, ScreenTransition.UnCover)" in conta and "scrL4Revisao" not in conta
+    assert 'gblL4dArea = "utilizadores" && gblL4dSessao.perfil = "Admin"' in conta
+    # a password só vai para o fluxo: nunca para uma variável
+    assert not any("Set(" in linha and "txtL4dPass" in linha for linha in conta.splitlines())
+    n = {f.stem.split(".")[0]: sum(1 for _ in yamlio.controlos(yamlio.ler(f))) for f in ecras.glob("*.pa.yaml")}
+    assert n["scrL4Pedidos"] <= lint.MAX_CONTROLOS

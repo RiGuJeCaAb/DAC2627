@@ -229,3 +229,20 @@ def test_retangulo_em_galeria_sem_select_parent():
     ])
     r = [a.controlo for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", [gal])}).correr() if a.regra == "DAC502"]
     assert r == ["recL1Sep"]
+
+
+def test_index_em_vez_de_last_firstn():
+    r = [a.onde for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", [
+        _c("lblL1Dois", "Label@2.5.1", {"Text": '=Last(FirstN(colL1Nomes, 2)).Value', "FocusedBorderThickness": "=2"}),
+        _c("lblL1Fim", "Label@2.5.1", {"Text": '=First( LastN(colL1Nomes, 3)).Value', "FocusedBorderThickness": "=2"}),
+        _c("lblL1Bom", "Label@2.5.1", {"Text": '=Index(colL1Nomes, 2).Value & "Last(FirstN("', "FocusedBorderThickness": "=2"}),
+    ])}).correr() if a.regra == "DAC410"]
+    assert r == ["scrL1A.lblL1Dois.Text", "scrL1A.lblL1Fim.Text"]
+
+
+def test_ecra_com_demasiados_controlos():
+    muitos = [_c(f"lblL1E{i}", "Label@2.5.1", {"FocusedBorderThickness": "=2"}) for i in range(lint.MAX_CONTROLOS + 1)]
+    poucos = [_c(f"lblL1P{i}", "Label@2.5.1", {"FocusedBorderThickness": "=2"}) for i in range(lint.MAX_CONTROLOS)]
+    r = [a.onde for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", muitos), "c": _ecra("scrL1B", poucos)}).correr()
+         if a.regra == "DAC411"]
+    assert r == ["scrL1A"]

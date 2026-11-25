@@ -2,11 +2,18 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
-## [1.9.1] · 25/11/2026 · por levar ao Studio (à mão, seis propriedades)
+## [1.10.0] · 25/11/2026 · por colar
 
-- **Verificador de aplicações depois de colar a v1.9.0:** 275 avisos de Acessibilidade e 3 de Desempenho. Um `dac verificador` novo prevê os de Acessibilidade a partir do repositório, com as duas regras deduzidas do `AppCheckerResult.sarif` da exportação (um teste exige que reproduza a exportação controlo a controlo). Sobre a v1.9.0 dá exatamente 275: 270 de tabulação e 5 de `AccessibleLabel`. Os 3 de Desempenho são da regra `app-use-delayoutput-text-input`, a única que a v1.9.0 cumpre três vezes (as três caixas de pesquisa).
+- **Desempenho no Verificador, segunda leitura.** Depois de levar a v1.9.1 ao Studio ficaram 2 avisos de Desempenho, diferentes dos que a v1.9.1 dava como certos: os 3 da v1.9.0 não eram só as caixas de pesquisa, e o Verificador não os guarda na exportação, por isso não se podiam ver no repositório.
+- «Utilizar o Index para ler um registo numa posição específica» em `btnL4CliIniciais.Text`: a segunda palavra do nome passa de `Last(FirstN(p, 2))` a `Index(p, 2)`, na `m010`. O `If(CountRows(p) > 1, ...)` à volta garante que a linha 2 existe. Lint novo DAC410.
+- «Demasiados controlos num ecrã» no `scrL4Pedidos`: complexidade estimada 302 para um máximo recomendado de 300, com 219 controlos. A pedido do utilizador, as áreas Utilizadores (só Admin) e A minha password da Revisão passam para um ecrã próprio, o `scrL4Conta`, gerado pela `m013` (corre depois da `m012`, cadeia idempotente com teste). Os ícones do cabeçalho do `scrL4Pedidos` põem a área na global `gblL4dArea` com `Set` e navegam para lá. O ecrã tem o cabeçalho com os dois ícones, o topo com o título e «‹ Pedidos», as duas vistas e a sua faixa de mensagem (`locL4dMsg`). Sai a variável `locL4Area`. O `scrL4Pedidos` fica com 182 controlos (−37) e o `scrL4Conta` tem 49. Lint novo DAC411, que avisa acima de 200 controlos por ecrã.
+- Verificador previsto: 272 avisos de Acessibilidade (270 de tabulação, 2 de `AccessibleLabel` nos véus), todos de propósito. Os três a mais vêm do cabeçalho e da faixa de mensagem do ecrã novo.
+
+## [1.9.1] · 25/11/2026 · levada ao Studio à mão (seis propriedades)
+
+- **Verificador de aplicações depois de colar a v1.9.0:** 275 avisos de Acessibilidade e 3 de Desempenho. Um `dac verificador` novo prevê os de Acessibilidade a partir do repositório, com as duas regras deduzidas do `AppCheckerResult.sarif` da exportação (um teste exige que reproduza a exportação controlo a controlo). Sobre a v1.9.0 dá exatamente 275: 270 de tabulação e 5 de `AccessibleLabel`. Os 3 de Desempenho foram dados como sendo da regra `app-use-delayoutput-text-input` (as três caixas de pesquisa), sem os ver: eram outros, ver a v1.10.0.
 - Gerado pela `m012`, que corre depois da `m011` (a cadeia `m009` → `m012` é idempotente, com teste). As caixas de pesquisa `txtL2Pesquisa`, `txtL3Pesquisa` e `txtL4Pesquisa` passam a `DelayOutput = true`: a galeria e a contagem filtram meio segundo depois da última tecla, em vez de a cada tecla. As três linhas de separação que ficaram em galerias (`recL3PubsUtilSep`, `recL4CliSeparador`, `recL4dGUtilSeparador`) passam o toque à linha com `OnSelect = Select(Parent)`.
-- Lint: regra nova DAC409 (caixa de texto que filtra dados sem `DelayOutput = true`) e a DAC502 passa a incluir retângulos. Fica o Verificador com 269 avisos de Acessibilidade, todos de propósito: 267 de tabulação em etiquetas, ícones e retângulos decorativos e nas 14 pílulas, e 2 de `AccessibleLabel` nos véus dos diálogos de confirmação (`recL2Veu`, `recL4Veu`). Desempenho a zero.
+- Lint: regra nova DAC409 (caixa de texto que filtra dados sem `DelayOutput = true`) e a DAC502 passa a incluir retângulos. Fica o Verificador com 269 avisos de Acessibilidade, todos de propósito: 267 de tabulação em etiquetas, ícones e retângulos decorativos e nas 14 pílulas, e 2 de `AccessibleLabel` nos véus dos diálogos de confirmação (`recL2Veu`, `recL4Veu`).
 
 ## [1.9.0] · 25/11/2026 · colada
 

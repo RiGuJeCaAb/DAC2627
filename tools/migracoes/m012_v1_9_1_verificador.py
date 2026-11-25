@@ -34,7 +34,7 @@ PROPRIEDADES = {
     ("scrL4Pedidos", "txtL4Pesquisa"): {"DelayOutput": "=true"},
     ("scrL3Detalhe", "recL3PubsUtilSep"): {"OnSelect": "=Select(Parent)"},
     ("scrL4Pedidos", "recL4CliSeparador"): {"OnSelect": "=Select(Parent)"},
-    ("scrL4Pedidos", "recL4dGUtilSeparador"): {"OnSelect": "=Select(Parent)"},
+    ("scrL4Conta", "recL4dGUtilSeparador"): {"OnSelect": "=Select(Parent)"},
 }
 
 

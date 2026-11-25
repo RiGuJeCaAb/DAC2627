@@ -43,6 +43,8 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC406": (ERRO, "Navigate no OnVisible de um ecrã ou no App.OnStart: o Studio não aceita"),
     "DAC408": (ERRO, "Reset de um controlo de formulário ou galeria feito de fora desse formulário ou galeria"),
     "DAC409": (AVISO, "Caixa de texto que filtra dados sem DelayOutput = true"),
+    "DAC410": (AVISO, "Last(FirstN(t, n)) ou First(LastN(t, n)) em vez de Index"),
+    "DAC411": (AVISO, "Ecrã com demasiados controlos: o Verificador marca-o em Desempenho"),
     "DAC501": (INFO, "Tamanho de letra fora da escala tipográfica"),
     "DAC502": (AVISO, "Etiqueta, ícone ou retângulo dentro de galeria sem OnSelect = Select(Parent)"),
     "DAC503": (AVISO, "Sombra dentro de sombra"),
@@ -99,6 +101,11 @@ class Config:
             if k in lint:
                 setattr(c, k, lint[k])
         return c
+
+
+# DAC411: o Verificador deu ao scrL4Pedidos complexidade 302 para um máximo de 300, com 219 controlos no repositório
+# (25/11/2026). Não diz como a calcula, por isso o lint avisa com folga, a partir de 200 controlos (≈ 276).
+MAX_CONTROLOS = 200
 
 
 def _num(v: str | None) -> float | None:
@@ -182,6 +189,8 @@ class Analise:
         self._escolhas()
         self._repor()
         self._atraso()
+        self._indice()
+        self._tamanho()
         self._layout()
         self._excecoes()
         ordem = {ERRO: 0, AVISO: 1, INFO: 2}
@@ -448,6 +457,31 @@ class Analise:
             ref = re.compile(r"\b" + re.escape(cx.nome) + r"\.(Text|Value)\b")
             if any(ref.search(cod) for cod in dados):
                 self._add("DAC409", f"{cx.ecra}.{cx.nome}", "defina DelayOutput = true")
+
+    def _indice(self):
+        """DAC410: Last(FirstN(t, n)) e First(LastN(t, n)) copiam a tabela até n linhas só para devolver uma.
+        Index(t, n) devolve o registo diretamente. O Verificador marca-o em Desempenho («Utilizar o Index para ler um
+        registo numa posição específica», btnL4CliIniciais, 25/11/2026). Com n fora do intervalo o Index dá erro: quando
+        n pode passar de CountRows(t), usar Index(t, Min(CountRows(t), n))."""
+        padrao = re.compile(r"\b(Last\s*\(\s*FirstN|First\s*\(\s*LastN)\s*\(")
+        for c in self.todos:
+            for prop, fx in (c.props or {}).items():
+                try:
+                    cod = pafx.so_codigo(_fx(fx))
+                except pafx.ErroLexico:
+                    continue
+                if padrao.search(cod):
+                    self._add("DAC410", f"{c.ecra}.{c.nome}.{prop}", "use Index(t, n)")
+
+    def _tamanho(self):
+        """DAC411: «Demasiados controlos num ecrã» (regra app-reduce-screen-controls). A Microsoft recomenda dividir o
+        ecrã ([Sugestões de desempenho](https://learn.microsoft.com/power-apps/maker/canvas-apps/performance-tips))."""
+        conta = {}
+        for c in self.todos:
+            conta[c.ecra] = conta.get(c.ecra, 0) + 1
+        for ecra, n in sorted(conta.items()):
+            if n > MAX_CONTROLOS:
+                self._add("DAC411", ecra, f"{n} controlos (máximo {MAX_CONTROLOS}): divida o ecrã")
 
     # ----- DAC5xx -----
     # o YAML e a exportação nem sempre dão o mesmo nome ao tipo

@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.9.1
+versao: 1.10.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -17,6 +17,7 @@ ecras:
   - scrL4Pedidos
   - scrL4Complemento
   - scrL4Entrar
+  - scrL4Conta
 
 # Ecrãs que saíram da app: o ORDEM.md pede para os eliminar, se ainda lá estiverem.
 # Na v1.7.0 o Melhoramento e a Revisão passaram a modos do scrL4Pedidos (m009).

@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac legenda` a partir de `src/`. Não editar à mão: mudar o código e voltar a gerar.
 
-A app tem 11 ecrãs e 568 controlos. Para cada elemento, a legenda diz o que é, onde está e em que secção do Manual ABC é construído. Os nomes seguem a convenção da A2: o prefixo diz o tipo (`lbl`, `btn`, `con`…), o código diz a ficha (`In`, `L1` a `L4`, com `L4b` para o Complemento, `L4c` para o Melhoramento e `L4d` para a Revisão) e o resto diz a função. As descrições saem das próprias fórmulas: o texto de uma etiqueta, o que um botão faz, a origem de uma galeria.
+A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é, onde está e em que secção do Manual ABC é construído. Os nomes seguem a convenção da A2: o prefixo diz o tipo (`lbl`, `btn`, `con`…), o código diz a ficha (`In`, `L1` a `L4`, com `L4b` para o Complemento, `L4c` para o Melhoramento e `L4d` para a Revisão) e o resto diz a função. As descrições saem das próprias fórmulas: o texto de uma etiqueta, o que um botão faz, a origem de uma galeria.
 
 ## Ecrãs
 
@@ -16,9 +16,10 @@ A app tem 11 ecrãs e 568 controlos. Para cada elemento, a legenda diz o que é,
 | `scrL3Lista` | Ficha 03 | 39 | E5, E6 |
 | `scrL3Detalhe` | Ficha 03 | 34 | E7 |
 | `scrL3Publicacao` | Ficha 03 | 16 | E7 |
-| `scrL4Pedidos` | Ficha 04 (três modos) | 219 | F2 a F7 |
+| `scrL4Pedidos` | Ficha 04 (três modos) | 182 | F2 a F7 |
 | `scrL4Complemento` | Ficha 04 · Complemento | 91 | F8 |
 | `scrL4Entrar` | Ficha 04 · Revisão (entrada) | 33 | F11.5 |
+| `scrL4Conta` | Ficha 04 · Revisão (conta) | 49 | F11.5 |
 
 ## scrInicio
 
@@ -296,10 +297,10 @@ A app tem 11 ecrãs e 568 controlos. Para cada elemento, a legenda diz o que é,
 | `btnL4dIniciais` | Botão | `conCabL4` | Pílula decorativa With({p: Split(Trim(gblL4dSessao.nome); " ")}; Up… | F11.5 |
 | `lblL4dQuem` | Etiqueta | `conCabL4` | Mostra gblL4dSessao.nome | F11.5 |
 | `btnL4dPerfil` | Botão | `conCabL4` | Pílula decorativa gblL4dSessao.perfil | F11.5 |
-| `icoL4dUtilizadores` | Ícone | `conCabL4` | Ícone People («Gerir os utilizadores»): muda locL4Area | F11.5 |
-| `icoL4dPassword` | Ícone | `conCabL4` | Ícone Lock («Mudar a minha password»): muda locL4Area | F11.5 |
+| `icoL4dUtilizadores` | Ícone | `conCabL4` | Ícone People («Gerir os utilizadores»): abre scrL4Conta; define gblL4dArea | F11.5 |
+| `icoL4dPassword` | Ícone | `conCabL4` | Ícone Lock («Mudar a minha password»): abre scrL4Conta; define gblL4dArea | F11.5 |
 | `btnL4dSair` | Botão | `conCabL4` | Botão «Sair»: abre scrL4Entrar; define gblL4dSessao | F11.5 |
-| `conConteudoL4` | Contentor | `conEcraL4` | Contentor vertical, desloca | F2 a F7 |
+| `conConteudoL4` | Contentor | `conEcraL4` | Contentor vertical | F2 a F7 |
 | `conL4Barra` | Contentor | `conConteudoL4` | Contentor horizontal | F2 a F7 |
 | `txtL4Pesquisa` | Caixa de texto | `conL4Barra` | Entrada de texto: Pesquisar clientes pelo início do nome | F2 a F7 |
 | `lblL4Contagem` | Etiqueta | `conL4Barra` | Mostra With({n: CountRows(Filter(Clientes; StartsWith(Nome; txtL4Pesquisa.Text)))}; If… | F2 a F7 |
@@ -458,43 +459,6 @@ A app tem 11 ecrãs e 568 controlos. Para cada elemento, a legenda diz o que é,
 | `btnL4RemoverPedido` | Botão | `conL4Rodape` | Botão If(scrL4Pedidos.Size = ScreenSize.Small; "Remover…: muda locL4Confirmar | F2 a F7 |
 | `btnL4Cancelar` | Botão | `conL4Rodape` | Botão «Cancelar»: muda locL4Modo | F2 a F7 |
 | `btnL4Guardar` | Botão | `conL4Rodape` | Botão «Guardar»: muda locL4Confirmar, locL4MsgTipo | F2 a F7 |
-| `conL4dAreaTopo` | Contentor | `conConteudoL4` | Contentor horizontal | F11.5 |
-| `lblL4dAreaTitulo` | Etiqueta | `conL4dAreaTopo` | Mostra If(locL4Area = "utilizadores"; "Utilizadores"; "A minha password") | F11.5 |
-| `btnL4dAreaVoltar` | Botão | `conL4dAreaTopo` | Botão «‹ Pedidos»: muda locL4Area | F11.5 |
-| `conL4dVistaUtilizadores` | Contentor | `conConteudoL4` | Contentor horizontal | F11.5 |
-| `conL4dUtilLista` | Contentor | `conL4dVistaUtilizadores` | Contentor vertical | F11.5 |
-| `btnL4dUtilNovo` | Botão | `conL4dUtilLista` | Botão «Novo utilizador»: muda locL4dUtil | F11.5 |
-| `conL4dUtilCartao` | Contentor | `conL4dUtilLista` | Contentor vertical, caixa com contorno | F11.5 |
-| `galL4dUtilizadores` | Galeria | `conL4dUtilCartao` | Galeria de Utilizadores | F11.5 |
-| `lblL4dGUtilNome` | Etiqueta | `galL4dUtilizadores` | Mostra ThisItem.Nome & " · " & Text(ThisItem.Perfil) | F11.5 |
-| `lblL4dGUtilEmail` | Etiqueta | `galL4dUtilizadores` | Mostra ThisItem.Email | F11.5 |
-| `btnL4dGUtilEstado` | Botão | `galL4dUtilizadores` | Pílula decorativa If(!ThisItem.Ativo; "Inativo"; !IsBlank(ThisItem.… | F11.5 |
-| `recL4dGUtilSeparador` | Retângulo | `galL4dUtilizadores` | Linha de separação | F11.5 |
-| `conL4dUtilForm` | Contentor | `conL4dVistaUtilizadores` | Contentor vertical, caixa com contorno | F11.5 |
-| `lblL4dUtilTitulo` | Etiqueta | `conL4dUtilForm` | Mostra If(IsBlank(locL4dUtil); "Novo utilizador"; locL4dUtil.Nome) | F11.5 |
-| `lblL4dUtilNomeRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Nome» | F11.5 |
-| `txtL4dUtilNome` | Caixa de texto | `conL4dUtilForm` | Entrada de texto: Nome do utilizador | F11.5 |
-| `lblL4dUtilEmailRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Email» | F11.5 |
-| `txtL4dUtilEmail` | Caixa de texto | `conL4dUtilForm` | Entrada de texto: Email do utilizador | F11.5 |
-| `lblL4dUtilPerfilRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Perfil» | F11.5 |
-| `drpL4dUtilPerfil` | Lista pendente | `conL4dUtilForm` | Escolha de Choices('Perfil (Utilizadores)') | F11.5 |
-| `lblL4dUtilClienteRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Cliente associado» | F11.5 |
-| `drpL4dUtilCliente` | Lista pendente | `conL4dUtilForm` | Escolha de Sort(Clientes; Nome) | F11.5 |
-| `chkL4dUtilAtivo` | Caixa de verificação | `conL4dUtilForm` | Caixa de verificação «Ativo (pode entrar)» | F11.5 |
-| `conL4dUtilAcoes` | Contentor | `conL4dUtilForm` | Contentor horizontal | F11.5 |
-| `btnL4dUtilGuardar` | Botão | `conL4dUtilAcoes` | Botão «Guardar»: grava no Dataverse; muda locL4MsgTipo, locL4dUtil | F11.5 |
-| `btnL4dUtilDesbloquear` | Botão | `conL4dUtilAcoes` | Botão «Desbloquear»: grava no Dataverse; muda locL4MsgTipo, locL4dUtil | F11.5 |
-| `lblL4dUtilPassRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Definir a password (mínimo 8 caracteres)» | F11.5 |
-| `txtL4dUtilPassword` | Caixa de texto | `conL4dUtilForm` | Entrada de texto (password): Nova password do utilizador | F11.5 |
-| `btnL4dUtilDefinir` | Botão | `conL4dUtilForm` | Botão «Definir password»: chama o fluxo DAC2627_Utilizador_DefinirPassword; volta a ler os dados; muda locL4MsgTipo, locL4dUtil | F11.5 |
-| `conL4dVistaPassword` | Contentor | `conConteudoL4` | Contentor vertical, caixa com contorno | F11.5 |
-| `lblL4dPassAtualRot` | Etiqueta | `conL4dVistaPassword` | Texto fixo «Password atual» | F11.5 |
-| `txtL4dPassAtual` | Caixa de texto | `conL4dVistaPassword` | Entrada de texto (password): Password atual | F11.5 |
-| `lblL4dPassNovaRot` | Etiqueta | `conL4dVistaPassword` | Texto fixo «Nova password (8 a 128 caracteres)» | F11.5 |
-| `txtL4dPassNova` | Caixa de texto | `conL4dVistaPassword` | Entrada de texto (password): Nova password | F11.5 |
-| `lblL4dPassConfirmaRot` | Etiqueta | `conL4dVistaPassword` | Texto fixo «Confirmar a nova password» | F11.5 |
-| `txtL4dPassConfirma` | Caixa de texto | `conL4dVistaPassword` | Entrada de texto (password): Confirmar a nova password | F11.5 |
-| `btnL4dPassMudar` | Botão | `conL4dVistaPassword` | Botão «Mudar password»: chama o fluxo DAC2627_Utilizador_DefinirPassword; muda locL4MsgTipo | F11.5 |
 | `recL4Veu` | Retângulo | ecrã | Véu por trás do diálogo | F2 a F7 |
 | `conL4Dialogo` | Contentor | ecrã | Contentor vertical, raiz do ecrã | F2 a F7 |
 | `lblL4ConfTitulo` | Etiqueta | `conL4Dialogo` | Mostra Switch(locL4Confirmar; "guardar"; If(locL4Modo = "cliente"; If(locL4Acao = "cri… | F2 a F7 |
@@ -643,6 +607,60 @@ A app tem 11 ecrãs e 568 controlos. Para cada elemento, a legenda diz o que é,
 | `icoL4dEFecharMsg` | Ícone | `conL4dEMensagem` | Ícone Cancel («Fechar mensagem»): muda locL4dMsg | F11.5 |
 | `tmrL4dEMensagem` | Temporizador | ecrã | Temporizador de 5000 ms: muda locL4dMsg | F11.5 |
 
+## scrL4Conta
+
+| Controlo | Tipo | Dentro de | O que é | Manual |
+|---|---|---|---|---|
+| `conEcraL4dC` | Contentor | ecrã | Contentor vertical, raiz do ecrã | F11.5 |
+| `conCabL4dC` | Contentor | `conEcraL4dC` | Contentor horizontal | F11.5 |
+| `icoInicioL4dC` | Ícone | `conCabL4dC` | Ícone Home («Voltar ao início»): abre scrInicio | F11.5 |
+| `lblCabL4dC` | Etiqueta | `conCabL4dC` | Texto fixo «Ficha 04 · Revisão» | F11.5 |
+| `icoL4dCUtilizadores` | Ícone | `conCabL4dC` | Ícone People («Gerir os utilizadores»): define gblL4dArea; muda locL4dUtil | F11.5 |
+| `icoL4dCPassword` | Ícone | `conCabL4dC` | Ícone Lock («Mudar a minha password»): define gblL4dArea; muda locL4dUtil | F11.5 |
+| `conConteudoL4dC` | Contentor | `conEcraL4dC` | Contentor vertical, desloca | F11.5 |
+| `conL4dAreaTopo` | Contentor | `conConteudoL4dC` | Contentor horizontal | F11.5 |
+| `lblL4dAreaTitulo` | Etiqueta | `conL4dAreaTopo` | Mostra If(gblL4dArea = "utilizadores"; "Utilizadores"; "A minha password") | F11.5 |
+| `btnL4dAreaVoltar` | Botão | `conL4dAreaTopo` | Botão «‹ Pedidos»: abre scrL4Pedidos | F11.5 |
+| `conL4dVistaUtilizadores` | Contentor | `conConteudoL4dC` | Contentor horizontal | F11.5 |
+| `conL4dUtilLista` | Contentor | `conL4dVistaUtilizadores` | Contentor vertical | F11.5 |
+| `btnL4dUtilNovo` | Botão | `conL4dUtilLista` | Botão «Novo utilizador»: muda locL4dUtil | F11.5 |
+| `conL4dUtilCartao` | Contentor | `conL4dUtilLista` | Contentor vertical, caixa com contorno | F11.5 |
+| `galL4dUtilizadores` | Galeria | `conL4dUtilCartao` | Galeria de Utilizadores | F11.5 |
+| `lblL4dGUtilNome` | Etiqueta | `galL4dUtilizadores` | Mostra ThisItem.Nome & " · " & Text(ThisItem.Perfil) | F11.5 |
+| `lblL4dGUtilEmail` | Etiqueta | `galL4dUtilizadores` | Mostra ThisItem.Email | F11.5 |
+| `btnL4dGUtilEstado` | Botão | `galL4dUtilizadores` | Pílula decorativa If(!ThisItem.Ativo; "Inativo"; !IsBlank(ThisItem.… | F11.5 |
+| `recL4dGUtilSeparador` | Retângulo | `galL4dUtilizadores` | Linha de separação | F11.5 |
+| `conL4dUtilForm` | Contentor | `conL4dVistaUtilizadores` | Contentor vertical, caixa com contorno | F11.5 |
+| `lblL4dUtilTitulo` | Etiqueta | `conL4dUtilForm` | Mostra If(IsBlank(locL4dUtil); "Novo utilizador"; locL4dUtil.Nome) | F11.5 |
+| `lblL4dUtilNomeRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Nome» | F11.5 |
+| `txtL4dUtilNome` | Caixa de texto | `conL4dUtilForm` | Entrada de texto: Nome do utilizador | F11.5 |
+| `lblL4dUtilEmailRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Email» | F11.5 |
+| `txtL4dUtilEmail` | Caixa de texto | `conL4dUtilForm` | Entrada de texto: Email do utilizador | F11.5 |
+| `lblL4dUtilPerfilRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Perfil» | F11.5 |
+| `drpL4dUtilPerfil` | Lista pendente | `conL4dUtilForm` | Escolha de Choices('Perfil (Utilizadores)') | F11.5 |
+| `lblL4dUtilClienteRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Cliente associado» | F11.5 |
+| `drpL4dUtilCliente` | Lista pendente | `conL4dUtilForm` | Escolha de Sort(Clientes; Nome) | F11.5 |
+| `chkL4dUtilAtivo` | Caixa de verificação | `conL4dUtilForm` | Caixa de verificação «Ativo (pode entrar)» | F11.5 |
+| `conL4dUtilAcoes` | Contentor | `conL4dUtilForm` | Contentor horizontal | F11.5 |
+| `btnL4dUtilGuardar` | Botão | `conL4dUtilAcoes` | Botão «Guardar»: grava no Dataverse; muda locL4dMsgTipo, locL4dUtil | F11.5 |
+| `btnL4dUtilDesbloquear` | Botão | `conL4dUtilAcoes` | Botão «Desbloquear»: grava no Dataverse; muda locL4dMsgTipo, locL4dUtil | F11.5 |
+| `lblL4dUtilPassRot` | Etiqueta | `conL4dUtilForm` | Texto fixo «Definir a password (mínimo 8 caracteres)» | F11.5 |
+| `txtL4dUtilPassword` | Caixa de texto | `conL4dUtilForm` | Entrada de texto (password): Nova password do utilizador | F11.5 |
+| `btnL4dUtilDefinir` | Botão | `conL4dUtilForm` | Botão «Definir password»: chama o fluxo DAC2627_Utilizador_DefinirPassword; volta a ler os dados; muda locL4dMsgTipo, locL4dUtil | F11.5 |
+| `conL4dVistaPassword` | Contentor | `conConteudoL4dC` | Contentor vertical, caixa com contorno | F11.5 |
+| `lblL4dPassAtualRot` | Etiqueta | `conL4dVistaPassword` | Texto fixo «Password atual» | F11.5 |
+| `txtL4dPassAtual` | Caixa de texto | `conL4dVistaPassword` | Entrada de texto (password): Password atual | F11.5 |
+| `lblL4dPassNovaRot` | Etiqueta | `conL4dVistaPassword` | Texto fixo «Nova password (8 a 128 caracteres)» | F11.5 |
+| `txtL4dPassNova` | Caixa de texto | `conL4dVistaPassword` | Entrada de texto (password): Nova password | F11.5 |
+| `lblL4dPassConfirmaRot` | Etiqueta | `conL4dVistaPassword` | Texto fixo «Confirmar a nova password» | F11.5 |
+| `txtL4dPassConfirma` | Caixa de texto | `conL4dVistaPassword` | Entrada de texto (password): Confirmar a nova password | F11.5 |
+| `btnL4dPassMudar` | Botão | `conL4dVistaPassword` | Botão «Mudar password»: chama o fluxo DAC2627_Utilizador_DefinirPassword; muda locL4dMsgTipo | F11.5 |
+| `conL4dCMensagem` | Contentor | ecrã | Contentor horizontal, raiz do ecrã | F11.5 |
+| `icoL4dCMsgIcone` | Ícone | `conL4dCMensagem` | Ícone If(locL4dMsgTipo = "erro"; Warning; Check): decorativo | F11.5 |
+| `lblL4dCMensagem` | Etiqueta | `conL4dCMensagem` | Mostra locL4dMsg | F11.5 |
+| `icoL4dCFecharMsg` | Ícone | `conL4dCMensagem` | Ícone Cancel («Fechar mensagem»): muda locL4dMsg | F11.5 |
+| `tmrL4dCMensagem` | Temporizador | ecrã | Temporizador de 5000 ms: muda locL4dMsg | F11.5 |
+
 ## Variáveis
 
 As globais (`gbl`) definem-se com `Set` e valem em toda a app. As de contexto (`loc`) definem-se com `UpdateContext` ou com o terceiro argumento do `Navigate` e valem num só ecrã. As coleções (`col`) enchem-se com `ClearCollect`.
@@ -652,8 +670,9 @@ As globais (`gbl`) definem-se com `Set` e valem em toda a app. As de contexto (`
 | `colL3Publicacoes` | coleção | `btnL3Carregar.OnSelect` | scrL3Detalhe, scrL3Lista |
 | `colL3Utilizadores` | coleção | `btnL3Carregar.OnSelect` | scrL3Lista, scrL3Publicacao |
 | `gblL1Nome` | global | `btnL1Saudar.OnSelect`, `btnL1Terminar.OnSelect` | scrL1Pedido, scrL1Saudacao |
-| `gblL4Nivel` | global | `btnL4dEntrar.OnSelect`, `galInFichas.OnSelect` | scrInicio, scrL4Entrar, scrL4Pedidos |
-| `gblL4dSessao` | global | `btnL4dEntrar.OnSelect`, `btnL4dSair.OnSelect` | scrL4Entrar, scrL4Pedidos |
+| `gblL4Nivel` | global | `btnL4dEntrar.OnSelect`, `galInFichas.OnSelect` | scrInicio, scrL4Conta, scrL4Entrar, scrL4Pedidos |
+| `gblL4dArea` | global | `icoL4dCPassword.OnSelect`, `icoL4dCUtilizadores.OnSelect`, `icoL4dPassword.OnSelect`, `icoL4dUtilizadores.OnSelect` | scrL4Conta, scrL4Pedidos |
+| `gblL4dSessao` | global | `btnL4dEntrar.OnSelect`, `btnL4dSair.OnSelect` | scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `locAcao` | de contexto | `btnL2ConfCancelar.OnSelect`, `btnL2ConfOk.OnSelect`, `btnL2Guardar.OnSelect`, `btnL2Remover.OnSelect` e mais 1 | scrL2Servicos |
 | `locAviso` | de contexto | `btnL1Saudar.OnSelect`, `scrL1Pedido.OnVisible` | scrL1Pedido |
 | `locL3ACarregar` | de contexto | `btnL3Carregar.OnSelect` | scrL3Lista |
@@ -662,15 +681,14 @@ As globais (`gbl`) definem-se com `Set` e valem em toda a app. As de contexto (`
 | `locL3Sel` | de contexto | `btnL3VerAutor.OnSelect (Navigate)`, `galL3Utilizadores.OnSelect (Navigate)` | scrL3Detalhe |
 | `locL3Vista` | de contexto | `btnL3SepPub.OnSelect`, `btnL3SepUtil.OnSelect` | scrL3Lista |
 | `locL4Acao` | de contexto | `btnL4EditarCliente.OnSelect`, `btnL4NovoCliente.OnSelect`, `btnL4NovoPedido.OnSelect`, `btnL4cEditar.OnSelect` e mais 2 | scrL4Pedidos |
-| `locL4Area` | de contexto | `btnL4dAreaVoltar.OnSelect`, `icoL4dPassword.OnSelect`, `icoL4dUtilizadores.OnSelect`, `scrL4Pedidos.OnVisible` | scrL4Pedidos |
 | `locL4Cliente` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4TodosPedidos.OnSelect`, `frmL4Cliente.OnSuccess`, `galL4Clientes.OnSelect` e mais 1 | scrL4Pedidos |
 | `locL4Confirmar` | de contexto | `btnL4Cancelar.OnSelect`, `btnL4ConfCancelar.OnSelect`, `btnL4ConfOk.OnSelect`, `btnL4Guardar.OnSelect` e mais 3 | scrL4Pedidos |
 | `locL4Modo` | de contexto | `btnL4Cancelar.OnSelect`, `btnL4ConfOk.OnSelect`, `btnL4EditarCliente.OnSelect`, `btnL4NovoCliente.OnSelect` e mais 7 | scrL4Pedidos |
-| `locL4Msg` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4EditarCliente.OnSelect`, `btnL4Guardar.OnSelect`, `btnL4NovoCliente.OnSelect` e mais 21 | scrL4Pedidos |
-| `locL4MsgTipo` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4Guardar.OnSelect`, `btnL4cReprocessar.OnSelect`, `btnL4dAprovar.OnSelect` e mais 13 | scrL4Pedidos |
+| `locL4Msg` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4EditarCliente.OnSelect`, `btnL4Guardar.OnSelect`, `btnL4NovoCliente.OnSelect` e mais 17 | scrL4Pedidos |
+| `locL4MsgTipo` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4Guardar.OnSelect`, `btnL4cReprocessar.OnSelect`, `btnL4dAprovar.OnSelect` e mais 9 | scrL4Pedidos |
 | `locL4Painel` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4NovoCliente.OnSelect`, `btnL4TodosPedidos.OnSelect`, `btnL4VoltarLista.OnSelect` e mais 3 | scrL4Pedidos |
 | `locL4Pedido` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4NovoPedido.OnSelect`, `btnL4cAtualizar.OnSelect`, `btnL4dAprovar.OnSelect` e mais 7 | scrL4Pedidos |
-| `locL4Timer` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4EditarCliente.OnSelect`, `btnL4Guardar.OnSelect`, `btnL4NovoCliente.OnSelect` e mais 21 | scrL4Pedidos |
+| `locL4Timer` | de contexto | `btnL4ConfOk.OnSelect`, `btnL4EditarCliente.OnSelect`, `btnL4Guardar.OnSelect`, `btnL4NovoCliente.OnSelect` e mais 17 | scrL4Pedidos |
 | `locL4UltimaConf` | de contexto | `btnL4ConfOk.OnSelect`, `scrL4Pedidos.OnVisible` | scrL4Pedidos |
 | `locL4Vista` | de contexto | `btnL4SepConcluidos.OnSelect`, `btnL4SepPendentes.OnSelect`, `btnL4SepTodos.OnSelect`, `btnL4cSepAuto.OnSelect` e mais 3 | scrL4Pedidos |
 | `locL4bVista` | de contexto | `btnL4bVerTabela.OnSelect`, `btnL4bVoltarTexto.OnSelect`, `scrL4Complemento.OnVisible` | scrL4Complemento |
@@ -678,10 +696,10 @@ As globais (`gbl`) definem-se com `Set` e valem em toda a app. As de contexto (`
 | `locL4cTentativas` | de contexto | `btnL4cReprocessar.OnSelect`, `frmL4Pedido.OnSuccess`, `scrL4Pedidos.OnVisible`, `tmrL4cEstado.OnTimerEnd` | scrL4Pedidos |
 | `locL4cValorTeste` | de contexto | `btnL4Cancelar.OnSelect`, `btnL4NovoPedido.OnSelect`, `btnL4cEditar.OnSelect`, `btnL4cTeste100.OnSelect` e mais 5 | scrL4Pedidos |
 | `locL4dAEntrar` | de contexto | `btnL4dEntrar.OnSelect`, `scrL4Entrar.OnVisible` | scrL4Entrar |
-| `locL4dMsg` | de contexto | `btnL4dEntrar.OnSelect`, `icoL4dEFecharMsg.OnSelect`, `scrL4Entrar.OnVisible`, `tmrL4dEMensagem.OnTimerEnd` | scrL4Entrar |
-| `locL4dMsgTipo` | de contexto | `btnL4dEntrar.OnSelect`, `scrL4Entrar.OnVisible` | scrL4Entrar |
-| `locL4dTimer` | de contexto | `btnL4dEntrar.OnSelect`, `icoL4dEFecharMsg.OnSelect`, `scrL4Entrar.OnVisible`, `tmrL4dEMensagem.OnTimerEnd` | scrL4Entrar |
-| `locL4dUtil` | de contexto | `btnL4dAreaVoltar.OnSelect`, `btnL4dUtilDefinir.OnSelect`, `btnL4dUtilDesbloquear.OnSelect`, `btnL4dUtilGuardar.OnSelect` e mais 5 | scrL4Pedidos |
+| `locL4dMsg` | de contexto | `btnL4dEntrar.OnSelect`, `btnL4dPassMudar.OnSelect`, `btnL4dUtilDefinir.OnSelect`, `btnL4dUtilDesbloquear.OnSelect` e mais 9 | scrL4Conta, scrL4Entrar |
+| `locL4dMsgTipo` | de contexto | `btnL4dEntrar.OnSelect`, `btnL4dPassMudar.OnSelect`, `btnL4dUtilDefinir.OnSelect`, `btnL4dUtilDesbloquear.OnSelect` e mais 3 | scrL4Conta, scrL4Entrar |
+| `locL4dTimer` | de contexto | `btnL4dEntrar.OnSelect`, `btnL4dPassMudar.OnSelect`, `btnL4dUtilDefinir.OnSelect`, `btnL4dUtilDesbloquear.OnSelect` e mais 9 | scrL4Conta, scrL4Entrar |
+| `locL4dUtil` | de contexto | `btnL4dUtilDefinir.OnSelect`, `btnL4dUtilDesbloquear.OnSelect`, `btnL4dUtilGuardar.OnSelect`, `btnL4dUtilNovo.OnSelect` e mais 4 | scrL4Conta |
 | `locMsg` | de contexto | `btnL2ConfOk.OnSelect`, `btnL2Editar.OnSelect`, `btnL2Novo.OnSelect`, `btnL2Remover.OnSelect` e mais 5 | scrL2Servicos |
 | `locMsgTipo` | de contexto | `btnL2ConfOk.OnSelect`, `frmL2Servico.OnFailure`, `frmL2Servico.OnSuccess`, `scrL2Servicos.OnVisible` | scrL2Servicos |
 | `locSel` | de contexto | `btnL2ConfOk.OnSelect`, `btnL2VoltarLista.OnSelect`, `frmL2Servico.OnSuccess`, `galL2Servicos.OnSelect` e mais 1 | scrL2Servicos |
@@ -695,18 +713,18 @@ Cores, versão e textos comuns. As cores só se usam por estes nomes (lint DAC20
 
 | Nome | Valor | Usos |
 |---|---|---:|
-| `nfAzul` | `ColorValue("#1F4E79"); // Paleta da APP DAC2627: todas as c…` | 224 |
+| `nfAzul` | `ColorValue("#1F4E79"); // Paleta da APP DAC2627: todas as c…` | 225 |
 | `nfAzulFundo` | `ColorValue("#DCE7F2"); // Verde (madeira): sucesso e PaaS.…` | 23 |
-| `nfVerdeTexto` | `ColorValue("#1F5E43")` | 27 |
-| `nfVerdeFundo` | `ColorValue("#DDEFE6"); // Vermelho (fogo): erros e ações de…` | 16 |
-| `nfVermelhoTexto` | `ColorValue("#8E1F25")` | 32 |
-| `nfVermelhoFundo` | `ColorValue("#FBE9EA"); // Âmbar e laranja (terra quente): a…` | 16 |
+| `nfVerdeTexto` | `ColorValue("#1F5E43")` | 28 |
+| `nfVerdeFundo` | `ColorValue("#DDEFE6"); // Vermelho (fogo): erros e ações de…` | 17 |
+| `nfVermelhoTexto` | `ColorValue("#8E1F25")` | 33 |
+| `nfVermelhoFundo` | `ColorValue("#FBE9EA"); // Âmbar e laranja (terra quente): a…` | 17 |
 | `nfAmbarFundo` | `ColorValue("#FFF4DB")` | 16 |
 | `nfLaranja` | `ColorValue("#8A3B0F")` | 6 |
 | `nfLaranjaFundo` | `ColorValue("#FBEBD9"); // Neutros (terra e metal): fundos,…` | 2 |
 | `nfSuperficie` | `ColorValue("#F7F8F9")` | 21 |
 | `nfTexto` | `ColorValue("#1E2A33")` | 139 |
-| `nfTextoSuave` | `ColorValue("#46525C")` | 91 |
+| `nfTextoSuave` | `ColorValue("#46525C")` | 92 |
 | `nfLinha` | `ColorValue("#E4E7EA")` | 36 |
 | `nfLinhaForte` | `ColorValue("#C5CBD1")` | 12 |
 | `nfBorda` | `ColorValue("#7D8993")` | 80 |
@@ -719,59 +737,59 @@ Cores, versão e textos comuns. As cores só se usam por estes nomes (lint DAC20
 |---|---|---|
 | `And` | e lógico | scrL2Servicos, scrL4Pedidos |
 | `Back` | volta ao ecrã anterior | scrL1Pedido, scrL1Saudacao, scrL3Detalhe, scrL3Publicacao |
-| `Blank` | valor vazio | scrL1Saudacao, scrL2Servicos, scrL4Pedidos |
+| `Blank` | valor vazio | scrL1Saudacao, scrL2Servicos, scrL4Conta, scrL4Pedidos |
 | `Char` | carácter pelo código (Char(10) é a mudança de linha) | scrL3Lista, scrL4Complemento, scrL4Pedidos |
-| `Choices` | opções de uma coluna de escolha | scrL2Servicos, scrL4Pedidos |
+| `Choices` | opções de uma coluna de escolha | scrL2Servicos, scrL4Conta, scrL4Pedidos |
 | `ClearCollect` | esvazia e enche uma coleção | scrL3Lista |
 | `Coalesce` | primeiro valor não vazio | scrL3Detalhe, scrL3Lista, scrL4Pedidos |
 | `CountRows` | conta as linhas de uma tabela | scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL4Pedidos |
 | `DataSourceInfo` | informação sobre a fonte de dados | scrL2Servicos, scrL4Pedidos |
-| `Defaults` | registo novo com os valores por omissão | scrL4Pedidos |
+| `Defaults` | registo novo com os valores por omissão | scrL4Conta |
 | `EditForm` | põe um formulário a editar | scrL2Servicos, scrL4Pedidos |
 | `Error` | provoca um erro | scrL3Lista |
 | `Filter` | linhas que cumprem condições | scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL4Pedidos |
 | `First` | primeira linha | scrL4Pedidos |
-| `FirstN` | primeiras N linhas | scrL4Pedidos |
 | `GUID` | identificador único a partir de texto | scrL4Pedidos |
-| `If` | escolhe pelo primeiro teste verdadeiro | scrInicio, scrL1BoasVindas, scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Complemento, scrL4Entrar, scrL4Pedidos |
-| `IfError` | apanha erros e dá alternativa | scrL2Servicos, scrL3Lista, scrL4Entrar, scrL4Pedidos |
-| `IsBlank` | testa se está vazio | scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Entrar, scrL4Pedidos |
+| `If` | escolhe pelo primeiro teste verdadeiro | scrInicio, scrL1BoasVindas, scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Complemento, scrL4Conta, scrL4Entrar, scrL4Pedidos |
+| `IfError` | apanha erros e dá alternativa | scrL2Servicos, scrL3Lista, scrL4Conta, scrL4Entrar, scrL4Pedidos |
+| `Index` | linha pela posição | scrL4Pedidos |
+| `IsBlank` | testa se está vazio | scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `IsEmpty` | testa se a tabela não tem linhas | scrL2Servicos, scrL3Lista, scrL4Pedidos |
-| `IsMatch` | testa um texto contra um padrão | scrL4Pedidos |
+| `IsMatch` | testa um texto contra um padrão | scrL4Conta |
 | `Last` | última linha | scrL4Pedidos |
 | `Left` | primeiros caracteres | scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Pedidos |
-| `Len` | número de caracteres | scrL3Lista, scrL4Pedidos |
-| `LookUp` | primeira linha que cumpre a condição | scrL2Servicos, scrL3Lista, scrL3Publicacao, scrL4Pedidos |
-| `Lower` | texto em minúsculas | scrL4Entrar, scrL4Pedidos |
-| `Max` | o maior valor | scrL4Complemento, scrL4Entrar, scrL4Pedidos |
-| `Min` | o menor valor | scrL1BoasVindas, scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Entrar, scrL4Pedidos |
-| `Navigate` | muda de ecrã | scrInicio, scrL1BoasVindas, scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Complemento, scrL4Entrar, scrL4Pedidos |
+| `Len` | número de caracteres | scrL3Lista, scrL4Conta, scrL4Pedidos |
+| `LookUp` | primeira linha que cumpre a condição | scrL2Servicos, scrL3Lista, scrL3Publicacao, scrL4Conta, scrL4Pedidos |
+| `Lower` | texto em minúsculas | scrL4Conta, scrL4Entrar, scrL4Pedidos |
+| `Max` | o maior valor | scrL4Complemento, scrL4Conta, scrL4Entrar, scrL4Pedidos |
+| `Min` | o menor valor | scrL1BoasVindas, scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Conta, scrL4Entrar, scrL4Pedidos |
+| `Navigate` | muda de ecrã | scrInicio, scrL1BoasVindas, scrL1Pedido, scrL1Saudacao, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Complemento, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `NewForm` | põe um formulário a criar | scrL2Servicos, scrL4Pedidos |
-| `Now` | data e hora atuais | scrL4Pedidos |
-| `Patch` | cria ou altera um registo | scrL4Pedidos |
-| `Refresh` | volta a ler a fonte de dados | scrL4Pedidos |
+| `Now` | data e hora atuais | scrL4Conta |
+| `Patch` | cria ou altera um registo | scrL4Conta, scrL4Pedidos |
+| `Refresh` | volta a ler a fonte de dados | scrL4Conta, scrL4Pedidos |
 | `Remove` | apaga um registo | scrL2Servicos, scrL4Pedidos |
-| `Reset` | repõe o valor inicial de um controlo | scrL1Pedido, scrL3Lista, scrL4Entrar, scrL4Pedidos |
+| `Reset` | repõe o valor inicial de um controlo | scrL1Pedido, scrL3Lista, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `ResetForm` | repõe um formulário | scrL2Servicos, scrL4Pedidos |
 | `RoundDown` | arredonda para baixo | scrL2Servicos, scrL4Pedidos |
-| `Select` | faz como se o controlo fosse tocado | scrInicio, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL4Pedidos |
-| `Set` | define uma variável global | scrInicio, scrL1Pedido, scrL1Saudacao, scrL4Entrar, scrL4Pedidos |
+| `Select` | faz como se o controlo fosse tocado | scrInicio, scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL4Conta, scrL4Pedidos |
+| `Set` | define uma variável global | scrInicio, scrL1Pedido, scrL1Saudacao, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `ShowColumns` | fica só com algumas colunas | scrL3Lista |
-| `Sort` | ordena uma tabela | scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL4Pedidos |
+| `Sort` | ordena uma tabela | scrL2Servicos, scrL3Detalhe, scrL3Lista, scrL4Conta, scrL4Pedidos |
 | `Split` | parte um texto numa tabela | scrL4Pedidos |
 | `StartsWith` | testa o início de um texto | scrL2Servicos, scrL4Pedidos |
 | `SubmitForm` | grava um formulário | scrL2Servicos, scrL4Pedidos |
 | `Substitute` | troca partes de um texto | scrL3Lista |
 | `Switch` | escolhe pelo valor | scrInicio, scrL2Servicos, scrL3Detalhe, scrL4Pedidos |
 | `Table` | tabela escrita na fórmula | scrInicio, scrL3Lista |
-| `Text` | valor como texto, com formato | scrL2Servicos, scrL4Pedidos |
+| `Text` | valor como texto, com formato | scrL2Servicos, scrL4Conta, scrL4Pedidos |
 | `Today` | data de hoje | scrL4Pedidos |
-| `Trim` | tira espaços a mais | scrL1Pedido, scrL2Servicos, scrL3Lista, scrL4Entrar, scrL4Pedidos |
+| `Trim` | tira espaços a mais | scrL1Pedido, scrL2Servicos, scrL3Lista, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `Ungroup` | desfaz agrupamentos | scrL3Lista |
-| `UpdateContext` | define variáveis de contexto do ecrã | scrL1Pedido, scrL2Servicos, scrL3Lista, scrL4Complemento, scrL4Entrar, scrL4Pedidos |
+| `UpdateContext` | define variáveis de contexto do ecrã | scrL1Pedido, scrL2Servicos, scrL3Lista, scrL4Complemento, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 | `Upper` | texto em maiúsculas | scrL3Detalhe, scrL3Lista, scrL3Publicacao, scrL4Pedidos |
 | `Value` | texto como número | scrL4Pedidos |
-| `With` | dá nome a valores dentro de uma fórmula | scrL2Servicos, scrL3Lista, scrL3Publicacao, scrL4Entrar, scrL4Pedidos |
+| `With` | dá nome a valores dentro de uma fórmula | scrL2Servicos, scrL3Lista, scrL3Publicacao, scrL4Conta, scrL4Entrar, scrL4Pedidos |
 
 ## Fontes de dados e fluxos
 
