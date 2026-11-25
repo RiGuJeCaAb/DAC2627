@@ -67,4 +67,11 @@ PARES = [
     ("Color.White", "nfVerde", "Botão Aprovar da Revisão"),
     ("Color.White", "nfVerdeTexto", "Botão Aprovar com o rato por cima"),
     ("nfBorda", "Color.White", "Contorno das caixas de texto (mínimo 3:1)"),
+    ("nfTextoSuave", "nfAzulClaro", "Dados do cliente na banda do painel da Ficha 04"),
+    ("nfTextoSuave", "nfSuperficie", "Rótulos nas caixas do detalhe e separadores parados da Ficha 04"),
+    ("nfAzul", "nfSuperficie", "Títulos das caixas do detalhe da Ficha 04"),
+    ("nfVerdeTexto", "nfSuperficie", "Separador Automático parado"),
+    ("nfAmbar", "nfSuperficie", "Separador Revisão parado"),
+    ("nfVermelhoTexto", "nfSuperficie", "Separador Erro parado"),
+    ("Color.White", "nfAmbar", "Separador Revisão ativo"),
 ]

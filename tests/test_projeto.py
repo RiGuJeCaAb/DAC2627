@@ -258,8 +258,11 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     raiz = tmp_path / "p"
     shutil.copytree(projeto.RAIZ / "src", raiz / "src")
     from tools.migracoes import m009_v1_7_ficha04_tres_modos as m
+    from tools.migracoes import m010_v1_8_ficha04_visual as m10
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    # a m009 gera os três modos e a m010 dá-lhes o aspeto: a cadeia das duas é que tem de ser idempotente
     m.main(raiz)
+    m10.main(raiz)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     ecras = raiz / "src" / "screens"
     # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
@@ -285,3 +288,32 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     for nome in ("conL4cDetalhe", "conL4cSeparadores", "conL4cTestes", "tmrL4cEstado", "btnL4dSair",
                  "conL4dVistaUtilizadores", "conL4dVistaPassword", "btnL4dAprovar", "btnL4dProporAprovar"):
         assert nome in ctl, nome
+
+
+def test_migracao_m010_caixas_na_ficha04(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m010_v1_8_ficha04_visual as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    d = yamlio.ler(raiz / "src" / "screens" / "scrL4Pedidos.pa.yaml")
+    ctl = {c.nome: c for c in yamlio.controlos(d)}
+    # detalhe em três caixas, cada uma com a altura calculada pelos filhos
+    from tools.migracoes.m009_v1_7_ficha04_tres_modos import _procurar
+    conteudo = next(iter(_procurar(d["Screens"]["scrL4Pedidos"]["Children"], "conL4cDetConteudo").values()))
+    assert [next(iter(x)) for x in conteudo["Children"]] == ["conL4cSecDados", "conL4cSecProc", "conL4cSecRev"]
+    for sec in ("conL4cSecDados", "conL4cSecProc", "conL4cSecRev"):
+        assert str(ctl[sec].prop("Fill")) == "=nfSuperficie" and ".Height" in str(ctl[sec].prop("Height"))
+    # o cabeçalho antigo do detalhe sai: a pílula do tratamento vai para a banda do painel
+    for velho in ("conL4cDetCab", "lblL4cDetCliente", "conL4cDetLinha", "conL4cDetLinhaRev", "recL4PedSeparador"):
+        assert velho not in ctl, velho
+    topo = next(iter(_procurar(d["Screens"]["scrL4Pedidos"]["Children"], "conL4PainelTopo").values()))
+    assert [next(iter(x)) for x in topo["Children"]][-2:] == ["conL4PainelTit", "btnL4cTratamento"]
+    # pedidos em cartões: o cartão e a barra ficam por baixo das etiquetas e passam o toque à linha
+    linha = next(iter(_procurar(d["Screens"]["scrL4Pedidos"]["Children"], "galL4Pedidos").values()))["Children"]
+    assert [next(iter(x)) for x in linha][:2] == ["recL4PedCartao", "recL4PedBarra"]
+    for nome in ("recL4PedCartao", "recL4PedBarra", "recL4CliMarca", "btnL4CliIniciais"):
+        assert str(ctl[nome].prop("OnSelect")) == "=Select(Parent)", nome
+    # painéis com a sombra por omissão: sem DropShadow escrito
+    assert ctl["conL4Painel"].prop("DropShadow") is None and ctl["conL4Lista"].prop("DropShadow") is None

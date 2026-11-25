@@ -37,5 +37,5 @@ App:
       nfDesativado = ColorValue("#A6A6A6");
       nfVeu = RGBA(30, 42, 51, 0.55);
       // Versão mostrada no rodapé do ecrã inicial.
-      nfVersao = "1.7.0";
+      nfVersao = "1.8.0";
     Theme: =PowerAppsTheme

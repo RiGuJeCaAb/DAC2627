@@ -56,3 +56,10 @@ AA exige 4,5:1 para texto normal e 3:1 para texto grande e contornos (WCAG 2.2, 
 | `Color.White` | `nfVerde` | 5.00:1 | AA | Botão Aprovar da Revisão |
 | `Color.White` | `nfVerdeTexto` | 7.66:1 | AAA | Botão Aprovar com o rato por cima |
 | `nfBorda` | `Color.White` | 3.58:1 | AA | Contorno das caixas de texto (mínimo 3:1) |
+| `nfTextoSuave` | `nfAzulClaro` | 6.91:1 | AA | Dados do cliente na banda do painel da Ficha 04 |
+| `nfTextoSuave` | `nfSuperficie` | 7.53:1 | AAA | Rótulos nas caixas do detalhe e separadores parados da Ficha 04 |
+| `nfAzul` | `nfSuperficie` | 8.15:1 | AAA | Títulos das caixas do detalhe da Ficha 04 |
+| `nfVerdeTexto` | `nfSuperficie` | 7.21:1 | AAA | Separador Automático parado |
+| `nfAmbar` | `nfSuperficie` | 5.10:1 | AA | Separador Revisão parado |
+| `nfVermelhoTexto` | `nfSuperficie` | 8.32:1 | AAA | Separador Erro parado |
+| `Color.White` | `nfAmbar` | 5.43:1 | AA | Separador Revisão ativo |

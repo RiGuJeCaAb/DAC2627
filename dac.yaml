@@ -2,7 +2,7 @@
 
 app: DAC2627_RGJCA
 solucao: DAC2627
-versao: 1.7.0
+versao: 1.8.0
 
 # Ordem dos ecrãs na app e nos blocos de colagem (build/colar/TODOS_OS_ECRAS.yaml)
 ecras:
@@ -98,6 +98,18 @@ lint:
     - regra: DAC302
       controlo: btnL4dGUtilEstado
       motivo: Pílula decorativa com o estado do utilizador; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL4CliIniciais
+      motivo: Pílula decorativa com as iniciais do cliente; o foco vai para a linha da galeria.
+    - regra: DAC302
+      controlo: btnL4cPasso1
+      motivo: Pílula decorativa do primeiro passo do processamento (Registado); o estado está escrito nas linhas por baixo.
+    - regra: DAC302
+      controlo: btnL4cPasso2
+      motivo: Pílula decorativa do segundo passo do processamento (classificação); o estado está escrito nas linhas por baixo.
+    - regra: DAC302
+      controlo: btnL4cPasso3
+      motivo: Pílula decorativa do terceiro passo do processamento (decisão); o estado está escrito nas linhas por baixo.
     - regra: DAC302
       controlo: btnL4dIniciais
       motivo: Pílula decorativa com as iniciais de quem entrou; o nome está ao lado.
