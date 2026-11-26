@@ -2975,3 +2975,14 @@ Screens:
             Repeat: =locL4cAguardar
             Start: =locL4cAguardar
             Visible: =false
+      - lblL4Anuncio:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Color.Transparent
+            FocusedBorderThickness: =2
+            Height: =1
+            Live: =Live.Polite
+            Text: =locL4Msg
+            Width: =1
+            X: =0
+            Y: =0

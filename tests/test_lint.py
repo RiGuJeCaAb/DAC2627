@@ -246,3 +246,33 @@ def test_ecra_com_demasiados_controlos():
     r = [a.onde for a in lint.Analise({"a": _app(), "b": _ecra("scrL1A", muitos), "c": _ecra("scrL1B", poucos)}).correr()
          if a.regra == "DAC411"]
     assert r == ["scrL1A"]
+
+
+def _faixa(mostra_visible="=locMsg <> \"\"", anunciadora=None):
+    filhos = [_c("conL2Mensagem", "GroupContainer@1.5.0", {"Visible": mostra_visible, "DropShadow": "=DropShadow.None"},
+                 [_c("lblL2Mensagem", "Label@2.5.1", {"Text": "=locMsg", "FocusedBorderThickness": "=2"})],
+                 variante="AutoLayout")]
+    if anunciadora:
+        filhos.append(_c("lblL2Anuncio", "Label@2.5.1", dict({"Text": "=locMsg", "FocusedBorderThickness": "=2"}, **anunciadora)))
+    return _ecra("scrL2A", filhos, {"OnVisible": '=UpdateContext({locMsg: ""})'})
+
+
+def test_dac305_mensagem_sem_regiao_viva():
+    assert ("DAC305", "lblL2Mensagem") in _regras(_app(), _faixa())
+
+
+def test_dac305_anunciadora_sempre_visivel_resolve():
+    assert not any(r == "DAC305" for r, _ in _regras(_app(), _faixa(anunciadora={"Live": "=Live.Polite"})))
+
+
+def test_dac305_live_numa_faixa_que_desaparece_nao_chega():
+    # Live na própria etiqueta, mas dentro de um contentor com Visible condicional: não conta como região viva
+    doc = _ecra("scrL2A", [_c("conL2Mensagem", "GroupContainer@1.5.0", {"Visible": '=locMsg <> ""', "DropShadow": "=DropShadow.None"},
+                              [_c("lblL2Mensagem", "Label@2.5.1", {"Text": "=locMsg", "Live": "=Live.Polite",
+                                                                   "FocusedBorderThickness": "=2"})], variante="AutoLayout")],
+                {"OnVisible": '=UpdateContext({locMsg: ""})'})
+    assert ("DAC305", "lblL2Mensagem") in _regras(_app(), doc)
+
+
+def test_dac305_anunciadora_com_live_off_nao_conta():
+    assert ("DAC305", "lblL2Mensagem") in _regras(_app(), _faixa(anunciadora={"Live": "=Live.Off"}))

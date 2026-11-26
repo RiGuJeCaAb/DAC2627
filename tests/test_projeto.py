@@ -266,14 +266,17 @@ def test_migracao_m009_idempotente_e_tres_modos(tmp_path):
     from tools.migracoes import m011_v1_9_caixas_na_app as m11
     from tools.migracoes import m012_v1_9_1_verificador as m12
     from tools.migracoes import m013_v1_10_ecra_conta as m13
+    from tools.migracoes import m014_v1_10_1_regioes_vivas as m14
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     # a m009 gera os três modos (e o scrL4Entrar), a m010 e a m011 dão-lhes o aspeto e a m012 acerta o que o
-    # Verificador apontou: a cadeia é que tem de ser idempotente
+    # Verificador apontou: a cadeia é que tem de ser idempotente. A m013 reescreve o scrL4Conta de raiz e a m014
+    # volta a pôr-lhe a anunciadora.
     m.main(raiz)
     m10.main(raiz)
     m11.main(raiz)
     m12.main(raiz)
     m13.main(raiz)
+    m14.main(raiz)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     ecras = raiz / "src" / "screens"
     # o Melhoramento e a Revisão são modos do scrL4Pedidos, não ecrãs
@@ -392,8 +395,10 @@ def test_migracao_m013_ecra_conta(tmp_path):
     raiz = tmp_path / "p"
     shutil.copytree(projeto.RAIZ / "src", raiz / "src")
     from tools.migracoes import m013_v1_10_ecra_conta as m
+    from tools.migracoes import m014_v1_10_1_regioes_vivas as m14
     antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     m.main(raiz)
+    m14.main(raiz)      # a m013 escreve o scrL4Conta de raiz; a m014 repõe a anunciadora (cadeia idempotente)
     assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
     ecras = raiz / "src" / "screens"
     ped = (ecras / "scrL4Pedidos.pa.yaml").read_text(encoding="utf-8")
@@ -408,3 +413,19 @@ def test_migracao_m013_ecra_conta(tmp_path):
     assert not any("Set(" in linha and "txtL4dPass" in linha for linha in conta.splitlines())
     n = {f.stem.split(".")[0]: sum(1 for _ in yamlio.controlos(yamlio.ler(f))) for f in ecras.glob("*.pa.yaml")}
     assert n["scrL4Pedidos"] <= lint.MAX_CONTROLOS
+
+
+def test_migracao_m014_regioes_vivas(tmp_path):
+    raiz = tmp_path / "p"
+    shutil.copytree(projeto.RAIZ / "src", raiz / "src")
+    from tools.migracoes import m014_v1_10_1_regioes_vivas as m
+    antes = {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    m.main(raiz)
+    assert antes == {f: f.read_text(encoding="utf-8") for f in projeto.ficheiros_src(raiz)}
+    # cada anunciadora está na raiz do ecrã (sempre visível), com Live fixo e sem Visible escrito
+    for ecra, anuncios in m.ANUNCIOS.items():
+        raiz_ecra = yamlio.ler(raiz / "src" / "screens" / f"{ecra}.pa.yaml")["Screens"][ecra]["Children"]
+        nomes = {list(x)[0]: list(x.values())[0] for x in raiz_ecra}
+        for nome, live, _ in anuncios:
+            props = nomes[nome]["Properties"]
+            assert props["Live"] == f"=Live.{live}" and "Visible" not in props, (ecra, nome)

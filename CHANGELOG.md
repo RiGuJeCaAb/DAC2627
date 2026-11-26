@@ -2,6 +2,14 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/pt-PT/1.1.0/). Versões da app em `nfVersao` (`App.Formulas`).
 
+## [1.10.1] · 26/11/2026 · por colar
+
+- **Regiões vivas** (migração `m014`, regra `DAC305`). Nenhuma etiqueta de mensagem tinha `Live`, por isso o leitor de ecrã não anunciava «Serviço criado», a falha da API nem «Introduza o seu nome». Pôr `Live` nas etiquetas das faixas não chegava: as faixas aparecem e desaparecem, e a Microsoft pede a região viva sempre visível e com o `Live` fixo ([Microsoft Learn, live regions](https://learn.microsoft.com/power-apps/maker/canvas-apps/accessible-apps-live-regions)). Cada ecrã com mensagens ganha uma etiqueta anunciadora na raiz (1 × 1, texto transparente, sempre visível) com o `Text` da mensagem: `lblL1Anuncio`, `lblL2Anuncio`, `lblL3Anuncio`, `lblL3AnuncioErro` (Assertive, a falha da API), `lblL4Anuncio`, `lblL4dCAnuncio` e `lblL4dEAnuncio`. As faixas visíveis ficam iguais.
+- `DAC305` (aviso): uma variável `loc…Msg` ou `loc…Erro` mostrada numa etiqueta tem de ter, no mesmo ecrã, uma etiqueta sempre visível com `Live = Polite` ou `Assertive` que a anuncie. Live numa etiqueta dentro de uma faixa que desaparece não conta.
+- Verificador previsto (`dac verificador`): 279 avisos de Acessibilidade, mais 7 de tabulação que na v1.10.0, um por anunciadora, como as outras etiquetas decorativas com `TabIndex = -1`.
+- 5 testes novos (4 da `DAC305`, `test_migracao_m014_regioes_vivas`).
+- CI: os 5 testes de `tests/test_ordem.py` que falhavam desde 20/11 passam a trabalhar sobre cópias com a exportação controlada, e a comparação das fontes com a exportação passa a passo informativo no CI (PR #8).
+
 ## [1.10.0] · 25/11/2026 · por colar
 
 - **Desempenho no Verificador, segunda leitura.** Depois de levar a v1.9.1 ao Studio ficaram 2 avisos de Desempenho, diferentes dos que a v1.9.1 dava como certos: os 3 da v1.9.0 não eram só as caixas de pesquisa, e o Verificador não os guarda na exportação, por isso não se podiam ver no repositório.

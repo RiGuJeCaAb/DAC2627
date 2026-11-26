@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac inventario` a partir de `src/`. Não editar à mão.
 
-12 ecrãs e 580 controlos.
+12 ecrãs e 587 controlos.
 
 ## Navegação
 
@@ -44,16 +44,16 @@ flowchart LR
 |---|---:|---|---|---|
 | `scrInicio` | 13 | Label 7, GroupContainer 4, Gallery 1, Button 1 | `gblL4Nivel` | — |
 | `scrL1BoasVindas` | 9 | GroupContainer 4, Label 3, Icon 1, Button 1 | — | — |
-| `scrL1Pedido` | 12 | GroupContainer 5, Label 3, Icon 2, TextInput 1 | `gblL1Nome`, `locAviso` | — |
+| `scrL1Pedido` | 13 | GroupContainer 5, Label 4, Icon 2, TextInput 1 | `gblL1Nome`, `locAviso` | — |
 | `scrL1Saudacao` | 12 | GroupContainer 5, Label 3, Icon 2, Button 2 | `gblL1Nome` | — |
-| `scrL2Servicos` | 90 | Label 40, GroupContainer 20, Button 9, TypedDataCard 5 | `locAcao`, `locMsg`, `locMsgTipo`, `locSel`, `locTentou`, `locTimer`, `locUltimaAcao` | Dataverse · Cloud Service |
-| `scrL3Lista` | 39 | Label 12, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
+| `scrL2Servicos` | 91 | Label 41, GroupContainer 20, Button 9, TypedDataCard 5 | `locAcao`, `locMsg`, `locMsgTipo`, `locSel`, `locTentou`, `locTimer`, `locUltimaAcao` | Dataverse · Cloud Service |
+| `scrL3Lista` | 41 | Label 14, GroupContainer 7, Button 7, Icon 5 | `colL3Publicacoes`, `colL3Utilizadores`, `locL3ACarregar`, `locL3Erro`, `locL3Vista` | Conector · JSONPlaceholderDAC |
 | `scrL3Detalhe` | 34 | Label 17, GroupContainer 11, Icon 3, Button 1 | `colL3Publicacoes`, `locL3Sel` | — |
 | `scrL3Publicacao` | 16 | Label 7, GroupContainer 5, Icon 2, Button 2 | `colL3Utilizadores`, `locL3Pub` | — |
-| `scrL4Pedidos` | 182 | Label 71, Button 39, GroupContainer 35, TypedDataCard 9 | `gblL4Nivel`, `gblL4dArea`, `gblL4dSessao`, `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista`, `locL4cAguardar`, `locL4cTentativas`, `locL4cValorTeste` | — |
+| `scrL4Pedidos` | 183 | Label 72, Button 39, GroupContainer 35, TypedDataCard 9 | `gblL4Nivel`, `gblL4dArea`, `gblL4dSessao`, `locL4Acao`, `locL4Cliente`, `locL4Confirmar`, `locL4Modo`, `locL4Msg`, `locL4MsgTipo`, `locL4Painel`, `locL4Pedido`, `locL4Timer`, `locL4UltimaConf`, `locL4Vista`, `locL4cAguardar`, `locL4cTentativas`, `locL4cValorTeste` | — |
 | `scrL4Complemento` | 91 | Label 75, GroupContainer 13, Button 2, Icon 1 | `locL4bVista` | — |
-| `scrL4Entrar` | 33 | Label 15, GroupContainer 11, Icon 3, TextInput 2 | `gblL4Nivel`, `gblL4dSessao`, `locL4dAEntrar`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer` | — |
-| `scrL4Conta` | 49 | Label 14, GroupContainer 11, Button 7, TextInput 6 | `gblL4Nivel`, `gblL4dArea`, `gblL4dSessao`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer`, `locL4dUtil` | — |
+| `scrL4Entrar` | 34 | Label 16, GroupContainer 11, Icon 3, TextInput 2 | `gblL4Nivel`, `gblL4dSessao`, `locL4dAEntrar`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer` | — |
+| `scrL4Conta` | 50 | Label 15, GroupContainer 11, Button 7, TextInput 6 | `gblL4Nivel`, `gblL4dArea`, `gblL4dSessao`, `locL4dMsg`, `locL4dMsgTipo`, `locL4dTimer`, `locL4dUtil` | — |
 
 ## scrInicio
 
@@ -102,6 +102,7 @@ conEcraL1b  [GroupContainer/AutoLayout]
       conL1Aviso  [GroupContainer/AutoLayout]
         lblL1Aviso  [Label]
       btnL1Saudar  [Button]
+lblL1Anuncio  [Label]
 ```
 
 ## scrL1Saudacao
@@ -214,6 +215,7 @@ conL2Mensagem  [GroupContainer/AutoLayout]
   lblL2Mensagem  [Label]
   icoL2FecharMsg  [Icon]
 tmrL2Mensagem  [Timer]
+lblL2Anuncio  [Label]
 ```
 
 ## scrL3Lista
@@ -258,6 +260,8 @@ conEcraL3a  [GroupContainer/AutoLayout]
       lblL3PubItemAutor  [Label]
       lblL3PubItemResumo  [Label]
       icoL3PubAbrir  [Icon]
+lblL3AnuncioErro  [Label]
+lblL3Anuncio  [Label]
 ```
 
 ## scrL3Detalhe
@@ -505,6 +509,7 @@ conL4Mensagem  [GroupContainer/AutoLayout]
   icoL4FecharMsg  [Icon]
 tmrL4Mensagem  [Timer]
 tmrL4cEstado  [Timer]
+lblL4Anuncio  [Label]
 ```
 
 ## scrL4Complemento
@@ -639,6 +644,7 @@ conL4dEMensagem  [GroupContainer/AutoLayout]
   lblL4dEMensagem  [Label]
   icoL4dEFecharMsg  [Icon]
 tmrL4dEMensagem  [Timer]
+lblL4dEAnuncio  [Label]
 ```
 
 ## scrL4Conta
@@ -693,4 +699,5 @@ conL4dCMensagem  [GroupContainer/AutoLayout]
   lblL4dCMensagem  [Label]
   icoL4dCFecharMsg  [Icon]
 tmrL4dCMensagem  [Timer]
+lblL4dCAnuncio  [Label]
 ```

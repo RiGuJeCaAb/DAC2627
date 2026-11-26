@@ -34,6 +34,7 @@ REGRAS: dict[str, tuple[str, str]] = {
     "DAC302": (AVISO, "Controlo interativo fora da ordem de tabulação"),
     "DAC303": (AVISO, "FocusedBorderThickness em falta ou a 0"),
     "DAC304": (AVISO, "Alvo de toque menor do que 44 × 44"),
+    "DAC305": (AVISO, "Mensagem dinâmica sem região viva sempre visível: o leitor de ecrã não a anuncia"),
     "DAC401": (AVISO, "CountRows sobre AllItems de uma galeria"),
     "DAC402": (ERRO, "Função não delegável dentro de Filter/LookUp sobre Dataverse"),
     "DAC403": (ERRO, "Referência a um controlo ou ecrã que não existe"),
@@ -316,7 +317,46 @@ class Analise:
     # O Studio apaga ao guardar as propriedades iguais ao valor por omissão (exportação 1.0.0.3:
     # 86 × TabIndex -1, 15 × AccessibleLabel "", 8 × DropShadow.Light). Uma propriedade ausente
     # vale o valor por omissão, e as regras leem-na assim: o que o Studio exporta tem de passar.
+    def _regioes_vivas(self):
+        """DAC305. Uma mensagem guardada numa variável (loc…Msg, loc…Erro) e mostrada numa etiqueta só é lida
+        pelo leitor de ecrã se uma etiqueta com Live (Polite ou Assertive) e sempre visível tiver essa variável
+        no Text. A Microsoft pede a região viva sempre visível: alguns leitores de ecrã não a detetam quando
+        desaparece e reaparece, como as faixas de mensagem (accessible-apps-live-regions, «Best practices»)."""
+        rx_var = re.compile(r"\bloc\w*(?:Msg|Erro)\b")
+        por_ecra: dict[str, dict[str, list]] = defaultdict(lambda: {"mostra": [], "vivas": []})
+        for c in self.todos:
+            if c.tipo != "Label" or c.dentro_de_formulario:
+                continue
+            try:
+                vars_ = set(rx_var.findall(pafx.so_codigo(_fx(c.prop("Text")))))
+            except pafx.ErroLexico:
+                continue
+            if not vars_:
+                continue
+            live = _fx(c.prop("Live")).strip()
+            visivel = _fx(c.prop("Visible")).strip() in ("", "true")
+            sempre = visivel and all(_fx(p.prop("Visible")).strip() in ("", "true") for p in self._antepassados(c))
+            if live in ("Live.Polite", "Live.Assertive") and sempre:
+                por_ecra[c.ecra]["vivas"].append(vars_)
+            else:
+                por_ecra[c.ecra]["mostra"].append((c, vars_))
+        for ecra, d in por_ecra.items():
+            anunciadas = set().union(*d["vivas"]) if d["vivas"] else set()
+            for c, vars_ in d["mostra"]:
+                for v in sorted(vars_ - anunciadas):
+                    self._add("DAC305", f"{ecra}.{c.nome}",
+                              f"'{v}' não é anunciada: acrescente ao ecrã uma etiqueta sempre visível com "
+                              f"Live = Live.Polite (Assertive para erros) e Text = {v}")
+
+    @staticmethod
+    def _antepassados(c):
+        p = c.pai
+        while p is not None:
+            yield p
+            p = p.pai
+
     def _acessibilidade(self):
+        self._regioes_vivas()
         for c in self.todos:
             onde = f"{c.ecra}.{c.nome}"
             if c.tipo == "TypedDataCard":
