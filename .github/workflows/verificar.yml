@@ -47,6 +47,15 @@ jobs:
       - name: Blocos de colagem
         run: python -m tools.dac colar
 
+      # Informativo: num ramo à frente da exportação faltam fontes na app até serem adicionadas no Studio.
+      # Não faz falhar o CI; aparece como aviso no resumo da execução. Antes de colar: `dac colar --estrito`.
+      - name: Fontes de dados contra a última exportação (informativo)
+        run: |
+          if ! python -m tools.dac colar --estrito --destino build/verificar-fontes > build/fontes.txt 2>&1; then
+            echo "::warning title=Fontes por adicionar no Studio::$(grep -c 'ATENÇÃO' build/fontes.txt) fonte(s) usadas no código ainda não estão na app exportada. Ver o passo «Fontes de dados contra a última exportação»."
+          fi
+          grep 'ATENÇÃO' build/fontes.txt || echo "Todas as fontes usadas no código estão na app exportada."
+
       - uses: actions/upload-artifact@v7
         with:
           name: colar-no-studio
