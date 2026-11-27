@@ -171,3 +171,14 @@ Screens:
                               RadiusTopLeft: =12
                               RadiusTopRight: =12
                               Text: ="Saudar"
+      - lblL1Anuncio:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Color.Transparent
+            FocusedBorderThickness: =2
+            Height: =1
+            Live: =Live.Polite
+            Text: =If(conL1Aviso.Visible, lblL1Aviso.Text, "")
+            Width: =1
+            X: =0
+            Y: =0

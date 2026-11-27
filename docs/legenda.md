@@ -2,7 +2,7 @@
 
 Gerado por `python -m tools.dac legenda` a partir de `src/`. Não editar à mão: mudar o código e voltar a gerar.
 
-A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é, onde está e em que secção do Manual ABC é construído. Os nomes seguem a convenção da A2: o prefixo diz o tipo (`lbl`, `btn`, `con`…), o código diz a ficha (`In`, `L1` a `L4`, com `L4b` para o Complemento, `L4c` para o Melhoramento e `L4d` para a Revisão) e o resto diz a função. As descrições saem das próprias fórmulas: o texto de uma etiqueta, o que um botão faz, a origem de uma galeria.
+A app tem 12 ecrãs e 587 controlos. Para cada elemento, a legenda diz o que é, onde está e em que secção do Manual ABC é construído. Os nomes seguem a convenção da A2: o prefixo diz o tipo (`lbl`, `btn`, `con`…), o código diz a ficha (`In`, `L1` a `L4`, com `L4b` para o Complemento, `L4c` para o Melhoramento e `L4d` para a Revisão) e o resto diz a função. As descrições saem das próprias fórmulas: o texto de uma etiqueta, o que um botão faz, a origem de uma galeria.
 
 ## Ecrãs
 
@@ -10,16 +10,16 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 |---|---|---:|---|
 | `scrInicio` | Início | 13 | B |
 | `scrL1BoasVindas` | Ficha 01 | 9 | C2 |
-| `scrL1Pedido` | Ficha 01 | 12 | C3 |
+| `scrL1Pedido` | Ficha 01 | 13 | C3 |
 | `scrL1Saudacao` | Ficha 01 | 12 | C4 |
-| `scrL2Servicos` | Ficha 02 | 90 | D |
-| `scrL3Lista` | Ficha 03 | 39 | E5, E6 |
+| `scrL2Servicos` | Ficha 02 | 91 | D |
+| `scrL3Lista` | Ficha 03 | 41 | E5, E6 |
 | `scrL3Detalhe` | Ficha 03 | 34 | E7 |
 | `scrL3Publicacao` | Ficha 03 | 16 | E7 |
-| `scrL4Pedidos` | Ficha 04 (três modos) | 182 | F2 a F7 |
+| `scrL4Pedidos` | Ficha 04 (três modos) | 183 | F2 a F7 |
 | `scrL4Complemento` | Ficha 04 · Complemento | 91 | F8 |
-| `scrL4Entrar` | Ficha 04 · Revisão (entrada) | 33 | F11.5 |
-| `scrL4Conta` | Ficha 04 · Revisão (conta) | 49 | F11.5 |
+| `scrL4Entrar` | Ficha 04 · Revisão (entrada) | 34 | F11.5 |
+| `scrL4Conta` | Ficha 04 · Revisão (conta) | 50 | F11.5 |
 
 ## scrInicio
 
@@ -69,6 +69,7 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 | `conL1Aviso` | Contentor | `conL1bCartao` | Contentor horizontal | C3 |
 | `lblL1Aviso` | Etiqueta | `conL1Aviso` | Texto fixo «Introduza o seu nome.» | C3 |
 | `btnL1Saudar` | Botão | `conL1bCartao` | Botão «Saudar»: abre scrL1Saudacao; define gblL1Nome; muda locAviso | C3 |
+| `lblL1Anuncio` | Etiqueta | ecrã | Mostra If(conL1Aviso.Visible; lblL1Aviso.Text; "") | C3 |
 
 ## scrL1Saudacao
 
@@ -181,6 +182,7 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 | `lblL2Mensagem` | Etiqueta | `conL2Mensagem` | Mostra locMsg | D |
 | `icoL2FecharMsg` | Ícone | `conL2Mensagem` | Ícone Cancel («Fechar mensagem»): muda locMsg | D |
 | `tmrL2Mensagem` | Temporizador | ecrã | Temporizador de 3500 ms: muda locMsg | D |
+| `lblL2Anuncio` | Etiqueta | ecrã | Mostra If(!IsBlank(locMsg); locMsg; conL2ErroGeral.Visible; lblL2ErroGeral.Text; lblL2… | D |
 
 ## scrL3Lista
 
@@ -225,6 +227,8 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 | `lblL3PubItemAutor` | Etiqueta | `galL3Publicacoes` | Mostra "Publicação " & ThisItem.id & " · " & Coalesce(LookUp(colL3Utilizadores; id = T… | E5, E6 |
 | `lblL3PubItemResumo` | Etiqueta | `galL3Publicacoes` | Mostra With({t: Substitute(ThisItem.body; Char(10); " ")}; If(Len(t) > 100; Left(t; 10… | E5, E6 |
 | `icoL3PubAbrir` | Ícone | `galL3Publicacoes` | Ícone ChevronRight: passa o toque à linha da galeria | E5, E6 |
+| `lblL3AnuncioErro` | Etiqueta | ecrã | Mostra locL3Erro | E5, E6 |
+| `lblL3Anuncio` | Etiqueta | ecrã | Mostra If(lblL3ACarregar.Visible; lblL3ACarregar.Text; conL3Aviso.Visible; lblL3Vazio.… | E5, E6 |
 
 ## scrL3Detalhe
 
@@ -472,6 +476,7 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 | `icoL4FecharMsg` | Ícone | `conL4Mensagem` | Ícone Cancel («Fechar mensagem»): muda locL4Msg | F2 a F7 |
 | `tmrL4Mensagem` | Temporizador | ecrã | Temporizador de 3500 ms: muda locL4Msg | F2 a F7 |
 | `tmrL4cEstado` | Temporizador | ecrã | Temporizador de 3000 ms: volta a ler os dados; muda locL4Pedido, locL4cAguardar | F10 |
+| `lblL4Anuncio` | Etiqueta | ecrã | Mostra locL4Msg | F2 a F7 |
 
 ## scrL4Complemento
 
@@ -606,6 +611,7 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 | `lblL4dEMensagem` | Etiqueta | `conL4dEMensagem` | Mostra locL4dMsg | F11.5 |
 | `icoL4dEFecharMsg` | Ícone | `conL4dEMensagem` | Ícone Cancel («Fechar mensagem»): muda locL4dMsg | F11.5 |
 | `tmrL4dEMensagem` | Temporizador | ecrã | Temporizador de 5000 ms: muda locL4dMsg | F11.5 |
+| `lblL4dEAnuncio` | Etiqueta | ecrã | Mostra locL4dMsg | F11.5 |
 
 ## scrL4Conta
 
@@ -660,6 +666,7 @@ A app tem 12 ecrãs e 580 controlos. Para cada elemento, a legenda diz o que é,
 | `lblL4dCMensagem` | Etiqueta | `conL4dCMensagem` | Mostra locL4dMsg | F11.5 |
 | `icoL4dCFecharMsg` | Ícone | `conL4dCMensagem` | Ícone Cancel («Fechar mensagem»): muda locL4dMsg | F11.5 |
 | `tmrL4dCMensagem` | Temporizador | ecrã | Temporizador de 5000 ms: muda locL4dMsg | F11.5 |
+| `lblL4dCAnuncio` | Etiqueta | ecrã | Mostra locL4dMsg | F11.5 |
 
 ## Variáveis
 

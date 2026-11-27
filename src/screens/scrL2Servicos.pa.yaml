@@ -1379,3 +1379,14 @@ Screens:
               =UpdateContext({locMsg: "", locTimer: false})
             Start: =locTimer
             Visible: =false
+      - lblL2Anuncio:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Color.Transparent
+            FocusedBorderThickness: =2
+            Height: =1
+            Live: =Live.Polite
+            Text: =If(!IsBlank(locMsg), locMsg, conL2ErroGeral.Visible, lblL2ErroGeral.Text, lblL2Vazio.Visible, lblL2Vazio.Text, "")
+            Width: =1
+            X: =0
+            Y: =0

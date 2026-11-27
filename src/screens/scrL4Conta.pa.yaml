@@ -743,3 +743,14 @@ Screens:
               =UpdateContext({locL4dMsg: "", locL4dTimer: false})
             Start: =locL4dTimer
             Visible: =false
+      - lblL4dCAnuncio:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Color.Transparent
+            FocusedBorderThickness: =2
+            Height: =1
+            Live: =Live.Polite
+            Text: =locL4dMsg
+            Width: =1
+            X: =0
+            Y: =0

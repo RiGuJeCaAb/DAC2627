@@ -611,3 +611,25 @@ Screens:
                               Width: =24
                               X: =Parent.TemplateWidth - 48
                               Y: =40
+      - lblL3AnuncioErro:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Color.Transparent
+            FocusedBorderThickness: =2
+            Height: =1
+            Live: =Live.Assertive
+            Text: =locL3Erro
+            Width: =1
+            X: =0
+            Y: =0
+      - lblL3Anuncio:
+          Control: Label@2.5.1
+          Properties:
+            Color: =Color.Transparent
+            FocusedBorderThickness: =2
+            Height: =1
+            Live: =Live.Polite
+            Text: =If(lblL3ACarregar.Visible, lblL3ACarregar.Text, conL3Aviso.Visible, lblL3Vazio.Text, lblL3SemResultados.Visible, lblL3SemResultados.Text, "")
+            Width: =1
+            X: =0
+            Y: =0
